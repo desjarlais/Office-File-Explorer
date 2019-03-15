@@ -1187,17 +1187,17 @@ namespace Office_File_Explorer
                 }
                 catch (DeploymentDownloadException dde)
                 {
-                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message);
+                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidDeploymentException ide)
                 {
-                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message);
+                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidOperationException ioe)
                 {
-                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message);
+                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -1229,12 +1229,12 @@ namespace Office_File_Explorer
                         try
                         {
                             ad.Update();
-                            MessageBox.Show("The application has been upgraded, and will now restart.");
+                            MessageBox.Show("The application has been upgraded, and will now restart.", "Upgrade successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Application.Restart();
                         }
                         catch (DeploymentDownloadException dde)
                         {
-                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde);
+                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -1246,7 +1246,7 @@ namespace Office_File_Explorer
             }
             else
             {
-                MessageBox.Show("The new version of the application cannot be downloaded at this time.");
+                MessageBox.Show("The new version of the application cannot be downloaded at this time.", "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1286,7 +1286,6 @@ namespace Office_File_Explorer
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
             }
-            
         }
 
         private void BtnSearchAndReplace_Click(object sender, EventArgs e)
@@ -1401,6 +1400,7 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
+                int nameCount = 0;
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
@@ -1414,7 +1414,8 @@ namespace Office_File_Explorer
                     {
                         foreach (DefinedName dn in definedNames)
                         {
-                            LstDisplay.Items.Add(dn.Name.Value + " : " + dn.Text);
+                            nameCount++;
+                            LstDisplay.Items.Add(nameCount + ". " + dn.Name.Value + " = " + dn.Text);
                         }
                     }
                 }

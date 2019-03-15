@@ -41,3 +41,25 @@ C:\Users\Brandon\Source\Repos\Office File Explorer\Office File Explorer\obj\Debu
 C:\Users\Brandon\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office File Explorer.application
 C:\Users\Brandon\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete
 C:\Users\Brandon\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office_File_Explorer.Forms.FrmErrorLog.resources
+E:\GitHub\Office-File-Explorer\bin\Debug\Office File Explorer.exe.config
+E:\GitHub\Office-File-Explorer\bin\Debug\Office File Explorer.exe.manifest
+E:\GitHub\Office-File-Explorer\bin\Debug\Office File Explorer.application
+E:\GitHub\Office-File-Explorer\bin\Debug\Office File Explorer.exe
+E:\GitHub\Office-File-Explorer\bin\Debug\Office File Explorer.pdb
+E:\GitHub\Office-File-Explorer\bin\Debug\DocumentFormat.OpenXml.dll
+E:\GitHub\Office-File-Explorer\bin\Debug\DocumentFormat.OpenXml.xml
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmAuthors.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmAbout.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmErrorLog.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.FrmMain.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Properties.Resources.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.GenerateResource.cache
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.TrustInfo.xml
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.exe.manifest
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.application
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.exe
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
