@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnViewCustomDocProps = new System.Windows.Forms.Button();
             this.BtnSearchAndReplace = new System.Windows.Forms.Button();
             this.BtnListAuthors = new System.Windows.Forms.Button();
             this.BtnListRevisions = new System.Windows.Forms.Button();
@@ -51,6 +52,8 @@
             this.BtnListComments = new System.Windows.Forms.Button();
             this.BtnRemovePII = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnListHiddenWorksheets = new System.Windows.Forms.Button();
+            this.BtnListWorksheets = new System.Windows.Forms.Button();
             this.BtnListHiddenRowsColumns = new System.Windows.Forms.Button();
             this.BtnListDefinedNames = new System.Windows.Forms.Button();
             this.BtnDeleteExternalLinks = new System.Windows.Forms.Button();
@@ -61,7 +64,6 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnViewCustomDocProps = new System.Windows.Forms.Button();
             this.BtnValidateFile = new System.Windows.Forms.Button();
             this.LstDisplay = new System.Windows.Forms.ListBox();
             this.TxtFileName = new System.Windows.Forms.TextBox();
@@ -75,8 +77,7 @@
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
-            this.BtnListWorksheets = new System.Windows.Forms.Button();
-            this.BtnListHiddenWorksheets = new System.Windows.Forms.Button();
+            this.BtnListSharedStrings = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -114,6 +115,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnViewCustomDocProps
+            // 
+            this.BtnViewCustomDocProps.Location = new System.Drawing.Point(9, 388);
+            this.BtnViewCustomDocProps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnViewCustomDocProps.Name = "BtnViewCustomDocProps";
+            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(180, 35);
+            this.BtnViewCustomDocProps.TabIndex = 5;
+            this.BtnViewCustomDocProps.Text = "View Doc Properties";
+            this.BtnViewCustomDocProps.UseVisualStyleBackColor = true;
+            this.BtnViewCustomDocProps.Click += new System.EventHandler(this.BtnViewCustomDocProps_Click);
             // 
             // BtnSearchAndReplace
             // 
@@ -339,6 +351,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnListSharedStrings);
             this.groupBox2.Controls.Add(this.BtnListHiddenWorksheets);
             this.groupBox2.Controls.Add(this.BtnListWorksheets);
             this.groupBox2.Controls.Add(this.BtnListHiddenRowsColumns);
@@ -355,6 +368,26 @@
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
+            // 
+            // BtnListHiddenWorksheets
+            // 
+            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 338);
+            this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
+            this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(197, 39);
+            this.BtnListHiddenWorksheets.TabIndex = 23;
+            this.BtnListHiddenWorksheets.Text = "List Hidden Worksheets";
+            this.BtnListHiddenWorksheets.UseVisualStyleBackColor = true;
+            this.BtnListHiddenWorksheets.Click += new System.EventHandler(this.BtnListHiddenWorksheets_Click);
+            // 
+            // BtnListWorksheets
+            // 
+            this.BtnListWorksheets.Location = new System.Drawing.Point(9, 297);
+            this.BtnListWorksheets.Name = "BtnListWorksheets";
+            this.BtnListWorksheets.Size = new System.Drawing.Size(197, 35);
+            this.BtnListWorksheets.TabIndex = 7;
+            this.BtnListWorksheets.Text = "List Worksheets";
+            this.BtnListWorksheets.UseVisualStyleBackColor = true;
+            this.BtnListWorksheets.Click += new System.EventHandler(this.BtnListWorksheets_Click);
             // 
             // BtnListHiddenRowsColumns
             // 
@@ -469,17 +502,6 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
-            // 
-            // BtnViewCustomDocProps
-            // 
-            this.BtnViewCustomDocProps.Location = new System.Drawing.Point(9, 388);
-            this.BtnViewCustomDocProps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.BtnViewCustomDocProps.Name = "BtnViewCustomDocProps";
-            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(180, 35);
-            this.BtnViewCustomDocProps.TabIndex = 5;
-            this.BtnViewCustomDocProps.Text = "View Doc Properties";
-            this.BtnViewCustomDocProps.UseVisualStyleBackColor = true;
-            this.BtnViewCustomDocProps.Click += new System.EventHandler(this.BtnViewCustomDocProps_Click);
             // 
             // BtnValidateFile
             // 
@@ -603,25 +625,15 @@
             this.BtnErrorLog.UseVisualStyleBackColor = true;
             this.BtnErrorLog.Click += new System.EventHandler(this.BtnErrorLog_Click);
             // 
-            // BtnListWorksheets
+            // BtnListSharedStrings
             // 
-            this.BtnListWorksheets.Location = new System.Drawing.Point(9, 297);
-            this.BtnListWorksheets.Name = "BtnListWorksheets";
-            this.BtnListWorksheets.Size = new System.Drawing.Size(197, 35);
-            this.BtnListWorksheets.TabIndex = 7;
-            this.BtnListWorksheets.Text = "List Worksheets";
-            this.BtnListWorksheets.UseVisualStyleBackColor = true;
-            this.BtnListWorksheets.Click += new System.EventHandler(this.BtnListWorksheets_Click);
-            // 
-            // BtnListHiddenWorksheets
-            // 
-            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 338);
-            this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
-            this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(197, 39);
-            this.BtnListHiddenWorksheets.TabIndex = 23;
-            this.BtnListHiddenWorksheets.Text = "List Hidden Worksheets";
-            this.BtnListHiddenWorksheets.UseVisualStyleBackColor = true;
-            this.BtnListHiddenWorksheets.Click += new System.EventHandler(this.BtnListHiddenWorksheets_Click);
+            this.BtnListSharedStrings.Location = new System.Drawing.Point(9, 383);
+            this.BtnListSharedStrings.Name = "BtnListSharedStrings";
+            this.BtnListSharedStrings.Size = new System.Drawing.Size(197, 33);
+            this.BtnListSharedStrings.TabIndex = 7;
+            this.BtnListSharedStrings.Text = "List Shared Strings";
+            this.BtnListSharedStrings.UseVisualStyleBackColor = true;
+            this.BtnListSharedStrings.Click += new System.EventHandler(this.BtnListSharedStrings_Click);
             // 
             // FrmMain
             // 
@@ -707,6 +719,7 @@
         private System.Windows.Forms.Button BtnListHiddenRowsColumns;
         private System.Windows.Forms.Button BtnListWorksheets;
         private System.Windows.Forms.Button BtnListHiddenWorksheets;
+        private System.Windows.Forms.Button BtnListSharedStrings;
     }
 }
 

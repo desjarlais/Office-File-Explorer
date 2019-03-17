@@ -63,3 +63,25 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.application
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.exe
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmAuthors.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmAbout.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmErrorLog.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.FrmMain.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Properties.Resources.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.GenerateResource.cache
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.exe
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\Office File Explorer.exe.config
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\Office File Explorer.exe.manifest
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\Office File Explorer.application
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\Office File Explorer.exe
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\Office File Explorer.pdb
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\DocumentFormat.OpenXml.dll
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Debug\DocumentFormat.OpenXml.xml
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.TrustInfo.xml
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.exe.manifest
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.application
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete

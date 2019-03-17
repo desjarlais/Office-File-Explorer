@@ -100,6 +100,7 @@ namespace Office_File_Explorer
             BtnListFormulas.Enabled = false;
             BtnListHiddenWorksheets.Enabled = false;
             BtnListHiddenRowsColumns.Enabled = false;
+            BtnListSharedStrings.Enabled = false;
             BtnListHyperlinks.Enabled = false;
             BtnListLinks.Enabled = false;
             BtnListOle.Enabled = false;
@@ -158,6 +159,7 @@ namespace Office_File_Explorer
                 BtnListFormulas.Enabled = true;
                 BtnListWorksheets.Enabled = true;
                 BtnListHiddenWorksheets.Enabled = true;
+                BtnListSharedStrings.Enabled = true;
             }
             else
             {
@@ -726,9 +728,9 @@ namespace Office_File_Explorer
                     WorkbookPart wbPart = doc.WorkbookPart;
                     WorksheetPart wkPart = wbPart.WorksheetParts.First();
 
-                    foreach (Sheet s in doc.WorkbookPart.Workbook.Sheets)
+                    foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                     {
-                        LstDisplay.Items.Add(s.Name);
+                        LstDisplay.Items.Add("Worksheet = " + sht.Name);
                     }
                 }
             }
@@ -1538,6 +1540,38 @@ namespace Office_File_Explorer
                 {
                     hiddenCount++;
                     LstDisplay.Items.Add(hiddenCount + ". " + sht.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnListSharedStrings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                LstDisplay.Items.Clear();
+                int sharedStringCount = 0;
+
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                    WorkbookPart wbPart = excelDoc.WorkbookPart;
+                    SharedStringTablePart sstp = wbPart.SharedStringTablePart;
+                    SharedStringTable sst = sstp.SharedStringTable;
+                    foreach (SharedStringItem ssi in sst)
+                    {
+                        sharedStringCount++;
+                        DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
+                        LstDisplay.Items.Add(sharedStringCount + ". " + ssValue.Text);
+                    }
                 }
             }
             catch (Exception ex)
