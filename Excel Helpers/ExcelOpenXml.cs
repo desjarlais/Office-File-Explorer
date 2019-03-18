@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml;
-using System.Collections;
 
 namespace Office_File_Explorer.Excel_Helpers
 {

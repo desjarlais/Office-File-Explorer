@@ -115,15 +115,37 @@ namespace Office_File_Explorer
             BtnViewCustomDocProps.Enabled = false;
         }
 
+        public enum OxmlFileFormat { Xlsx, Docx, Pptx, Invalid };
+
+        public OxmlFileFormat GetFileFormat()
+        {
+            string fileExt = Path.GetExtension(TxtFileName.Text);
+            fileExt = fileExt.ToLower();
+            
+            if (fileExt == ".docx")
+            {
+                return OxmlFileFormat.Docx;
+            }
+            else if (fileExt == ".xlsx")
+            {
+                return OxmlFileFormat.Xlsx;
+            }
+            else if (fileExt == ".pptx")
+            {
+                return OxmlFileFormat.Pptx;
+            }
+            else
+            {
+                return OxmlFileFormat.Invalid;
+            }
+        }
+
         public void SetUpButtons()
         {
             // disable all buttons first
             DisableButtons();
 
-            // get the extension and enable the file specific buttons
-            string fileExt = Path.GetExtension(TxtFileName.Text);
-
-            if (fileExt == ".docx")
+            if (GetFileFormat() == OxmlFileFormat.Docx)
             {
                 // WD only files
                 BtnAcceptRevisions.Enabled = true;
@@ -148,7 +170,7 @@ namespace Office_File_Explorer
                 BtnListOle.Enabled = true;
                 BtnViewCustomDocProps.Enabled = true;
             }
-            else if (fileExt == ".xlsx")
+            else if (GetFileFormat() == OxmlFileFormat.Xlsx)
             {
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
@@ -161,15 +183,24 @@ namespace Office_File_Explorer
                 BtnListHiddenWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
             }
-            else
+            else if (GetFileFormat() == OxmlFileFormat.Pptx)
             {
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
                 BtnPPTListHyperlinks.Enabled = true;
             }
+            else if (GetFileFormat() == OxmlFileFormat.Invalid)
+            {
+                // invalid file format
+                MessageBox.Show("Invalid File Format");
+            }
+            else
+            {
+                // unknown condition, log details
+                Log("GetFileFormat Error: " + TxtFileName.Text);
+            }
 
             // these buttons exists for all file types
-
             BtnRemovePII.Enabled = true;
             BtnValidateFile.Enabled = true;
         }
@@ -662,25 +693,51 @@ namespace Office_File_Explorer
             }
         }
 
+        public void DisplayValidationErrorInformation(OpenXmlPackage docPackage)
+        {
+            OpenXmlValidator validator = new OpenXmlValidator();
+            int count = 0;
+            LstDisplay.Items.Clear();
+
+            foreach (ValidationErrorInfo error in validator.Validate(docPackage))
+            {
+                count++;
+                LstDisplay.Items.Add("Error " + count);
+                LstDisplay.Items.Add("Description: " + error.Description);
+                LstDisplay.Items.Add("Path: " + error.Path.XPath);
+                LstDisplay.Items.Add("Part: " + error.Part.Uri);
+                LstDisplay.Items.Add("-------------------------------------------");
+            }
+        }
+
         private void BtnValidateFile_Click(object sender, EventArgs e)
         {
             try
             {
-                OpenXmlValidator validator = new OpenXmlValidator();
-                int count = 0;
-                LstDisplay.Items.Clear();
-
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                if (GetFileFormat() == OxmlFileFormat.Docx)
                 {
-                    foreach (ValidationErrorInfo error in validator.Validate(myDoc))
+                    using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
                     {
-                        count++;
-                        LstDisplay.Items.Add("Error " + count);
-                        LstDisplay.Items.Add("Description: " + error.Description);
-                        LstDisplay.Items.Add("Path: " + error.Path.XPath);
-                        LstDisplay.Items.Add("Part: " + error.Part.Uri);
-                        LstDisplay.Items.Add("-------------------------------------------");
+                        DisplayValidationErrorInformation(myDoc);
                     }
+                }
+                else if (GetFileFormat() == OxmlFileFormat.Xlsx)
+                {
+                    using (SpreadsheetDocument myDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                    {
+                        DisplayValidationErrorInformation(myDoc);
+                    }
+                }
+                else if (GetFileFormat() == OxmlFileFormat.Pptx)
+                {
+                    using (PresentationDocument myDoc = PresentationDocument.Open(TxtFileName.Text, true))
+                    {
+                        DisplayValidationErrorInformation(myDoc);
+                    }
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
@@ -1009,12 +1066,6 @@ namespace Office_File_Explorer
         
         private void BtnViewCustomDocProps_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(TxtFileName.Text))
-            {
-                DisplayInformation(InformationOutput.InvalidFile, "");
-                return;
-            }
-
             try
             {
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
@@ -1161,7 +1212,15 @@ namespace Office_File_Explorer
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
                 TxtFileName.Text = fDialog.FileName.ToString();
-                SetUpButtons();
+                if (!File.Exists(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.InvalidFile, "File does not exist.");
+                    return;
+                }
+                else
+                {
+                    SetUpButtons();
+                }
             }
             else
             {
@@ -1475,6 +1534,11 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add(rowCount + ". Row " + row);
                             }
 
+                            if (rowCount == 0)
+                            {
+                                LstDisplay.Items.Add("   ** No hidden rows **");
+                            }
+
                             // Retrieve hidden columns is a bit trickier because Excel collapses groups of hidden columns into a single element, 
                             // and provides Min and Max properties that describe the first and last columns in the group. 
                             // Therefore, the code that retrieves the list of hidden columns starts the same as the code that retrieves hidden rows. 
@@ -1487,6 +1551,11 @@ namespace Office_File_Explorer
                                     colCount++;
                                     LstDisplay.Items.Add(colCount + ". Column " + i);
                                 }
+                            }
+
+                            if (colCount == 0)
+                            {
+                                LstDisplay.Items.Add("   ** No hidden columns **");
                             }
                         }
                     }
