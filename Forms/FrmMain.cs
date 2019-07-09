@@ -115,7 +115,7 @@ namespace Office_File_Explorer
             BtnViewCustomDocProps.Enabled = false;
         }
 
-        public enum OxmlFileFormat { Xlsx, Docx, Pptx, Invalid };
+        public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
 
         public OxmlFileFormat GetFileFormat()
         {
@@ -126,13 +126,25 @@ namespace Office_File_Explorer
             {
                 return OxmlFileFormat.Docx;
             }
+            else if (fileExt == ".docm")
+            {
+                return OxmlFileFormat.Docm;
+            }
             else if (fileExt == ".xlsx")
             {
                 return OxmlFileFormat.Xlsx;
             }
+            else if (fileExt == ".xlsm")
+            {
+                return OxmlFileFormat.Xlsm;
+            }
             else if (fileExt == ".pptx")
             {
                 return OxmlFileFormat.Pptx;
+            }
+            else if (fileExt == ".pptm")
+            {
+                return OxmlFileFormat.Pptm;
             }
             else
             {
@@ -145,7 +157,7 @@ namespace Office_File_Explorer
             // disable all buttons first
             DisableButtons();
 
-            if (GetFileFormat() == OxmlFileFormat.Docx)
+            if (GetFileFormat() == OxmlFileFormat.Docx || GetFileFormat() == OxmlFileFormat.Docm)
             {
                 // WD only files
                 BtnAcceptRevisions.Enabled = true;
@@ -170,7 +182,7 @@ namespace Office_File_Explorer
                 BtnListOle.Enabled = true;
                 BtnViewCustomDocProps.Enabled = true;
             }
-            else if (GetFileFormat() == OxmlFileFormat.Xlsx)
+            else if (GetFileFormat() == OxmlFileFormat.Xlsx || GetFileFormat() == OxmlFileFormat.Xlsm)
             {
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
@@ -183,7 +195,7 @@ namespace Office_File_Explorer
                 BtnListHiddenWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
             }
-            else if (GetFileFormat() == OxmlFileFormat.Pptx)
+            else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
@@ -787,7 +799,7 @@ namespace Office_File_Explorer
 
                     foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                     {
-                        LstDisplay.Items.Add("Worksheet = " + sht.Name);
+                        
                     }
                 }
             }

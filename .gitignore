@@ -10,3 +10,6 @@
 /.vs/Office File Explorer/v15/Server/sqlite3/storage.ide-shm
 /.vs/Office File Explorer/v16/Server/sqlite3
 /.vs/Office File Explorer/v16/.suo
+obj/Debug/Office File Explorer.csproj.CoreCompileInputs.cache
+obj/Debug/Office File Explorer.csprojAssemblyReference.cache
+*.cache
