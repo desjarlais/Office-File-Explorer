@@ -93,7 +93,6 @@ namespace Office_File_Explorer
             BtnListDefinedNames.Enabled = false;
             BtnListComments.Enabled = false;
             BtnListEndnotes.Enabled = false;
-            BtnListExcelStyles.Enabled = false;
             BtnListFonts.Enabled = false;
             BtnListWorksheets.Enabled = false;
             BtnListFootnotes.Enabled = false;
@@ -187,7 +186,6 @@ namespace Office_File_Explorer
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
                 BtnListHiddenRowsColumns.Enabled = true;
-                BtnListExcelStyles.Enabled = true;
                 BtnDeleteExternalLinks.Enabled = true;
                 BtnListLinks.Enabled = true;
                 BtnListFormulas.Enabled = true;
@@ -791,7 +789,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (SpreadsheetDocument doc = SpreadsheetDocument.Open(TxtFileName.Text, false))
+                foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
                     // Create the workbook parts
                     WorkbookPart wbPart = doc.WorkbookPart;
@@ -799,7 +797,7 @@ namespace Office_File_Explorer
 
                     foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                     {
-                        
+                        LstDisplay.Items.Add("Worksheet = " + sht.Name);
                     }
                 }
             }
