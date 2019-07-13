@@ -52,6 +52,7 @@
             this.BtnListComments = new System.Windows.Forms.Button();
             this.BtnRemovePII = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnComments = new System.Windows.Forms.Button();
             this.BtnListSharedStrings = new System.Windows.Forms.Button();
             this.BtnListHiddenWorksheets = new System.Windows.Forms.Button();
             this.BtnListWorksheets = new System.Windows.Forms.Button();
@@ -77,7 +78,7 @@
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
-            this.BtnComments = new System.Windows.Forms.Button();
+            this.BtnDeleteComment = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -351,6 +352,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnDeleteComment);
             this.groupBox2.Controls.Add(this.BtnComments);
             this.groupBox2.Controls.Add(this.BtnListSharedStrings);
             this.groupBox2.Controls.Add(this.BtnListHiddenWorksheets);
@@ -369,10 +371,20 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
             // 
+            // BtnComments
+            // 
+            this.BtnComments.Location = new System.Drawing.Point(12, 472);
+            this.BtnComments.Name = "BtnComments";
+            this.BtnComments.Size = new System.Drawing.Size(261, 46);
+            this.BtnComments.TabIndex = 24;
+            this.BtnComments.Text = "List Comments";
+            this.BtnComments.UseVisualStyleBackColor = true;
+            this.BtnComments.Click += new System.EventHandler(this.BtnComments_Click);
+            // 
             // BtnListSharedStrings
             // 
             this.BtnListSharedStrings.Location = new System.Drawing.Point(12, 425);
-            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(4);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(261, 40);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -383,7 +395,7 @@
             // BtnListHiddenWorksheets
             // 
             this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(12, 369);
-            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(4);
             this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
             this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(261, 48);
             this.BtnListHiddenWorksheets.TabIndex = 23;
@@ -394,7 +406,7 @@
             // BtnListWorksheets
             // 
             this.BtnListWorksheets.Location = new System.Drawing.Point(12, 318);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(4);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(261, 44);
             this.BtnListWorksheets.TabIndex = 7;
@@ -405,7 +417,7 @@
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(12, 204);
-            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(4);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(261, 46);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -416,7 +428,7 @@
             // BtnListDefinedNames
             // 
             this.BtnListDefinedNames.Location = new System.Drawing.Point(12, 260);
-            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(4);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(261, 40);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -567,7 +579,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1851, 44);
+            this.menuStrip1.Size = new System.Drawing.Size(1851, 40);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -621,7 +633,7 @@
             // BtnErrorLog
             // 
             this.BtnErrorLog.Location = new System.Drawing.Point(1427, 1269);
-            this.BtnErrorLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnErrorLog.Margin = new System.Windows.Forms.Padding(4);
             this.BtnErrorLog.Name = "BtnErrorLog";
             this.BtnErrorLog.Size = new System.Drawing.Size(176, 44);
             this.BtnErrorLog.TabIndex = 6;
@@ -629,15 +641,15 @@
             this.BtnErrorLog.UseVisualStyleBackColor = true;
             this.BtnErrorLog.Click += new System.EventHandler(this.BtnErrorLog_Click);
             // 
-            // BtnComments
+            // BtnDeleteComment
             // 
-            this.BtnComments.Location = new System.Drawing.Point(12, 472);
-            this.BtnComments.Name = "BtnComments";
-            this.BtnComments.Size = new System.Drawing.Size(261, 46);
-            this.BtnComments.TabIndex = 24;
-            this.BtnComments.Text = "List Comments";
-            this.BtnComments.UseVisualStyleBackColor = true;
-            this.BtnComments.Click += new System.EventHandler(this.BtnComments_Click);
+            this.BtnDeleteComment.Location = new System.Drawing.Point(280, 472);
+            this.BtnDeleteComment.Name = "BtnDeleteComment";
+            this.BtnDeleteComment.Size = new System.Drawing.Size(214, 46);
+            this.BtnDeleteComment.TabIndex = 7;
+            this.BtnDeleteComment.Text = "Delete Comments";
+            this.BtnDeleteComment.UseVisualStyleBackColor = true;
+            this.BtnDeleteComment.Click += new System.EventHandler(this.BtnDeleteComment_Click);
             // 
             // FrmMain
             // 
@@ -724,6 +736,7 @@
         private System.Windows.Forms.Button BtnListHiddenWorksheets;
         private System.Windows.Forms.Button BtnListSharedStrings;
         private System.Windows.Forms.Button BtnComments;
+        private System.Windows.Forms.Button BtnDeleteComment;
     }
 }
 

@@ -113,6 +113,7 @@ namespace Office_File_Explorer
             BtnValidateFile.Enabled = false;
             BtnViewCustomDocProps.Enabled = false;
             BtnComments.Enabled = false;
+            BtnDeleteComment.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -194,6 +195,7 @@ namespace Office_File_Explorer
                 BtnListHiddenWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
                 BtnComments.Enabled = true;
+                BtnDeleteComment.Enabled = true;
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
@@ -1660,23 +1662,66 @@ namespace Office_File_Explorer
         
         private void BtnComments_Click(object sender, EventArgs e)
         {
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+            try
             {
-                WorkbookPart wbPart = excelDoc.WorkbookPart;
-                int commentCount = 1;
-                LstDisplay.Items.Clear();
-
-                foreach (WorksheetPart wsp in wbPart.WorksheetParts)
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
-                    WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
-                    foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                    WorkbookPart wbPart = excelDoc.WorkbookPart;
+                    int commentCount = 1;
+                    LstDisplay.Items.Clear();
+
+                    foreach (WorksheetPart wsp in wbPart.WorksheetParts)
                     {
-                        CommentText cText = cmt.CommentText;
-                        LstDisplay.Items.Add(commentCount + ". " + cText.InnerText);
-                        commentCount++;
+                        WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
+                        foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                        {
+                            CommentText cText = cmt.CommentText;
+                            LstDisplay.Items.Add(commentCount + ". " + cText.InnerText);
+                            commentCount++;
+                        }
                     }
                 }
-                
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnDeleteComment_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                    WorkbookPart wbPart = excelDoc.WorkbookPart;
+                    LstDisplay.Items.Clear();
+
+                    foreach (WorksheetPart wsp in wbPart.WorksheetParts)
+                    {
+                        WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
+                        foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                        {
+                            cmt.Remove();
+                        }
+                    }
+
+                    wbPart.Workbook.Save();
+                    excelDoc.Close();
+                    LstDisplay.Items.Add("Comments Deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
     }
