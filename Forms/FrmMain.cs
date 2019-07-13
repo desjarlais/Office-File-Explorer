@@ -112,6 +112,7 @@ namespace Office_File_Explorer
             BtnSearchAndReplace.Enabled = false;
             BtnValidateFile.Enabled = false;
             BtnViewCustomDocProps.Enabled = false;
+            BtnComments.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -192,6 +193,7 @@ namespace Office_File_Explorer
                 BtnListWorksheets.Enabled = true;
                 BtnListHiddenWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
+                BtnComments.Enabled = true;
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
@@ -1208,7 +1210,7 @@ namespace Office_File_Explorer
                 TxtFileName.Text = fDialog.FileName.ToString();
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, "File does not exist.");
+                    DisplayInformation(InformationOutput.InvalidFile, "** File does not exist **");
                     return;
                 }
                 else
@@ -1404,7 +1406,7 @@ namespace Office_File_Explorer
 
                     if (wbPart.ExternalWorkbookParts.Count() == 0)
                     {
-                        LstDisplay.Items.Add("No External Links.");
+                        LstDisplay.Items.Add("** No External Links **");
                         return;
                     }
 
@@ -1472,6 +1474,10 @@ namespace Office_File_Explorer
                             nameCount++;
                             LstDisplay.Items.Add(nameCount + ". " + dn.Name.Value + " = " + dn.Text);
                         }
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Defined Names **");
                     }
                 }
             }
@@ -1604,6 +1610,11 @@ namespace Office_File_Explorer
                     hiddenCount++;
                     LstDisplay.Items.Add(hiddenCount + ". " + sht.Name);
                 }
+
+                if (hiddenCount == 0)
+                {
+                    LstDisplay.Items.Add("No Hidden Worksheets");
+                }
             }
             catch (Exception ex)
             {
@@ -1644,6 +1655,27 @@ namespace Office_File_Explorer
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+        
+        private void BtnComments_Click(object sender, EventArgs e)
+        {
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+            {
+                WorkbookPart wbPart = excelDoc.WorkbookPart;
+                int commentCount = 1;
+                LstDisplay.Items.Clear();
+
+                foreach (WorksheetPart wsp in wbPart.WorksheetParts)
+                {
+                    WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
+                    foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                    {
+                        CommentText cText = cmt.CommentText;
+                        LstDisplay.Items.Add(commentCount + ". " + cText.InnerText);
+                    }
+                }
+                
             }
         }
     }
