@@ -1673,6 +1673,7 @@ namespace Office_File_Explorer
                     {
                         CommentText cText = cmt.CommentText;
                         LstDisplay.Items.Add(commentCount + ". " + cText.InnerText);
+                        commentCount++;
                     }
                 }
                 
