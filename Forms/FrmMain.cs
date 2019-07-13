@@ -541,40 +541,69 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    int x = 0;
-                    int olePkgCount = myDoc.MainDocumentPart.EmbeddedPackageParts.Count();
-                    int oleEmbCount = myDoc.MainDocumentPart.EmbeddedObjectParts.Count();
+                    int oleObjCount = GetEmbeddedObjectProperties(myDoc.MainDocumentPart);
+                    int olePkgPart = GetEmbeddedPackageProperties(myDoc.MainDocumentPart);
 
-                    String origUri, trimUri;
-
-                    do
+                    if (olePkgPart == 0 && oleObjCount == 0)
                     {
-                        origUri = myDoc.MainDocumentPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString();
-                        trimUri = origUri.Remove(0, 17);
-                        LstDisplay.Items.Add(trimUri);
-                        x++;
-                    }
-                    while (x < olePkgCount);
-
-                    x = 0;
-
-                    do
-                    {
-                        origUri = myDoc.MainDocumentPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString();
-                        trimUri = origUri.Remove(0, 17);
-                        LstDisplay.Items.Add(trimUri);
-                        x++;
-                    }
-                    while (x < oleEmbCount);
+                        DisplayInformation(InformationOutput.ClearAndAdd, "This document does not contain OLE Package objects.");
+                    }               
                 }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                DisplayInformation(InformationOutput.ClearAndAdd, "This document does not contain OLE objects.");
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+            }
+        }
+
+        public int GetEmbeddedPackageProperties(MainDocumentPart mPart)
+        {
+            try
+            {
+                int x = 0;
+                int olePkgCount = mPart.EmbeddedPackageParts.Count();
+
+                String origUri, trimUri;
+
+                do
+                {
+                    origUri = mPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString();
+                    trimUri = origUri.Remove(0, 17);
+                    LstDisplay.Items.Add(trimUri);
+                    x++;
+                }
+                while (x < olePkgCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
+            }
+        }
+
+        public int GetEmbeddedObjectProperties(MainDocumentPart mPart)
+        {
+            try
+            {
+                int x = 0;
+                int oleEmbCount = mPart.EmbeddedObjectParts.Count();
+                String origUri, trimUri;
+
+                do
+                {
+                    origUri = mPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString();
+                    trimUri = origUri.Remove(0, 17);
+                    LstDisplay.Items.Add(trimUri);
+                    x++;
+                }
+                while (x < oleEmbCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
             }
         }
 

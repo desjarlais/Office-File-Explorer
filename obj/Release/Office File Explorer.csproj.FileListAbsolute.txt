@@ -1,0 +1,22 @@
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\Office File Explorer.exe.config
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\Office File Explorer.exe.manifest
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\Office File Explorer.application
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\Office File Explorer.exe
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\Office File Explorer.pdb
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\DocumentFormat.OpenXml.dll
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\bin\Release\DocumentFormat.OpenXml.xml
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.csprojAssemblyReference.cache
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.Forms.FrmAuthors.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.Forms.FrmAbout.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.Forms.FrmErrorLog.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.FrmMain.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office_File_Explorer.Properties.Resources.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.csproj.GenerateResource.cache
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.csproj.CoreCompileInputs.cache
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.TrustInfo.xml
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.exe.manifest
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.application
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.exe
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.pdb
