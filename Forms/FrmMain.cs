@@ -1740,7 +1740,6 @@ namespace Office_File_Explorer
                     }
 
                     wbPart.Workbook.Save();
-                    excelDoc.Close();
                     LstDisplay.Items.Add("Comments Deleted");
                 }
             }
