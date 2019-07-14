@@ -1355,9 +1355,16 @@ namespace Office_File_Explorer
                 // Open the presentation file as read-only.
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
                 {
+                    int linkCount = 0;
                     foreach (string s in PowerPointOpenXml.GetAllExternalHyperlinksInPresentation(TxtFileName.Text))
                     {
-                        LstDisplay.Items.Add(s);
+                        linkCount++;
+                        LstDisplay.Items.Add(linkCount + ". " + s);
+                    }
+
+                    if (linkCount == 0)
+                    {
+                        DisplayInformation(InformationOutput.ClearAndAdd, "No Hyperlinks in file.");
                     }
                 }
             }
@@ -1374,9 +1381,17 @@ namespace Office_File_Explorer
                 // Open the presentation as read-only.
                 using (PresentationDocument presentationDocument = PresentationDocument.Open(TxtFileName.Text, false))
                 {
+                    int slideCount = 0;
+
                     foreach (string s in PowerPointOpenXml.GetSlideTitles(presentationDocument))
                     {
-                        LstDisplay.Items.Add(s);
+                        slideCount++;
+                        LstDisplay.Items.Add(slideCount + ". " + s);
+                    }
+
+                    if (slideCount == 0)
+                    {
+                        DisplayInformation(InformationOutput.ClearAndAdd, "No slides in file.");
                     }
                 }
             }

@@ -66,6 +66,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.BtnValidateFile = new System.Windows.Forms.Button();
             this.LstDisplay = new System.Windows.Forms.ListBox();
             this.TxtFileName = new System.Windows.Forms.TextBox();
@@ -79,7 +80,6 @@
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
-            this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -530,6 +530,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
+            // BtnChangeTheme
+            // 
+            this.BtnChangeTheme.Location = new System.Drawing.Point(11, 148);
+            this.BtnChangeTheme.Name = "BtnChangeTheme";
+            this.BtnChangeTheme.Size = new System.Drawing.Size(228, 46);
+            this.BtnChangeTheme.TabIndex = 7;
+            this.BtnChangeTheme.Text = "Change Theme";
+            this.BtnChangeTheme.UseVisualStyleBackColor = true;
+            this.BtnChangeTheme.Click += new System.EventHandler(this.BtnChangeTheme_Click);
+            // 
             // BtnValidateFile
             // 
             this.BtnValidateFile.Location = new System.Drawing.Point(11, 36);
@@ -591,7 +601,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1851, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1851, 48);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -601,21 +611,21 @@
             this.MnuOpen,
             this.MnuExit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(72, 36);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(72, 40);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // MnuOpen
             // 
             this.MnuOpen.Image = global::Office_File_Explorer.Properties.Resources.template;
             this.MnuOpen.Name = "MnuOpen";
-            this.MnuOpen.Size = new System.Drawing.Size(359, 44);
+            this.MnuOpen.Size = new System.Drawing.Size(208, 44);
             this.MnuOpen.Text = "Open";
             this.MnuOpen.Click += new System.EventHandler(this.MnuOpen_Click);
             // 
             // MnuExit
             // 
             this.MnuExit.Name = "MnuExit";
-            this.MnuExit.Size = new System.Drawing.Size(359, 44);
+            this.MnuExit.Size = new System.Drawing.Size(208, 44);
             this.MnuExit.Text = "Exit";
             this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
             // 
@@ -625,7 +635,7 @@
             this.MnuAbout,
             this.MnuCheckForUpdates});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(85, 40);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // MnuAbout
@@ -653,20 +663,12 @@
             this.BtnErrorLog.UseVisualStyleBackColor = true;
             this.BtnErrorLog.Click += new System.EventHandler(this.BtnErrorLog_Click);
             // 
-            // BtnChangeTheme
-            // 
-            this.BtnChangeTheme.Location = new System.Drawing.Point(11, 148);
-            this.BtnChangeTheme.Name = "BtnChangeTheme";
-            this.BtnChangeTheme.Size = new System.Drawing.Size(228, 46);
-            this.BtnChangeTheme.TabIndex = 7;
-            this.BtnChangeTheme.Text = "Change Theme";
-            this.BtnChangeTheme.UseVisualStyleBackColor = true;
-            this.BtnChangeTheme.Click += new System.EventHandler(this.BtnChangeTheme_Click);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1851, 1328);
             this.Controls.Add(this.BtnErrorLog);
             this.Controls.Add(this.BtnCopyOutput);
