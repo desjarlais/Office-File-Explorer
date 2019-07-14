@@ -41,6 +41,7 @@ namespace Office_File_Explorer
         string _fromAuthor;
         string _FindText;
         string _ReplaceText;
+        string fileType;
 
         // global numid lists
         ArrayList oNumIdList = new ArrayList();
@@ -79,6 +80,7 @@ namespace Office_File_Explorer
 
         public void DisableButtons()
         {
+            fileType = "";
             BtnAcceptRevisions.Enabled = false;
             BtnDeleteBreaks.Enabled = false;
             BtnDeleteComments.Enabled = false;
@@ -114,6 +116,7 @@ namespace Office_File_Explorer
             BtnViewCustomDocProps.Enabled = false;
             BtnComments.Enabled = false;
             BtnDeleteComment.Enabled = false;
+            BtnChangeTheme.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -160,6 +163,8 @@ namespace Office_File_Explorer
 
             if (GetFileFormat() == OxmlFileFormat.Docx || GetFileFormat() == OxmlFileFormat.Docm)
             {
+                fileType = "Word";
+
                 // WD only files
                 BtnAcceptRevisions.Enabled = true;
                 BtnDeleteBreaks.Enabled = true;
@@ -185,6 +190,8 @@ namespace Office_File_Explorer
             }
             else if (GetFileFormat() == OxmlFileFormat.Xlsx || GetFileFormat() == OxmlFileFormat.Xlsm)
             {
+                fileType = "Excel";
+
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
                 BtnListHiddenRowsColumns.Enabled = true;
@@ -199,6 +206,8 @@ namespace Office_File_Explorer
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
+                fileType = "PowerPoint";
+
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
                 BtnPPTListHyperlinks.Enabled = true;
@@ -217,6 +226,7 @@ namespace Office_File_Explorer
             // these buttons exists for all file types
             BtnRemovePII.Enabled = true;
             BtnValidateFile.Enabled = true;
+            BtnChangeTheme.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -1399,7 +1409,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
         }
 
@@ -1514,7 +1524,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1594,7 +1604,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1619,7 +1629,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1649,7 +1659,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1681,7 +1691,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1713,7 +1723,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
@@ -1745,11 +1755,64 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
             }
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnChangeTheme_Click(object sender, EventArgs e)
+        {
+            string sThemeFilePath = "";
+
+            OpenFileDialog fDialog = new OpenFileDialog
+            {
+                Title = "Select Office Theme File.",
+                Filter = "Open XML Theme File | *.xml",
+                RestoreDirectory = true,
+                InitialDirectory = @"%userprofile%"
+            };
+
+            if (fDialog.ShowDialog() == DialogResult.OK)
+            {
+                sThemeFilePath = fDialog.FileName.ToString();
+
+                if (!File.Exists(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.InvalidFile, "** File does not exist **");
+                    return;
+                }
+                else
+                {
+                    if (fileType == "Word")
+                    {
+                        // call the replace function using the theme file provided
+                        Word_Helpers.WordOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                    }
+                    else if (fileType == "Excel")
+                    {
+                        // call the replace function using the theme file provided
+                        Excel_Helpers.ExcelOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                    }
+                    else if (fileType == "PowerPoint")
+                    {
+                        // call the replace function using the theme file provided
+                        PowerPointOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                    }
+                    else
+                    {
+                        DisplayInformation(InformationOutput.ClearAndAdd, "File Not Valid.");
+                    }
+                }
+            }
+            else
+            {
+                return;
             }
         }
     }

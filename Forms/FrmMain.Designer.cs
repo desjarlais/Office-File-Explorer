@@ -79,6 +79,7 @@
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
+            this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -517,6 +518,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnRemovePII);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
             this.groupBox4.Location = new System.Drawing.Point(1557, 98);
@@ -606,14 +608,14 @@
             // 
             this.MnuOpen.Image = global::Office_File_Explorer.Properties.Resources.template;
             this.MnuOpen.Name = "MnuOpen";
-            this.MnuOpen.Size = new System.Drawing.Size(208, 44);
+            this.MnuOpen.Size = new System.Drawing.Size(359, 44);
             this.MnuOpen.Text = "Open";
             this.MnuOpen.Click += new System.EventHandler(this.MnuOpen_Click);
             // 
             // MnuExit
             // 
             this.MnuExit.Name = "MnuExit";
-            this.MnuExit.Size = new System.Drawing.Size(208, 44);
+            this.MnuExit.Size = new System.Drawing.Size(359, 44);
             this.MnuExit.Text = "Exit";
             this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
             // 
@@ -650,6 +652,16 @@
             this.BtnErrorLog.Text = "Error Log";
             this.BtnErrorLog.UseVisualStyleBackColor = true;
             this.BtnErrorLog.Click += new System.EventHandler(this.BtnErrorLog_Click);
+            // 
+            // BtnChangeTheme
+            // 
+            this.BtnChangeTheme.Location = new System.Drawing.Point(11, 148);
+            this.BtnChangeTheme.Name = "BtnChangeTheme";
+            this.BtnChangeTheme.Size = new System.Drawing.Size(228, 46);
+            this.BtnChangeTheme.TabIndex = 7;
+            this.BtnChangeTheme.Text = "Change Theme";
+            this.BtnChangeTheme.UseVisualStyleBackColor = true;
+            this.BtnChangeTheme.Click += new System.EventHandler(this.BtnChangeTheme_Click);
             // 
             // FrmMain
             // 
@@ -737,6 +749,7 @@
         private System.Windows.Forms.Button BtnListSharedStrings;
         private System.Windows.Forms.Button BtnComments;
         private System.Windows.Forms.Button BtnDeleteComment;
+        private System.Windows.Forms.Button BtnChangeTheme;
     }
 }
 

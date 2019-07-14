@@ -2,6 +2,7 @@
 using System.Linq;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
+using System.IO;
 
 namespace Office_File_Explorer.Excel_Helpers
 {
@@ -69,6 +70,26 @@ namespace Office_File_Explorer.Excel_Helpers
                 returnVal = hiddenSheets.ToList();
             }
             return returnVal;
+        }
+
+        public static void ReplaceTheme(string document, string themeFile)
+        {
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(document, true))
+            {
+                WorkbookPart mainPart = excelDoc.WorkbookPart;
+
+                // Delete the old document part.
+                mainPart.DeletePart(mainPart.ThemePart);
+
+                // Add a new document part and then add content.
+                ThemePart themePart = mainPart.AddNewPart<ThemePart>();
+
+                using (StreamReader streamReader = new StreamReader(themeFile))
+                using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
+                {
+                    streamWriter.Write(streamReader.ReadToEnd());
+                }
+            }
         }
     }
 }

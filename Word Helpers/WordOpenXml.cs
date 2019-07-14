@@ -21,11 +21,33 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 using System.Collections;
+using System.IO;
 
 namespace Office_File_Explorer.Word_Helpers
 {
     class WordOpenXml
     {
+        // This method can be used to replace the theme part in a package.
+        public static void ReplaceTheme(string document, string themeFile)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(document, true))
+            {
+                MainDocumentPart mainPart = wordDoc.MainDocumentPart;
+
+                // Delete the old document part.
+                mainPart.DeletePart(mainPart.ThemePart);
+
+                // Add a new document part and then add content.
+                ThemePart themePart = mainPart.AddNewPart<ThemePart>();
+
+                using (StreamReader streamReader = new StreamReader(themeFile))
+                using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
+                {
+                    streamWriter.Write(streamReader.ReadToEnd());
+                }
+            }
+        }
+
         public static void RemoveBreaks(string filename)
         {
             // this function will remove both page and section breaks in a document
