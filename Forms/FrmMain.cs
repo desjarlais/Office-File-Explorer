@@ -117,6 +117,7 @@ namespace Office_File_Explorer
             BtnComments.Enabled = false;
             BtnDeleteComment.Enabled = false;
             BtnChangeTheme.Enabled = false;
+            BtnViewPPTComments.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -211,6 +212,7 @@ namespace Office_File_Explorer
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
                 BtnPPTListHyperlinks.Enabled = true;
+                BtnViewPPTComments.Enabled = true;
             }
             else if (GetFileFormat() == OxmlFileFormat.Invalid)
             {
@@ -1828,6 +1830,39 @@ namespace Office_File_Explorer
             else
             {
                 return;
+            }
+        }
+
+        private void BtnViewPPTComments_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open the presentation as read-only.
+                using (PresentationDocument presentationDocument = PresentationDocument.Open(TxtFileName.Text, false))
+                {
+                    PresentationPart pPart = presentationDocument.PresentationPart;
+                    int commentCount = 0;
+                    LstDisplay.Items.Clear();
+
+                    foreach (SlidePart sPart in pPart.SlideParts)
+                    {
+                        SlideCommentsPart sCPart = sPart.SlideCommentsPart;
+                        foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
+                        {
+                            commentCount++;
+                            LstDisplay.Items.Add(commentCount + ". " + cmt.InnerText);       
+                        }
+                    }
+
+                    if (commentCount == 0)
+                    {
+                        DisplayInformation(InformationOutput.ClearAndAdd, "File does not have any comments.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
             }
         }
     }
