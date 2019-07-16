@@ -581,8 +581,8 @@ namespace Office_File_Explorer
                 {
                     origUri = mPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString();
                     trimUri = origUri.Remove(0, 17);
-                    LstDisplay.Items.Add(trimUri);
                     x++;
+                    LstDisplay.Items.Add(x + ". " + trimUri);
                 }
                 while (x < olePkgCount);
 
@@ -606,8 +606,8 @@ namespace Office_File_Explorer
                 {
                     origUri = mPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString();
                     trimUri = origUri.Remove(0, 17);
-                    LstDisplay.Items.Add(trimUri);
                     x++;
+                    LstDisplay.Items.Add(x + ". " + trimUri);
                 }
                 while (x < oleEmbCount);
 
@@ -737,7 +737,7 @@ namespace Office_File_Explorer
         {
             if (!File.Exists(TxtFileName.Text))
             {
-                DisplayInformation(InformationOutput.InvalidFile, "");
+                DisplayInformation(InformationOutput.InvalidFile, TxtFileName.Text);
                 return;
             }
 
@@ -792,6 +792,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
+                    Log("BtnValidateFileClick Error");
                     throw new Exception();
                 }
             }
@@ -1201,11 +1202,6 @@ namespace Office_File_Explorer
         {
             XmlDocument xmlProps = new XmlDocument();
             xmlProps.Load(exFilePropPart.GetStream());
-
-            // Get the character count by element name
-            //XmlNodeList chars = xmlProps.GetElementsByTagName("Characters");
-            //lstDisplay.Items.Add("Character Count : " + chars.Item(0).InnerText);
-
             XmlNodeList exProps = xmlProps.GetElementsByTagName("Properties");
 
             LstDisplay.Items.Add("---- Extended File Properties ----");
@@ -1568,6 +1564,7 @@ namespace Office_File_Explorer
 
                         if (theSheet == null)
                         {
+                            Log("BtnListHiddenRowsColumnClickError");
                             throw new ArgumentException("sheetName");
                         }
                         else
