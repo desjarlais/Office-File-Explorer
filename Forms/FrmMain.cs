@@ -1337,6 +1337,7 @@ namespace Office_File_Explorer
 
         private void MnuExit_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Save();
             Application.Exit();
         }
 
