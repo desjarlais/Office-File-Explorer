@@ -43,6 +43,16 @@ namespace Office_File_Explorer
         string _ReplaceText;
         string fileType;
 
+        // static string variables
+        const string _fileDoesNotExist = "** File does not exist **";
+        const string _noFootNotes = "** No Footnotes in this document **";
+        const string _noEndNotes = "** No Endnotes in this document **";
+        const string _themeFileAdded = "Theme File Added.";
+        const string _unableToDownloadUpdate = "Unable to download update.";
+        const string _word = "Word";
+        const string _excel = "Excel";
+        const string _powerpoint = "PowerPoint";
+
         // global numid lists
         ArrayList oNumIdList = new ArrayList();
         ArrayList aNumIdList = new ArrayList();
@@ -164,7 +174,7 @@ namespace Office_File_Explorer
 
             if (GetFileFormat() == OxmlFileFormat.Docx || GetFileFormat() == OxmlFileFormat.Docm)
             {
-                fileType = "Word";
+                fileType = _word;
 
                 // WD only files
                 BtnAcceptRevisions.Enabled = true;
@@ -191,7 +201,7 @@ namespace Office_File_Explorer
             }
             else if (GetFileFormat() == OxmlFileFormat.Xlsx || GetFileFormat() == OxmlFileFormat.Xlsm)
             {
-                fileType = "Excel";
+                fileType = _excel;
 
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
@@ -207,7 +217,7 @@ namespace Office_File_Explorer
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
-                fileType = "PowerPoint";
+                fileType = _powerpoint;
 
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
@@ -415,7 +425,7 @@ namespace Office_File_Explorer
                         }
                         else
                         {
-                            DisplayInformation(InformationOutput.TextOnly, "There are no List Templates in this document.");
+                            DisplayInformation(InformationOutput.TextOnly, "** There are no List Templates in this document **");
                             return;
                         }
                     }
@@ -942,12 +952,12 @@ namespace Office_File_Explorer
 
                         if (count == 0)
                         {
-                            DisplayInformation(InformationOutput.TextOnly, "** No Footnotes in this document **");
+                            DisplayInformation(InformationOutput.TextOnly, _noFootNotes);
                         }
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, " ** No Footnotes in this document **");
+                        DisplayInformation(InformationOutput.TextOnly, _noFootNotes);
                     }
                 }
             }
@@ -981,12 +991,12 @@ namespace Office_File_Explorer
 
                         if (count == 0)
                         {
-                            DisplayInformation(InformationOutput.TextOnly, "** There are no Endnotes in this document **");
+                            DisplayInformation(InformationOutput.TextOnly, _noEndNotes);
                         }
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, "** There are no Endnotes in this document **");
+                        DisplayInformation(InformationOutput.TextOnly, _noEndNotes);
                     }
                 }
             }
@@ -1310,7 +1320,7 @@ namespace Office_File_Explorer
                 TxtFileName.Text = fDialog.FileName.ToString();
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, "** File does not exist **");
+                    DisplayInformation(InformationOutput.InvalidFile, _fileDoesNotExist);
                     return;
                 }
                 else
@@ -1345,17 +1355,17 @@ namespace Office_File_Explorer
                 }
                 catch (DeploymentDownloadException dde)
                 {
-                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidDeploymentException ide)
                 {
-                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidOperationException ioe)
                 {
-                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -1392,7 +1402,7 @@ namespace Office_File_Explorer
                         }
                         catch (DeploymentDownloadException dde)
                         {
-                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -1404,7 +1414,7 @@ namespace Office_File_Explorer
             }
             else
             {
-                MessageBox.Show("The new version of the application cannot be downloaded at this time.", "Unable to download update.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The new version of the application cannot be downloaded at this time.", _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1875,28 +1885,28 @@ namespace Office_File_Explorer
 
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, "** File does not exist **");
+                    DisplayInformation(InformationOutput.InvalidFile, _fileDoesNotExist);
                     return;
                 }
                 else
                 {
-                    if (fileType == "Word")
+                    if (fileType == _word)
                     {
                         // call the replace function using the theme file provided
                         Word_Helpers.WordOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
-                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
-                    else if (fileType == "Excel")
+                    else if (fileType == _excel)
                     {
                         // call the replace function using the theme file provided
                         Excel_Helpers.ExcelOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
-                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
-                    else if (fileType == "PowerPoint")
+                    else if (fileType == _powerpoint)
                     {
                         // call the replace function using the theme file provided
                         PowerPointOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
-                        DisplayInformation(InformationOutput.ClearAndAdd, "Theme File Added.");
+                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else
                     {
