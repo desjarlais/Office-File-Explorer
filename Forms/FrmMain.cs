@@ -835,6 +835,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                LstDisplay.Items.Clear();
                 foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
                     LstDisplay.Items.Add("Worksheet = " + sht.Name);
@@ -1564,7 +1565,7 @@ namespace Office_File_Explorer
 
                         if (theSheet == null)
                         {
-                            Log("BtnListHiddenRowsColumnClickError");
+                            Log("BtnListHiddenRowsColumnClickError" + sheet.Name);
                             throw new ArgumentException("sheetName");
                         }
                         else
@@ -1583,6 +1584,7 @@ namespace Office_File_Explorer
                             // Finally, the ToList < TSource > **method converts the resulting IEnumerable < T > interface into a List<T> object of unsigned integers. 
                             // If there are no hidden rows, the returned list is empty.
                             rowList = ws.Descendants<Row>().Where((r) => r.Hidden != null && r.Hidden.Value).Select(r => r.RowIndex.Value).ToList<uint>();
+                            LstDisplay.Items.Add("##    ROWS    ##");
                             foreach (object row in rowList)
                             {
                                 rowCount++;
@@ -1591,13 +1593,14 @@ namespace Office_File_Explorer
 
                             if (rowCount == 0)
                             {
-                                LstDisplay.Items.Add("   ** No hidden rows **");
+                                LstDisplay.Items.Add("    None");
                             }
 
                             // Retrieve hidden columns is a bit trickier because Excel collapses groups of hidden columns into a single element, 
                             // and provides Min and Max properties that describe the first and last columns in the group. 
                             // Therefore, the code that retrieves the list of hidden columns starts the same as the code that retrieves hidden rows. 
                             // However, it must iterate through the index values (looping each item in the collection, adding each index from the Min to the Max value, inclusively).
+                            LstDisplay.Items.Add("##    COLUMNS    ##");
                             var cols = ws.Descendants<Column>().Where((c) => c.Hidden != null && c.Hidden.Value);
                             foreach (Column item in cols)
                             {
@@ -1610,9 +1613,10 @@ namespace Office_File_Explorer
 
                             if (colCount == 0)
                             {
-                                LstDisplay.Items.Add("   ** No hidden columns **");
+                                LstDisplay.Items.Add("    None");
                             }
                         }
+                        LstDisplay.Items.Add("");
                     }
                 }
             }
@@ -1737,7 +1741,9 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
+                Log("Excel - BtnComments_Click Error:");
+                Log(ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, "No Comments");
             }
             finally
             {
