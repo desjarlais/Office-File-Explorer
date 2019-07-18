@@ -227,7 +227,7 @@ namespace Office_File_Explorer
             else if (GetFileFormat() == OxmlFileFormat.Invalid)
             {
                 // invalid file format
-                MessageBox.Show("Invalid File Format");
+                MessageBox.Show("Unsupported File Format");
             }
             else
             {
@@ -1345,6 +1345,7 @@ namespace Office_File_Explorer
             try
             {
                 // if the file is opened by the SDK, we can proceed with opening in tool
+                Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
                 SetUpButtons();
 
@@ -1354,9 +1355,7 @@ namespace Office_File_Explorer
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(file, false))
                     {
-                        // need to try pulling the document.xml part from the zip file
-                        // this will confirm if the file is valid in general
-                        // if it is, the exception catches and we can notify the user
+                        // try to get the localname of the document.xml file, if it fails, it is not a Word file
                         body = document.MainDocumentPart.Document.LocalName;
                     }
                 }
@@ -1389,6 +1388,10 @@ namespace Office_File_Explorer
                 DisableButtons();
                 LstDisplay.Items.Add("Invalid File: Error opening file.");
                 Log("OpenWithSDK Error: " + ex.Message);                
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
