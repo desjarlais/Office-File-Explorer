@@ -376,7 +376,7 @@
             // BtnDeleteComment
             // 
             this.BtnDeleteComment.Location = new System.Drawing.Point(209, 71);
-            this.BtnDeleteComment.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnDeleteComment.Margin = new System.Windows.Forms.Padding(2);
             this.BtnDeleteComment.Name = "BtnDeleteComment";
             this.BtnDeleteComment.Size = new System.Drawing.Size(160, 37);
             this.BtnDeleteComment.TabIndex = 7;
@@ -387,7 +387,7 @@
             // BtnComments
             // 
             this.BtnComments.Location = new System.Drawing.Point(9, 71);
-            this.BtnComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnComments.Name = "BtnComments";
             this.BtnComments.Size = new System.Drawing.Size(196, 37);
             this.BtnComments.TabIndex = 24;
@@ -397,7 +397,7 @@
             // 
             // BtnListSharedStrings
             // 
-            this.BtnListSharedStrings.Location = new System.Drawing.Point(9, 292);
+            this.BtnListSharedStrings.Location = new System.Drawing.Point(9, 328);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(196, 32);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -407,7 +407,7 @@
             // 
             // BtnListHiddenWorksheets
             // 
-            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 247);
+            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 283);
             this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
             this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(196, 38);
             this.BtnListHiddenWorksheets.TabIndex = 23;
@@ -417,7 +417,7 @@
             // 
             // BtnListWorksheets
             // 
-            this.BtnListWorksheets.Location = new System.Drawing.Point(9, 330);
+            this.BtnListWorksheets.Location = new System.Drawing.Point(9, 113);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(196, 35);
             this.BtnListWorksheets.TabIndex = 7;
@@ -427,7 +427,7 @@
             // 
             // BtnListHiddenRowsColumns
             // 
-            this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(9, 163);
+            this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(9, 199);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(196, 37);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -437,7 +437,7 @@
             // 
             // BtnListDefinedNames
             // 
-            this.BtnListDefinedNames.Location = new System.Drawing.Point(9, 208);
+            this.BtnListDefinedNames.Location = new System.Drawing.Point(9, 244);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(196, 32);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -470,7 +470,7 @@
             // BtnListFormulas
             // 
             this.BtnListFormulas.Enabled = false;
-            this.BtnListFormulas.Location = new System.Drawing.Point(9, 120);
+            this.BtnListFormulas.Location = new System.Drawing.Point(9, 156);
             this.BtnListFormulas.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnListFormulas.Name = "BtnListFormulas";
             this.BtnListFormulas.Size = new System.Drawing.Size(196, 35);
@@ -542,7 +542,7 @@
             // BtnChangeTheme
             // 
             this.BtnChangeTheme.Location = new System.Drawing.Point(8, 118);
-            this.BtnChangeTheme.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnChangeTheme.Margin = new System.Windows.Forms.Padding(2);
             this.BtnChangeTheme.Name = "BtnChangeTheme";
             this.BtnChangeTheme.Size = new System.Drawing.Size(171, 37);
             this.BtnChangeTheme.TabIndex = 7;
@@ -629,14 +629,14 @@
             // 
             this.MnuOpen.Image = global::Office_File_Explorer.Properties.Resources.template;
             this.MnuOpen.Name = "MnuOpen";
-            this.MnuOpen.Size = new System.Drawing.Size(158, 34);
+            this.MnuOpen.Size = new System.Drawing.Size(270, 34);
             this.MnuOpen.Text = "Open";
             this.MnuOpen.Click += new System.EventHandler(this.MnuOpen_Click);
             // 
             // MnuExit
             // 
             this.MnuExit.Name = "MnuExit";
-            this.MnuExit.Size = new System.Drawing.Size(158, 34);
+            this.MnuExit.Size = new System.Drawing.Size(270, 34);
             this.MnuExit.Text = "Exit";
             this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
             // 

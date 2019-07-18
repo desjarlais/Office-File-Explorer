@@ -1325,13 +1325,70 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LstDisplay.Items.Clear();
-                    SetUpButtons();
+                    OpenWithSdk(TxtFileName.Text);   
                 }
             }
             else
             {
                 return;
+            }
+        }
+
+        /// <summary>
+        /// function to open the file in the SDK
+        /// if the SDK fails to open the file, it is not a valid docx
+        /// warn the user to try remove all fallback tags
+        /// </summary>
+        /// <param name="file">the path to the initial fix attempt</param>
+        public void OpenWithSdk(string file)
+        {
+            try
+            {
+                // if the file is opened by the SDK, we can proceed with opening in tool
+                LstDisplay.Items.Clear();
+                SetUpButtons();
+
+                string body = "";
+
+                if (fileType == _word)
+                {
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(file, false))
+                    {
+                        // need to try pulling the document.xml part from the zip file
+                        // this will confirm if the file is valid in general
+                        // if it is, the exception catches and we can notify the user
+                        body = document.MainDocumentPart.Document.LocalName;
+                    }
+                }
+                else if (fileType == _excel)
+                {
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, false))
+                    {
+                        // try to get the localname of the workbook.xml file if it fails, its not an Excel file
+                        body = document.WorkbookPart.Workbook.LocalName;
+                    }
+                }
+                else if (fileType == _powerpoint)
+                {
+                    using (PresentationDocument document = PresentationDocument.Open(file, false))
+                    {
+                        // try to get the presentation.xml local name, if it fails it is not a PPT file
+                        body = document.PresentationPart.Presentation.LocalName;
+                    }
+                }
+                else
+                {
+                    // not a WD, PPT, XL file
+                    LstDisplay.Items.Add("Invalid File: File must be Word, PowerPoint or Excel.");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                // if the file failed to open in the sdk, it is invalid or corrupt and we need to stop opening
+                DisableButtons();
+                LstDisplay.Items.Add("Invalid File: Error opening file.");
+                Log("OpenWithSDK Error: " + ex.Message);                
             }
         }
 
