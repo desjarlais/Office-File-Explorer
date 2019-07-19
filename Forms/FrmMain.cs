@@ -1656,6 +1656,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                LstDisplay.Items.Clear();
+
                 // Open the presentation file as read-only.
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
                 {
@@ -1682,6 +1684,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                LstDisplay.Items.Clear();
+
                 // Open the presentation as read-only.
                 using (PresentationDocument presentationDocument = PresentationDocument.Open(TxtFileName.Text, false))
                 {
