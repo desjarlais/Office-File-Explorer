@@ -2220,6 +2220,7 @@ namespace Office_File_Explorer
         private void BtnListCellValuesDOM_Click(object sender, EventArgs e)
         {
             List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
+            LstDisplay.Items.Clear();
             foreach (object o in list)
             {
                 LstDisplay.Items.Add(o.ToString());
@@ -2229,6 +2230,7 @@ namespace Office_File_Explorer
         private void BtnListCellValuesSAX_Click(object sender, EventArgs e)
         {
             List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
+            LstDisplay.Items.Clear();
             foreach (object o in list)
             {
                 LstDisplay.Items.Add(o.ToString());
@@ -2239,7 +2241,16 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Add("Converted file location = " + Word_Helpers.WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
+                DialogResult dr = MessageBox.Show("This will delete the original .docm and replace it with a .docx file!\r\n\r\nAre you sure you would like continue?", "Convert .Docm to .Docx", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (DialogResult.Yes == dr)
+                {
+                    LstDisplay.Items.Add("Converted file location = " + Word_Helpers.WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
+                }
+                else
+                {
+                    return;
+                }
+                
             }
             catch (Exception ex)
             {

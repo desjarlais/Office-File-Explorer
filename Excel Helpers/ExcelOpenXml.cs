@@ -106,7 +106,7 @@ namespace Office_File_Explorer.Excel_Helpers
                 WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
                 SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
                 string text;
-
+                
                 foreach (Row r in sheetData.Elements<Row>())
                 {
                     foreach (Cell c in r.Elements<Cell>())
@@ -129,7 +129,7 @@ namespace Office_File_Explorer.Excel_Helpers
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-
+                
                 OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
                 string text;
 

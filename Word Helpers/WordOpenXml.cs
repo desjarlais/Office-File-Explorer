@@ -160,8 +160,7 @@ namespace Office_File_Explorer.Word_Helpers
             bool fileChanged = false;
             string newFileName = "";
 
-            using (WordprocessingDocument document =
-                WordprocessingDocument.Open(fileName, true))
+            using (WordprocessingDocument document = WordprocessingDocument.Open(fileName, true))
             {
                 // Access the main document part.
                 var docPart = document.MainDocumentPart;
@@ -174,10 +173,8 @@ namespace Office_File_Explorer.Word_Helpers
                     docPart.DeletePart(vbaPart);
                     docPart.Document.Save();
 
-                    // Change the document type to
-                    // not macro-enabled.
-                    document.ChangeDocumentType(
-                        WordprocessingDocumentType.Document);
+                    // Change the document type to not macro-enabled.
+                    document.ChangeDocumentType(WordprocessingDocumentType.Document);
 
                     // Track that the document has been changed.
                     fileChanged = true;

@@ -659,14 +659,14 @@
             // MnuAbout
             // 
             this.MnuAbout.Name = "MnuAbout";
-            this.MnuAbout.Size = new System.Drawing.Size(263, 34);
+            this.MnuAbout.Size = new System.Drawing.Size(270, 34);
             this.MnuAbout.Text = "About";
             this.MnuAbout.Click += new System.EventHandler(this.MnuAbout_Click);
             // 
             // MnuCheckForUpdates
             // 
             this.MnuCheckForUpdates.Name = "MnuCheckForUpdates";
-            this.MnuCheckForUpdates.Size = new System.Drawing.Size(263, 34);
+            this.MnuCheckForUpdates.Size = new System.Drawing.Size(270, 34);
             this.MnuCheckForUpdates.Text = "Check For Updates";
             this.MnuCheckForUpdates.Click += new System.EventHandler(this.MnuCheckForUpdates_Click);
             // 
@@ -712,9 +712,9 @@
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(9, 387);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(366, 344);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
-            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(180, 37);
+            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(210, 37);
             this.BtnConvertDocmToDocx.TabIndex = 17;
             this.BtnConvertDocmToDocx.Text = "Convert Docm -> Docx";
             this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
