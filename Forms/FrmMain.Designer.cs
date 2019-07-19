@@ -81,6 +81,10 @@
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
+            this.BtnListWSInfo = new System.Windows.Forms.Button();
+            this.BtnListCellValuesSAX = new System.Windows.Forms.Button();
+            this.BtnListCellValuesDOM = new System.Windows.Forms.Button();
+            this.BtnConvertDocmToDocx = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -90,6 +94,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnConvertDocmToDocx);
             this.groupBox1.Controls.Add(this.BtnViewCustomDocProps);
             this.groupBox1.Controls.Add(this.BtnSearchAndReplace);
             this.groupBox1.Controls.Add(this.BtnListAuthors);
@@ -105,7 +110,6 @@
             this.groupBox1.Controls.Add(this.BtnDeleteHiddenText);
             this.groupBox1.Controls.Add(this.BtnDeleteComments);
             this.groupBox1.Controls.Add(this.BtnAcceptRevisions);
-            this.groupBox1.Controls.Add(this.BtnListOle);
             this.groupBox1.Controls.Add(this.BtnListTemplates);
             this.groupBox1.Controls.Add(this.BtnListHyperlinks);
             this.groupBox1.Controls.Add(this.BtnListStyles);
@@ -121,7 +125,7 @@
             // 
             // BtnViewCustomDocProps
             // 
-            this.BtnViewCustomDocProps.Location = new System.Drawing.Point(9, 388);
+            this.BtnViewCustomDocProps.Location = new System.Drawing.Point(9, 344);
             this.BtnViewCustomDocProps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnViewCustomDocProps.Name = "BtnViewCustomDocProps";
             this.BtnViewCustomDocProps.Size = new System.Drawing.Size(180, 35);
@@ -187,7 +191,7 @@
             // 
             // BtnListEndnotes
             // 
-            this.BtnListEndnotes.Location = new System.Drawing.Point(9, 342);
+            this.BtnListEndnotes.Location = new System.Drawing.Point(9, 298);
             this.BtnListEndnotes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnListEndnotes.Name = "BtnListEndnotes";
             this.BtnListEndnotes.Size = new System.Drawing.Size(180, 35);
@@ -198,7 +202,7 @@
             // 
             // BtnListFootnotes
             // 
-            this.BtnListFootnotes.Location = new System.Drawing.Point(9, 297);
+            this.BtnListFootnotes.Location = new System.Drawing.Point(9, 253);
             this.BtnListFootnotes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnListFootnotes.Name = "BtnListFootnotes";
             this.BtnListFootnotes.Size = new System.Drawing.Size(180, 35);
@@ -209,7 +213,7 @@
             // 
             // BtnListFonts
             // 
-            this.BtnListFonts.Location = new System.Drawing.Point(9, 252);
+            this.BtnListFonts.Location = new System.Drawing.Point(9, 208);
             this.BtnListFonts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnListFonts.Name = "BtnListFonts";
             this.BtnListFonts.Size = new System.Drawing.Size(180, 35);
@@ -286,10 +290,10 @@
             // 
             // BtnListOle
             // 
-            this.BtnListOle.Location = new System.Drawing.Point(9, 208);
+            this.BtnListOle.Location = new System.Drawing.Point(8, 165);
             this.BtnListOle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnListOle.Name = "BtnListOle";
-            this.BtnListOle.Size = new System.Drawing.Size(180, 35);
+            this.BtnListOle.Size = new System.Drawing.Size(171, 35);
             this.BtnListOle.TabIndex = 8;
             this.BtnListOle.Text = "List Ole Objects";
             this.BtnListOle.UseVisualStyleBackColor = true;
@@ -354,6 +358,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnListCellValuesDOM);
+            this.groupBox2.Controls.Add(this.BtnListCellValuesSAX);
             this.groupBox2.Controls.Add(this.BtnDeleteComment);
             this.groupBox2.Controls.Add(this.BtnComments);
             this.groupBox2.Controls.Add(this.BtnListSharedStrings);
@@ -397,7 +403,7 @@
             // 
             // BtnListSharedStrings
             // 
-            this.BtnListSharedStrings.Location = new System.Drawing.Point(9, 328);
+            this.BtnListSharedStrings.Location = new System.Drawing.Point(9, 294);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(196, 32);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -407,7 +413,7 @@
             // 
             // BtnListHiddenWorksheets
             // 
-            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 283);
+            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(9, 249);
             this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
             this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(196, 38);
             this.BtnListHiddenWorksheets.TabIndex = 23;
@@ -437,9 +443,9 @@
             // 
             // BtnListDefinedNames
             // 
-            this.BtnListDefinedNames.Location = new System.Drawing.Point(9, 244);
+            this.BtnListDefinedNames.Location = new System.Drawing.Point(212, 159);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
-            this.BtnListDefinedNames.Size = new System.Drawing.Size(196, 32);
+            this.BtnListDefinedNames.Size = new System.Drawing.Size(157, 32);
             this.BtnListDefinedNames.TabIndex = 21;
             this.BtnListDefinedNames.Text = "List Defined Names";
             this.BtnListDefinedNames.UseVisualStyleBackColor = true;
@@ -530,6 +536,7 @@
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnRemovePII);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
+            this.groupBox4.Controls.Add(this.BtnListOle);
             this.groupBox4.Location = new System.Drawing.Point(1168, 78);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox4.Name = "groupBox4";
@@ -629,14 +636,14 @@
             // 
             this.MnuOpen.Image = global::Office_File_Explorer.Properties.Resources.template;
             this.MnuOpen.Name = "MnuOpen";
-            this.MnuOpen.Size = new System.Drawing.Size(270, 34);
+            this.MnuOpen.Size = new System.Drawing.Size(158, 34);
             this.MnuOpen.Text = "Open";
             this.MnuOpen.Click += new System.EventHandler(this.MnuOpen_Click);
             // 
             // MnuExit
             // 
             this.MnuExit.Name = "MnuExit";
-            this.MnuExit.Size = new System.Drawing.Size(270, 34);
+            this.MnuExit.Size = new System.Drawing.Size(158, 34);
             this.MnuExit.Text = "Exit";
             this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
             // 
@@ -673,6 +680,46 @@
             this.BtnErrorLog.UseVisualStyleBackColor = true;
             this.BtnErrorLog.Click += new System.EventHandler(this.BtnErrorLog_Click);
             // 
+            // BtnListWSInfo
+            // 
+            this.BtnListWSInfo.Location = new System.Drawing.Point(827, 194);
+            this.BtnListWSInfo.Name = "BtnListWSInfo";
+            this.BtnListWSInfo.Size = new System.Drawing.Size(158, 36);
+            this.BtnListWSInfo.TabIndex = 7;
+            this.BtnListWSInfo.Text = "List Worksheet Info";
+            this.BtnListWSInfo.UseVisualStyleBackColor = true;
+            this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
+            // 
+            // BtnListCellValuesSAX
+            // 
+            this.BtnListCellValuesSAX.Location = new System.Drawing.Point(9, 332);
+            this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
+            this.BtnListCellValuesSAX.Size = new System.Drawing.Size(196, 35);
+            this.BtnListCellValuesSAX.TabIndex = 25;
+            this.BtnListCellValuesSAX.Text = "List Cell Values (SAX)";
+            this.BtnListCellValuesSAX.UseVisualStyleBackColor = true;
+            this.BtnListCellValuesSAX.Click += new System.EventHandler(this.BtnListCellValuesSAX_Click);
+            // 
+            // BtnListCellValuesDOM
+            // 
+            this.BtnListCellValuesDOM.Location = new System.Drawing.Point(9, 373);
+            this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
+            this.BtnListCellValuesDOM.Size = new System.Drawing.Size(196, 32);
+            this.BtnListCellValuesDOM.TabIndex = 26;
+            this.BtnListCellValuesDOM.Text = "List Cell Values (DOM)";
+            this.BtnListCellValuesDOM.UseVisualStyleBackColor = true;
+            this.BtnListCellValuesDOM.Click += new System.EventHandler(this.BtnListCellValuesDOM_Click);
+            // 
+            // BtnConvertDocmToDocx
+            // 
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(9, 387);
+            this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
+            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(180, 37);
+            this.BtnConvertDocmToDocx.TabIndex = 17;
+            this.BtnConvertDocmToDocx.Text = "Convert Docm -> Docx";
+            this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
+            this.BtnConvertDocmToDocx.Click += new System.EventHandler(this.BtnConvertDocmToDocx_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -681,6 +728,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1388, 1062);
             this.Controls.Add(this.BtnErrorLog);
+            this.Controls.Add(this.BtnListWSInfo);
             this.Controls.Add(this.BtnCopyOutput);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtFileName);
@@ -763,6 +811,10 @@
         private System.Windows.Forms.Button BtnDeleteComment;
         private System.Windows.Forms.Button BtnChangeTheme;
         private System.Windows.Forms.Button BtnViewPPTComments;
+        private System.Windows.Forms.Button BtnListWSInfo;
+        private System.Windows.Forms.Button BtnListCellValuesSAX;
+        private System.Windows.Forms.Button BtnListCellValuesDOM;
+        private System.Windows.Forms.Button BtnConvertDocmToDocx;
     }
 }
 

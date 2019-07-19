@@ -3,6 +3,7 @@ using System.Linq;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
 using System.IO;
+using DocumentFormat.OpenXml;
 
 namespace Office_File_Explorer.Excel_Helpers
 {
@@ -89,6 +90,59 @@ namespace Office_File_Explorer.Excel_Helpers
                 {
                     streamWriter.Write(streamReader.ReadToEnd());
                 }
+            }
+        }
+
+        // The DOM approach.
+        // Note that the code below works only for cells that contain numeric values.
+        // 
+        public static List<string> ReadExcelFileDOM(string fileName)
+        {
+            List<string> values = new List<string>();
+
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(fileName, false))
+            {
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+                string text;
+
+                foreach (Row r in sheetData.Elements<Row>())
+                {
+                    foreach (Cell c in r.Elements<Cell>())
+                    {
+                        text = c.CellValue.Text;
+                        values.Add(text + " ");
+                    }
+                }
+
+                return values;
+            }
+        }
+
+        // The SAX approach.
+        public static List<string> ReadExcelFileSAX(string fileName)
+        {
+            List<string> values = new List<string>();
+
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(fileName, false))
+            {
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+
+                OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
+                string text;
+
+                while (reader.Read())
+                {
+                    if (reader.ElementType == typeof(CellValue))
+                    {
+                        text = reader.GetText();
+                        values.Add(text + " ");
+                    }
+                }
+
+                return values;
             }
         }
     }

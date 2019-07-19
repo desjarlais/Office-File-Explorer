@@ -49,6 +49,7 @@ namespace Office_File_Explorer
         const string _noEndNotes = "** No Endnotes in this document **";
         const string _themeFileAdded = "Theme File Added.";
         const string _unableToDownloadUpdate = "Unable to download update.";
+        const string _noOLE = "** This document does not contain OLE objects **";
         const string _word = "Word";
         const string _excel = "Excel";
         const string _powerpoint = "PowerPoint";
@@ -128,6 +129,10 @@ namespace Office_File_Explorer
             BtnDeleteComment.Enabled = false;
             BtnChangeTheme.Enabled = false;
             BtnViewPPTComments.Enabled = false;
+            BtnListWSInfo.Enabled = false;
+            BtnListCellValuesSAX.Enabled = false;
+            BtnListCellValuesDOM.Enabled = false;
+            BtnConvertDocmToDocx.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -176,7 +181,7 @@ namespace Office_File_Explorer
             {
                 fileType = _word;
 
-                // WD only files
+                // enable WD only files
                 BtnAcceptRevisions.Enabled = true;
                 BtnDeleteBreaks.Enabled = true;
                 BtnDeleteComments.Enabled = true;
@@ -196,8 +201,12 @@ namespace Office_File_Explorer
                 BtnListStyles.Enabled = true;
                 BtnListTemplates.Enabled = true;
                 BtnSearchAndReplace.Enabled = true;
-                BtnListOle.Enabled = true;
                 BtnViewCustomDocProps.Enabled = true;
+
+                if (GetFileFormat() == OxmlFileFormat.Docm)
+                {
+                    BtnConvertDocmToDocx.Enabled = true;
+                }
             }
             else if (GetFileFormat() == OxmlFileFormat.Xlsx || GetFileFormat() == OxmlFileFormat.Xlsm)
             {
@@ -214,6 +223,9 @@ namespace Office_File_Explorer
                 BtnListSharedStrings.Enabled = true;
                 BtnComments.Enabled = true;
                 BtnDeleteComment.Enabled = true;
+                BtnListWSInfo.Enabled = true;
+                BtnListCellValuesSAX.Enabled = true;
+                BtnListCellValuesDOM.Enabled = true;
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
@@ -228,17 +240,20 @@ namespace Office_File_Explorer
             {
                 // invalid file format
                 MessageBox.Show("Unsupported File Format");
+                return;
             }
             else
             {
                 // unknown condition, log details
                 Log("GetFileFormat Error: " + TxtFileName.Text);
+                return;
             }
 
             // these buttons exists for all file types
             BtnRemovePII.Enabled = true;
             BtnValidateFile.Enabled = true;
             BtnChangeTheme.Enabled = true;
+            BtnListOle.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -569,16 +584,63 @@ namespace Office_File_Explorer
             LstDisplay.Items.Clear();
             try
             {
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                if (fileType == _word)
                 {
-                    int oleObjCount = GetEmbeddedObjectProperties(myDoc.MainDocumentPart);
-                    int olePkgPart = GetEmbeddedPackageProperties(myDoc.MainDocumentPart);
-
-                    if (olePkgPart == 0 && oleObjCount == 0)
+                    using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** This document does not contain OLE Package objects **");
-                    }               
+                        int wdOleObjCount = GetEmbeddedObjectProperties(myDoc.MainDocumentPart);
+                        int wdOlePkgPart = GetEmbeddedPackageProperties(myDoc.MainDocumentPart);
+
+                        if (wdOlePkgPart == 0 && wdOleObjCount == 0)
+                        {
+                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                        }
+                    }
                 }
+                else if (fileType == _excel)
+                {
+                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open(TxtFileName.Text, false))
+                    {
+                        int xlOleObjCount = 0;
+                        int xlOlePkgPart = 0;
+
+                        foreach (WorksheetPart wPart in doc.WorkbookPart.WorksheetParts)
+                        {
+                            xlOleObjCount = xlOleObjCount + GetEmbeddedObjectProperties(wPart);
+                            xlOlePkgPart = xlOlePkgPart + GetEmbeddedPackageProperties(wPart);
+                        }
+
+                        if (xlOlePkgPart == 0 && xlOleObjCount == 0)
+                        {
+                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                        }
+                    }
+                }
+                else if (fileType == _powerpoint)
+                {
+                    using (PresentationDocument doc = PresentationDocument.Open(TxtFileName.Text, false))
+                    {
+                        int pptOleObjCount = 0;
+                        int pptOlePkgPart = 0;
+
+                        foreach (SlidePart sPart in doc.PresentationPart.SlideParts)
+                        {
+                            pptOleObjCount = pptOleObjCount + GetEmbeddedObjectProperties(sPart);
+                            pptOlePkgPart = pptOlePkgPart + GetEmbeddedPackageProperties(sPart);
+                        }
+
+                        if (pptOlePkgPart == 0 && pptOleObjCount == 0)
+                        {
+                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                        }
+                    }
+                }
+                else
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                }
+
+                
             }
             catch (Exception ex)
             {
@@ -588,6 +650,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Return Word Embedded Package count
+        /// </summary>
+        /// <param name="mPart"></param>
+        /// <returns></returns>
         public int GetEmbeddedPackageProperties(MainDocumentPart mPart)
         {
             try
@@ -595,14 +662,10 @@ namespace Office_File_Explorer
                 int x = 0;
                 int olePkgCount = mPart.EmbeddedPackageParts.Count();
 
-                String origUri, trimUri;
-
                 do
                 {
-                    origUri = mPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString();
-                    trimUri = origUri.Remove(0, 17);
+                    LstDisplay.Items.Add(mPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
                     x++;
-                    LstDisplay.Items.Add(x + ". " + trimUri);
                 }
                 while (x < olePkgCount);
 
@@ -614,20 +677,130 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Return Excel Embedded Package Count
+        /// </summary>
+        /// <param name="wPart"></param>
+        /// <returns></returns>
+        public int GetEmbeddedPackageProperties(WorksheetPart wPart)
+        {
+            try
+            {
+                int x = 0;
+                int olePkgCount = wPart.EmbeddedPackageParts.Count();
+
+                do
+                {
+                    LstDisplay.Items.Add(wPart.Uri + " --> " + wPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
+                    x++;
+                }
+                while (x < olePkgCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Return PowerPoint Embedded Package Count
+        /// </summary>
+        /// <param name="wPart"></param>
+        /// <returns></returns>
+        public int GetEmbeddedPackageProperties(SlidePart sPart)
+        {
+            try
+            {
+                int x = 0;
+                int olePkgCount = sPart.EmbeddedPackageParts.Count();
+
+                do
+                {
+                    LstDisplay.Items.Add(sPart.Uri + " --> " + sPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
+                    x++;
+                }
+                while (x < olePkgCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Return Word Embedded Object Count
+        /// </summary>
+        /// <param name="mPart"></param>
+        /// <returns></returns>
         public int GetEmbeddedObjectProperties(MainDocumentPart mPart)
         {
             try
             {
                 int x = 0;
                 int oleEmbCount = mPart.EmbeddedObjectParts.Count();
-                String origUri, trimUri;
 
                 do
                 {
-                    origUri = mPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString();
-                    trimUri = origUri.Remove(0, 17);
+                    LstDisplay.Items.Add(mPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
                     x++;
-                    LstDisplay.Items.Add(x + ". " + trimUri);
+                }
+                while (x < oleEmbCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Return Excel Embedded Object Count
+        /// </summary>
+        /// <param name="wPart"></param>
+        /// <returns></returns>
+        public int GetEmbeddedObjectProperties(WorksheetPart wPart)
+        {
+            try
+            {
+                int x = 0;
+                int oleEmbCount = wPart.EmbeddedObjectParts.Count();
+
+                do
+                {
+                    LstDisplay.Items.Add(wPart.Uri + " --> " + wPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
+                    x++;
+                }
+                while (x < oleEmbCount);
+
+                return x;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Return PowerPoint Embedded Object Count
+        /// </summary>
+        /// <param name="wPart"></param>
+        /// <returns></returns>
+        public int GetEmbeddedObjectProperties(SlidePart sPart)
+        {
+            try
+            {
+                int x = 0;
+                int oleEmbCount = sPart.EmbeddedObjectParts.Count();
+
+                do
+                {
+                    LstDisplay.Items.Add(sPart.Uri + " --> " + sPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
+                    x++;
                 }
                 while (x < oleEmbCount);
 
@@ -2014,6 +2187,63 @@ namespace Office_File_Explorer
                 Log("PPT - BtnListComments_Click Error");
                 Log(ex.Message);
             }
+        }
+
+        private void BtnListWSInfo_Click(object sender, EventArgs e)
+        {
+            GetSheetInfo(TxtFileName.Text);
+        }
+
+        public void GetSheetInfo(string fileName)
+        {
+            // Open file as read-only.
+            using (SpreadsheetDocument mySpreadsheet = SpreadsheetDocument.Open(fileName, false))
+            {
+                Sheets sheets = mySpreadsheet.WorkbookPart.Workbook.Sheets;
+                LstDisplay.Items.Clear();
+
+                // For each sheet, display the sheet information.
+                foreach (Sheet sheet in sheets)
+                {
+                    foreach (OpenXmlAttribute attr in sheet.GetAttributes())
+                    {
+                        LstDisplay.Items.Add(attr.LocalName + " : " + attr.Value);
+                    }
+                }
+            }
+        }
+
+        private void BtnListCellValuesDOM_Click(object sender, EventArgs e)
+        {
+            List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
+            foreach (object o in list)
+            {
+                LstDisplay.Items.Add(o.ToString());
+            }
+        }
+
+        private void BtnListCellValuesSAX_Click(object sender, EventArgs e)
+        {
+            List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
+            foreach (object o in list)
+            {
+                LstDisplay.Items.Add(o.ToString());
+            }
+        }
+
+        private void BtnConvertDocmToDocx_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LstDisplay.Items.Add("Converted file location = " + Word_Helpers.WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("Unable to convert document.");
+                Log("BtnConvertDocmToDocx Error:");
+                Log(ex.Message);
+            }
+
         }
     }
 }
