@@ -1,4 +1,5 @@
 ﻿using Drawing = DocumentFormat.OpenXml.Drawing;
+using A = DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using DocumentFormat.OpenXml.Presentation;
 using System.Text;
 using System.Linq;
 using System.IO;
+using DocumentFormat.OpenXml;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -183,6 +185,32 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
         }
 
+        public static void GetSlideIdAndText(out string sldText, string docName, int index)
+        {
+            using (PresentationDocument ppt = PresentationDocument.Open(docName, false))
+            {
+                // Get the relationship ID of the first slide.
+                PresentationPart part = ppt.PresentationPart;
+                OpenXmlElementList slideIds = part.Presentation.SlideIdList.ChildElements;
+
+                string relId = (slideIds[index] as SlideId).RelationshipId;
+
+                // Get the slide part from the relationship ID.
+                SlidePart slide = (SlidePart)part.GetPartById(relId);
+
+                // Build a StringBuilder object.
+                StringBuilder paragraphText = new StringBuilder();
+
+                // Get the inner text of the slide:
+                IEnumerable<A.Text> texts = slide.Slide.Descendants<A.Text>();
+                foreach (A.Text text in texts)
+                {
+                    paragraphText.Append(text.Text);
+                }
+                sldText = paragraphText.ToString();
+            }
+        }
+
         // Count the slides in the presentation.
         public static int CountSlides(PresentationDocument presentationDocument)
         {
@@ -213,6 +241,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 MoveSlide(presentationDocument, from, to);
             }
         }
+
         // Move a slide to a different position in the slide order in the presentation.
         public static void MoveSlide(PresentationDocument presentationDocument, int from, int to)
         {

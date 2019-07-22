@@ -20,7 +20,9 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
-using A = DocumentFormat.OpenXml.Drawing;
+using Office_File_Explorer.PowerPoint_Helpers;
+using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
+
 using System;
 using System.Collections;
 using System.Deployment.Application;
@@ -30,10 +32,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using Office_File_Explorer.PowerPoint_Helpers;
-using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using System.Collections.Generic;
-using DocumentFormat.OpenXml.Presentation;
 
 namespace Office_File_Explorer
 {
@@ -2275,7 +2274,7 @@ namespace Office_File_Explorer
 
                 do
                 {
-                    GetSlideIdAndText(out sldText, TxtFileName.Text, count);
+                    PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
                     LstDisplay.Items.Add("Slide " + (count + 1) + ". " + sldText);
                     count++;
                 } while (count < sCount);
@@ -2283,32 +2282,6 @@ namespace Office_File_Explorer
             else
             {
                 LstDisplay.Items.Add("Presentation contains no slides.");
-            }
-        }
-
-        public static void GetSlideIdAndText(out string sldText, string docName, int index)
-        {
-            using (PresentationDocument ppt = PresentationDocument.Open(docName, false))
-            {
-                // Get the relationship ID of the first slide.
-                PresentationPart part = ppt.PresentationPart;
-                OpenXmlElementList slideIds = part.Presentation.SlideIdList.ChildElements;
-
-                string relId = (slideIds[index] as SlideId).RelationshipId;
-
-                // Get the slide part from the relationship ID.
-                SlidePart slide = (SlidePart)part.GetPartById(relId);
-
-                // Build a StringBuilder object.
-                StringBuilder paragraphText = new StringBuilder();
-
-                // Get the inner text of the slide:
-                IEnumerable<A.Text> texts = slide.Slide.Descendants<A.Text>();
-                foreach (A.Text text in texts)
-                {
-                    paragraphText.Append(text.Text);
-                }
-                sldText = paragraphText.ToString();
             }
         }
     }
