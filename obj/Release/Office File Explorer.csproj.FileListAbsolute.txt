@@ -20,3 +20,25 @@ C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Releas
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.exe
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Release\Office File Explorer.pdb
+E:\GitHub\Office-File-Explorer\bin\Release\Office File Explorer.exe.config
+E:\GitHub\Office-File-Explorer\bin\Release\Office File Explorer.exe.manifest
+E:\GitHub\Office-File-Explorer\bin\Release\Office File Explorer.application
+E:\GitHub\Office-File-Explorer\bin\Release\Office File Explorer.exe
+E:\GitHub\Office-File-Explorer\bin\Release\Office File Explorer.pdb
+E:\GitHub\Office-File-Explorer\bin\Release\DocumentFormat.OpenXml.dll
+E:\GitHub\Office-File-Explorer\bin\Release\DocumentFormat.OpenXml.xml
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csprojAssemblyReference.cache
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmAuthors.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmAbout.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmErrorLog.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.FrmMain.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Properties.Resources.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.GenerateResource.cache
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CoreCompileInputs.cache
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.TrustInfo.xml
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe.manifest
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.application
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.pdb

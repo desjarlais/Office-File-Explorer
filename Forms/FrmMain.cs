@@ -1052,6 +1052,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 int count = 0;
                 LstDisplay.Items.Clear();
                 foreach (Sheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
@@ -1078,6 +1079,10 @@ namespace Office_File_Explorer
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
                 LoggingHelper.Log("BtnListFormulas_Click Error");
                 LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -2007,6 +2012,10 @@ namespace Office_File_Explorer
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     SharedStringTablePart sstp = wbPart.SharedStringTablePart;
                     SharedStringTable sst = sstp.SharedStringTable;
+                    LstDisplay.Items.Add("SharedString Count = " + sst.Count());
+                    LstDisplay.Items.Add("Unique Count = " + sst.UniqueCount);
+                    LstDisplay.Items.Add("");
+
                     foreach (SharedStringItem ssi in sst)
                     {
                         sharedStringCount++;
