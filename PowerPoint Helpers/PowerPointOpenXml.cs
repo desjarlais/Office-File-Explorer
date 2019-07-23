@@ -59,8 +59,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             // Get a PresentationPart object from the PresentationDocument object.
             PresentationPart presentationPart = presentationDocument.PresentationPart;
 
-            if (presentationPart != null &&
-                presentationPart.Presentation != null)
+            if (presentationPart != null && presentationPart.Presentation != null)
             {
                 // Get a Presentation object from the PresentationPart object.
                 Presentation presentation = presentationPart.Presentation;

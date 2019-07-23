@@ -22,6 +22,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 using System.Collections;
 using System.IO;
+using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.Word_Helpers
 {
@@ -109,8 +110,9 @@ namespace Office_File_Explorer.Word_Helpers
                                 el.Remove();
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            LoggingHelper.Log("RemoveListTemplatesNumId" + ex.Message);
                         }
                     }
                 }

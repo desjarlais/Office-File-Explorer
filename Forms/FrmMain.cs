@@ -20,8 +20,12 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Office_File_Explorer.PowerPoint_Helpers;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
+
+using Office_File_Explorer.App_Helpers;
+using Office_File_Explorer.Excel_Helpers;
+using Office_File_Explorer.Word_Helpers;
+using Office_File_Explorer.PowerPoint_Helpers;
 
 using System;
 using System.Collections;
@@ -65,7 +69,7 @@ namespace Office_File_Explorer
         public FrmMain()
         {
             InitializeComponent();
-            Log("App Start");
+            LoggingHelper.Log("App Start");
             _FindText = "";
             _ReplaceText = "";
 
@@ -248,7 +252,7 @@ namespace Office_File_Explorer
             else
             {
                 // unknown condition, log details
-                Log("GetFileFormat Error: " + TxtFileName.Text);
+                LoggingHelper.Log("GetFileFormat Error: " + TxtFileName.Text);
                 return;
             }
 
@@ -284,8 +288,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("Word - BtnListComments_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("Word - BtnListComments_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -338,9 +342,9 @@ namespace Office_File_Explorer
                         foreach (OpenXmlElement el in stylePart.Styles.LatentStyles.Elements())
                         {
                             string styleEl = el.GetAttribute("name", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
-                            int pStyle = Word_Helpers.WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
-                            int rStyle = Word_Helpers.WordExtensionClass.RunsByStyleName(mainPart, styleEl).Count();
-                            int tStyle = Word_Helpers.WordExtensionClass.TablesByStyleName(mainPart, styleEl).Count();
+                            int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
+                            int rStyle = WordExtensionClass.RunsByStyleName(mainPart, styleEl).Count();
+                            int tStyle = WordExtensionClass.TablesByStyleName(mainPart, styleEl).Count();
 
                             if (pStyle > 0)
                             {
@@ -375,8 +379,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListStyles_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListStyles_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -410,8 +414,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListHyperlinks_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListHyperlinks_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -478,7 +482,7 @@ namespace Office_File_Explorer
                         try
                         {
                             string styleEl = el.GetAttribute("styleId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
-                            int pStyle = Word_Helpers.WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
+                            int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
 
                             if (pStyle > 0)
                             {
@@ -491,7 +495,7 @@ namespace Office_File_Explorer
                         catch (Exception ex)
                         {
                             // Not all style elements have a styleID, so just skip these scenarios
-                            Log("BtnListTemplates_Click : " + ex.Message);
+                            LoggingHelper.Log("BtnListTemplates_Click : " + ex.Message);
                         }
                     }
 
@@ -535,8 +539,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListTemplates_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListTemplates_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -648,8 +652,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListOle_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListOle_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -839,14 +843,14 @@ namespace Office_File_Explorer
                     _fromAuthor = "";
                 }
 
-                Word_Helpers.WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
+                WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Revisions Accepted **");
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnAcceptRevisions_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnAcceptRevisions_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -859,14 +863,14 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                Word_Helpers.WordOpenXml.RemoveComments(TxtFileName.Text);
+                WordOpenXml.RemoveComments(TxtFileName.Text);
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Comments Removed **");
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnDeleteComments_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnDeleteComments_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -879,14 +883,14 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                Word_Helpers.WordOpenXml.DeleteHiddenText(TxtFileName.Text);
+                WordOpenXml.DeleteHiddenText(TxtFileName.Text);
                 DisplayInformation(InformationOutput.TextOnly, "** Hidden text deleted **");
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnDeleteHiddenText_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnDeleteHiddenText_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -899,14 +903,14 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                Word_Helpers.WordOpenXml.RemoveHeadersFooters(TxtFileName.Text);
+                WordOpenXml.RemoveHeadersFooters(TxtFileName.Text);
                 DisplayInformation(InformationOutput.TextOnly, "** Headers/Footer removed **");
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnDeleteHdrFtr_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnDeleteHdrFtr_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -921,7 +925,7 @@ namespace Office_File_Explorer
                 BtnListTemplates.PerformClick();
                 foreach (object orphanLT in oNumIdList)
                 {
-                    Word_Helpers.WordOpenXml.RemoveListTemplatesNumId(TxtFileName.Text, orphanLT.ToString());
+                    WordOpenXml.RemoveListTemplatesNumId(TxtFileName.Text, orphanLT.ToString());
                 }
                 DisplayInformation(InformationOutput.TextOnly, "** List Templates removed **");
             }
@@ -933,7 +937,7 @@ namespace Office_File_Explorer
 
         private void BtnDeleteBreaks_Click(object sender, EventArgs e)
         {
-            Word_Helpers.WordOpenXml.RemoveBreaks(TxtFileName.Text);
+            WordOpenXml.RemoveBreaks(TxtFileName.Text);
             DisplayInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **");
         }
 
@@ -947,7 +951,7 @@ namespace Office_File_Explorer
 
             using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
             {
-                Word_Helpers.WordExtensionClass.RemovePersonalInfo(doc);
+                WordExtensionClass.RemovePersonalInfo(doc);
                 DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
             }
         }
@@ -1001,15 +1005,15 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    Log("BtnValidateFileClick Error");
+                    LoggingHelper.Log("BtnValidateFileClick Error");
                     throw new Exception();
                 }
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnValidateFile_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnValidateFile_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
 
             if (LstDisplay.Items.Count < 0)
@@ -1039,8 +1043,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnCopyOutput Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnCopyOutput Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1050,7 +1054,7 @@ namespace Office_File_Explorer
             {
                 int count = 0;
                 LstDisplay.Items.Clear();
-                foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
                     count++;
                     LstDisplay.Items.Add(count + ". Worksheet = " + sht.Name);
@@ -1072,8 +1076,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnListFormulas_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListFormulas_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1101,8 +1105,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListFonts_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListFonts_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1140,8 +1144,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnListFootnotes_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListFootnotes_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1179,8 +1183,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnListEndnotes_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListEndnotes_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1189,13 +1193,13 @@ namespace Office_File_Explorer
             try
             {
                 LstDisplay.Items.Clear();
-                Word_Helpers.WordOpenXml.RemoveFootnotes(TxtFileName.Text);
+                WordOpenXml.RemoveFootnotes(TxtFileName.Text);
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnDeleteFootnotes_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnDeleteFootnotes_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1204,13 +1208,13 @@ namespace Office_File_Explorer
             try
             {
                 LstDisplay.Items.Clear();
-                Word_Helpers.WordOpenXml.RemoveEndnotes(TxtFileName.Text);
+                WordOpenXml.RemoveEndnotes(TxtFileName.Text);
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                Log("BtnDeleteEndnotes_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnDeleteEndnotes_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1306,8 +1310,8 @@ namespace Office_File_Explorer
             catch(Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListRevisions_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListRevisions_Click Error");
+                LoggingHelper.Log(ex.Message);
                 Cursor = Cursors.Default;
             }
         }
@@ -1341,8 +1345,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnListAuthors_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListAuthors_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
         
@@ -1415,16 +1419,16 @@ namespace Office_File_Explorer
                     catch (Exception ex)
                     {
                         DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                        Log("BtnViewCustomDocProps (doc settings) Error");
-                        Log(ex.Message);
+                        LoggingHelper.Log("BtnViewCustomDocProps (doc settings) Error");
+                        LoggingHelper.Log(ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("BtnViewCustomDocProps_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnViewCustomDocProps_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1464,8 +1468,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 // log the error 
-                Log("GetExtendedFileProps Error");
-                Log(ex.Message);
+                LoggingHelper.Log("GetExtendedFileProps Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1563,7 +1567,7 @@ namespace Office_File_Explorer
                 // if the file failed to open in the sdk, it is invalid or corrupt and we need to stop opening
                 DisableButtons();
                 LstDisplay.Items.Add("Invalid File: Error opening file.");
-                Log("OpenWithSDK Error: " + ex.Message);                
+                LoggingHelper.Log("OpenWithSDK Error: " + ex.Message);                
             }
             finally
             {
@@ -1736,8 +1740,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnSearchAndReplace_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnSearchAndReplace_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1790,8 +1794,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 // log the error 
-                Log("BtnListLinks_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListLinks_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -1801,15 +1805,9 @@ namespace Office_File_Explorer
 
         private void BtnDeleteExternalLinks_Click(object sender, EventArgs e)
         {
-            Excel_Helpers.ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text);
+            ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text);
             LstDisplay.Items.Clear();
             LstDisplay.Items.Add("** External References Deleted **");
-        }
-
-        public void Log(string logValue)
-        {
-            Properties.Settings.Default.ErrorLog.Add(DateTime.Now + " : " + logValue);
-            Properties.Settings.Default.Save();
         }
 
         private void BtnErrorLog_Click(object sender, EventArgs e)
@@ -1880,7 +1878,7 @@ namespace Office_File_Explorer
 
                         if (theSheet == null)
                         {
-                            Log("BtnListHiddenRowsColumnClickError" + sheet.Name);
+                            LoggingHelper.Log("BtnListHiddenRowsColumnClickError" + sheet.Name);
                             throw new ArgumentException("sheetName");
                         }
                         else
@@ -1891,19 +1889,12 @@ namespace Office_File_Explorer
                             int rowCount = 0;
                             int colCount = 0;
 
-                            List<uint> rowList = new List<uint>();
-
-                            // Retrieve hidden rows, start by calling the Descendants method of the worksheet, then retrieve a list of all rows. 
-                            // The Where method limits the results to only those rows where the Hidden property of the item is not null and the value of the Hidden property is True.
-                            // The Select method projects the return value for each row, returning the value of the RowIndex property.
-                            // Finally, the ToList < TSource > **method converts the resulting IEnumerable < T > interface into a List<T> object of unsigned integers. 
-                            // If there are no hidden rows, the returned list is empty.
-                            rowList = ws.Descendants<Row>().Where((r) => r.Hidden != null && r.Hidden.Value).Select(r => r.RowIndex.Value).ToList<uint>();
                             LstDisplay.Items.Add("##    ROWS    ##");
-                            foreach (object row in rowList)
+                            IEnumerable<Row> rows = ws.Descendants<Row>().Where((r) => r.Hidden != null && r.Hidden.Value);
+                            foreach (Row row in rows)
                             {
                                 rowCount++;
-                                LstDisplay.Items.Add(rowCount + ". Row " + row);
+                                LstDisplay.Items.Add(rowCount + ". " + row.InnerText);                                
                             }
 
                             if (rowCount == 0)
@@ -1911,12 +1902,8 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add("    None");
                             }
 
-                            // Retrieve hidden columns is a bit trickier because Excel collapses groups of hidden columns into a single element, 
-                            // and provides Min and Max properties that describe the first and last columns in the group. 
-                            // Therefore, the code that retrieves the list of hidden columns starts the same as the code that retrieves hidden rows. 
-                            // However, it must iterate through the index values (looping each item in the collection, adding each index from the Min to the Max value, inclusively).
                             LstDisplay.Items.Add("##    COLUMNS    ##");
-                            var cols = ws.Descendants<Column>().Where((c) => c.Hidden != null && c.Hidden.Value);
+                            IEnumerable<Column> cols = ws.Descendants<Column>().Where((c) => c.Hidden != null && c.Hidden.Value);
                             foreach (Column item in cols)
                             {
                                 for (uint i = item.Min.Value; i <= item.Max.Value; i++)
@@ -1938,8 +1925,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnListHiddenRowsColumns_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListHiddenRowsColumns_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -1956,7 +1943,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sheetCount = 0;
 
-                foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
                     sheetCount++;
                     LstDisplay.Items.Add(sheetCount + ". " + sht.Name);
@@ -1965,8 +1952,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnListWorksheets_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListWorksheets_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -1983,7 +1970,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int hiddenCount = 0;
 
-                foreach (Sheet sht in Excel_Helpers.ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                 {
                     hiddenCount++;
                     LstDisplay.Items.Add(hiddenCount + ". " + sht.Name);
@@ -1997,8 +1984,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnListHiddenWorksheets_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListHiddenWorksheets_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -2031,8 +2018,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnListSharedStrings_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListSharedStrings_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -2064,8 +2051,8 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                Log("Excel - BtnComments_Click Error:");
-                Log(ex.Message);
+                LoggingHelper.Log("Excel - BtnComments_Click Error:");
+                LoggingHelper.Log(ex.Message);
                 DisplayInformation(InformationOutput.TextOnly, "** No Comments **");
             }
             finally
@@ -2099,8 +2086,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                Log("BtnListFormulas_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnListFormulas_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -2134,13 +2121,13 @@ namespace Office_File_Explorer
                     if (fileType == _word)
                     {
                         // call the replace function using the theme file provided
-                        Word_Helpers.WordOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        WordOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
                         DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else if (fileType == _excel)
                     {
                         // call the replace function using the theme file provided
-                        Excel_Helpers.ExcelOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        ExcelOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
                         DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else if (fileType == _powerpoint)
@@ -2191,8 +2178,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                Log("PPT - BtnListComments_Click Error");
-                Log(ex.Message);
+                LoggingHelper.Log("PPT - BtnListComments_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -2222,7 +2209,7 @@ namespace Office_File_Explorer
 
         private void BtnListCellValuesDOM_Click(object sender, EventArgs e)
         {
-            List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
+            List<string> list = ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
             LstDisplay.Items.Clear();
             foreach (object o in list)
             {
@@ -2232,7 +2219,7 @@ namespace Office_File_Explorer
 
         private void BtnListCellValuesSAX_Click(object sender, EventArgs e)
         {
-            List<string> list = Excel_Helpers.ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
+            List<string> list = ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
             LstDisplay.Items.Clear();
             foreach (object o in list)
             {
@@ -2247,7 +2234,7 @@ namespace Office_File_Explorer
                 DialogResult dr = MessageBox.Show("This will delete the original .docm and replace it with a .docx file!\r\n\r\nAre you sure you would like continue?", "Convert .Docm to .Docx", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (DialogResult.Yes == dr)
                 {
-                    LstDisplay.Items.Add("Converted file location = " + Word_Helpers.WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
+                    LstDisplay.Items.Add("Converted file location = " + WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
                 }
                 else
                 {
@@ -2258,8 +2245,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LstDisplay.Items.Add("Unable to convert document.");
-                Log("BtnConvertDocmToDocx Error:");
-                Log(ex.Message);
+                LoggingHelper.Log("BtnConvertDocmToDocx Error:");
+                LoggingHelper.Log(ex.Message);
             }
 
         }

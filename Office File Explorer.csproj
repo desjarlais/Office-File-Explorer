@@ -85,6 +85,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App Helpers\LoggingHelper.cs" />
     <Compile Include="Excel Helpers\ExcelOpenXml.cs" />
     <Compile Include="Forms\FrmAuthors.cs">
       <SubType>Form</SubType>
