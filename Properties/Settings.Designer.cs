@@ -36,5 +36,29 @@ namespace Office_File_Explorer.Properties {
                 this["ErrorLog"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string RemoveFallback {
+            get {
+                return ((string)(this["RemoveFallback"]));
+            }
+            set {
+                this["RemoveFallback"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string OpenInWord {
+            get {
+                return ((string)(this["OpenInWord"]));
+            }
+            set {
+                this["OpenInWord"] = value;
+            }
+        }
     }
 }

@@ -107,3 +107,4 @@ C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office File Explorer.exe
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office File Explorer.pdb
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources
