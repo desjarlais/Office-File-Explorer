@@ -2304,6 +2304,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
@@ -2574,6 +2575,7 @@ namespace Office_File_Explorer
                 StrExtension = string.Empty;
                 StrDestFileName = string.Empty;
                 PrevChar = '<';
+                Cursor = Cursors.Default;
             }
         }
 
