@@ -2194,6 +2194,12 @@ namespace Office_File_Explorer
                     foreach (SlidePart sPart in pPart.SlideParts)
                     {
                         SlideCommentsPart sCPart = sPart.SlideCommentsPart;
+                        if (sCPart == null)
+                        {
+                            DisplayInformation(InformationOutput.ClearAndAdd, "** File does not have any comments **");
+                            return;
+                        }
+
                         foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
