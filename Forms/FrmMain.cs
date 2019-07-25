@@ -2276,7 +2276,6 @@ namespace Office_File_Explorer
                 LoggingHelper.Log("BtnConvertDocmToDocx Error:");
                 LoggingHelper.Log(ex.Message);
             }
-
         }
 
         private void BtnListSlideText_Click(object sender, EventArgs e)
