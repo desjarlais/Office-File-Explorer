@@ -1502,7 +1502,7 @@ namespace Office_File_Explorer
 
         private void MnuAbout_Click(object sender, EventArgs e)
         {
-            Forms.FrmAbout frm = new Forms.FrmAbout();
+            FrmAbout frm = new FrmAbout();
             frm.ShowDialog(this);
             frm.Dispose();
         }
@@ -1528,7 +1528,7 @@ namespace Office_File_Explorer
                 else
                 {
                     LstDisplay.Items.Clear();
-                    OpenWithSdk(TxtFileName.Text);   
+                    OpenWithSdk(TxtFileName.Text, true);   
                 }
             }
             else
@@ -1543,14 +1543,18 @@ namespace Office_File_Explorer
         /// warn the user to try remove all fallback tags
         /// </summary>
         /// <param name="file">the path to the initial fix attempt</param>
-        public void OpenWithSdk(string file)
+        public void OpenWithSdk(string file, bool IsFileOpen)
         {
             try
             {
                 // if the file is opened by the SDK, we can proceed with opening in tool
                 Cursor = Cursors.WaitCursor;
-                SetUpButtons();
 
+                if (IsFileOpen)
+                {
+                    SetUpButtons();
+                }
+                                                
                 string body = "";
 
                 if (fileType == _word)
@@ -1579,7 +1583,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    // not a WD, PPT, XL file
+                    // not a WD, PPT, XL file or file is corrupt
                     LstDisplay.Items.Add("Invalid File: File must be Word, PowerPoint or Excel.");
                     BtnFixCorruptDocument.Enabled = true;
                 }
@@ -2308,7 +2312,6 @@ namespace Office_File_Explorer
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
                 StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + "(Fixed)" + StrExtension;
-                LstDisplay.Items.Clear();
 
                 // check if file we are about to copy exists and append a number so its unique
                 if (File.Exists(StrDestFileName))
@@ -2338,6 +2341,7 @@ namespace Office_File_Explorer
                     {
                         if (part.Uri.ToString() == "/word/document.xml")
                         {
+                            fileType = _word;
                             XmlDocument xdoc = new XmlDocument();
                             try
                             {
@@ -2562,7 +2566,7 @@ namespace Office_File_Explorer
                     // since we were able to attempt the fixes
                     // check if we can open in the sdk and confirm it was indeed fixed
                     LstDisplay.Items.Add("");
-                    OpenWithSdk(StrDestFileName);
+                    OpenWithSdk(StrDestFileName, false);
                 }
 
                 // need to reset the globals 
