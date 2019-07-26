@@ -131,6 +131,11 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             return string.Empty;
         }
 
+        /// <summary>
+        /// replace the current theme with a user specified theme
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="themeFile"></param>
         public static void ReplaceTheme(string document, string themeFile)
         {
             using (PresentationDocument presDoc = PresentationDocument.Open(document, true))
@@ -151,7 +156,11 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
         }
 
-        // Determines whether the shape is a title shape.
+        /// <summary>
+        /// Determines whether the shape is a title shape.
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         private static bool IsTitleShape(Shape shape)
         {
             var placeholderShape = shape.NonVisualShapeProperties.ApplicationNonVisualDrawingProperties.GetFirstChild<PlaceholderShape>();
@@ -184,6 +193,12 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
         }
 
+        /// <summary>
+        /// Get the slideId and text for that slide
+        /// </summary>
+        /// <param name="sldText">string returned to caller</param>
+        /// <param name="docName">path to powerpoint file</param>
+        /// <param name="index">slide number</param>
         public static void GetSlideIdAndText(out string sldText, string docName, int index)
         {
             using (PresentationDocument ppt = PresentationDocument.Open(docName, false))
@@ -210,7 +225,11 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
         }
 
-        // Count the slides in the presentation.
+        /// <summary>
+        /// Count the slides in the presentation.
+        /// </summary>
+        /// <param name="presentationDocument"></param>
+        /// <returns></returns>
         public static int CountSlides(PresentationDocument presentationDocument)
         {
             // Check for a null document object.
@@ -241,7 +260,12 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
         }
 
-        // Move a slide to a different position in the slide order in the presentation.
+        /// <summary>
+        /// Move a slide to a different position in the slide order in the presentation.
+        /// </summary>
+        /// <param name="presentationDocument"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
         public static void MoveSlide(PresentationDocument presentationDocument, int from, int to)
         {
             if (presentationDocument == null)
@@ -299,8 +323,10 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             presentation.Save();
         }
 
-        // Change the fill color of a shape.
-        // The test file must have a filled shape as the first shape on the first slide.
+        /// <summary>
+        /// Change the fill color of a shape, docName must have a filled shape as the first shape on the first slide.
+        /// </summary>
+        /// <param name="docName">path to the file</param>
         public static void SetPPTShapeColor(string docName)
         {
             using (PresentationDocument ppt = PresentationDocument.Open(docName, true))
@@ -338,6 +364,43 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Function to retrieve the number of slides
+        /// </summary>
+        /// <param name="fileName">path to the file</param>
+        /// <param name="includeHidden">default is true, pass false if you don't want hidden slides counted</param>
+        /// <returns></returns>
+        public static int RetrieveNumberOfSlides(string fileName, bool includeHidden = true)
+        {
+            int slidesCount = 0;
+
+            using (PresentationDocument doc =
+                PresentationDocument.Open(fileName, false))
+            {
+                // Get the presentation part of the document.
+                PresentationPart presentationPart = doc.PresentationPart;
+                if (presentationPart != null)
+                {
+                    if (includeHidden)
+                    {
+                        slidesCount = presentationPart.SlideParts.Count();
+                    }
+                    else
+                    {
+                        // Each slide can include a Show property, which if hidden 
+                        // will contain the value "0". The Show property may not 
+                        // exist, and most likely will not, for non-hidden slides.
+                        var slides = presentationPart.SlideParts.Where(
+                            (s) => (s.Slide != null) &&
+                              ((s.Slide.Show == null) || (s.Slide.Show.HasValue &&
+                              s.Slide.Show.Value)));
+                        slidesCount = slides.Count();
+                    }
+                }
+            }
+            return slidesCount;
         }
     }
 }

@@ -23,6 +23,8 @@ using DocumentFormat.OpenXml;
 using System.Collections;
 using System.IO;
 using Office_File_Explorer.App_Helpers;
+using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.VariantTypes;
 
 namespace Office_File_Explorer.Word_Helpers
 {
@@ -373,6 +375,242 @@ namespace Office_File_Explorer.Word_Helpers
 
                     mainPart.Document.Save();
                     wdDoc.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set the font for a text run.
+        /// </summary>
+        /// <param name="fileName"></param>        
+        public static void SetRunFont(string fileName)
+        {
+            // Open a Wordprocessing document for editing.
+            using (WordprocessingDocument package = WordprocessingDocument.Open(fileName, true))
+            {
+                // Set the font to Arial to the first Run.
+                // Use an object initializer for RunProperties and rPr.
+                RunProperties rPr = new RunProperties(
+                    new RunFonts()
+                    {
+                        Ascii = "Arial"
+                    });
+
+                Run r = package.MainDocumentPart.Document.Descendants<Run>().First();
+                r.PrependChild<RunProperties>(rPr);
+
+                // Save changes to the MainDocumentPart part.
+                package.MainDocumentPart.Document.Save();
+            }
+        }
+
+        public enum PropertyTypes : int
+        {
+            YesNo,
+            Text,
+            DateTime,
+            NumberInteger,
+            NumberDouble
+        }
+
+        public static string SetCustomProperty(string fileName, string propertyName, object propertyValue, PropertyTypes propertyType)
+        {
+            // Given a document name, a property name/value, and the property type, 
+            // add a custom property to a document. The method returns the original
+            // value, if it existed.
+
+            string returnValue = null;
+
+            var newProp = new CustomDocumentProperty();
+            bool propSet = false;
+
+            // Calculate the correct type.
+            switch (propertyType)
+            {
+                case PropertyTypes.DateTime:
+
+                    // Be sure you were passed a real date, 
+                    // and if so, format in the correct way. 
+                    // The date/time value passed in should 
+                    // represent a UTC date/time.
+                    if ((propertyValue) is DateTime)
+                    {
+                        newProp.VTFileTime = new VTFileTime(string.Format("{0:s}Z", Convert.ToDateTime(propertyValue)));
+                        propSet = true;
+                    }
+
+                    break;
+
+                case PropertyTypes.NumberInteger:
+                    if ((propertyValue) is int)
+                    {
+                        newProp.VTInt32 = new VTInt32(propertyValue.ToString());
+                        propSet = true;
+                    }
+
+                    break;
+
+                case PropertyTypes.NumberDouble:
+                    if (propertyValue is double)
+                    {
+                        newProp.VTFloat = new VTFloat(propertyValue.ToString());
+                        propSet = true;
+                    }
+
+                    break;
+
+                case PropertyTypes.Text:
+                    newProp.VTLPWSTR = new VTLPWSTR(propertyValue.ToString());
+                    propSet = true;
+
+                    break;
+
+                case PropertyTypes.YesNo:
+                    if (propertyValue is bool)
+                    {
+                        // Must be lowercase.
+                        newProp.VTBool = new VTBool(Convert.ToBoolean(propertyValue).ToString().ToLower());
+                        propSet = true;
+                    }
+                    break;
+            }
+
+            if (!propSet)
+            {
+                // If the code was not able to convert the 
+                // property to a valid value, throw an exception.
+                throw new InvalidDataException("propertyValue");
+            }
+
+            // Now that you have handled the parameters, start
+            // working on the document.
+            newProp.FormatId = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}";
+            newProp.Name = propertyName;
+
+            using (var document = WordprocessingDocument.Open(fileName, true))
+            {
+                var customProps = document.CustomFilePropertiesPart;
+                if (customProps == null)
+                {
+                    // No custom properties? Add the part, and the
+                    // collection of properties now.
+                    customProps = document.AddCustomFilePropertiesPart();
+                    customProps.Properties = new DocumentFormat.OpenXml.CustomProperties.Properties();
+                }
+
+                var props = customProps.Properties;
+                if (props != null)
+                {
+                    // This will trigger an exception if the property's Name 
+                    // property is null, but if that happens, the property is damaged, 
+                    // and probably should raise an exception.
+                    var prop = props.Where(p => ((CustomDocumentProperty)p).Name.Value == propertyName).FirstOrDefault();
+
+                    // Does the property exist? If so, get the return value, 
+                    // and then delete the property.
+                    if (prop != null)
+                    {
+                        returnValue = prop.InnerText;
+                        prop.Remove();
+                    }
+
+                    // Append the new property, and 
+                    // fix up all the property ID values. 
+                    // The PropertyId value must start at 2.
+                    props.AppendChild(newProp);
+                    int pid = 2;
+                    foreach (CustomDocumentProperty item in props)
+                    {
+                        item.PropertyId = pid++;
+                    }
+                    props.Save();
+                }
+            }
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Given a document name, set the print orientation for all the sections of the document.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="newOrientation"></param>
+        public static void SetPrintOrientation(string fileName, PageOrientationValues newOrientation)
+        {
+            using (var document = WordprocessingDocument.Open(fileName, true))
+            {
+                bool documentChanged = false;
+
+                var docPart = document.MainDocumentPart;
+                var sections = docPart.Document.Descendants<SectionProperties>();
+
+                foreach (SectionProperties sectPr in sections)
+                {
+                    bool pageOrientationChanged = false;
+
+                    PageSize pgSz = sectPr.Descendants<PageSize>().FirstOrDefault();
+                    if (pgSz != null)
+                    {
+                        // No Orient property? Create it now. Otherwise, just 
+                        // set its value. Assume that the default orientation 
+                        // is Portrait.
+                        if (pgSz.Orient == null)
+                        {
+                            // Need to create the attribute. You do not need to 
+                            // create the Orient property if the property does not 
+                            // already exist, and you are setting it to Portrait. 
+                            // That is the default value.
+                            if (newOrientation != PageOrientationValues.Portrait)
+                            {
+                                pageOrientationChanged = true;
+                                documentChanged = true;
+                                pgSz.Orient = new EnumValue<PageOrientationValues>(newOrientation);
+                            }
+                        }
+                        else
+                        {
+                            // The Orient property exists, but its value
+                            // is different than the new value.
+                            if (pgSz.Orient.Value != newOrientation)
+                            {
+                                pgSz.Orient.Value = newOrientation;
+                                pageOrientationChanged = true;
+                                documentChanged = true;
+                            }
+                        }
+
+                        if (pageOrientationChanged)
+                        {
+                            // Changing the orientation is not enough. You must also 
+                            // change the page size.
+                            var width = pgSz.Width;
+                            var height = pgSz.Height;
+                            pgSz.Width = height;
+                            pgSz.Height = width;
+
+                            PageMargin pgMar = sectPr.Descendants<PageMargin>().FirstOrDefault();
+                            if (pgMar != null)
+                            {
+                                // Rotate margins. Printer settings control how far you 
+                                // rotate when switching to landscape mode. Not having those
+                                // settings, this code rotates 90 degrees. You could easily
+                                // modify this behavior, or make it a parameter for the 
+                                // procedure.
+                                var top = pgMar.Top.Value;
+                                var bottom = pgMar.Bottom.Value;
+                                var left = pgMar.Left.Value;
+                                var right = pgMar.Right.Value;
+
+                                pgMar.Top = new Int32Value((int)left);
+                                pgMar.Bottom = new Int32Value((int)right);
+                                pgMar.Left = new UInt32Value((uint)System.Math.Max(0, bottom));
+                                pgMar.Right = new UInt32Value((uint)System.Math.Max(0, top));
+                            }
+                        }
+                    }
+                }
+                if (documentChanged)
+                {
+                    docPart.Document.Save();
                 }
             }
         }

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnFixCorruptDocument = new System.Windows.Forms.Button();
             this.BtnConvertDocmToDocx = new System.Windows.Forms.Button();
             this.BtnViewCustomDocProps = new System.Windows.Forms.Button();
             this.BtnSearchAndReplace = new System.Windows.Forms.Button();
@@ -87,7 +88,6 @@
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
-            this.BtnFixCorruptDocument = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -127,6 +127,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
             // 
+            // BtnFixCorruptDocument
+            // 
+            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(244, 252);
+            this.BtnFixCorruptDocument.Name = "BtnFixCorruptDocument";
+            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(140, 23);
+            this.BtnFixCorruptDocument.TabIndex = 8;
+            this.BtnFixCorruptDocument.Text = "Fix Corrupt Document";
+            this.BtnFixCorruptDocument.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptDocument.Click += new System.EventHandler(this.BtnFixCorruptDocument_Click);
+            // 
             // BtnConvertDocmToDocx
             // 
             this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(244, 224);
@@ -151,10 +161,10 @@
             // 
             // BtnSearchAndReplace
             // 
-            this.BtnSearchAndReplace.Location = new System.Drawing.Point(244, 193);
+            this.BtnSearchAndReplace.Location = new System.Drawing.Point(6, 253);
             this.BtnSearchAndReplace.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSearchAndReplace.Name = "BtnSearchAndReplace";
-            this.BtnSearchAndReplace.Size = new System.Drawing.Size(140, 23);
+            this.BtnSearchAndReplace.Size = new System.Drawing.Size(120, 23);
             this.BtnSearchAndReplace.TabIndex = 6;
             this.BtnSearchAndReplace.Text = "Search and Replace";
             this.BtnSearchAndReplace.UseVisualStyleBackColor = true;
@@ -162,10 +172,10 @@
             // 
             // BtnListAuthors
             // 
-            this.BtnListAuthors.Location = new System.Drawing.Point(244, 107);
+            this.BtnListAuthors.Location = new System.Drawing.Point(130, 20);
             this.BtnListAuthors.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListAuthors.Name = "BtnListAuthors";
-            this.BtnListAuthors.Size = new System.Drawing.Size(140, 23);
+            this.BtnListAuthors.Size = new System.Drawing.Size(110, 23);
             this.BtnListAuthors.TabIndex = 20;
             this.BtnListAuthors.Text = "List Authors";
             this.BtnListAuthors.UseVisualStyleBackColor = true;
@@ -173,10 +183,10 @@
             // 
             // BtnListRevisions
             // 
-            this.BtnListRevisions.Location = new System.Drawing.Point(244, 136);
+            this.BtnListRevisions.Location = new System.Drawing.Point(130, 49);
             this.BtnListRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListRevisions.Name = "BtnListRevisions";
-            this.BtnListRevisions.Size = new System.Drawing.Size(140, 23);
+            this.BtnListRevisions.Size = new System.Drawing.Size(110, 23);
             this.BtnListRevisions.TabIndex = 5;
             this.BtnListRevisions.Text = "List Revisions";
             this.BtnListRevisions.UseVisualStyleBackColor = true;
@@ -184,10 +194,10 @@
             // 
             // BtnDeleteEndnotes
             // 
-            this.BtnDeleteEndnotes.Location = new System.Drawing.Point(132, 107);
+            this.BtnDeleteEndnotes.Location = new System.Drawing.Point(244, 193);
             this.BtnDeleteEndnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteEndnotes.Name = "BtnDeleteEndnotes";
-            this.BtnDeleteEndnotes.Size = new System.Drawing.Size(106, 23);
+            this.BtnDeleteEndnotes.Size = new System.Drawing.Size(140, 23);
             this.BtnDeleteEndnotes.TabIndex = 19;
             this.BtnDeleteEndnotes.Text = "Delete Endnotes";
             this.BtnDeleteEndnotes.UseVisualStyleBackColor = true;
@@ -195,10 +205,10 @@
             // 
             // BtnDeleteFootnotes
             // 
-            this.BtnDeleteFootnotes.Location = new System.Drawing.Point(132, 76);
+            this.BtnDeleteFootnotes.Location = new System.Drawing.Point(244, 164);
             this.BtnDeleteFootnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteFootnotes.Name = "BtnDeleteFootnotes";
-            this.BtnDeleteFootnotes.Size = new System.Drawing.Size(106, 23);
+            this.BtnDeleteFootnotes.Size = new System.Drawing.Size(140, 23);
             this.BtnDeleteFootnotes.TabIndex = 5;
             this.BtnDeleteFootnotes.Text = "Delete Footnotes";
             this.BtnDeleteFootnotes.UseVisualStyleBackColor = true;
@@ -272,10 +282,10 @@
             // 
             // BtnDeleteHiddenText
             // 
-            this.BtnDeleteHiddenText.Location = new System.Drawing.Point(132, 49);
+            this.BtnDeleteHiddenText.Location = new System.Drawing.Point(244, 135);
             this.BtnDeleteHiddenText.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteHiddenText.Name = "BtnDeleteHiddenText";
-            this.BtnDeleteHiddenText.Size = new System.Drawing.Size(106, 23);
+            this.BtnDeleteHiddenText.Size = new System.Drawing.Size(140, 23);
             this.BtnDeleteHiddenText.TabIndex = 11;
             this.BtnDeleteHiddenText.Text = "Delete Hidden Text";
             this.BtnDeleteHiddenText.UseVisualStyleBackColor = true;
@@ -283,10 +293,10 @@
             // 
             // BtnDeleteComments
             // 
-            this.BtnDeleteComments.Location = new System.Drawing.Point(132, 20);
+            this.BtnDeleteComments.Location = new System.Drawing.Point(244, 107);
             this.BtnDeleteComments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteComments.Name = "BtnDeleteComments";
-            this.BtnDeleteComments.Size = new System.Drawing.Size(106, 23);
+            this.BtnDeleteComments.Size = new System.Drawing.Size(140, 23);
             this.BtnDeleteComments.TabIndex = 10;
             this.BtnDeleteComments.Text = "Delete Comments";
             this.BtnDeleteComments.UseVisualStyleBackColor = true;
@@ -294,10 +304,10 @@
             // 
             // BtnAcceptRevisions
             // 
-            this.BtnAcceptRevisions.Location = new System.Drawing.Point(244, 164);
+            this.BtnAcceptRevisions.Location = new System.Drawing.Point(130, 78);
             this.BtnAcceptRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnAcceptRevisions.Name = "BtnAcceptRevisions";
-            this.BtnAcceptRevisions.Size = new System.Drawing.Size(140, 23);
+            this.BtnAcceptRevisions.Size = new System.Drawing.Size(110, 23);
             this.BtnAcceptRevisions.TabIndex = 9;
             this.BtnAcceptRevisions.Text = "Accept Revisions";
             this.BtnAcceptRevisions.UseVisualStyleBackColor = true;
@@ -753,16 +763,6 @@
             this.BtnListWSInfo.Text = "List Worksheet Info";
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
-            // 
-            // BtnFixCorruptDocument
-            // 
-            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(244, 252);
-            this.BtnFixCorruptDocument.Name = "BtnFixCorruptDocument";
-            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(140, 23);
-            this.BtnFixCorruptDocument.TabIndex = 8;
-            this.BtnFixCorruptDocument.Text = "Fix Corrupt Document";
-            this.BtnFixCorruptDocument.UseVisualStyleBackColor = true;
-            this.BtnFixCorruptDocument.Click += new System.EventHandler(this.BtnFixCorruptDocument_Click);
             // 
             // FrmMain
             // 
