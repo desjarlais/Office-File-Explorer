@@ -97,6 +97,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnFixCorruptDocument);
             this.groupBox1.Controls.Add(this.BtnConvertDocmToDocx);
             this.groupBox1.Controls.Add(this.BtnViewCustomDocProps);
             this.groupBox1.Controls.Add(this.BtnSearchAndReplace);
@@ -129,7 +130,7 @@
             // BtnConvertDocmToDocx
             // 
             this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(244, 224);
-            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(140, 24);
             this.BtnConvertDocmToDocx.TabIndex = 17;
@@ -396,7 +397,7 @@
             // BtnListCellValuesDOM
             // 
             this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 238);
-            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
             this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
             this.BtnListCellValuesDOM.TabIndex = 26;
@@ -407,7 +408,7 @@
             // BtnListCellValuesSAX
             // 
             this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 211);
-            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
             this.BtnListCellValuesSAX.TabIndex = 25;
@@ -440,7 +441,7 @@
             // BtnListSharedStrings
             // 
             this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 186);
-            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -451,7 +452,7 @@
             // BtnListHiddenWorksheets
             // 
             this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(6, 157);
-            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
             this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(130, 25);
             this.BtnListHiddenWorksheets.TabIndex = 23;
@@ -462,7 +463,7 @@
             // BtnListWorksheets
             // 
             this.BtnListWorksheets.Location = new System.Drawing.Point(6, 73);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(130, 23);
             this.BtnListWorksheets.TabIndex = 7;
@@ -473,7 +474,7 @@
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
-            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 24);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -484,7 +485,7 @@
             // BtnListDefinedNames
             // 
             this.BtnListDefinedNames.Location = new System.Drawing.Point(142, 103);
-            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(117, 21);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -544,7 +545,7 @@
             // BtnListSlideText
             // 
             this.BtnListSlideText.Location = new System.Drawing.Point(6, 103);
-            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSlideText.Name = "BtnListSlideText";
             this.BtnListSlideText.Size = new System.Drawing.Size(94, 21);
             this.BtnListSlideText.TabIndex = 21;
@@ -555,7 +556,7 @@
             // BtnViewPPTComments
             // 
             this.BtnViewPPTComments.Location = new System.Drawing.Point(6, 75);
-            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnViewPPTComments.Name = "BtnViewPPTComments";
             this.BtnViewPPTComments.Size = new System.Drawing.Size(94, 24);
             this.BtnViewPPTComments.TabIndex = 23;
@@ -734,7 +735,7 @@
             // BtnErrorLog
             // 
             this.BtnErrorLog.Location = new System.Drawing.Point(714, 660);
-            this.BtnErrorLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnErrorLog.Margin = new System.Windows.Forms.Padding(2);
             this.BtnErrorLog.Name = "BtnErrorLog";
             this.BtnErrorLog.Size = new System.Drawing.Size(88, 23);
             this.BtnErrorLog.TabIndex = 6;
@@ -745,7 +746,7 @@
             // BtnListWSInfo
             // 
             this.BtnListWSInfo.Location = new System.Drawing.Point(552, 126);
-            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(117, 23);
             this.BtnListWSInfo.TabIndex = 7;
@@ -755,9 +756,9 @@
             // 
             // BtnFixCorruptDocument
             // 
-            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(576, 660);
+            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(244, 252);
             this.BtnFixCorruptDocument.Name = "BtnFixCorruptDocument";
-            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(133, 23);
+            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(140, 23);
             this.BtnFixCorruptDocument.TabIndex = 8;
             this.BtnFixCorruptDocument.Text = "Fix Corrupt Document";
             this.BtnFixCorruptDocument.UseVisualStyleBackColor = true;
@@ -770,7 +771,6 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(926, 690);
-            this.Controls.Add(this.BtnFixCorruptDocument);
             this.Controls.Add(this.BtnErrorLog);
             this.Controls.Add(this.BtnListWSInfo);
             this.Controls.Add(this.BtnCopyOutput);
