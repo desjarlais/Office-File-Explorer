@@ -1415,7 +1415,6 @@ namespace Office_File_Explorer
                                         if (xe.Attributes.Count > 1)
                                         {
                                             sb.Append(xe.Name + _semiColon);
-                                            //LstDisplay.Items.Add(xe.LocalName);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
                                                 if (!(xa.LocalName == "w" || xa.LocalName == "m" || xa.LocalName == "w14" || xa.LocalName == "w15" || xa.LocalName == "w16"))
@@ -1425,12 +1424,10 @@ namespace Office_File_Explorer
                                                         if (xa.LocalName == "val")
                                                         {
                                                             sb.Append(xa.Value);
-                                                            //LstDisplay.Items.Add("-- " + xa.Value);
                                                         }
                                                         else
                                                         {
                                                             sb.Append(_semiColon + xa.LocalName + _semiColon + xa.Value);
-                                                            //LstDisplay.Items.Add("-- " + xa.LocalName + _semiColon + xa.Value);
                                                         }
                                                     }
                                                 }
@@ -1480,6 +1477,13 @@ namespace Office_File_Explorer
             LstDisplay.Items.Add("Revision : " + props.Revision);
             LstDisplay.Items.Add("Title : " + props.Title);
             LstDisplay.Items.Add("Version : " + props.Version);
+            LstDisplay.Items.Add("Category : " + props.Category);
+            LstDisplay.Items.Add("ContentStatus : " + props.ContentStatus);
+            LstDisplay.Items.Add("ContentType : " + props.ContentType);
+            LstDisplay.Items.Add("Description : " + props.Description);
+            LstDisplay.Items.Add("Language : " + props.Language);
+            LstDisplay.Items.Add("Identifier : " + props.Identifier);
+            LstDisplay.Items.Add("Keywords : " + props.Keywords);
             LstDisplay.Items.Add("");
         }
 
