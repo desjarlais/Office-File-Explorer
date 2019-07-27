@@ -68,6 +68,8 @@ namespace Office_File_Explorer
         const string _noOLE = "** This document does not contain OLE objects **";
         const string TxtFallbackStart = "<mc:Fallback>";
         const string TxtFallbackEnd = "</mc:Fallback>";
+        const string _semiColon = ": ";
+        const string _docSecurity = "DocSecurity";
         const string _word = "Word";
         const string _excel = "Excel";
         const string _powerpoint = "PowerPoint";
@@ -1397,20 +1399,23 @@ namespace Office_File_Explorer
                                     LstDisplay.Items.Add("---- Compatibility Settings ---- ");
                                     foreach (CompatibilitySetting compat in setting)
                                     {
-                                        LstDisplay.Items.Add("   - " + compat.Name + ": " + compat.Val);
+                                        LstDisplay.Items.Add(_semiColon + compat.Name + _semiColon + compat.Val);
                                     }
                                     LstDisplay.Items.Add("");
                                 }
                                 else
                                 {
+                                    StringBuilder sb = new StringBuilder();
                                     XmlDocument xDoc = new XmlDocument();
                                     xDoc.LoadXml(setting.OuterXml);
 
                                     foreach (XmlElement xe in xDoc.ChildNodes)
                                     {
+                                        sb.Clear();
                                         if (xe.Attributes.Count > 1)
                                         {
-                                            LstDisplay.Items.Add(xe.LocalName);
+                                            sb.Append(xe.Name + _semiColon);
+                                            //LstDisplay.Items.Add(xe.LocalName);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
                                                 if (!(xa.LocalName == "w" || xa.LocalName == "m" || xa.LocalName == "w14" || xa.LocalName == "w15" || xa.LocalName == "w16"))
@@ -1419,15 +1424,23 @@ namespace Office_File_Explorer
                                                     {
                                                         if (xa.LocalName == "val")
                                                         {
-                                                            LstDisplay.Items.Add("-- " + xa.Value);
+                                                            sb.Append(xa.Value);
+                                                            //LstDisplay.Items.Add("-- " + xa.Value);
                                                         }
                                                         else
                                                         {
-                                                            LstDisplay.Items.Add("-- " + xa.LocalName + ": " + xa.Value);
+                                                            sb.Append(_semiColon + xa.LocalName + _semiColon + xa.Value);
+                                                            //LstDisplay.Items.Add("-- " + xa.LocalName + _semiColon + xa.Value);
                                                         }
                                                     }
                                                 }
                                             }
+
+                                            LstDisplay.Items.Add(sb);
+                                        }
+                                        else
+                                        {
+                                            LstDisplay.Items.Add(xe.Name);
                                         }
                                     }
                                 }
@@ -1497,7 +1510,33 @@ namespace Office_File_Explorer
 
         public void DisplayElementDetails(XmlElement elem)
         {
-            LstDisplay.Items.Add(elem.Name + " : " + elem.InnerText);
+            if (elem.Name == _docSecurity)
+            {
+                switch (elem.InnerText)
+                {
+                    case "0":
+                        LstDisplay.Items.Add(_docSecurity + _semiColon + "None");
+                        break;
+                    case "1":
+                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Password Protected");
+                        break;
+                    case "2":
+                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Read-Only Recommended");
+                        break;
+                    case "4":
+                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Read-Only Enforced");
+                        break;
+                    case "8":
+                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Locked For Annotation");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                LstDisplay.Items.Add(elem.Name + " : " + elem.InnerText);
+            }
         }
 
         private void MnuAbout_Click(object sender, EventArgs e)
