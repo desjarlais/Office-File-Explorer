@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Office File Explorer")]
-[assembly: AssemblyDescription("This application is useful for analyzing Office documents.")]
+[assembly: AssemblyDescription("This application is useful for analyzing Office Oxml documents.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BrandeSoft")]
 [assembly: AssemblyProduct("Office File Explorer")]

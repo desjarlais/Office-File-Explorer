@@ -70,9 +70,9 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(160, 97);
+            this.BtnCancel.Location = new System.Drawing.Point(173, 97);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancel.Size = new System.Drawing.Size(63, 23);
             this.BtnCancel.TabIndex = 2;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -80,9 +80,9 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(90, 97);
+            this.BtnOK.Location = new System.Drawing.Point(108, 97);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(65, 23);
+            this.BtnOK.Size = new System.Drawing.Size(60, 23);
             this.BtnOK.TabIndex = 3;
             this.BtnOK.Text = "Ok";
             this.BtnOK.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(254, 132);
+            this.ClientSize = new System.Drawing.Size(248, 127);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnCancel);
@@ -101,7 +101,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
