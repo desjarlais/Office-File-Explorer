@@ -1591,10 +1591,10 @@ namespace Office_File_Explorer
 
         public bool IsZipArchiveFile(string filePath)
         {
-            byte[] buffer = new byte[32];
+            byte[] buffer = new byte[2];
             try
             {
-                // open the file and populate the first 32 bytes in the buffer
+                // open the file and populate the first 2 bytes into the buffer
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     fs.Read(buffer, 0, buffer.Length);
