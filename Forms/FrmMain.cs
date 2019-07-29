@@ -1261,7 +1261,7 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = "";
 
-                    Forms.FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
+                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
                     {
                         Owner = this
                     };
@@ -1571,12 +1571,55 @@ namespace Office_File_Explorer
                 else
                 {
                     LstDisplay.Items.Clear();
-                    OpenWithSdk(TxtFileName.Text, true);   
+                    if (!IsZipArchiveFile(TxtFileName.Text))
+                    {
+                        LstDisplay.Items.Add("** File is not a valid Open Xml Document **");
+                        return;
+                    }
+                    else
+                    {
+                        OpenWithSdk(TxtFileName.Text, true);
+                    }
                 }
             }
             else
             {
+                // user cancelled dialog, just return
                 return;
+            }
+        }
+
+        public bool IsZipArchiveFile(string filePath)
+        {
+            byte[] buffer = new byte[32];
+            try
+            {
+                // open the file and populate the first 32 bytes in the buffer
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    fs.Read(buffer, 0, buffer.Length);
+                    fs.Close();
+                }
+                
+                // if the buffer starts with PK the file is a zip archive
+                if (buffer[0].ToString() == "80" && buffer[1].ToString() == "75")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (UnauthorizedAccessException uae)
+            {
+                LoggingHelper.Log(uae.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log(ex.Message);
+                return false;
             }
         }
 
