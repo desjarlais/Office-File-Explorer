@@ -88,6 +88,8 @@
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
+            this.BtnListConnections = new System.Windows.Forms.Button();
+            this.BtnListCustomProps = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -383,6 +385,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnListConnections);
             this.groupBox2.Controls.Add(this.BtnListCellValuesDOM);
             this.groupBox2.Controls.Add(this.BtnListCellValuesSAX);
             this.groupBox2.Controls.Add(this.BtnDeleteComment);
@@ -598,6 +601,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnListCustomProps);
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnRemovePII);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
@@ -764,6 +768,26 @@
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
             // 
+            // BtnListConnections
+            // 
+            this.BtnListConnections.Location = new System.Drawing.Point(142, 129);
+            this.BtnListConnections.Name = "BtnListConnections";
+            this.BtnListConnections.Size = new System.Drawing.Size(116, 23);
+            this.BtnListConnections.TabIndex = 8;
+            this.BtnListConnections.Text = "List Connections";
+            this.BtnListConnections.UseVisualStyleBackColor = true;
+            this.BtnListConnections.Click += new System.EventHandler(this.BtnListConnections_Click);
+            // 
+            // BtnListCustomProps
+            // 
+            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 135);
+            this.BtnListCustomProps.Name = "BtnListCustomProps";
+            this.BtnListCustomProps.Size = new System.Drawing.Size(114, 23);
+            this.BtnListCustomProps.TabIndex = 21;
+            this.BtnListCustomProps.Text = "List Custom Props";
+            this.BtnListCustomProps.UseVisualStyleBackColor = true;
+            this.BtnListCustomProps.Click += new System.EventHandler(this.BtnListCustomProps_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -862,6 +886,8 @@
         private System.Windows.Forms.Button BtnListSlideText;
         private System.Windows.Forms.Button BtnFixCorruptDocument;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.Button BtnListConnections;
+        private System.Windows.Forms.Button BtnListCustomProps;
     }
 }
 

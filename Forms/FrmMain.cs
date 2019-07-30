@@ -43,6 +43,8 @@ using System.Xml;
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Diagnostics;
+using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.VariantTypes;
 
 namespace Office_File_Explorer
 {
@@ -119,6 +121,9 @@ namespace Office_File_Explorer
         }
         #endregion
 
+        /// <summary>
+        /// Disable all buttons on the form and reset file type
+        /// </summary>
         public void DisableButtons()
         {
             fileType = "";
@@ -165,6 +170,8 @@ namespace Office_File_Explorer
             BtnConvertDocmToDocx.Enabled = false;
             BtnListSlideText.Enabled = false;
             BtnFixCorruptDocument.Enabled = false;
+            BtnListConnections.Enabled = false;
+            BtnListCustomProps.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -258,6 +265,7 @@ namespace Office_File_Explorer
                 BtnListWSInfo.Enabled = true;
                 BtnListCellValuesSAX.Enabled = true;
                 BtnListCellValuesDOM.Enabled = true;
+                BtnListConnections.Enabled = true;
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
@@ -287,6 +295,7 @@ namespace Office_File_Explorer
             BtnValidateFile.Enabled = true;
             BtnChangeTheme.Enabled = true;
             BtnListOle.Enabled = true;
+            BtnListCustomProps.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -1471,7 +1480,7 @@ namespace Office_File_Explorer
             }
         }
 
-        public void GetStandardFileProps(System.IO.Packaging.PackageProperties props)
+        public void GetStandardFileProps(PackageProperties props)
         {
             // Display file package props
             LstDisplay.Items.Add("---- Document Properties ----");
@@ -2777,6 +2786,102 @@ namespace Office_File_Explorer
         {
             FrmSettings form = new FrmSettings();
             form.Show();
+        }
+
+        private void BtnListConnections_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                LstDisplay.Items.Clear();
+                
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                    WorkbookPart wbPart = excelDoc.WorkbookPart;
+                    ConnectionsPart cPart = wbPart.ConnectionsPart;
+                    int cCount = 0;
+
+                    foreach (Connection c in cPart.Connections)
+                    {
+                        cCount++;
+                        string cn = c.DatabaseProperties.Connection;
+                        string[] cArray = cn.Split(';');
+
+                        LstDisplay.Items.Add(cCount + ". Connection= " + c.Name);
+                        foreach (var s in cArray)
+                        {
+                            LstDisplay.Items.Add("   " + s);
+                        }
+                        LstDisplay.Items.Add("   Connection File= " + c.ConnectionFile);
+                        LstDisplay.Items.Add("   Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.TextOnly, ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnListCustomProps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // if the file is opened by the SDK, we can proceed with opening in tool
+                Cursor = Cursors.WaitCursor;
+
+                if (fileType == _word)
+                {
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
+                    {
+                        CustomFilePropertiesPart cfp = document.CustomFilePropertiesPart;
+                        
+                    }
+                }
+                else if (fileType == _excel)
+                {
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
+                    {
+                        foreach (var v in cfpList(document.CustomFilePropertiesPart))
+                        {
+                            LstDisplay.Items.Add(v);
+                        }
+                    }
+                }
+                else if (fileType == _powerpoint)
+                {
+                    using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public List<string> cfpList(CustomFilePropertiesPart part)
+        {
+            List<string> val = new List<string>();
+            foreach (CustomDocumentProperty cdp in part.RootElement)
+            {
+                val.Add(cdp.Name + " = " + cdp.VTLPWSTR.InnerText);
+            }
+            return val;
         }
     }
 }
