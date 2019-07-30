@@ -2838,25 +2838,21 @@ namespace Office_File_Explorer
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
-                        CustomFilePropertiesPart cfp = document.CustomFilePropertiesPart;
-                        
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
                 else if (fileType == _excel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
                     {
-                        foreach (var v in cfpList(document.CustomFilePropertiesPart))
-                        {
-                            LstDisplay.Items.Add(v);
-                        }
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
                 else if (fileType == _powerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
                     {
-                        
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
                 else
@@ -2871,6 +2867,14 @@ namespace Office_File_Explorer
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        public void AddCustomDocPropsToList(CustomFilePropertiesPart cfp)
+        {
+            foreach (var v in cfpList(cfp))
+            {
+                LstDisplay.Items.Add(v);
             }
         }
 
