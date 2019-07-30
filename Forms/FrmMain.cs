@@ -71,6 +71,10 @@ namespace Office_File_Explorer
         const string _noOLE = "** This document does not contain OLE objects **";
         const string TxtFallbackStart = "<mc:Fallback>";
         const string TxtFallbackEnd = "</mc:Fallback>";
+        const string _invalidTag = "Invalid Tag: ";
+        const string _replacedWith = "Replaced With: ";
+        const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
+        const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         const string _semiColon = ": ";
         const string _docSecurity = "DocSecurity";
         const string _word = "Word";
@@ -363,7 +367,7 @@ namespace Office_File_Explorer
                     {
                         foreach (OpenXmlElement el in stylePart.Styles.LatentStyles.Elements())
                         {
-                            string styleEl = el.GetAttribute("name", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
+                            string styleEl = el.GetAttribute("name", _wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
                             int rStyle = WordExtensionClass.RunsByStyleName(mainPart, styleEl).Count();
                             int tStyle = WordExtensionClass.TablesByStyleName(mainPart, styleEl).Count();
@@ -503,7 +507,7 @@ namespace Office_File_Explorer
                     {
                         try
                         {
-                            string styleEl = el.GetAttribute("styleId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
+                            string styleEl = el.GetAttribute("styleId", _wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
 
                             if (pStyle > 0)
@@ -542,7 +546,7 @@ namespace Office_File_Explorer
                     {
                         foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
                         {
-                            string strNumId = el.GetAttribute("numId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
+                            string strNumId = el.GetAttribute("numId", _wordMainAttributeNamespace).Value;
                             aNumIdList.Add(strNumId);
                             LstDisplay.Items.Add("numId = " + strNumId + " " + "AbstractNumId = " + aNumId.Val);
                         }
@@ -1601,7 +1605,6 @@ namespace Office_File_Explorer
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
                 }
                 
                 // if the buffer starts with PK the file is a zip archive
@@ -1676,7 +1679,6 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Add("Invalid File: File must be Word, PowerPoint or Excel.");
                     BtnFixCorruptDocument.Enabled = true;
                 }
-                
             }
             catch (Exception ex)
             {
@@ -2379,22 +2381,36 @@ namespace Office_File_Explorer
 
         private void BtnListSlideText_Click(object sender, EventArgs e)
         {
-            string sldText;
-            int sCount = PowerPointOpenXml.CountSlides(TxtFileName.Text);
-            if (sCount > 0)
+            try
             {
-                int count = 0;
+                Cursor = Cursors.WaitCursor;
 
-                do
+                string sldText;
+                int sCount = PowerPointOpenXml.CountSlides(TxtFileName.Text);
+                if (sCount > 0)
                 {
-                    PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
-                    LstDisplay.Items.Add("Slide " + (count + 1) + ". " + sldText);
-                    count++;
-                } while (count < sCount);
+                    int count = 0;
+
+                    do
+                    {
+                        PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
+                        LstDisplay.Items.Add("Slide " + (count + 1) + ". " + sldText);
+                        count++;
+                    } while (count < sCount);
+                }
+                else
+                {
+                    LstDisplay.Items.Add("Presentation contains no slides.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LstDisplay.Items.Add("Presentation contains no slides.");
+                LoggingHelper.Log("BtnListSlideText Error:");
+                LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -2403,6 +2419,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
@@ -2467,28 +2484,28 @@ namespace Office_File_Explorer
                                                         break;
                                                     case InvalidXmlTags.StrInvalidVshape:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshape);
-                                                        LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                        LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidVshape);
-                                                        break;
+                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                    LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidVshape);
+                                                    break;
                                                     case InvalidXmlTags.StrInvalidOmathWps:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwps);
-                                                        LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                        LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidomathwps);
+                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwps);
                                                         break;
                                                     case InvalidXmlTags.StrInvalidOmathWpg:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpg);
-                                                        LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                        LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidomathwpg);
+                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpg);
                                                         break;
                                                     case InvalidXmlTags.StrInvalidOmathWpc:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpc);
-                                                        LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                        LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidomathwpc);
+                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpc);
                                                         break;
                                                     case InvalidXmlTags.StrInvalidOmathWpi:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpi);
-                                                        LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                        LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidomathwpi);
+                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpi);
                                                         break;
                                                     default:
                                                         // default catch for "strInvalidmcChoiceRegEx" and "strInvalidFallbackRegEx"
@@ -2502,15 +2519,15 @@ namespace Office_File_Explorer
                                                                 // secondary check for a fallback that has an attribute.
                                                                 // we don't allow attributes in a fallback
                                                                 strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidMcChoice4);
-                                                                LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                                LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidMcChoice4);
+                                                                LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                                LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidMcChoice4);
                                                                 break;
                                                             }
 
                                                             // replace mc:choice and hold onto the tag that follows
                                                             strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
-                                                            LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                            LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
+                                                            LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
                                                             break;
                                                         }
                                                         // the second if <w:pict/> is to catch and replace the invalid mc:Fallback tags
@@ -2521,16 +2538,16 @@ namespace Office_File_Explorer
                                                                 // if the match contains the closing fallback we just need to remove the entire fallback
                                                                 // this will leave the closing AC and Run tags, which should be correct
                                                                 strDocText = strDocText.Replace(m.Value, "");
-                                                                LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                                LstDisplay.Items.Add("Replaced With: " + "Fallback tag deleted.");
+                                                                LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                                LstDisplay.Items.Add(_replacedWith + "Fallback tag deleted.");
                                                                 break;
                                                             }
 
                                                             // if there is no closing fallback tag, we can replace the match with the omitFallback valid tags
                                                             // then we need to also add the trailing tag, since it's always different but needs to stay in the file
                                                             strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
-                                                            LstDisplay.Items.Add("Invalid Tag: " + m.Value);
-                                                            LstDisplay.Items.Add("Replaced With: " + ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
+                                                            LstDisplay.Items.Add(_invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
                                                             break;
                                                         }
                                                         else
@@ -2629,12 +2646,12 @@ namespace Office_File_Explorer
             }
             catch (IOException)
             {
-                LstDisplay.Items.Add("ERROR: Unable to fix document.");
+                LstDisplay.Items.Add(_errorUnableToFixDocument);
             }
             catch (FileFormatException ffe)
             {
                 // list out the possible reasons for this type of exception
-                LstDisplay.Items.Add("ERROR: Unable to fix document.");
+                LstDisplay.Items.Add(_errorUnableToFixDocument);
                 LstDisplay.Items.Add("   Possible Causes:");
                 LstDisplay.Items.Add("      - File may be password protected");
                 LstDisplay.Items.Add("      - File was renamed to the .docx extension, but is not an actual .docx file");
@@ -2642,7 +2659,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("ERROR: Unable to fix document. " + ex.Message);
+                LstDisplay.Items.Add(_errorUnableToFixDocument + ex.Message);
             }
             finally
             {
@@ -2673,6 +2690,7 @@ namespace Office_File_Explorer
                 StrExtension = string.Empty;
                 StrDestFileName = string.Empty;
                 PrevChar = '<';
+
                 Cursor = Cursors.Default;
             }
         }
