@@ -76,6 +76,7 @@ namespace Office_File_Explorer
         const string _invalidTag = "Invalid Tag: ";
         const string _replacedWith = "Replaced With: ";
         const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
+        const string _errorText = "Error: ";
         const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         const string _semiColon = ": ";
         const string _docSecurity = "DocSecurity";
@@ -1922,6 +1923,7 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 // log the error 
+                LstDisplay.Items.Add(_errorText + ex.Message);
                 LoggingHelper.Log("BtnListLinks_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -2810,10 +2812,11 @@ namespace Office_File_Explorer
                         LstDisplay.Items.Add(cCount + ". Connection= " + c.Name);
                         foreach (var s in cArray)
                         {
-                            LstDisplay.Items.Add("   " + s);
+                            LstDisplay.Items.Add("    " + s);
                         }
-                        LstDisplay.Items.Add("   Connection File= " + c.ConnectionFile);
-                        LstDisplay.Items.Add("   Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                        LstDisplay.Items.Add("");
+                        LstDisplay.Items.Add("    Connection File= " + c.ConnectionFile);
+                        LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
                     }
                 }
             }
