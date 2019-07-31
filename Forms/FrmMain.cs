@@ -2801,6 +2801,13 @@ namespace Office_File_Explorer
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     ConnectionsPart cPart = wbPart.ConnectionsPart;
+
+                    if (cPart == null)
+                    {
+                        LstDisplay.Items.Add("** There are no connections in this file **");
+                        return;
+                    }
+
                     int cCount = 0;
 
                     foreach (Connection c in cPart.Connections)
@@ -2836,6 +2843,7 @@ namespace Office_File_Explorer
             {
                 // if the file is opened by the SDK, we can proceed with opening in tool
                 Cursor = Cursors.WaitCursor;
+                LstDisplay.Items.Clear();
 
                 if (fileType == _word)
                 {
@@ -2875,6 +2883,12 @@ namespace Office_File_Explorer
 
         public void AddCustomDocPropsToList(CustomFilePropertiesPart cfp)
         {
+            if (cfp == null)
+            {
+                LstDisplay.Items.Add("** There are no custom file properties in this file **");
+                return;
+            }
+
             foreach (var v in cfpList(cfp))
             {
                 LstDisplay.Items.Add(v);
