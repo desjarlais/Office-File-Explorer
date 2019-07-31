@@ -8,6 +8,9 @@ using System.Text;
 using System.Linq;
 using System.IO;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.VariantTypes;
+using System.Windows.Forms;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {

@@ -173,6 +173,8 @@ namespace Office_File_Explorer
             BtnFixCorruptDocument.Enabled = false;
             BtnListConnections.Enabled = false;
             BtnListCustomProps.Enabled = false;
+            BtnSetCustomProps.Enabled = false;
+            BtnSetPrintOrientation.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -242,6 +244,7 @@ namespace Office_File_Explorer
                 BtnListTemplates.Enabled = true;
                 BtnSearchAndReplace.Enabled = true;
                 BtnViewCustomDocProps.Enabled = true;
+                BtnSetPrintOrientation.Enabled = true;
 
                 if (GetFileFormat() == OxmlFileFormat.Docm)
                 {
@@ -297,6 +300,7 @@ namespace Office_File_Explorer
             BtnChangeTheme.Enabled = true;
             BtnListOle.Enabled = true;
             BtnListCustomProps.Enabled = true;
+            BtnSetCustomProps.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -1399,7 +1403,6 @@ namespace Office_File_Explorer
                 {
                     LstDisplay.Items.Clear();
                     DocumentSettingsPart docSettingsPart = doc.MainDocumentPart.DocumentSettingsPart;
-
                     GetStandardFileProps(doc.PackageProperties);
                     GetExtendedFileProps(doc.ExtendedFilePropertiesPart);
 
@@ -2900,9 +2903,23 @@ namespace Office_File_Explorer
             List<string> val = new List<string>();
             foreach (CustomDocumentProperty cdp in part.RootElement)
             {
-                val.Add(cdp.Name + " = " + cdp.VTLPWSTR.InnerText);
+                val.Add(cdp.Name + " = " + cdp.InnerText);
             }
             return val;
+        }
+
+        private void BtnSetCustomProps_Click(object sender, EventArgs e)
+        {
+            Forms.FrmCustomProperties cFrm = new FrmCustomProperties(TxtFileName.Text, fileType)
+            {
+                Owner = this
+            };
+            cFrm.ShowDialog();
+        }
+
+        private void BtnSetPrintOrientation_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

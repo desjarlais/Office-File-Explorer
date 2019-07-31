@@ -4,6 +4,10 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
 using System.IO;
 using DocumentFormat.OpenXml;
+using System;
+using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.VariantTypes;
+using System.Windows.Forms;
 
 namespace Office_File_Explorer.Excel_Helpers
 {

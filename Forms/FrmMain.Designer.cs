@@ -54,6 +54,7 @@
             this.BtnListOle = new System.Windows.Forms.Button();
             this.BtnRemovePII = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnListConnections = new System.Windows.Forms.Button();
             this.BtnListCellValuesDOM = new System.Windows.Forms.Button();
             this.BtnListCellValuesSAX = new System.Windows.Forms.Button();
             this.BtnDeleteComment = new System.Windows.Forms.Button();
@@ -72,6 +73,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnListCustomProps = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.BtnValidateFile = new System.Windows.Forms.Button();
             this.LstDisplay = new System.Windows.Forms.ListBox();
@@ -88,8 +90,8 @@
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnErrorLog = new System.Windows.Forms.Button();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
-            this.BtnListConnections = new System.Windows.Forms.Button();
-            this.BtnListCustomProps = new System.Windows.Forms.Button();
+            this.BtnSetCustomProps = new System.Windows.Forms.Button();
+            this.BtnSetPrintOrientation = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -99,6 +101,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnSetPrintOrientation);
             this.groupBox1.Controls.Add(this.BtnFixCorruptDocument);
             this.groupBox1.Controls.Add(this.BtnConvertDocmToDocx);
             this.groupBox1.Controls.Add(this.BtnViewCustomDocProps);
@@ -124,7 +127,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(394, 281);
+            this.groupBox1.Size = new System.Drawing.Size(394, 308);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
@@ -141,7 +144,7 @@
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(244, 224);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(244, 221);
             this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(140, 24);
@@ -402,10 +405,20 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox2.Size = new System.Drawing.Size(263, 281);
+            this.groupBox2.Size = new System.Drawing.Size(263, 308);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
+            // 
+            // BtnListConnections
+            // 
+            this.BtnListConnections.Location = new System.Drawing.Point(142, 129);
+            this.BtnListConnections.Name = "BtnListConnections";
+            this.BtnListConnections.Size = new System.Drawing.Size(116, 23);
+            this.BtnListConnections.TabIndex = 8;
+            this.BtnListConnections.Text = "List Connections";
+            this.BtnListConnections.UseVisualStyleBackColor = true;
+            this.BtnListConnections.Click += new System.EventHandler(this.BtnListConnections_Click);
             // 
             // BtnListCellValuesDOM
             // 
@@ -550,7 +563,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox3.Size = new System.Drawing.Size(106, 281);
+            this.groupBox3.Size = new System.Drawing.Size(106, 308);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
@@ -602,6 +615,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.BtnListCustomProps);
+            this.groupBox4.Controls.Add(this.BtnSetCustomProps);
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnRemovePII);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
@@ -610,10 +624,20 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox4.Size = new System.Drawing.Size(128, 281);
+            this.groupBox4.Size = new System.Drawing.Size(128, 308);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
+            // 
+            // BtnListCustomProps
+            // 
+            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 135);
+            this.BtnListCustomProps.Name = "BtnListCustomProps";
+            this.BtnListCustomProps.Size = new System.Drawing.Size(114, 23);
+            this.BtnListCustomProps.TabIndex = 21;
+            this.BtnListCustomProps.Text = "List Custom Props";
+            this.BtnListCustomProps.UseVisualStyleBackColor = true;
+            this.BtnListCustomProps.Click += new System.EventHandler(this.BtnListCustomProps_Click);
             // 
             // BtnChangeTheme
             // 
@@ -641,10 +665,10 @@
             // 
             this.LstDisplay.FormattingEnabled = true;
             this.LstDisplay.HorizontalScrollbar = true;
-            this.LstDisplay.Location = new System.Drawing.Point(12, 339);
+            this.LstDisplay.Location = new System.Drawing.Point(12, 365);
             this.LstDisplay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.LstDisplay.Name = "LstDisplay";
-            this.LstDisplay.Size = new System.Drawing.Size(896, 316);
+            this.LstDisplay.Size = new System.Drawing.Size(896, 329);
             this.LstDisplay.TabIndex = 0;
             // 
             // TxtFileName
@@ -668,7 +692,7 @@
             // 
             // BtnCopyOutput
             // 
-            this.BtnCopyOutput.Location = new System.Drawing.Point(806, 660);
+            this.BtnCopyOutput.Location = new System.Drawing.Point(806, 695);
             this.BtnCopyOutput.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnCopyOutput.Name = "BtnCopyOutput";
             this.BtnCopyOutput.Size = new System.Drawing.Size(102, 23);
@@ -748,7 +772,7 @@
             // 
             // BtnErrorLog
             // 
-            this.BtnErrorLog.Location = new System.Drawing.Point(714, 660);
+            this.BtnErrorLog.Location = new System.Drawing.Point(714, 695);
             this.BtnErrorLog.Margin = new System.Windows.Forms.Padding(2);
             this.BtnErrorLog.Name = "BtnErrorLog";
             this.BtnErrorLog.Size = new System.Drawing.Size(88, 23);
@@ -768,25 +792,25 @@
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
             // 
-            // BtnListConnections
+            // BtnSetCustomProps
             // 
-            this.BtnListConnections.Location = new System.Drawing.Point(142, 129);
-            this.BtnListConnections.Name = "BtnListConnections";
-            this.BtnListConnections.Size = new System.Drawing.Size(116, 23);
-            this.BtnListConnections.TabIndex = 8;
-            this.BtnListConnections.Text = "List Connections";
-            this.BtnListConnections.UseVisualStyleBackColor = true;
-            this.BtnListConnections.Click += new System.EventHandler(this.BtnListConnections_Click);
+            this.BtnSetCustomProps.Location = new System.Drawing.Point(6, 164);
+            this.BtnSetCustomProps.Name = "BtnSetCustomProps";
+            this.BtnSetCustomProps.Size = new System.Drawing.Size(114, 23);
+            this.BtnSetCustomProps.TabIndex = 8;
+            this.BtnSetCustomProps.Text = "Set Custom Props";
+            this.BtnSetCustomProps.UseVisualStyleBackColor = true;
+            this.BtnSetCustomProps.Click += new System.EventHandler(this.BtnSetCustomProps_Click);
             // 
-            // BtnListCustomProps
+            // BtnSetPrintOrientation
             // 
-            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 135);
-            this.BtnListCustomProps.Name = "BtnListCustomProps";
-            this.BtnListCustomProps.Size = new System.Drawing.Size(114, 23);
-            this.BtnListCustomProps.TabIndex = 21;
-            this.BtnListCustomProps.Text = "List Custom Props";
-            this.BtnListCustomProps.UseVisualStyleBackColor = true;
-            this.BtnListCustomProps.Click += new System.EventHandler(this.BtnListCustomProps_Click);
+            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(6, 279);
+            this.BtnSetPrintOrientation.Name = "BtnSetPrintOrientation";
+            this.BtnSetPrintOrientation.Size = new System.Drawing.Size(120, 23);
+            this.BtnSetPrintOrientation.TabIndex = 21;
+            this.BtnSetPrintOrientation.Text = "Set Print Orientation";
+            this.BtnSetPrintOrientation.UseVisualStyleBackColor = true;
+            this.BtnSetPrintOrientation.Click += new System.EventHandler(this.BtnSetPrintOrientation_Click);
             // 
             // FrmMain
             // 
@@ -794,7 +818,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(926, 690);
+            this.ClientSize = new System.Drawing.Size(926, 729);
             this.Controls.Add(this.BtnErrorLog);
             this.Controls.Add(this.BtnListWSInfo);
             this.Controls.Add(this.BtnCopyOutput);
@@ -888,6 +912,8 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.Button BtnListConnections;
         private System.Windows.Forms.Button BtnListCustomProps;
+        private System.Windows.Forms.Button BtnSetCustomProps;
+        private System.Windows.Forms.Button BtnSetPrintOrientation;
     }
 }
 

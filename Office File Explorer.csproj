@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App Helpers\LoggingHelper.cs" />
+    <Compile Include="App Helpers\OfficeHelpers.cs" />
     <Compile Include="Excel Helpers\ExcelOpenXml.cs" />
     <Compile Include="Forms\FrmAuthors.cs">
       <SubType>Form</SubType>
@@ -100,6 +101,12 @@
     </Compile>
     <Compile Include="Forms\FrmAbout.Designer.cs">
       <DependentUpon>FrmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCustomProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCustomProperties.Designer.cs">
+      <DependentUpon>FrmCustomProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmErrorLog.cs">
       <SubType>Form</SubType>
@@ -137,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmAbout.resx">
       <DependentUpon>FrmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCustomProperties.resx">
+      <DependentUpon>FrmCustomProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmErrorLog.resx">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
