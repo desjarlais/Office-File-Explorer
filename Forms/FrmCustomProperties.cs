@@ -2,9 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 using Office_File_Explorer.App_Helpers;
-using Office_File_Explorer.PowerPoint_Helpers;
-using Office_File_Explorer.Word_Helpers;
-using Office_File_Explorer.Excel_Helpers;
 
 namespace Office_File_Explorer.Forms
 {
