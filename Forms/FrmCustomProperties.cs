@@ -29,6 +29,7 @@ namespace Office_File_Explorer.Forms
             try
             {
                 bool value;
+                int num;
                 double number;
 
                 switch (CbType.SelectedItem)
@@ -51,17 +52,22 @@ namespace Office_File_Explorer.Forms
                     case "Date":
                         OfficeHelpers.SetCustomProperty(fName, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
                         break;
-                    case "Number":
-                        if (Double.TryParse(CbType.SelectedItem.ToString(), out number))
+                    case "Number":                       
+                        if (Int32.TryParse(TxtBoxNumber.Text, out num))
                         {
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.NumberDouble, fType);
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, num, OfficeHelpers.PropertyTypes.NumberInteger, fType);
+                        }
+                        else if (Double.TryParse(TxtBoxNumber.Text, out number))
+                        {
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, number, OfficeHelpers.PropertyTypes.NumberDouble, fType);
                         }
                         else
                         {
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.NumberInteger, fType);
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
                         }
                         break;
                     default:
+                        OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
                         break;
                 }
 
