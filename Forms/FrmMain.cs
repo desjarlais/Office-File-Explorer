@@ -2397,6 +2397,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                LstDisplay.Items.Clear();
 
                 string sldText;
                 int sCount = PowerPointOpenXml.CountSlides(TxtFileName.Text);
@@ -2902,7 +2903,7 @@ namespace Office_File_Explorer
             List<string> val = new List<string>();
             foreach (CustomDocumentProperty cdp in part.RootElement)
             {
-                val.Add(cdp.Name + " = " + cdp.InnerText);
+                val.Add(cdp.Name + " : " + cdp.InnerText);
             }
             return val;
         }

@@ -43,9 +43,6 @@ namespace Office_File_Explorer.Forms
 
                         OfficeHelpers.SetCustomProperty(fName, TxtName.Text, value, OfficeHelpers.PropertyTypes.YesNo, fType);                        
                         break;
-                    case "Text":
-                        OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
-                        break;
                     case "Date":
                         OfficeHelpers.SetCustomProperty(fName, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
                         break;
@@ -60,10 +57,13 @@ namespace Office_File_Explorer.Forms
                         }
                         else
                         {
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                            // if the value isn't an int or double, just use text format
+                            MessageBox.Show("The value entered is not a valid number and will be stored as text.", "Invalid Number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.Text, fType);
                         }
                         break;
                     default:
+                        // Text is default
                         OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
                         break;
                 }
