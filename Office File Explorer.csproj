@@ -120,6 +120,12 @@
     <Compile Include="Forms\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPrintOrientation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPrintOrientation.Designer.cs">
+      <DependentUpon>FrmPrintOrientation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmSearchAndReplace.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPrintOrientation.resx">
+      <DependentUpon>FrmPrintOrientation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmSearchAndReplace.resx">
       <DependentUpon>FrmSearchAndReplace.cs</DependentUpon>

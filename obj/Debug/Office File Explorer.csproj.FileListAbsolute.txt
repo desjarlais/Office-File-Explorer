@@ -110,3 +110,5 @@ C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources
 C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomProperties.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomProperties.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office_File_Explorer.Forms.FrmPrintOrientation.resources

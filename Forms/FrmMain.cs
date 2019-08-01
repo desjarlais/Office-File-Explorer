@@ -44,7 +44,6 @@ using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Diagnostics;
 using DocumentFormat.OpenXml.CustomProperties;
-using DocumentFormat.OpenXml.VariantTypes;
 
 namespace Office_File_Explorer
 {
@@ -2910,7 +2909,7 @@ namespace Office_File_Explorer
 
         private void BtnSetCustomProps_Click(object sender, EventArgs e)
         {
-            Forms.FrmCustomProperties cFrm = new FrmCustomProperties(TxtFileName.Text, fileType)
+            FrmCustomProperties cFrm = new FrmCustomProperties(TxtFileName.Text, fileType)
             {
                 Owner = this
             };
@@ -2919,7 +2918,11 @@ namespace Office_File_Explorer
 
         private void BtnSetPrintOrientation_Click(object sender, EventArgs e)
         {
-
+            FrmPrintOrientation pFrm = new FrmPrintOrientation(TxtFileName.Text)
+            {
+                Owner = this
+            };
+            pFrm.ShowDialog();
         }
     }
 }
