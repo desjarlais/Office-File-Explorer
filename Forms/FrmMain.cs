@@ -1021,6 +1021,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 if (GetFileFormat() == OxmlFileFormat.Docx)
                 {
                     using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
@@ -1054,36 +1056,14 @@ namespace Office_File_Explorer
                 LoggingHelper.Log("BtnValidateFile_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
-
-            if (LstDisplay.Items.Count < 0)
+            finally
             {
-                LstDisplay.Items.Add("** No validation errors **");
-            }
-        }
-
-        private void BtnCopyOutput_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (LstDisplay.Items.Count <= 0)
+                if (LstDisplay.Items.Count < 0)
                 {
-                    return;
+                    LstDisplay.Items.Add("** No validation errors **");
                 }
 
-                StringBuilder buffer = new StringBuilder();
-                foreach (object t in LstDisplay.Items)
-                {
-                    buffer.Append(t);
-                    buffer.Append('\n');
-                }
-
-                Clipboard.SetText(buffer.ToString());
-            }
-            catch (Exception ex)
-            {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnCopyOutput Error");
-                LoggingHelper.Log(ex.Message);
+                Cursor = Cursors.Default;
             }
         }
 
@@ -1940,15 +1920,6 @@ namespace Office_File_Explorer
             ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text);
             LstDisplay.Items.Clear();
             LstDisplay.Items.Add("** External References Deleted **");
-        }
-
-        private void BtnErrorLog_Click(object sender, EventArgs e)
-        {
-            Forms.FrmErrorLog errFrm = new Forms.FrmErrorLog()
-            {
-                Owner = this
-            };
-            errFrm.ShowDialog();
         }
 
         private void BtnListDefinedNames_Click(object sender, EventArgs e)
@@ -2926,6 +2897,41 @@ namespace Office_File_Explorer
                 Owner = this
             };
             pFrm.ShowDialog();
+        }
+
+        private void ErrorLogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FrmErrorLog errFrm = new FrmErrorLog()
+            {
+                Owner = this
+            };
+            errFrm.ShowDialog();
+        }
+
+        private void CopyOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (LstDisplay.Items.Count <= 0)
+                {
+                    return;
+                }
+
+                StringBuilder buffer = new StringBuilder();
+                foreach (object t in LstDisplay.Items)
+                {
+                    buffer.Append(t);
+                    buffer.Append('\n');
+                }
+
+                Clipboard.SetText(buffer.ToString());
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LoggingHelper.Log("BtnCopyOutput Error");
+                LoggingHelper.Log(ex.Message);
+            }
         }
     }
 }
