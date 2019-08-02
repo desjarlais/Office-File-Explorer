@@ -2892,9 +2892,11 @@ namespace Office_File_Explorer
                 return;
             }
 
+            int count = 0;
             foreach (var v in cfpList(cfp))
             {
-                LstDisplay.Items.Add(v);
+                count++;
+                LstDisplay.Items.Add(count + ". " + v);
             }
         }
 
