@@ -1398,7 +1398,7 @@ namespace Office_File_Explorer
                                     LstDisplay.Items.Add("---- Compatibility Settings ---- ");
                                     foreach (CompatibilitySetting compat in setting)
                                     {
-                                        LstDisplay.Items.Add(_semiColon + compat.Name + _semiColon + compat.Val);
+                                        LstDisplay.Items.Add(compat.Name + _semiColon + compat.Val);
                                     }
                                     LstDisplay.Items.Add("");
                                 }
@@ -1426,7 +1426,7 @@ namespace Office_File_Explorer
                                                         }
                                                         else
                                                         {
-                                                            sb.Append(_semiColon + xa.LocalName + _semiColon + xa.Value);
+                                                            sb.Append(xa.LocalName + _semiColon + xa.Value);
                                                         }
                                                     }
                                                 }
