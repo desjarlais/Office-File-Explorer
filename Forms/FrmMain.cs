@@ -174,6 +174,7 @@ namespace Office_File_Explorer
             BtnListCustomProps.Enabled = false;
             BtnSetCustomProps.Enabled = false;
             BtnSetPrintOrientation.Enabled = false;
+            BtnViewParagraphs.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -244,6 +245,7 @@ namespace Office_File_Explorer
                 BtnSearchAndReplace.Enabled = true;
                 BtnViewCustomDocProps.Enabled = true;
                 BtnSetPrintOrientation.Enabled = true;
+                BtnViewParagraphs.Enabled = true;
 
                 if (GetFileFormat() == OxmlFileFormat.Docm)
                 {
@@ -2932,6 +2934,15 @@ namespace Office_File_Explorer
                 LoggingHelper.Log("BtnCopyOutput Error");
                 LoggingHelper.Log(ex.Message);
             }
+        }
+
+        private void BtnViewParagraphs_Click(object sender, EventArgs e)
+        {
+            FrmParagraphs paraFrm = new FrmParagraphs(TxtFileName.Text)
+            {
+                Owner = this
+            };
+            paraFrm.ShowDialog();
         }
     }
 }

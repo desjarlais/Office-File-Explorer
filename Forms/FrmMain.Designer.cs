@@ -84,14 +84,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
-            this.errorLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BtnViewParagraphs = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,6 +102,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnViewParagraphs);
             this.groupBox1.Controls.Add(this.BtnSetPrintOrientation);
             this.groupBox1.Controls.Add(this.BtnFixCorruptDocument);
             this.groupBox1.Controls.Add(this.BtnConvertDocmToDocx);
@@ -155,7 +157,7 @@
             // BtnConvertDocmToDocx
             // 
             this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(244, 221);
-            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(140, 24);
             this.BtnConvertDocmToDocx.TabIndex = 17;
@@ -319,7 +321,7 @@
             // 
             // BtnAcceptRevisions
             // 
-            this.BtnAcceptRevisions.Location = new System.Drawing.Point(130, 78);
+            this.BtnAcceptRevisions.Location = new System.Drawing.Point(130, 73);
             this.BtnAcceptRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnAcceptRevisions.Name = "BtnAcceptRevisions";
             this.BtnAcceptRevisions.Size = new System.Drawing.Size(110, 23);
@@ -432,7 +434,7 @@
             // BtnListCellValuesDOM
             // 
             this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 238);
-            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
             this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
             this.BtnListCellValuesDOM.TabIndex = 26;
@@ -443,7 +445,7 @@
             // BtnListCellValuesSAX
             // 
             this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 211);
-            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
             this.BtnListCellValuesSAX.TabIndex = 25;
@@ -476,7 +478,7 @@
             // BtnListSharedStrings
             // 
             this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 186);
-            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -487,7 +489,7 @@
             // BtnListHiddenWorksheets
             // 
             this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(6, 157);
-            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
             this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(130, 25);
             this.BtnListHiddenWorksheets.TabIndex = 23;
@@ -498,7 +500,7 @@
             // BtnListWorksheets
             // 
             this.BtnListWorksheets.Location = new System.Drawing.Point(6, 73);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(130, 23);
             this.BtnListWorksheets.TabIndex = 7;
@@ -509,7 +511,7 @@
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
-            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 24);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -520,7 +522,7 @@
             // BtnListDefinedNames
             // 
             this.BtnListDefinedNames.Location = new System.Drawing.Point(142, 103);
-            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(117, 21);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -580,7 +582,7 @@
             // BtnListSlideText
             // 
             this.BtnListSlideText.Location = new System.Drawing.Point(6, 103);
-            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSlideText.Name = "BtnListSlideText";
             this.BtnListSlideText.Size = new System.Drawing.Size(94, 21);
             this.BtnListSlideText.TabIndex = 21;
@@ -591,7 +593,7 @@
             // BtnViewPPTComments
             // 
             this.BtnViewPPTComments.Location = new System.Drawing.Point(6, 75);
-            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnViewPPTComments.Name = "BtnViewPPTComments";
             this.BtnViewPPTComments.Size = new System.Drawing.Size(94, 24);
             this.BtnViewPPTComments.TabIndex = 23;
@@ -737,22 +739,30 @@
             // 
             this.MnuOpen.Image = global::Office_File_Explorer.Properties.Resources.template;
             this.MnuOpen.Name = "MnuOpen";
-            this.MnuOpen.Size = new System.Drawing.Size(188, 30);
+            this.MnuOpen.Size = new System.Drawing.Size(143, 22);
             this.MnuOpen.Text = "Open";
             this.MnuOpen.Click += new System.EventHandler(this.MnuOpen_Click);
+            // 
+            // copyOutputToolStripMenuItem
+            // 
+            this.copyOutputToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyOutputToolStripMenuItem.Image")));
+            this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyOutputToolStripMenuItem.Text = "Copy Output";
+            this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.CopyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ListBox_686_32;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // MnuExit
             // 
             this.MnuExit.Name = "MnuExit";
-            this.MnuExit.Size = new System.Drawing.Size(188, 30);
+            this.MnuExit.Size = new System.Drawing.Size(143, 22);
             this.MnuExit.Text = "Exit";
             this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
             // 
@@ -770,22 +780,30 @@
             // 
             this.MnuAbout.Image = ((System.Drawing.Image)(resources.GetObject("MnuAbout.Image")));
             this.MnuAbout.Name = "MnuAbout";
-            this.MnuAbout.Size = new System.Drawing.Size(188, 30);
+            this.MnuAbout.Size = new System.Drawing.Size(173, 22);
             this.MnuAbout.Text = "About";
             this.MnuAbout.Click += new System.EventHandler(this.MnuAbout_Click);
+            // 
+            // errorLogToolStripMenuItem1
+            // 
+            this.errorLogToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("errorLogToolStripMenuItem1.Image")));
+            this.errorLogToolStripMenuItem1.Name = "errorLogToolStripMenuItem1";
+            this.errorLogToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.errorLogToolStripMenuItem1.Text = "Error Log";
+            this.errorLogToolStripMenuItem1.Click += new System.EventHandler(this.ErrorLogToolStripMenuItem1_Click);
             // 
             // MnuCheckForUpdates
             // 
             this.MnuCheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("MnuCheckForUpdates.Image")));
             this.MnuCheckForUpdates.Name = "MnuCheckForUpdates";
-            this.MnuCheckForUpdates.Size = new System.Drawing.Size(188, 30);
+            this.MnuCheckForUpdates.Size = new System.Drawing.Size(173, 22);
             this.MnuCheckForUpdates.Text = "Check For Updates";
             this.MnuCheckForUpdates.Click += new System.EventHandler(this.MnuCheckForUpdates_Click);
             // 
             // BtnListWSInfo
             // 
             this.BtnListWSInfo.Location = new System.Drawing.Point(552, 126);
-            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(117, 23);
             this.BtnListWSInfo.TabIndex = 7;
@@ -793,21 +811,15 @@
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
             // 
-            // errorLogToolStripMenuItem1
+            // BtnViewParagraphs
             // 
-            this.errorLogToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("errorLogToolStripMenuItem1.Image")));
-            this.errorLogToolStripMenuItem1.Name = "errorLogToolStripMenuItem1";
-            this.errorLogToolStripMenuItem1.Size = new System.Drawing.Size(188, 30);
-            this.errorLogToolStripMenuItem1.Text = "Error Log";
-            this.errorLogToolStripMenuItem1.Click += new System.EventHandler(this.ErrorLogToolStripMenuItem1_Click);
-            // 
-            // copyOutputToolStripMenuItem
-            // 
-            this.copyOutputToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyOutputToolStripMenuItem.Image")));
-            this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
-            this.copyOutputToolStripMenuItem.Text = "Copy Output";
-            this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.CopyOutputToolStripMenuItem_Click);
+            this.BtnViewParagraphs.Location = new System.Drawing.Point(130, 100);
+            this.BtnViewParagraphs.Name = "BtnViewParagraphs";
+            this.BtnViewParagraphs.Size = new System.Drawing.Size(109, 23);
+            this.BtnViewParagraphs.TabIndex = 8;
+            this.BtnViewParagraphs.Text = "View Paragraphs";
+            this.BtnViewParagraphs.UseVisualStyleBackColor = true;
+            this.BtnViewParagraphs.Click += new System.EventHandler(this.BtnViewParagraphs_Click);
             // 
             // FrmMain
             // 
@@ -909,6 +921,7 @@
         private System.Windows.Forms.Button BtnSetPrintOrientation;
         private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem copyOutputToolStripMenuItem;
+        private System.Windows.Forms.Button BtnViewParagraphs;
     }
 }
 
