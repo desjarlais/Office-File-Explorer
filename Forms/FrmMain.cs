@@ -1419,6 +1419,7 @@ namespace Office_File_Explorer
                                     } while (settingIndex < settingCount);
 
                                     LstDisplay.Items.Add("");
+                                    LstDisplay.Items.Add("---- Settings ---- ");
                                 }
                                 else
                                 {
@@ -1430,7 +1431,7 @@ namespace Office_File_Explorer
                                     {
                                         sb.Clear();
                                         if (xe.Attributes.Count > 1)
-                                        {
+                                        {        
                                             sb.Append(xe.Name + _semiColon);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {

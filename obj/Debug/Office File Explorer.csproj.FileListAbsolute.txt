@@ -118,3 +118,4 @@ C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explore
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmParagraphs.resources
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmPrintOrientation.resources
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources
+C:\Users\brand\Source\Repos\Office File Explorer\Office File Explorer\obj\Debug\Office_File_Explorer.Forms.FrmParagraphs.resources
