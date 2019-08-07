@@ -1391,7 +1391,7 @@ namespace Office_File_Explorer
                     {
                         if (docSettingsPart != null)
                         {
-                            DocumentFormat.OpenXml.Wordprocessing.Settings settings = docSettingsPart.Settings;
+                            Settings settings = docSettingsPart.Settings;
                             foreach (var setting in settings)
                             {
                                 if (setting.LocalName == "compat")
@@ -1412,8 +1412,50 @@ namespace Office_File_Explorer
                                         else
                                         {
                                             CompatibilitySetting cs = (CompatibilitySetting)setting.ElementAt(settingIndex);
-                                            LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val);
-                                            settingIndex++;
+                                            if (cs.Name == "compatibilityMode")
+                                            {
+                                                string compatModeVersion = "";
+                                                if (cs.Val == "9")
+                                                {
+                                                    compatModeVersion = " (Word 2000)";
+                                                }
+                                                else if (cs.Val == "10")
+                                                {
+                                                    compatModeVersion = " (Word 2002)";
+                                                }
+                                                else if (cs.Val == "11")
+                                                {
+                                                    compatModeVersion = " (Word 2003)";
+                                                }
+                                                else if (cs.Val == "12")
+                                                {
+                                                    compatModeVersion = " (Word 2007)";
+                                                }
+                                                else if (cs.Val == "14")
+                                                {
+                                                    compatModeVersion = " (Word 2010)";
+                                                }
+                                                else if (cs.Val == "15")
+                                                {
+                                                    compatModeVersion = " (Word 2013)";
+                                                }
+                                                else if (cs.Val == "16")
+                                                {
+                                                    compatModeVersion = " (Word 2016)";
+                                                }
+                                                else
+                                                {
+                                                    compatModeVersion = " (Pre-Word 2000)";
+                                                }
+
+                                                LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val + compatModeVersion);
+                                                settingIndex++;
+                                            }
+                                            else
+                                            {
+                                                LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val);
+                                                settingIndex++;
+                                            }
                                         }
                                         
                                     } while (settingIndex < settingCount);
