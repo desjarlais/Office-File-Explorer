@@ -114,3 +114,7 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.exe
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmParagraphs.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomProperties.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmParagraphs.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmPrintOrientation.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources

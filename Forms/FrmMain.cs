@@ -1398,10 +1398,26 @@ namespace Office_File_Explorer
                                 {
                                     LstDisplay.Items.Add("");
                                     LstDisplay.Items.Add("---- Compatibility Settings ---- ");
-                                    foreach (CompatibilitySetting compat in setting)
+
+                                    int settingCount = setting.Count();
+                                    int settingIndex = 0;
+
+                                    do
                                     {
-                                        LstDisplay.Items.Add(compat.Name + _semiColon + compat.Val);
-                                    }
+                                        if (setting.ElementAt(settingIndex).LocalName == "useFELayout")
+                                        {
+                                            LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _semiColon + setting.ElementAt(0).InnerText);
+                                            settingIndex++;
+                                        }
+                                        else
+                                        {
+                                            CompatibilitySetting cs = (CompatibilitySetting)setting.ElementAt(settingIndex);
+                                            LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val);
+                                            settingIndex++;
+                                        }
+                                        
+                                    } while (settingIndex < settingCount);
+
                                     LstDisplay.Items.Add("");
                                 }
                                 else
