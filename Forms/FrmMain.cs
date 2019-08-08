@@ -3000,11 +3000,13 @@ namespace Office_File_Explorer
 
         private void BtnViewParagraphs_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
             FrmParagraphs paraFrm = new FrmParagraphs(TxtFileName.Text)
             {
                 Owner = this
             };
             paraFrm.ShowDialog();
+            Cursor = Cursors.Default;
         }
     }
 }

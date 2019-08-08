@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Office_File_Explorer.App_Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -21,31 +22,42 @@ namespace Office_File_Explorer.Forms
 
         public void PopulateParagraphComboBox()
         {
-            int count = 0;
-
-            using (WordprocessingDocument package = WordprocessingDocument.Open(filePath, true))
+            try
             {
-                MainDocumentPart mPart = package.MainDocumentPart;
-                IEnumerable<Paragraph> pList = mPart.Document.Descendants<Paragraph>();
+                int count = 0;
 
-                foreach (var v in pList)
+                using (WordprocessingDocument package = WordprocessingDocument.Open(filePath, true))
                 {
-                    count++;
+                    MainDocumentPart mPart = package.MainDocumentPart;
+                    IEnumerable<Paragraph> pList = mPart.Document.Descendants<Paragraph>();
+
+                    foreach (var v in pList)
+                    {
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    cbParagraphs.Items.Add("None");
+                }
+                else
+                {
+                    int n = 0;
+                    do
+                    {
+                        n++;
+                        cbParagraphs.Items.Add("Paragraph #" + n);
+                    } while (n < count);
                 }
             }
-
-            if (count == 0)
+            catch (Exception ex)
             {
-                cbParagraphs.Items.Add("None");
+                LoggingHelper.Log("PopulateParagraphComboBox Error: " + ex.Message);
             }
-            else
+            finally
             {
-                int n = 0;
-                do
-                {
-                    n++;
-                    cbParagraphs.Items.Add("Paragraph #" + n);
-                } while (n < count);
+                Cursor = Cursors.Default;
             }
         }
 
@@ -92,7 +104,9 @@ namespace Office_File_Explorer.Forms
 
         private void CbParagraphs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
             ListParagraphs();
+            Cursor = Cursors.Default;
         }
     }
 }

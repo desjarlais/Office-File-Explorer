@@ -277,7 +277,7 @@ namespace Office_File_Explorer.App_Helpers
                     }
                 }
             }
-            else if (app == "Excel")
+            else
             {
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(document, true))
                 {
@@ -295,10 +295,6 @@ namespace Office_File_Explorer.App_Helpers
                         streamWriter.Write(streamReader.ReadToEnd());
                     }
                 }
-            }
-            else
-            {
-                return;
             }
         }
 
