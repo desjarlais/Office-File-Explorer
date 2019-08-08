@@ -6,11 +6,7 @@ using System.Collections.Generic;
 using DocumentFormat.OpenXml.Presentation;
 using System.Text;
 using System.Linq;
-using System.IO;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.CustomProperties;
-using DocumentFormat.OpenXml.VariantTypes;
-using System.Windows.Forms;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -132,31 +128,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
 
             return string.Empty;
-        }
-
-        /// <summary>
-        /// replace the current theme with a user specified theme
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="themeFile"></param>
-        public static void ReplaceTheme(string document, string themeFile)
-        {
-            using (PresentationDocument presDoc = PresentationDocument.Open(document, true))
-            {
-                PresentationPart mainPart = presDoc.PresentationPart;
-
-                // Delete the old document part.
-                mainPart.DeletePart(mainPart.ThemePart);
-
-                // Add a new document part and then add content.
-                ThemePart themePart = mainPart.AddNewPart<ThemePart>();
-
-                using (StreamReader streamReader = new StreamReader(themeFile))
-                using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
-                {
-                    streamWriter.Write(streamReader.ReadToEnd());
-                }
-            }
         }
 
         /// <summary>

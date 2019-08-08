@@ -246,6 +246,8 @@ namespace Office_File_Explorer
                 BtnViewCustomDocProps.Enabled = true;
                 BtnSetPrintOrientation.Enabled = true;
                 BtnViewParagraphs.Enabled = true;
+                BtnRemovePII.Enabled = true;
+
 
                 if (GetFileFormat() == OxmlFileFormat.Docm)
                 {
@@ -296,7 +298,6 @@ namespace Office_File_Explorer
             }
 
             // these buttons exists for all file types
-            BtnRemovePII.Enabled = true;
             BtnValidateFile.Enabled = true;
             BtnChangeTheme.Enabled = true;
             BtnListOle.Enabled = true;
@@ -987,12 +988,14 @@ namespace Office_File_Explorer
             if (!File.Exists(TxtFileName.Text))
             {
                 DisplayInformation(InformationOutput.InvalidFile, TxtFileName.Text);
-                return;
             }
-
-            using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+            else
             {
-                WordExtensionClass.RemovePersonalInfo(doc);
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    WordExtensionClass.RemovePersonalInfo(document);
+                }
+                
                 DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
             }
         }
@@ -2289,19 +2292,19 @@ namespace Office_File_Explorer
                     if (fileType == _word)
                     {
                         // call the replace function using the theme file provided
-                        WordOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else if (fileType == _excel)
                     {
                         // call the replace function using the theme file provided
-                        ExcelOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else if (fileType == _powerpoint)
                     {
                         // call the replace function using the theme file provided
-                        PowerPointOpenXml.ReplaceTheme(TxtFileName.Text, sThemeFilePath);
+                        OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
                     }
                     else

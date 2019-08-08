@@ -1,9 +1,15 @@
 ﻿using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.VariantTypes;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Office_File_Explorer.Word_Helpers;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Office_File_Explorer.App_Helpers
 {
@@ -221,6 +227,77 @@ namespace Office_File_Explorer.App_Helpers
                 }
             }
             return returnValue;
+        }
+
+
+        /// <summary>
+        /// replace the current theme with a user specified theme
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="themeFile"></param>
+        public static void ReplaceTheme(string document, string themeFile, string app)
+        {
+            if (app == "Word")
+            {
+                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(document, true))
+                {
+                    MainDocumentPart mainPart = wordDoc.MainDocumentPart;
+
+                    // Delete the old document part.
+                    mainPart.DeletePart(mainPart.ThemePart);
+
+                    // Add a new document part and then add content.
+                    ThemePart themePart = mainPart.AddNewPart<ThemePart>();
+
+                    using (StreamReader streamReader = new StreamReader(themeFile))
+                    using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
+                    {
+                        streamWriter.Write(streamReader.ReadToEnd());
+                    }
+                }
+            }
+            else if (app == "Powerpoint")
+            {
+                using (PresentationDocument presDoc = PresentationDocument.Open(document, true))
+                {
+                    PresentationPart mainPart = presDoc.PresentationPart;
+
+                    // Delete the old document part.
+                    mainPart.DeletePart(mainPart.ThemePart);
+
+                    // Add a new document part and then add content.
+                    ThemePart themePart = mainPart.AddNewPart<ThemePart>();
+
+                    using (StreamReader streamReader = new StreamReader(themeFile))
+                    using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
+                    {
+                        streamWriter.Write(streamReader.ReadToEnd());
+                    }
+                }
+            }
+            else if (app == "Excel")
+            {
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(document, true))
+                {
+                    WorkbookPart mainPart = excelDoc.WorkbookPart;
+
+                    // Delete the old document part.
+                    mainPart.DeletePart(mainPart.ThemePart);
+
+                    // Add a new document part and then add content.
+                    ThemePart themePart = mainPart.AddNewPart<ThemePart>();
+
+                    using (StreamReader streamReader = new StreamReader(themeFile))
+                    using (StreamWriter streamWriter = new StreamWriter(themePart.GetStream(FileMode.Create)))
+                    {
+                        streamWriter.Write(streamReader.ReadToEnd());
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

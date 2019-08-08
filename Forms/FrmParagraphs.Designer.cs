@@ -86,7 +86,6 @@
             this.Name = "FrmParagraphs";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Paragraphs";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmParagraphs_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

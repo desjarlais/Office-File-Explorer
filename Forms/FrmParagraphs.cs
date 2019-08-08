@@ -90,11 +90,6 @@ namespace Office_File_Explorer.Forms
             }
         }
 
-        private void FrmParagraphs_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
         private void CbParagraphs_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListParagraphs();
