@@ -14,13 +14,14 @@ EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
-// Oxml SDK refs
+// Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.CustomProperties;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 
 // this app references
@@ -30,7 +31,7 @@ using Office_File_Explorer.Word_Helpers;
 using Office_File_Explorer.PowerPoint_Helpers;
 using Office_File_Explorer.Forms;
 
-// .net refs
+// .Net refs
 using System;
 using System.Collections;
 using System.Deployment.Application;
@@ -43,7 +44,6 @@ using System.Xml;
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Diagnostics;
-using DocumentFormat.OpenXml.CustomProperties;
 
 namespace Office_File_Explorer
 {

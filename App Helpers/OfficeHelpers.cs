@@ -1,17 +1,14 @@
 ﻿using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.VariantTypes;
-using DocumentFormat.OpenXml.Presentation;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Office_File_Explorer.Word_Helpers;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml;
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml;
 
 namespace Office_File_Explorer.App_Helpers
 {

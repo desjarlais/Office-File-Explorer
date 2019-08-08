@@ -1,11 +1,12 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Office_File_Explorer.App_Helpers;
+using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
+using RunProperties = DocumentFormat.OpenXml.Wordprocessing.RunProperties;
+
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
-using RunProperties = DocumentFormat.OpenXml.Wordprocessing.RunProperties;
 
 namespace Office_File_Explorer.Forms
 {

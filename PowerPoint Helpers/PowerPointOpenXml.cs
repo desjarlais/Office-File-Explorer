@@ -1,12 +1,13 @@
 ﻿using Drawing = DocumentFormat.OpenXml.Drawing;
 using A = DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml;
+
 using System;
 using System.Collections.Generic;
-using DocumentFormat.OpenXml.Presentation;
 using System.Text;
 using System.Linq;
-using DocumentFormat.OpenXml;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {

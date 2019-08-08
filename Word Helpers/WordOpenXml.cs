@@ -17,11 +17,13 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
+using System.IO;
+
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
-using System.Collections;
-using System.IO;
+
 using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.Word_Helpers
