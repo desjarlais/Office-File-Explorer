@@ -88,6 +88,7 @@ namespace Office_File_Explorer
         ArrayList aNumIdList = new ArrayList();
         ArrayList numIdList = new ArrayList();
 
+        // fix corrupt doc globals
         private static List<string> _nodes = new List<string>();
         private static StringBuilder _sbNodeBuffer = new StringBuilder();       
 
@@ -1418,15 +1419,7 @@ namespace Office_File_Explorer
                                             if (cs.Name == "compatibilityMode")
                                             {
                                                 string compatModeVersion = "";
-                                                if (cs.Val == "9")
-                                                {
-                                                    compatModeVersion = " (Word 2000)";
-                                                }
-                                                else if (cs.Val == "10")
-                                                {
-                                                    compatModeVersion = " (Word 2002)";
-                                                }
-                                                else if (cs.Val == "11")
+                                                if (cs.Val == "11")
                                                 {
                                                     compatModeVersion = " (Word 2003)";
                                                 }
@@ -1442,13 +1435,9 @@ namespace Office_File_Explorer
                                                 {
                                                     compatModeVersion = " (Word 2013)";
                                                 }
-                                                else if (cs.Val == "16")
-                                                {
-                                                    compatModeVersion = " (Word 2016)";
-                                                }
                                                 else
                                                 {
-                                                    compatModeVersion = " (Pre-Word 2000)";
+                                                    compatModeVersion = " (Word 2019)";
                                                 }
 
                                                 LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val + compatModeVersion);
