@@ -295,6 +295,105 @@ namespace Office_File_Explorer.App_Helpers
             }
         }
 
+        public static string ConvertMacroEnabled2NonMacroEnabled(string fileName, string app)
+        {
+            bool fileChanged = false;
+            string newFileName = "";
+            string fileExtension = "";
+
+            if (app == "Word")
+            {
+                fileExtension = ".docx";
+                using (WordprocessingDocument document = WordprocessingDocument.Open(fileName, true))
+                {
+                    // Access the main document part.
+                    var docPart = document.MainDocumentPart;
+
+                    // Look for the vbaProject part. If it is there, delete it.
+                    var vbaPart = docPart.VbaProjectPart;
+                    if (vbaPart != null)
+                    {
+                        // Delete the vbaProject part and then save the document.
+                        docPart.DeletePart(vbaPart);
+                        docPart.Document.Save();
+
+                        // Change the document type to not macro-enabled.
+                        document.ChangeDocumentType(WordprocessingDocumentType.Document);
+
+                        // Track that the document has been changed.
+                        fileChanged = true;
+                    }
+                }
+            }
+            else if (app == "PowerPoint")
+            {
+                fileExtension = ".pptx";
+                using (PresentationDocument document = PresentationDocument.Open(fileName, true))
+                {
+                    // Access the main document part.
+                    var docPart = document.PresentationPart;
+
+                    // Look for the vbaProject part. If it is there, delete it.
+                    var vbaPart = docPart.VbaProjectPart;
+                    if (vbaPart != null)
+                    {
+                        // Delete the vbaProject part and then save the document.
+                        docPart.DeletePart(vbaPart);
+                        docPart.Presentation.Save();
+
+                        // Change the document type to not macro-enabled.
+                        document.ChangeDocumentType(PresentationDocumentType.Presentation);
+
+                        // Track that the document has been changed.
+                        fileChanged = true;
+                    }
+                }
+            }
+            else
+            {
+                fileExtension = ".xlsx";
+                using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, true))
+                {
+                    // Access the main document part.
+                    var docPart = document.WorkbookPart;
+
+                    // Look for the vbaProject part. If it is there, delete it.
+                    var vbaPart = docPart.VbaProjectPart;
+                    if (vbaPart != null)
+                    {
+                        // Delete the vbaProject part and then save the document.
+                        docPart.DeletePart(vbaPart);
+                        docPart.Workbook.Save();
+
+                        // Change the document type to not macro-enabled.
+                        document.ChangeDocumentType(SpreadsheetDocumentType.Workbook);
+
+                        // Track that the document has been changed.
+                        fileChanged = true;
+                    }
+                }
+            }
+
+            // If anything goes wrong in this file handling,
+            // the code will raise an exception back to the caller.
+            if (fileChanged)
+            {
+                // Create the new .docx filename.
+                newFileName = Path.ChangeExtension(fileName, fileExtension);
+
+                // If it already exists, it will be deleted!
+                if (File.Exists(newFileName))
+                {
+                    File.Delete(newFileName);
+                }
+
+                // Rename the file.
+                File.Move(fileName, newFileName);
+            }
+
+            return newFileName;
+        }
+
         /// <summary>
         /// add a new part that needs a relationship id
         /// </summary>

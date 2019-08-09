@@ -176,6 +176,8 @@ namespace Office_File_Explorer
             BtnSetCustomProps.Enabled = false;
             BtnSetPrintOrientation.Enabled = false;
             BtnViewParagraphs.Enabled = false;
+            BtnConvertPptmToPptx.Enabled = false;
+            BtnConvertXlsmToXlsx.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
@@ -274,6 +276,11 @@ namespace Office_File_Explorer
                 BtnListCellValuesSAX.Enabled = true;
                 BtnListCellValuesDOM.Enabled = true;
                 BtnListConnections.Enabled = true;
+
+                if (GetFileFormat() == OxmlFileFormat.Xlsm)
+                {
+                    BtnConvertXlsmToXlsx.Enabled = true;
+                }
             }
             else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
             {
@@ -284,6 +291,11 @@ namespace Office_File_Explorer
                 BtnPPTListHyperlinks.Enabled = true;
                 BtnViewPPTComments.Enabled = true;
                 BtnListSlideText.Enabled = true;
+
+                if (GetFileFormat() == OxmlFileFormat.Pptm)
+                {
+                    BtnConvertPptmToPptx.Enabled = true;
+                }
             }
             else if (GetFileFormat() == OxmlFileFormat.Invalid)
             {
@@ -2395,18 +2407,23 @@ namespace Office_File_Explorer
 
         private void BtnConvertDocmToDocx_Click(object sender, EventArgs e)
         {
+            ConvertToNonMacro(_word);
+        }
+
+        public void ConvertToNonMacro(string app)
+        {
             try
             {
                 DialogResult dr = MessageBox.Show("This will delete the original .docm and replace it with a .docx file!\r\n\r\nAre you sure you would like continue?", "Convert .Docm to .Docx", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (DialogResult.Yes == dr)
                 {
-                    LstDisplay.Items.Add("Converted file location = " + WordOpenXml.ConvertDOCMtoDOCX(TxtFileName.Text));
+                    LstDisplay.Items.Add("Converted file location = " + OfficeHelpers.ConvertMacroEnabled2NonMacroEnabled(TxtFileName.Text, app));
                 }
                 else
                 {
                     return;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -2996,6 +3013,16 @@ namespace Office_File_Explorer
             };
             paraFrm.ShowDialog();
             Cursor = Cursors.Default;
+        }
+
+        private void BtnConvertXlsm2Xlsx_Click(object sender, EventArgs e)
+        {
+            ConvertToNonMacro(_excel);
+        }
+
+        private void BtnConvertPptmToPptx_Click(object sender, EventArgs e)
+        {
+            ConvertToNonMacro(_powerpoint);
         }
     }
 }

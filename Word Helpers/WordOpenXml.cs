@@ -136,54 +136,6 @@ namespace Office_File_Explorer.Word_Helpers
             }
         }
 
-        // Given a .docm file (with macro storage), remove the VBA 
-        // project, reset the document type, and save the document with a new name.
-        public static string ConvertDOCMtoDOCX(string fileName)
-        {
-            bool fileChanged = false;
-            string newFileName = "";
-
-            using (WordprocessingDocument document = WordprocessingDocument.Open(fileName, true))
-            {
-                // Access the main document part.
-                var docPart = document.MainDocumentPart;
-
-                // Look for the vbaProject part. If it is there, delete it.
-                var vbaPart = docPart.VbaProjectPart;
-                if (vbaPart != null)
-                {
-                    // Delete the vbaProject part and then save the document.
-                    docPart.DeletePart(vbaPart);
-                    docPart.Document.Save();
-
-                    // Change the document type to not macro-enabled.
-                    document.ChangeDocumentType(WordprocessingDocumentType.Document);
-
-                    // Track that the document has been changed.
-                    fileChanged = true;
-                }
-            }
-
-            // If anything goes wrong in this file handling,
-            // the code will raise an exception back to the caller.
-            if (fileChanged)
-            {
-                // Create the new .docx filename.
-                newFileName = Path.ChangeExtension(fileName, ".docx");
-
-                // If it already exists, it will be deleted!
-                if (File.Exists(newFileName))
-                {
-                    File.Delete(newFileName);
-                }
-
-                // Rename the file.
-                File.Move(fileName, newFileName);
-            }
-
-            return newFileName;
-        }
-
         // Given a document name and an author name, accept all revisions by the specified author. 
         // Pass an empty string for the author to accept all revisions.
         public static void AcceptAllRevisions(string docName, string authorName)
