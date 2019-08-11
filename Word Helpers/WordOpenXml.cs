@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
-using System.IO;
 
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
@@ -107,9 +106,13 @@ namespace Office_File_Explorer.Word_Helpers
             SectionProperties sectPr = pPr.GetFirstChild<SectionProperties>();
 
             if (sectPr == null)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         public static void RemoveComments(string filename)
@@ -212,8 +215,7 @@ namespace Office_File_Explorer.Word_Helpers
                         header.Parent.RemoveChild(header);
                     }
 
-                    var footers =
-                      doc.Descendants<FooterReference>().ToList();
+                    var footers = doc.Descendants<FooterReference>().ToList();
                     foreach (var footer in footers)
                     {
                         footer.Parent.RemoveChild(footer);

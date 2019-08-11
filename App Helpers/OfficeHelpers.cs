@@ -234,6 +234,7 @@ namespace Office_File_Explorer.App_Helpers
         /// </summary>
         /// <param name="document"></param>
         /// <param name="themeFile"></param>
+        /// <param name="app"></param>
         public static void ReplaceTheme(string document, string themeFile, string app)
         {
             if (app == "Word")
