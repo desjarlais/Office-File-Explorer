@@ -64,32 +64,39 @@ namespace Office_File_Explorer.Forms
 
         public void ListParagraphs()
         {
-            string sNum = cbParagraphs.SelectedItem.ToString();
-            char last = sNum[sNum.Length - 1];
-            double pNum = Char.GetNumericValue(last);
-            
-            using (WordprocessingDocument package = WordprocessingDocument.Open(filePath, true))
+            try
             {
-                MainDocumentPart mPart = package.MainDocumentPart;
-                IEnumerable<Paragraph> pList = mPart.Document.Descendants<Paragraph>();
-                int count = 0;
+                string sNum = cbParagraphs.SelectedItem.ToString();
+                char last = sNum[sNum.Length - 1];
+                double pNum = Char.GetNumericValue(last);
 
-                richTextBox1.Clear();
-                foreach (Paragraph p in pList)
+                using (WordprocessingDocument package = WordprocessingDocument.Open(filePath, true))
                 {
-                    if (p.InnerText == "")
+                    MainDocumentPart mPart = package.MainDocumentPart;
+                    IEnumerable<Paragraph> pList = mPart.Document.Descendants<Paragraph>();
+                    int count = 0;
+
+                    richTextBox1.Clear();
+                    foreach (Paragraph p in pList)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        count++;
-                        if (count == pNum)
+                        if (p.InnerText == "")
                         {
-                            GetRunDetails(p);
+                            continue;
+                        }
+                        else
+                        {
+                            count++;
+                            if (count == pNum)
+                            {
+                                GetRunDetails(p);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("ListParagraphs Error: " + ex.Message);
             }
         }
 
