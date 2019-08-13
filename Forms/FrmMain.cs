@@ -2857,17 +2857,28 @@ namespace Office_File_Explorer
                     foreach (Connection c in cPart.Connections)
                     {
                         cCount++;
-                        string cn = c.DatabaseProperties.Connection;
-                        string[] cArray = cn.Split(';');
-
-                        LstDisplay.Items.Add(cCount + ". Connection= " + c.Name);
-                        foreach (var s in cArray)
+                        if (c.DatabaseProperties.Connection != null)
                         {
-                            LstDisplay.Items.Add("    " + s);
+                            string cn = c.DatabaseProperties.Connection;
+                            string[] cArray = cn.Split(';');
+
+                            LstDisplay.Items.Add(cCount + ". Connection= " + c.Name);
+                            foreach (var s in cArray)
+                            {
+                                LstDisplay.Items.Add("    " + s);
+                            }
+
+                            if (c.ConnectionFile != null && c.OlapProperties.RowDrillCount != null)
+                            {
+                                LstDisplay.Items.Add("");
+                                LstDisplay.Items.Add("    Connection File= " + c.ConnectionFile);
+                                LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                            }
                         }
-                        LstDisplay.Items.Add("");
-                        LstDisplay.Items.Add("    Connection File= " + c.ConnectionFile);
-                        LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                        else
+                        {
+                            LstDisplay.Items.Add("Invalid connections.xml");
+                        }
                     }
                 }
             }
