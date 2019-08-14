@@ -1092,16 +1092,18 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 int count = 0;
                 LstDisplay.Items.Clear();
-                foreach (Sheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
+
+                foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
-                    count++;
-                    LstDisplay.Items.Add(count + ". Worksheet = " + sht.Name);
-                    SheetData sData = sht.GetFirstChild<SheetData>();
-                    foreach (Row row in sht.ChildElements)
+                    foreach (Row row in sht.ElementAt(3))
                     {
-                        foreach (Cell cell in row.Elements<Cell>().ElementAt(2))
+                        foreach (Cell cell in row)
                         {
-                            LstDisplay.Items.Add(cell.CellValue.ToString() + cell.CellFormula);
+                            if (cell.CellFormula != null)
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + cell.CellReference + " = " + cell.CellFormula.Text);
+                            }
                         }
                     }
                 }
@@ -2111,7 +2113,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sheetCount = 0;
 
-                foreach (Sheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text))
                 {
                     sheetCount++;
                     LstDisplay.Items.Add(sheetCount + ". " + sht.Name);

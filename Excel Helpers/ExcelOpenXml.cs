@@ -31,7 +31,7 @@ namespace Office_File_Explorer.Excel_Helpers
             }
         }
 
-        public static List<Sheet> GetWorkSheets(string fileName)
+        public static List<Sheet> GetSheets(string fileName)
         {
             List<Sheet> returnVal = new List<Sheet>();
 
@@ -39,11 +39,27 @@ namespace Office_File_Explorer.Excel_Helpers
             {
                 WorkbookPart wbPart = excelDoc.WorkbookPart;
                 Sheets theSheets = wbPart.Workbook.Sheets;
-                
+
 
                 foreach (Sheet sheet in theSheets)
                 {
                     returnVal.Add(sheet);
+                }
+            }
+
+            return returnVal;
+        }
+
+        public static List<Worksheet> GetWorkSheets(string fileName)
+        {
+            List<Worksheet> returnVal = new List<Worksheet>();
+
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, true))
+            {
+                WorkbookPart wbPart = excelDoc.WorkbookPart;
+                foreach (WorksheetPart wsPart in wbPart.WorksheetParts)
+                {
+                    returnVal.Add(wsPart.Worksheet);
                 }
             }
 
