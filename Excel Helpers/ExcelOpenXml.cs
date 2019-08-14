@@ -37,11 +37,7 @@ namespace Office_File_Explorer.Excel_Helpers
 
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, true))
             {
-                WorkbookPart wbPart = excelDoc.WorkbookPart;
-                Sheets theSheets = wbPart.Workbook.Sheets;
-
-
-                foreach (Sheet sheet in theSheets)
+                foreach (Sheet sheet in excelDoc.WorkbookPart.Workbook.Sheets)
                 {
                     returnVal.Add(sheet);
                 }
@@ -56,8 +52,7 @@ namespace Office_File_Explorer.Excel_Helpers
 
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, true))
             {
-                WorkbookPart wbPart = excelDoc.WorkbookPart;
-                foreach (WorksheetPart wsPart in wbPart.WorksheetParts)
+                foreach (WorksheetPart wsPart in excelDoc.WorkbookPart.WorksheetParts)
                 {
                     returnVal.Add(wsPart.Worksheet);
                 }
@@ -70,19 +65,15 @@ namespace Office_File_Explorer.Excel_Helpers
         {
             List<Sheet> returnVal = new List<Sheet>();
 
-            using (SpreadsheetDocument document =
-                SpreadsheetDocument.Open(fileName, false))
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
             {
-                WorkbookPart wbPart = document.WorkbookPart;
-                var sheets = wbPart.Workbook.Descendants<Sheet>();
+                var sheets = document.WorkbookPart.Workbook.Descendants<Sheet>();
 
                 // Look for sheets where there is a State attribute defined, 
                 // where the State has a value,
                 // and where the value is either Hidden or VeryHidden.
-                var hiddenSheets = sheets.Where((item) => item.State != null &&
-                    item.State.HasValue &&
-                    (item.State.Value == SheetStateValues.Hidden ||
-                    item.State.Value == SheetStateValues.VeryHidden));
+                var hiddenSheets = sheets.Where((item) => item.State != null && item.State.HasValue &&
+                (item.State.Value == SheetStateValues.Hidden || item.State.Value == SheetStateValues.VeryHidden));
 
                 returnVal = hiddenSheets.ToList();
             }

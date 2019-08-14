@@ -1095,7 +1095,19 @@ namespace Office_File_Explorer
 
                 foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
-                    foreach (Row row in sht.ElementAt(3))
+                    int sheetDataIndex = 0;
+                    int shtCount = 0;
+
+                    foreach (var s in sht)
+                    {
+                        if (s.LocalName == "sheetData")
+                        {
+                            sheetDataIndex = shtCount;
+                        }
+                        shtCount++;
+                    }
+
+                    foreach (Row row in sht.ElementAt(sheetDataIndex))
                     {
                         foreach (Cell cell in row)
                         {
@@ -1133,8 +1145,7 @@ namespace Office_File_Explorer
                 int count = 0;
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    FontTablePart fontPart = doc.MainDocumentPart.FontTablePart;
-                    foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in fontPart.Fonts)
+                    foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
                         count++;
                         LstDisplay.Items.Add(count + ". " + ft.Name);
