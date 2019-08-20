@@ -44,6 +44,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Diagnostics;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace Office_File_Explorer
 {
@@ -180,7 +181,7 @@ namespace Office_File_Explorer
             BtnConvertXlsmToXlsx.Enabled = false;
         }
 
-        public enum OxmlFileFormat { Xlsx, Xlsm, Docx, Docm, Pptx, Pptm, Invalid };
+        public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
 
         public OxmlFileFormat GetFileFormat()
         {
@@ -194,6 +195,14 @@ namespace Office_File_Explorer
             else if (fileExt == ".docm")
             {
                 return OxmlFileFormat.Docm;
+            }
+            else if (fileExt == ".dotx")
+            {
+                return OxmlFileFormat.Dotx;
+            }
+            else if (fileExt == ".xlst")
+            {
+                return OxmlFileFormat.Xlst;
             }
             else if (fileExt == ".xlsx")
             {
@@ -211,6 +220,10 @@ namespace Office_File_Explorer
             {
                 return OxmlFileFormat.Pptm;
             }
+            else if (fileExt == ".potx")
+            {
+                return OxmlFileFormat.Potx;
+            }
             else
             {
                 return OxmlFileFormat.Invalid;
@@ -221,8 +234,9 @@ namespace Office_File_Explorer
         {
             // disable all buttons first
             DisableButtons();
+            OxmlFileFormat ffmt = GetFileFormat();
 
-            if (GetFileFormat() == OxmlFileFormat.Docx || GetFileFormat() == OxmlFileFormat.Docm)
+            if (ffmt == OxmlFileFormat.Docx || ffmt == OxmlFileFormat.Docm || ffmt == OxmlFileFormat.Dotx)
             {
                 fileType = _word;
 
@@ -252,12 +266,12 @@ namespace Office_File_Explorer
                 BtnRemovePII.Enabled = true;
 
 
-                if (GetFileFormat() == OxmlFileFormat.Docm)
+                if (ffmt == OxmlFileFormat.Docm)
                 {
                     BtnConvertDocmToDocx.Enabled = true;
                 }
             }
-            else if (GetFileFormat() == OxmlFileFormat.Xlsx || GetFileFormat() == OxmlFileFormat.Xlsm)
+            else if (ffmt == OxmlFileFormat.Xlsx || ffmt == OxmlFileFormat.Xlsm || ffmt == OxmlFileFormat.Xlst)
             {
                 fileType = _excel;
 
@@ -277,12 +291,12 @@ namespace Office_File_Explorer
                 BtnListCellValuesDOM.Enabled = true;
                 BtnListConnections.Enabled = true;
 
-                if (GetFileFormat() == OxmlFileFormat.Xlsm)
+                if (ffmt == OxmlFileFormat.Xlsm)
                 {
                     BtnConvertXlsmToXlsx.Enabled = true;
                 }
             }
-            else if (GetFileFormat() == OxmlFileFormat.Pptx || GetFileFormat() == OxmlFileFormat.Pptm)
+            else if (ffmt == OxmlFileFormat.Pptx || ffmt == OxmlFileFormat.Pptm || ffmt == OxmlFileFormat.Potx)
             {
                 fileType = _powerpoint;
 
@@ -292,12 +306,12 @@ namespace Office_File_Explorer
                 BtnViewPPTComments.Enabled = true;
                 BtnListSlideText.Enabled = true;
 
-                if (GetFileFormat() == OxmlFileFormat.Pptm)
+                if (ffmt == OxmlFileFormat.Pptm)
                 {
                     BtnConvertPptmToPptx.Enabled = true;
                 }
             }
-            else if (GetFileFormat() == OxmlFileFormat.Invalid)
+            else if (ffmt == OxmlFileFormat.Invalid)
             {
                 // invalid file format
                 MessageBox.Show("Unsupported File Format");
@@ -1433,9 +1447,12 @@ namespace Office_File_Explorer
 
                                     do
                                     {
-                                        if (setting.ElementAt(settingIndex).LocalName == "useFELayout")
+                                        if (setting.ElementAt(settingIndex).LocalName != "compatSetting")
                                         {
-                                            LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _semiColon + setting.ElementAt(0).InnerText);
+                                            if (setting.ElementAt(0).InnerText != "")
+                                            {
+                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _semiColon + setting.ElementAt(0).InnerText);
+                                            }
                                             settingIndex++;
                                         }
                                         else
@@ -1444,6 +1461,7 @@ namespace Office_File_Explorer
                                             if (cs.Name == "compatibilityMode")
                                             {
                                                 string compatModeVersion = "";
+
                                                 if (cs.Val == "11")
                                                 {
                                                     compatModeVersion = " (Word 2003)";
