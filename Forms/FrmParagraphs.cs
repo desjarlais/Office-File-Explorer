@@ -31,7 +31,7 @@ namespace Office_File_Explorer.Forms
                 {
                     MainDocumentPart mPart = package.MainDocumentPart;
                     IEnumerable<Paragraph> pList = mPart.Document.Descendants<Paragraph>();
-
+                    
                     foreach (var v in pList)
                     {
                         count++;
@@ -51,6 +51,8 @@ namespace Office_File_Explorer.Forms
                         cbParagraphs.Items.Add("Paragraph #" + n);
                     } while (n < count);
                 }
+
+                lblParaCount.Text = "Paragraph Count = " + count;
             }
             catch (Exception ex)
             {
