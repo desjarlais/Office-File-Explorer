@@ -79,10 +79,12 @@ namespace Office_File_Explorer
         const string _errorText = "Error: ";
         const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         const string _semiColon = ": ";
+        const string _period = ". ";
         const string _docSecurity = "DocSecurity";
         const string _word = "Word";
         const string _excel = "Excel";
         const string _powerpoint = "PowerPoint";
+
 
         // global numid lists
         ArrayList oNumIdList = new ArrayList();
@@ -346,7 +348,7 @@ namespace Office_File_Explorer
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Comment cm in commentsPart.Comments)
                     {
                         count++;
-                        LstDisplay.Items.Add(count + ". " + cm.InnerText);
+                        LstDisplay.Items.Add(count + _period + cm.InnerText);
                     }
                 }
             }
@@ -475,7 +477,7 @@ namespace Office_File_Explorer
                         foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + hRel.Uri);
+                            LstDisplay.Items.Add(count + _period + hRel.Uri);
                         }
                     }
                 }
@@ -1128,7 +1130,7 @@ namespace Office_File_Explorer
                             if (cell.CellFormula != null)
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + cell.CellReference + " = " + cell.CellFormula.Text);
+                                LstDisplay.Items.Add(count + _period + cell.CellReference + " = " + cell.CellFormula.Text);
                             }
                         }
                     }
@@ -1162,7 +1164,7 @@ namespace Office_File_Explorer
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
                         count++;
-                        LstDisplay.Items.Add(count + ". " + ft.Name);
+                        LstDisplay.Items.Add(count + _period + ft.Name);
                     }
                 }
 
@@ -1195,7 +1197,7 @@ namespace Office_File_Explorer
                             if (fn.InnerText != "")
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + ". " + fn.InnerText);
+                                DisplayInformation(InformationOutput.TextOnly, count + _period + fn.InnerText);
                             }
                         }
 
@@ -1234,7 +1236,7 @@ namespace Office_File_Explorer
                             if (en.InnerText != "")
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + ". " + en.InnerText);
+                                DisplayInformation(InformationOutput.TextOnly, count + _period + en.InnerText);
                             }
                         }
 
@@ -1400,7 +1402,7 @@ namespace Office_File_Explorer
                         {
                             count++;
                             PresenceInfo pi = person.PresenceInfo;
-                            LstDisplay.Items.Add(count + ". " + person.Author);
+                            LstDisplay.Items.Add(count + _period + person.Author);
                             LstDisplay.Items.Add("   - User Id = " + pi.UserId);
                             LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
                         }
@@ -1879,7 +1881,7 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetAllExternalHyperlinksInPresentation(TxtFileName.Text))
                     {
                         linkCount++;
-                        LstDisplay.Items.Add(linkCount + ". " + s);
+                        LstDisplay.Items.Add(linkCount + _period + s);
                     }
 
                     if (linkCount == 0)
@@ -1908,7 +1910,7 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetSlideTitles(presentationDocument))
                     {
                         slideCount++;
-                        LstDisplay.Items.Add(slideCount + ". " + s);
+                        LstDisplay.Items.Add(slideCount + _period + s);
                     }
 
                     if (slideCount == 0)
@@ -1994,7 +1996,7 @@ namespace Office_File_Explorer
                     {
                         ExtRelCount++;
                         ExternalRelationship extRel = extWbPart.ExternalRelationships.ElementAt(0);
-                        LstDisplay.Items.Add(ExtRelCount + ". " + extWbPart.ExternalRelationships.ElementAt(0).Uri);
+                        LstDisplay.Items.Add(ExtRelCount + _period + extWbPart.ExternalRelationships.ElementAt(0).Uri);
                     }
                 }
             }
@@ -2039,7 +2041,7 @@ namespace Office_File_Explorer
                         foreach (DefinedName dn in definedNames)
                         {
                             nameCount++;
-                            LstDisplay.Items.Add(nameCount + ". " + dn.Name.Value + " = " + dn.Text);
+                            LstDisplay.Items.Add(nameCount + _period + dn.Name.Value + " = " + dn.Text);
                         }
                     }
                     else
@@ -2093,7 +2095,7 @@ namespace Office_File_Explorer
                             foreach (Row row in rows)
                             {
                                 rowCount++;
-                                LstDisplay.Items.Add(rowCount + ". " + row.InnerText);                                
+                                LstDisplay.Items.Add(rowCount + _period + row.InnerText);                                
                             }
 
                             if (rowCount == 0)
@@ -2145,7 +2147,7 @@ namespace Office_File_Explorer
                 foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text))
                 {
                     sheetCount++;
-                    LstDisplay.Items.Add(sheetCount + ". " + sht.Name);
+                    LstDisplay.Items.Add(sheetCount + _period + sht.Name);
                 }
             }
             catch (Exception ex)
@@ -2172,7 +2174,7 @@ namespace Office_File_Explorer
                 foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                 {
                     hiddenCount++;
-                    LstDisplay.Items.Add(hiddenCount + ". " + sht.Name);
+                    LstDisplay.Items.Add(hiddenCount + _period + sht.Name);
                 }
 
                 if (hiddenCount == 0)
@@ -2214,7 +2216,7 @@ namespace Office_File_Explorer
                     {
                         sharedStringCount++;
                         DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
-                        LstDisplay.Items.Add(sharedStringCount + ". " + ssValue.Text);
+                        LstDisplay.Items.Add(sharedStringCount + _period + ssValue.Text);
                     }
                 }
             }
@@ -2246,7 +2248,7 @@ namespace Office_File_Explorer
                         foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
                         {
                             CommentText cText = cmt.CommentText;
-                            LstDisplay.Items.Add(commentCount + ". " + cText.InnerText);
+                            LstDisplay.Items.Add(commentCount + _period + cText.InnerText);
                             commentCount++;
                         }
                     }
@@ -2374,7 +2376,7 @@ namespace Office_File_Explorer
                         foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
-                            LstDisplay.Items.Add(commentCount + ". " + cmt.InnerText);       
+                            LstDisplay.Items.Add(commentCount + _period + cmt.InnerText);       
                         }
                     }
 
@@ -2480,7 +2482,7 @@ namespace Office_File_Explorer
                     do
                     {
                         PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
-                        LstDisplay.Items.Add("Slide " + (count + 1) + ". " + sldText);
+                        LstDisplay.Items.Add("Slide " + (count + 1) + _period + sldText);
                         count++;
                     } while (count < sCount);
                 }
@@ -2979,7 +2981,7 @@ namespace Office_File_Explorer
             foreach (var v in cfpList(cfp))
             {
                 count++;
-                LstDisplay.Items.Add(count + ". " + v);
+                LstDisplay.Items.Add(count + _period + v);
             }
         }
 
