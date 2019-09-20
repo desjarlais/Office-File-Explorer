@@ -93,8 +93,7 @@ namespace Office_File_Explorer.App_Helpers
                 propSet = true;
             }
 
-            // Now that you have handled the parameters, start
-            // working on the document.
+            // Now that you have handled the parameters, start working on the document.
             Guid id = Guid.NewGuid();
             newProp.FormatId = id.ToString();
             newProp.Name = propertyName;
@@ -300,7 +299,7 @@ namespace Office_File_Explorer.App_Helpers
         {
             bool fileChanged = false;
             string newFileName = "";
-            string fileExtension = "";
+            string fileExtension;
 
             if (app == "Word")
             {
@@ -379,7 +378,7 @@ namespace Office_File_Explorer.App_Helpers
             // the code will raise an exception back to the caller.
             if (fileChanged)
             {
-                // Create the new .docx filename.
+                // Create the new filename.
                 newFileName = Path.ChangeExtension(fileName, fileExtension);
 
                 // If it already exists, it will be deleted!

@@ -77,7 +77,7 @@ namespace Office_File_Explorer
         const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
         const string _errorText = "Error: ";
         const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        const string _semiColon = ": ";
+        const string _colon = ": ";
         const string _period = ". ";
         const string _emptyString = "";
         const string _docSecurity = "DocSecurity";
@@ -1453,7 +1453,7 @@ namespace Office_File_Explorer
                                         {
                                             if (setting.ElementAt(0).InnerText != _emptyString)
                                             {
-                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _semiColon + setting.ElementAt(0).InnerText);
+                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _colon + setting.ElementAt(0).InnerText);
                                             }
                                             settingIndex++;
                                         }
@@ -1485,12 +1485,12 @@ namespace Office_File_Explorer
                                                     compatModeVersion = " (Word 2019)";
                                                 }
 
-                                                LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val + compatModeVersion);
+                                                LstDisplay.Items.Add(cs.Name + _colon + cs.Val + compatModeVersion);
                                                 settingIndex++;
                                             }
                                             else
                                             {
-                                                LstDisplay.Items.Add(cs.Name + _semiColon + cs.Val);
+                                                LstDisplay.Items.Add(cs.Name + _colon + cs.Val);
                                                 settingIndex++;
                                             }
                                         }
@@ -1511,7 +1511,7 @@ namespace Office_File_Explorer
                                         sb.Clear();
                                         if (xe.Attributes.Count > 1)
                                         {        
-                                            sb.Append(xe.Name + _semiColon);
+                                            sb.Append(xe.Name + _colon);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
                                                 if (!(xa.LocalName == "w" || xa.LocalName == "m" || xa.LocalName == "w14" || xa.LocalName == "w15" || xa.LocalName == "w16"))
@@ -1524,7 +1524,7 @@ namespace Office_File_Explorer
                                                         }
                                                         else
                                                         {
-                                                            sb.Append(xa.LocalName + _semiColon + xa.Value);
+                                                            sb.Append(xa.LocalName + _colon + xa.Value);
                                                         }
                                                     }
                                                 }
@@ -1616,19 +1616,19 @@ namespace Office_File_Explorer
                 switch (elem.InnerText)
                 {
                     case "0":
-                        LstDisplay.Items.Add(_docSecurity + _semiColon + "None");
+                        LstDisplay.Items.Add(_docSecurity + _colon + "None");
                         break;
                     case "1":
-                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Password Protected");
+                        LstDisplay.Items.Add(_docSecurity + _colon + "Password Protected");
                         break;
                     case "2":
-                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Read-Only Recommended");
+                        LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Recommended");
                         break;
                     case "4":
-                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Read-Only Enforced");
+                        LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Enforced");
                         break;
                     case "8":
-                        LstDisplay.Items.Add(_docSecurity + _semiColon + "Locked For Annotation");
+                        LstDisplay.Items.Add(_docSecurity + _colon + "Locked For Annotation");
                         break;
                     default:
                         break;
