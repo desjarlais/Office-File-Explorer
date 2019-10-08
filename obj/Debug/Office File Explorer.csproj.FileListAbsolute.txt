@@ -112,7 +112,6 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSearchAnd
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmSettings.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Properties.Resources.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.GenerateResource.cache
-E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.TrustInfo.xml
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.exe.manifest
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.application

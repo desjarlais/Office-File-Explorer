@@ -902,7 +902,7 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = _emptyString;
 
-                    Forms.FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
+                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
                     {
                         Owner = this
                     };
@@ -1111,31 +1111,24 @@ namespace Office_File_Explorer
 
                 foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
                 {
-                    int sheetDataIndex = 0;
-                    int shtCount = 0;
-
                     foreach (var s in sht)
                     {
                         if (s.LocalName == "sheetData")
                         {
-                            sheetDataIndex = shtCount;
-                        }
-                        shtCount++;
-                    }
-
-                    foreach (Row row in sht.ElementAt(sheetDataIndex))
-                    {
-                        foreach (Cell cell in row)
-                        {
-                            if (cell.CellFormula != null)
+                            IEnumerable<Cell> cells = sht.WorksheetPart.Worksheet.Descendants<Cell>();
+                            foreach (Cell c in cells)
                             {
-                                count++;
-                                LstDisplay.Items.Add(count + _period + cell.CellReference + " = " + cell.CellFormula.Text);
+                                if (c.CellFormula != null)
+                                {
+                                    count++;
+                                    LstDisplay.Items.Add(count + _period + c.CellReference + " = " + c.CellFormula.Text);
+                                }
                             }
                         }
+                    
                     }
                 }
-
+                
                 if (count == 0)
                 {
                     LstDisplay.Items.Add("** No formulas in file **");
@@ -1148,7 +1141,7 @@ namespace Office_File_Explorer
                 LoggingHelper.Log(ex.Message);
             }
             finally
-            {
+            {                
                 Cursor = Cursors.Default;
             }
         }
