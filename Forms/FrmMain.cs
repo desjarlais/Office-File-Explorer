@@ -9,50 +9,51 @@ This source is subject to the Microsoft Public License.
 See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 All other rights reserved.
 
-THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.CustomProperties;
-using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 
 // this app references
 using Office_File_Explorer.App_Helpers;
 using Office_File_Explorer.Excel_Helpers;
-using Office_File_Explorer.Word_Helpers;
-using Office_File_Explorer.PowerPoint_Helpers;
 using Office_File_Explorer.Forms;
+using Office_File_Explorer.PowerPoint_Helpers;
+using Office_File_Explorer.Word_Helpers;
 
 // .Net refs
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Deployment.Application;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using System.Collections.Generic;
-using System.IO.Packaging;
-using System.Diagnostics;
+using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 
 namespace Office_File_Explorer
 {
     public partial class FrmMain : Form
     {
         // globals
-        string _fromAuthor;
-        string _FindText;
-        string _ReplaceText;
+        private string _fromAuthor;
+
+        private string _FindText;
+        private string _ReplaceText;
         public static char PrevChar = '<';
         public bool IsRegularXmlTag;
         public bool IsFixed;
@@ -61,39 +62,41 @@ namespace Office_File_Explorer
         public static string StrDestPath = string.Empty;
         public static string StrExtension = string.Empty;
         public static string StrDestFileName = string.Empty;
-        string fileType;
+        private string fileType;
 
         // static string variables
-        const string _fileDoesNotExist = "** File does not exist **";
-        const string _noFootNotes = "** No Footnotes in this document **";
-        const string _noEndNotes = "** No Endnotes in this document **";
-        const string _themeFileAdded = "Theme File Added.";
-        const string _unableToDownloadUpdate = "Unable to download update.";
-        const string _noOLE = "** This document does not contain OLE objects **";
-        const string TxtFallbackStart = "<mc:Fallback>";
-        const string TxtFallbackEnd = "</mc:Fallback>";
-        const string _invalidTag = "Invalid Tag: ";
-        const string _replacedWith = "Replaced With: ";
-        const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
-        const string _errorText = "Error: ";
-        const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        const string _colon = ": ";
-        const string _period = ". ";
-        const string _emptyString = "";
-        const string _docSecurity = "DocSecurity";
-        const string _word = "Word";
-        const string _excel = "Excel";
-        const string _powerpoint = "PowerPoint";
+        private const string _fileDoesNotExist = "** File does not exist **";
 
+        private const string _noFootNotes = "** No Footnotes in this document **";
+        private const string _noEndNotes = "** No Endnotes in this document **";
+        private const string _themeFileAdded = "Theme File Added.";
+        private const string _unableToDownloadUpdate = "Unable to download update.";
+        private const string _noOLE = "** This document does not contain OLE objects **";
+        private const string TxtFallbackStart = "<mc:Fallback>";
+        private const string TxtFallbackEnd = "</mc:Fallback>";
+        private const string _invalidTag = "Invalid Tag: ";
+        private const string _replacedWith = "Replaced With: ";
+        private const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
+        private const string _errorText = "Error: ";
+        private const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        private const string _colon = ": ";
+        private const string _period = ". ";
+        private const string _emptyString = "";
+        private const string _docSecurity = "DocSecurity";
+        private const string _word = "Word";
+        private const string _excel = "Excel";
+        private const string _powerpoint = "PowerPoint";
 
         // global numid lists
-        ArrayList oNumIdList = new ArrayList();
-        ArrayList aNumIdList = new ArrayList();
-        ArrayList numIdList = new ArrayList();
+        private ArrayList oNumIdList = new ArrayList();
+
+        private ArrayList aNumIdList = new ArrayList();
+        private ArrayList numIdList = new ArrayList();
 
         // fix corrupt doc globals
         private static List<string> _nodes = new List<string>();
-        private static StringBuilder _sbNodeBuffer = new StringBuilder();       
+
+        private static StringBuilder _sbNodeBuffer = new StringBuilder();
 
         public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile };
 
@@ -109,6 +112,7 @@ namespace Office_File_Explorer
         }
 
         #region Class Properties
+
         public string AuthorProperty
         {
             set => _fromAuthor = value;
@@ -123,7 +127,8 @@ namespace Office_File_Explorer
         {
             set => _ReplaceText = value;
         }
-        #endregion
+
+        #endregion Class Properties
 
         /// <summary>
         /// Disable all buttons on the form and reset file type
@@ -189,7 +194,7 @@ namespace Office_File_Explorer
         {
             string fileExt = Path.GetExtension(TxtFileName.Text);
             fileExt = fileExt.ToLower();
-            
+
             if (fileExt == ".docx")
             {
                 return OxmlFileFormat.Docx;
@@ -266,7 +271,6 @@ namespace Office_File_Explorer
                 BtnSetPrintOrientation.Enabled = true;
                 BtnViewParagraphs.Enabled = true;
                 BtnRemovePII.Enabled = true;
-
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -381,14 +385,17 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add(output);
                     break;
+
                 case InformationOutput.Append:
                     LstDisplay.Items.Add(_emptyString);
                     LstDisplay.Items.Add(output);
                     break;
+
                 case InformationOutput.InvalidFile:
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add("Invalid File. Please select a valid document.");
                     break;
+
                 default:
                     LstDisplay.Items.Add(output);
                     break;
@@ -717,8 +724,6 @@ namespace Office_File_Explorer
                 {
                     DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -1024,7 +1029,7 @@ namespace Office_File_Explorer
                 {
                     WordExtensionClass.RemovePersonalInfo(document);
                 }
-                
+
                 DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
             }
         }
@@ -1125,10 +1130,9 @@ namespace Office_File_Explorer
                                 }
                             }
                         }
-                    
                     }
                 }
-                
+
                 if (count == 0)
                 {
                     LstDisplay.Items.Add("** No formulas in file **");
@@ -1141,7 +1145,7 @@ namespace Office_File_Explorer
                 LoggingHelper.Log(ex.Message);
             }
             finally
-            {                
+            {
                 Cursor = Cursors.Default;
             }
         }
@@ -1306,7 +1310,7 @@ namespace Office_File_Explorer
                         Owner = this
                     };
                     aFrm.ShowDialog();
-                    
+
                     if (!String.IsNullOrEmpty(_fromAuthor))
                     {
                         paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();
@@ -1371,7 +1375,7 @@ namespace Office_File_Explorer
 
                 Cursor = Cursors.Default;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
                 LoggingHelper.Log("BtnListRevisions_Click Error");
@@ -1413,7 +1417,7 @@ namespace Office_File_Explorer
                 LoggingHelper.Log(ex.Message);
             }
         }
-        
+
         private void BtnViewCustomDocProps_Click(object sender, EventArgs e)
         {
             try
@@ -1487,7 +1491,6 @@ namespace Office_File_Explorer
                                                 settingIndex++;
                                             }
                                         }
-                                        
                                     } while (settingIndex < settingCount);
 
                                     LstDisplay.Items.Add(_emptyString);
@@ -1503,7 +1506,7 @@ namespace Office_File_Explorer
                                     {
                                         sb.Clear();
                                         if (xe.Attributes.Count > 1)
-                                        {        
+                                        {
                                             sb.Append(xe.Name + _colon);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
@@ -1596,7 +1599,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                // log the error 
+                // log the error
                 LoggingHelper.Log("GetExtendedFileProps Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -1611,18 +1614,23 @@ namespace Office_File_Explorer
                     case "0":
                         LstDisplay.Items.Add(_docSecurity + _colon + "None");
                         break;
+
                     case "1":
                         LstDisplay.Items.Add(_docSecurity + _colon + "Password Protected");
                         break;
+
                     case "2":
                         LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Recommended");
                         break;
+
                     case "4":
                         LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Enforced");
                         break;
+
                     case "8":
                         LstDisplay.Items.Add(_docSecurity + _colon + "Locked For Annotation");
                         break;
+
                     default:
                         break;
                 }
@@ -1689,7 +1697,7 @@ namespace Office_File_Explorer
                 {
                     fs.Read(buffer, 0, buffer.Length);
                 }
-                
+
                 // if the buffer starts with PK the file is a zip archive
                 if (buffer[0].ToString() == "80" && buffer[1].ToString() == "75")
                 {
@@ -1729,7 +1737,7 @@ namespace Office_File_Explorer
                 {
                     SetUpButtons();
                 }
-                                                
+
                 string body = _emptyString;
 
                 if (fileType == _word)
@@ -1995,7 +2003,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                // log the error 
+                // log the error
                 LstDisplay.Items.Add(_errorText + ex.Message);
                 LoggingHelper.Log("BtnListLinks_Click Error");
                 LoggingHelper.Log(ex.Message);
@@ -2088,7 +2096,7 @@ namespace Office_File_Explorer
                             foreach (Row row in rows)
                             {
                                 rowCount++;
-                                LstDisplay.Items.Add(rowCount + _period + row.InnerText);                                
+                                LstDisplay.Items.Add(rowCount + _period + row.InnerText);
                             }
 
                             if (rowCount == 0)
@@ -2224,7 +2232,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.Default;
             }
         }
-        
+
         private void BtnComments_Click(object sender, EventArgs e)
         {
             try
@@ -2369,7 +2377,7 @@ namespace Office_File_Explorer
                         foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
-                            LstDisplay.Items.Add(commentCount + _period + cmt.InnerText);       
+                            LstDisplay.Items.Add(commentCount + _period + cmt.InnerText);
                         }
                     }
 
@@ -2449,7 +2457,6 @@ namespace Office_File_Explorer
                 {
                     return;
                 }
-
             }
             catch (Exception ex)
             {
@@ -2559,35 +2566,43 @@ namespace Office_File_Explorer
                                                 {
                                                     case ValidXmlTags.StrValidMcChoice1:
                                                         break;
+
                                                     case ValidXmlTags.StrValidMcChoice2:
                                                         break;
+
                                                     case ValidXmlTags.StrValidMcChoice3:
                                                         break;
+
                                                     case InvalidXmlTags.StrInvalidVshape:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshape);
                                                         LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                    LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidVshape);
-                                                    break;
+                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidVshape);
+                                                        break;
+
                                                     case InvalidXmlTags.StrInvalidOmathWps:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwps);
                                                         LstDisplay.Items.Add(_invalidTag + m.Value);
                                                         LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwps);
                                                         break;
+
                                                     case InvalidXmlTags.StrInvalidOmathWpg:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpg);
                                                         LstDisplay.Items.Add(_invalidTag + m.Value);
                                                         LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpg);
                                                         break;
+
                                                     case InvalidXmlTags.StrInvalidOmathWpc:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpc);
                                                         LstDisplay.Items.Add(_invalidTag + m.Value);
                                                         LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpc);
                                                         break;
+
                                                     case InvalidXmlTags.StrInvalidOmathWpi:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpi);
                                                         LstDisplay.Items.Add(_invalidTag + m.Value);
                                                         LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpi);
                                                         break;
+
                                                     default:
                                                         // default catch for "strInvalidmcChoiceRegEx" and "strInvalidFallbackRegEx"
                                                         // since the exact string will never be the same and always has different trailing tags
@@ -2663,6 +2678,7 @@ namespace Office_File_Explorer
                                                         }
                                                         Node(charEnum.Current);
                                                         break;
+
                                                     case '>':
                                                         // there are 2 ways to close out a tag
                                                         // 1. self contained tag like <w:sz w:val="28"/>
@@ -2677,6 +2693,7 @@ namespace Office_File_Explorer
                                                         _nodes.Add(_sbNodeBuffer.ToString());
                                                         _sbNodeBuffer.Clear();
                                                         break;
+
                                                     default:
                                                         // this is the second xml closing style, keep track of char
                                                         if (PrevChar == '<' && charEnum.Current == '/')
@@ -2762,7 +2779,7 @@ namespace Office_File_Explorer
                     OpenWithSdk(StrDestFileName, false);
                 }
 
-                // need to reset the globals 
+                // need to reset the globals
                 IsFixed = false;
                 IsRegularXmlTag = false;
                 FixedFallback = string.Empty;
@@ -2866,7 +2883,7 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
-                
+
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
