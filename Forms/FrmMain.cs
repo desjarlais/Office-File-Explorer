@@ -51,7 +51,7 @@ namespace Office_File_Explorer
     {
         // globals
         private string _fromAuthor;
-
+        //private OfficeDocument package = null;
         private string _FindText;
         private string _ReplaceText;
         public static char PrevChar = '<';
@@ -65,36 +65,37 @@ namespace Office_File_Explorer
         private string fileType;
 
         // static string variables
-        private const string _fileDoesNotExist = "** File does not exist **";
-
-        private const string _noFootNotes = "** No Footnotes in this document **";
-        private const string _noEndNotes = "** No Endnotes in this document **";
-        private const string _themeFileAdded = "Theme File Added.";
-        private const string _unableToDownloadUpdate = "Unable to download update.";
-        private const string _noOLE = "** This document does not contain OLE objects **";
-        private const string TxtFallbackStart = "<mc:Fallback>";
-        private const string TxtFallbackEnd = "</mc:Fallback>";
-        private const string _invalidTag = "Invalid Tag: ";
-        private const string _replacedWith = "Replaced With: ";
-        private const string _errorUnableToFixDocument = "ERROR: Unable to fix document.";
-        private const string _errorText = "Error: ";
-        private const string _wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        private const string _colon = ": ";
-        private const string _period = ". ";
-        private const string _emptyString = "";
-        private const string _docSecurity = "DocSecurity";
-        private const string _word = "Word";
-        private const string _excel = "Excel";
-        private const string _powerpoint = "PowerPoint";
+        //private const string StringResources.fileDoesNotExist = "** File does not exist **";
+        //private const string StringResources.noFootnotes = "** No Footnotes in this document **";
+        //private const string StringResources.noEndnotes = "** No Endnotes in this document **";
+        //private const string StringResources.themeFileAdded = "Theme File Added.";
+        //private const string StringResources.unableToDownloadUpdate = "Unable to download update.";
+        //private const string StringResources.noOle = "** This document does not contain OLE objects **";
+        //private const string StringResources.txtFallbackStart = "<mc:Fallback>";
+        //private const string StringResources.txtFallbackEnd = "</mc:Fallback>";
+        //private const string StringResources.invalidTag = "Invalid Tag: ";
+        //private const string StringResources.replacedWith = "Replaced With: ";
+        //private const string StringResources.errorUnableToFixDocument = "ERROR: Unable to fix document.";
+        //private const string StringResources.errorText = "Error: ";
+        //private const string StringResources.wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        //private const string StringResources.colon = ": ";
+        //private const string StringResources.period = ". ";
+        //private const string StringResources.emptyString = "";
+        //private const string StringResources.docSecurity = "DocSecurity";
+        //private const string StringResources.word = "Word";
+        //private const string StringResources.excel = "Excel";
+        //private const string StringResources.powerpoint = "PowerPoint";
 
         // global numid lists
         private ArrayList oNumIdList = new ArrayList();
-
         private ArrayList aNumIdList = new ArrayList();
         private ArrayList numIdList = new ArrayList();
 
         // fix corrupt doc globals
         private static List<string> _nodes = new List<string>();
+
+        // global packageparts
+        private static List<PackagePart> _pParts = new List<PackagePart>();
 
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
 
@@ -104,8 +105,8 @@ namespace Office_File_Explorer
         {
             InitializeComponent();
             LoggingHelper.Log("App Start");
-            _FindText = _emptyString;
-            _ReplaceText = _emptyString;
+            _FindText = StringResources.emptyString;
+            _ReplaceText = StringResources.emptyString;
 
             // disable all buttons
             DisableButtons();
@@ -135,7 +136,7 @@ namespace Office_File_Explorer
         /// </summary>
         public void DisableButtons()
         {
-            fileType = _emptyString;
+            fileType = StringResources.emptyString;
             BtnAcceptRevisions.Enabled = false;
             BtnDeleteBreaks.Enabled = false;
             BtnDeleteComments.Enabled = false;
@@ -245,7 +246,7 @@ namespace Office_File_Explorer
 
             if (ffmt == OxmlFileFormat.Docx || ffmt == OxmlFileFormat.Docm || ffmt == OxmlFileFormat.Dotx)
             {
-                fileType = _word;
+                fileType = StringResources.word;
 
                 // enable WD only files
                 BtnAcceptRevisions.Enabled = true;
@@ -279,7 +280,7 @@ namespace Office_File_Explorer
             }
             else if (ffmt == OxmlFileFormat.Xlsx || ffmt == OxmlFileFormat.Xlsm || ffmt == OxmlFileFormat.Xlst)
             {
-                fileType = _excel;
+                fileType = StringResources.word;
 
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
@@ -304,7 +305,7 @@ namespace Office_File_Explorer
             }
             else if (ffmt == OxmlFileFormat.Pptx || ffmt == OxmlFileFormat.Pptm || ffmt == OxmlFileFormat.Potx)
             {
-                fileType = _powerpoint;
+                fileType = StringResources.powerpoint;
 
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
@@ -352,7 +353,7 @@ namespace Office_File_Explorer
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Comment cm in commentsPart.Comments)
                     {
                         count++;
-                        LstDisplay.Items.Add(count + _period + cm.InnerText);
+                        LstDisplay.Items.Add(count + StringResources.period + cm.InnerText);
                     }
                 }
             }
@@ -387,7 +388,7 @@ namespace Office_File_Explorer
                     break;
 
                 case InformationOutput.Append:
-                    LstDisplay.Items.Add(_emptyString);
+                    LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add(output);
                     break;
 
@@ -419,7 +420,7 @@ namespace Office_File_Explorer
                     {
                         foreach (OpenXmlElement el in stylePart.Styles.LatentStyles.Elements())
                         {
-                            string styleEl = el.GetAttribute("name", _wordMainAttributeNamespace).Value;
+                            string styleEl = el.GetAttribute("name", StringResources.wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
                             int rStyle = WordExtensionClass.RunsByStyleName(mainPart, styleEl).Count();
                             int tStyle = WordExtensionClass.TablesByStyleName(mainPart, styleEl).Count();
@@ -484,7 +485,7 @@ namespace Office_File_Explorer
                         foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + _period + hRel.Uri);
+                            LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
                         }
                     }
                 }
@@ -559,7 +560,7 @@ namespace Office_File_Explorer
                     {
                         try
                         {
-                            string styleEl = el.GetAttribute("styleId", _wordMainAttributeNamespace).Value;
+                            string styleEl = el.GetAttribute("styleId", StringResources.wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
 
                             if (pStyle > 0)
@@ -592,13 +593,13 @@ namespace Office_File_Explorer
                     }
 
                     // Loop through each AbstractNumId
-                    LstDisplay.Items.Add(_emptyString);
+                    LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add("List Templates in document:");
                     foreach (OpenXmlElement el in numPart.Numbering.Elements())
                     {
                         foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
                         {
-                            string strNumId = el.GetAttribute("numId", _wordMainAttributeNamespace).Value;
+                            string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
                             aNumIdList.Add(strNumId);
                             LstDisplay.Items.Add("numId = " + strNumId + " " + "AbstractNumId = " + aNumId.Val);
                         }
@@ -606,7 +607,7 @@ namespace Office_File_Explorer
 
                     // get the unused list templates
                     oNumIdList = OrphanedListTemplates(numIdList, aNumIdList);
-                    LstDisplay.Items.Add(_emptyString);
+                    LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add("Orphaned List Templates:");
                     foreach (object item in oNumIdList)
                     {
@@ -669,7 +670,7 @@ namespace Office_File_Explorer
             LstDisplay.Items.Clear();
             try
             {
-                if (fileType == _word)
+                if (fileType == StringResources.word)
                 {
                     using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
@@ -678,11 +679,11 @@ namespace Office_File_Explorer
 
                         if (wdOlePkgPart == 0 && wdOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
                         }
                     }
                 }
-                else if (fileType == _excel)
+                else if (fileType == StringResources.excel)
                 {
                     using (SpreadsheetDocument doc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                     {
@@ -697,11 +698,11 @@ namespace Office_File_Explorer
 
                         if (xlOlePkgPart == 0 && xlOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
                         }
                     }
                 }
-                else if (fileType == _powerpoint)
+                else if (fileType == StringResources.powerpoint)
                 {
                     using (PresentationDocument doc = PresentationDocument.Open(TxtFileName.Text, false))
                     {
@@ -716,13 +717,13 @@ namespace Office_File_Explorer
 
                         if (pptOlePkgPart == 0 && pptOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
                         }
                     }
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, _noOLE);
+                    DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
                 }
             }
             catch (Exception ex)
@@ -905,7 +906,7 @@ namespace Office_File_Explorer
                 using (document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     // get the list of authors
-                    _fromAuthor = _emptyString;
+                    _fromAuthor = StringResources.emptyString;
 
                     FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
                     {
@@ -916,7 +917,7 @@ namespace Office_File_Explorer
 
                 if (_fromAuthor == "All Authors")
                 {
-                    _fromAuthor = _emptyString;
+                    _fromAuthor = StringResources.emptyString;
                 }
 
                 WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
@@ -1126,7 +1127,7 @@ namespace Office_File_Explorer
                                 if (c.CellFormula != null)
                                 {
                                     count++;
-                                    LstDisplay.Items.Add(count + _period + c.CellReference + " = " + c.CellFormula.Text);
+                                    LstDisplay.Items.Add(count + StringResources.period + c.CellReference + " = " + c.CellFormula.Text);
                                 }
                             }
                         }
@@ -1161,7 +1162,7 @@ namespace Office_File_Explorer
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
                         count++;
-                        LstDisplay.Items.Add(count + _period + ft.Name);
+                        LstDisplay.Items.Add(count + StringResources.period + ft.Name);
                     }
                 }
 
@@ -1191,21 +1192,21 @@ namespace Office_File_Explorer
                         int count = 0;
                         foreach (Footnote fn in footnotePart.Footnotes)
                         {
-                            if (fn.InnerText != _emptyString)
+                            if (fn.InnerText != StringResources.emptyString)
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + _period + fn.InnerText);
+                                DisplayInformation(InformationOutput.TextOnly, count + StringResources.period + fn.InnerText);
                             }
                         }
 
                         if (count == 0)
                         {
-                            DisplayInformation(InformationOutput.TextOnly, _noFootNotes);
+                            DisplayInformation(InformationOutput.TextOnly, StringResources.noFootnotes);
                         }
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, _noFootNotes);
+                        DisplayInformation(InformationOutput.TextOnly, StringResources.noFootnotes);
                     }
                 }
             }
@@ -1230,21 +1231,21 @@ namespace Office_File_Explorer
                         int count = 0;
                         foreach (Endnote en in endnotePart.Endnotes)
                         {
-                            if (en.InnerText != _emptyString)
+                            if (en.InnerText != StringResources.emptyString)
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + _period + en.InnerText);
+                                DisplayInformation(InformationOutput.TextOnly, count + StringResources.period + en.InnerText);
                             }
                         }
 
                         if (count == 0)
                         {
-                            DisplayInformation(InformationOutput.TextOnly, _noEndNotes);
+                            DisplayInformation(InformationOutput.TextOnly, StringResources.noEndnotes);
                         }
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, _noEndNotes);
+                        DisplayInformation(InformationOutput.TextOnly, StringResources.noEndnotes);
                     }
                 }
             }
@@ -1303,7 +1304,7 @@ namespace Office_File_Explorer
                     var inserted = doc.Descendants<InsertedRun>().ToList();
 
                     // get the list of authors
-                    _fromAuthor = _emptyString;
+                    _fromAuthor = StringResources.emptyString;
 
                     FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
                     {
@@ -1399,7 +1400,7 @@ namespace Office_File_Explorer
                         {
                             count++;
                             PresenceInfo pi = person.PresenceInfo;
-                            LstDisplay.Items.Add(count + _period + person.Author);
+                            LstDisplay.Items.Add(count + StringResources.period + person.Author);
                             LstDisplay.Items.Add("   - User Id = " + pi.UserId);
                             LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
                         }
@@ -1438,7 +1439,7 @@ namespace Office_File_Explorer
                             {
                                 if (setting.LocalName == "compat")
                                 {
-                                    LstDisplay.Items.Add(_emptyString);
+                                    LstDisplay.Items.Add(StringResources.emptyString);
                                     LstDisplay.Items.Add("---- Compatibility Settings ---- ");
 
                                     int settingCount = setting.Count();
@@ -1448,9 +1449,9 @@ namespace Office_File_Explorer
                                     {
                                         if (setting.ElementAt(settingIndex).LocalName != "compatSetting")
                                         {
-                                            if (setting.ElementAt(0).InnerText != _emptyString)
+                                            if (setting.ElementAt(0).InnerText != StringResources.emptyString)
                                             {
-                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + _colon + setting.ElementAt(0).InnerText);
+                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + StringResources.colon + setting.ElementAt(0).InnerText);
                                             }
                                             settingIndex++;
                                         }
@@ -1459,7 +1460,7 @@ namespace Office_File_Explorer
                                             CompatibilitySetting cs = (CompatibilitySetting)setting.ElementAt(settingIndex);
                                             if (cs.Name == "compatibilityMode")
                                             {
-                                                string compatModeVersion = _emptyString;
+                                                string compatModeVersion = StringResources.emptyString;
 
                                                 if (cs.Val == "11")
                                                 {
@@ -1482,18 +1483,18 @@ namespace Office_File_Explorer
                                                     compatModeVersion = " (Word 2019)";
                                                 }
 
-                                                LstDisplay.Items.Add(cs.Name + _colon + cs.Val + compatModeVersion);
+                                                LstDisplay.Items.Add(cs.Name + StringResources.colon + cs.Val + compatModeVersion);
                                                 settingIndex++;
                                             }
                                             else
                                             {
-                                                LstDisplay.Items.Add(cs.Name + _colon + cs.Val);
+                                                LstDisplay.Items.Add(cs.Name + StringResources.colon + cs.Val);
                                                 settingIndex++;
                                             }
                                         }
                                     } while (settingIndex < settingCount);
 
-                                    LstDisplay.Items.Add(_emptyString);
+                                    LstDisplay.Items.Add(StringResources.emptyString);
                                     LstDisplay.Items.Add("---- Settings ---- ");
                                 }
                                 else
@@ -1507,7 +1508,7 @@ namespace Office_File_Explorer
                                         sb.Clear();
                                         if (xe.Attributes.Count > 1)
                                         {
-                                            sb.Append(xe.Name + _colon);
+                                            sb.Append(xe.Name + StringResources.colon);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
                                                 if (!(xa.LocalName == "w" || xa.LocalName == "m" || xa.LocalName == "w14" || xa.LocalName == "w15" || xa.LocalName == "w16"))
@@ -1520,7 +1521,7 @@ namespace Office_File_Explorer
                                                         }
                                                         else
                                                         {
-                                                            sb.Append(xa.LocalName + _colon + xa.Value);
+                                                            sb.Append(xa.LocalName + StringResources.colon + xa.Value);
                                                         }
                                                     }
                                                 }
@@ -1577,7 +1578,7 @@ namespace Office_File_Explorer
             LstDisplay.Items.Add("Language : " + props.Language);
             LstDisplay.Items.Add("Identifier : " + props.Identifier);
             LstDisplay.Items.Add("Keywords : " + props.Keywords);
-            LstDisplay.Items.Add(_emptyString);
+            LstDisplay.Items.Add(StringResources.emptyString);
         }
 
         public void GetExtendedFileProps(ExtendedFilePropertiesPart exFilePropPart)
@@ -1607,28 +1608,28 @@ namespace Office_File_Explorer
 
         public void DisplayElementDetails(XmlElement elem)
         {
-            if (elem.Name == _docSecurity)
+            if (elem.Name == StringResources.docSecurity)
             {
                 switch (elem.InnerText)
                 {
                     case "0":
-                        LstDisplay.Items.Add(_docSecurity + _colon + "None");
+                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "None");
                         break;
 
                     case "1":
-                        LstDisplay.Items.Add(_docSecurity + _colon + "Password Protected");
+                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Password Protected");
                         break;
 
                     case "2":
-                        LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Recommended");
+                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Recommended");
                         break;
 
                     case "4":
-                        LstDisplay.Items.Add(_docSecurity + _colon + "Read-Only Enforced");
+                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Enforced");
                         break;
 
                     case "8":
-                        LstDisplay.Items.Add(_docSecurity + _colon + "Locked For Annotation");
+                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Locked For Annotation");
                         break;
 
                     default:
@@ -1663,7 +1664,7 @@ namespace Office_File_Explorer
                 TxtFileName.Text = fDialog.FileName.ToString();
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, _fileDoesNotExist);
+                    DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
                     return;
                 }
                 else
@@ -1677,6 +1678,7 @@ namespace Office_File_Explorer
                     else
                     {
                         OpenWithSdk(TxtFileName.Text, true);
+                        PopulatePackageParts();
                     }
                 }
             }
@@ -1684,6 +1686,17 @@ namespace Office_File_Explorer
             {
                 // user cancelled dialog, just return
                 return;
+            }
+        }
+
+        public void PopulatePackageParts()
+        {
+            //package = new OfficeDocument(TxtFileName.Text);
+            Package _package = Package.Open(TxtFileName.Text, System.IO.FileMode.Open, FileAccess.Read);
+            
+            foreach (PackagePart pckg in _package.GetParts())
+            {
+                _pParts.Add(pckg);
             }
         }
 
@@ -1738,9 +1751,9 @@ namespace Office_File_Explorer
                     SetUpButtons();
                 }
 
-                string body = _emptyString;
+                string body = StringResources.emptyString;
 
-                if (fileType == _word)
+                if (fileType == StringResources.word)
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(file, false))
                     {
@@ -1748,7 +1761,7 @@ namespace Office_File_Explorer
                         body = document.MainDocumentPart.Document.LocalName;
                     }
                 }
-                else if (fileType == _excel)
+                else if (fileType == StringResources.excel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, false))
                     {
@@ -1756,7 +1769,7 @@ namespace Office_File_Explorer
                         body = document.WorkbookPart.Workbook.LocalName;
                     }
                 }
-                else if (fileType == _powerpoint)
+                else if (fileType == StringResources.powerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(file, false))
                     {
@@ -1806,17 +1819,17 @@ namespace Office_File_Explorer
                 }
                 catch (DeploymentDownloadException dde)
                 {
-                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidDeploymentException ide)
                 {
-                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 catch (InvalidOperationException ioe)
                 {
-                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -1853,7 +1866,7 @@ namespace Office_File_Explorer
                         }
                         catch (DeploymentDownloadException dde)
                         {
-                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -1865,7 +1878,7 @@ namespace Office_File_Explorer
             }
             else
             {
-                MessageBox.Show("The new version of the application cannot be downloaded at this time.", _unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The new version of the application cannot be downloaded at this time.", StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1882,7 +1895,7 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetAllExternalHyperlinksInPresentation(TxtFileName.Text))
                     {
                         linkCount++;
-                        LstDisplay.Items.Add(linkCount + _period + s);
+                        LstDisplay.Items.Add(linkCount + StringResources.period + s);
                     }
 
                     if (linkCount == 0)
@@ -1911,7 +1924,7 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetSlideTitles(presentationDocument))
                     {
                         slideCount++;
-                        LstDisplay.Items.Add(slideCount + _period + s);
+                        LstDisplay.Items.Add(slideCount + StringResources.period + s);
                     }
 
                     if (slideCount == 0)
@@ -1936,7 +1949,7 @@ namespace Office_File_Explorer
                 };
                 sFrm.ShowDialog();
 
-                if (_FindText == _emptyString && _ReplaceText == _emptyString)
+                if (_FindText == StringResources.emptyString && _ReplaceText == StringResources.emptyString)
                 {
                     return;
                 }
@@ -1997,14 +2010,14 @@ namespace Office_File_Explorer
                     {
                         ExtRelCount++;
                         ExternalRelationship extRel = extWbPart.ExternalRelationships.ElementAt(0);
-                        LstDisplay.Items.Add(ExtRelCount + _period + extWbPart.ExternalRelationships.ElementAt(0).Uri);
+                        LstDisplay.Items.Add(ExtRelCount + StringResources.period + extWbPart.ExternalRelationships.ElementAt(0).Uri);
                     }
                 }
             }
             catch (Exception ex)
             {
                 // log the error
-                LstDisplay.Items.Add(_errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnListLinks_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -2042,7 +2055,7 @@ namespace Office_File_Explorer
                         foreach (DefinedName dn in definedNames)
                         {
                             nameCount++;
-                            LstDisplay.Items.Add(nameCount + _period + dn.Name.Value + " = " + dn.Text);
+                            LstDisplay.Items.Add(nameCount + StringResources.period + dn.Name.Value + " = " + dn.Text);
                         }
                     }
                     else
@@ -2096,7 +2109,7 @@ namespace Office_File_Explorer
                             foreach (Row row in rows)
                             {
                                 rowCount++;
-                                LstDisplay.Items.Add(rowCount + _period + row.InnerText);
+                                LstDisplay.Items.Add(rowCount + StringResources.period + row.InnerText);
                             }
 
                             if (rowCount == 0)
@@ -2120,7 +2133,7 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add("    None");
                             }
                         }
-                        LstDisplay.Items.Add(_emptyString);
+                        LstDisplay.Items.Add(StringResources.emptyString);
                     }
                 }
             }
@@ -2148,7 +2161,7 @@ namespace Office_File_Explorer
                 foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text))
                 {
                     sheetCount++;
-                    LstDisplay.Items.Add(sheetCount + _period + sht.Name);
+                    LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
                 }
             }
             catch (Exception ex)
@@ -2175,7 +2188,7 @@ namespace Office_File_Explorer
                 foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
                 {
                     hiddenCount++;
-                    LstDisplay.Items.Add(hiddenCount + _period + sht.Name);
+                    LstDisplay.Items.Add(hiddenCount + StringResources.period + sht.Name);
                 }
 
                 if (hiddenCount == 0)
@@ -2211,13 +2224,13 @@ namespace Office_File_Explorer
                     SharedStringTable sst = sstp.SharedStringTable;
                     LstDisplay.Items.Add("SharedString Count = " + sst.Count());
                     LstDisplay.Items.Add("Unique Count = " + sst.UniqueCount);
-                    LstDisplay.Items.Add(_emptyString);
+                    LstDisplay.Items.Add(StringResources.emptyString);
 
                     foreach (SharedStringItem ssi in sst)
                     {
                         sharedStringCount++;
                         DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
-                        LstDisplay.Items.Add(sharedStringCount + _period + ssValue.Text);
+                        LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
                     }
                 }
             }
@@ -2249,7 +2262,7 @@ namespace Office_File_Explorer
                         foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
                         {
                             CommentText cText = cmt.CommentText;
-                            LstDisplay.Items.Add(commentCount + _period + cText.InnerText);
+                            LstDisplay.Items.Add(commentCount + StringResources.period + cText.InnerText);
                             commentCount++;
                         }
                     }
@@ -2303,7 +2316,7 @@ namespace Office_File_Explorer
 
         private void BtnChangeTheme_Click(object sender, EventArgs e)
         {
-            string sThemeFilePath = _emptyString;
+            string sThemeFilePath = StringResources.emptyString;
 
             OpenFileDialog fDialog = new OpenFileDialog
             {
@@ -2319,28 +2332,28 @@ namespace Office_File_Explorer
 
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, _fileDoesNotExist);
+                    DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
                     return;
                 }
                 else
                 {
-                    if (fileType == _word)
+                    if (fileType == StringResources.word)
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
+                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
                     }
-                    else if (fileType == _excel)
+                    else if (fileType == StringResources.excel)
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
+                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
                     }
-                    else if (fileType == _powerpoint)
+                    else if (fileType == StringResources.powerpoint)
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, _themeFileAdded);
+                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
                     }
                     else
                     {
@@ -2377,7 +2390,7 @@ namespace Office_File_Explorer
                         foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
-                            LstDisplay.Items.Add(commentCount + _period + cmt.InnerText);
+                            LstDisplay.Items.Add(commentCount + StringResources.period + cmt.InnerText);
                         }
                     }
 
@@ -2441,7 +2454,7 @@ namespace Office_File_Explorer
 
         private void BtnConvertDocmToDocx_Click(object sender, EventArgs e)
         {
-            ConvertToNonMacro(_word);
+            ConvertToNonMacro(StringResources.word);
         }
 
         public void ConvertToNonMacro(string app)
@@ -2482,7 +2495,7 @@ namespace Office_File_Explorer
                     do
                     {
                         PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
-                        LstDisplay.Items.Add("Slide " + (count + 1) + _period + sldText);
+                        LstDisplay.Items.Add("Slide " + (count + 1) + StringResources.period + sldText);
                         count++;
                     } while (count < sCount);
                 }
@@ -2541,7 +2554,7 @@ namespace Office_File_Explorer
                     {
                         if (part.Uri.ToString() == "/word/document.xml")
                         {
-                            fileType = _word;
+                            fileType = StringResources.word;
                             XmlDocument xdoc = new XmlDocument();
                             try
                             {
@@ -2575,32 +2588,32 @@ namespace Office_File_Explorer
 
                                                     case InvalidXmlTags.StrInvalidVshape:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshape);
-                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidVshape);
+                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidVshape);
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidOmathWps:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwps);
-                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwps);
+                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidomathwps);
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidOmathWpg:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpg);
-                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpg);
+                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidomathwpg);
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidOmathWpc:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpc);
-                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpc);
+                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidomathwpc);
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidOmathWpi:
                                                         strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidomathwpi);
-                                                        LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidomathwpi);
+                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidomathwpi);
                                                         break;
 
                                                     default:
@@ -2615,15 +2628,15 @@ namespace Office_File_Explorer
                                                                 // secondary check for a fallback that has an attribute.
                                                                 // we don't allow attributes in a fallback
                                                                 strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidMcChoice4);
-                                                                LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                                LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidMcChoice4);
+                                                                LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                                LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidMcChoice4);
                                                                 break;
                                                             }
 
                                                             // replace mc:choice and hold onto the tag that follows
                                                             strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
-                                                            LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                            LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
+                                                            LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidMcChoice3 + m.Groups[2].Value);
                                                             break;
                                                         }
                                                         // the second if <w:pict/> is to catch and replace the invalid mc:Fallback tags
@@ -2633,17 +2646,17 @@ namespace Office_File_Explorer
                                                             {
                                                                 // if the match contains the closing fallback we just need to remove the entire fallback
                                                                 // this will leave the closing AC and Run tags, which should be correct
-                                                                strDocText = strDocText.Replace(m.Value, _emptyString);
-                                                                LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                                LstDisplay.Items.Add(_replacedWith + "Fallback tag deleted.");
+                                                                strDocText = strDocText.Replace(m.Value, StringResources.emptyString);
+                                                                LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                                LstDisplay.Items.Add(StringResources.replacedWith + "Fallback tag deleted.");
                                                                 break;
                                                             }
 
                                                             // if there is no closing fallback tag, we can replace the match with the omitFallback valid tags
                                                             // then we need to also add the trailing tag, since it's always different but needs to stay in the file
                                                             strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
-                                                            LstDisplay.Items.Add(_invalidTag + m.Value);
-                                                            LstDisplay.Items.Add(_replacedWith + ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
+                                                            LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrOmitFallback + m.Groups[2].Value);
                                                             break;
                                                         }
                                                         else
@@ -2744,12 +2757,12 @@ namespace Office_File_Explorer
             }
             catch (IOException)
             {
-                LstDisplay.Items.Add(_errorUnableToFixDocument);
+                LstDisplay.Items.Add(StringResources.errorUnableToFixDocument);
             }
             catch (FileFormatException ffe)
             {
                 // list out the possible reasons for this type of exception
-                LstDisplay.Items.Add(_errorUnableToFixDocument);
+                LstDisplay.Items.Add(StringResources.errorUnableToFixDocument);
                 LstDisplay.Items.Add("   Possible Causes:");
                 LstDisplay.Items.Add("      - File may be password protected");
                 LstDisplay.Items.Add("      - File was renamed to the .docx extension, but is not an actual .docx file");
@@ -2757,7 +2770,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(_errorUnableToFixDocument + ex.Message);
+                LstDisplay.Items.Add(StringResources.errorUnableToFixDocument + ex.Message);
             }
             finally
             {
@@ -2775,7 +2788,7 @@ namespace Office_File_Explorer
                 {
                     // since we were able to attempt the fixes
                     // check if we can open in the sdk and confirm it was indeed fixed
-                    LstDisplay.Items.Add(_emptyString);
+                    LstDisplay.Items.Add(StringResources.emptyString);
                     OpenWithSdk(StrDestFileName, false);
                 }
 
@@ -2811,7 +2824,7 @@ namespace Office_File_Explorer
 
             foreach (string o in _nodes)
             {
-                if (o == TxtFallbackStart)
+                if (o == StringResources.txtFallbackStart)
                 {
                     isFallback = true;
                 }
@@ -2821,7 +2834,7 @@ namespace Office_File_Explorer
                     fallback.Add(o);
                 }
 
-                if (o == TxtFallbackEnd)
+                if (o == StringResources.txtFallbackEnd)
                 {
                     isFallback = false;
                 }
@@ -2847,10 +2860,10 @@ namespace Office_File_Explorer
             {
                 switch (o.ToString())
                 {
-                    case TxtFallbackStart:
+                    case StringResources.txtFallbackStart:
                         sbFallback.Append(o);
                         continue;
-                    case TxtFallbackEnd:
+                    case StringResources.txtFallbackEnd:
                         sbFallback.Append(o);
                         fallbackTagsAppended.Add(sbFallback.ToString());
                         sbFallback.Clear();
@@ -2864,7 +2877,7 @@ namespace Office_File_Explorer
             sbFallback.Clear();
 
             // loop each item in the list and remove it from the document
-            originalText = fallbackTagsAppended.Aggregate(originalText, (current, o) => current.Replace(o.ToString(), _emptyString));
+            originalText = fallbackTagsAppended.Aggregate(originalText, (current, o) => current.Replace(o.ToString(), StringResources.emptyString));
 
             // each set of fallback tags should now be removed from the text
             // set it to the global variable so we can add it back into document.xml
@@ -2913,7 +2926,7 @@ namespace Office_File_Explorer
 
                             if (c.ConnectionFile != null && c.OlapProperties.RowDrillCount != null)
                             {
-                                LstDisplay.Items.Add(_emptyString);
+                                LstDisplay.Items.Add(StringResources.emptyString);
                                 LstDisplay.Items.Add("    Connection File= " + c.ConnectionFile);
                                 LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
                             }
@@ -2943,21 +2956,21 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                if (fileType == _word)
+                if (fileType == StringResources.word)
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
                         AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
-                else if (fileType == _excel)
+                else if (fileType == StringResources.excel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
                     {
                         AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
-                else if (fileType == _powerpoint)
+                else if (fileType == StringResources.powerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
                     {
@@ -2968,6 +2981,11 @@ namespace Office_File_Explorer
                 {
                     return;
                 }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
+                LstDisplay.Items.Add(StringResources.noCustomDocProps);
             }
             catch (Exception ex)
             {
@@ -2983,7 +3001,7 @@ namespace Office_File_Explorer
         {
             if (cfp == null)
             {
-                LstDisplay.Items.Add("** There are no custom file properties in this file **");
+                LstDisplay.Items.Add(StringResources.noCustomDocProps);
                 return;
             }
 
@@ -2991,7 +3009,12 @@ namespace Office_File_Explorer
             foreach (var v in cfpList(cfp))
             {
                 count++;
-                LstDisplay.Items.Add(count + _period + v);
+                LstDisplay.Items.Add(count + StringResources.period + v);
+            }
+
+            if (count == 0)
+            {
+                LstDisplay.Items.Add(StringResources.noCustomDocProps);
             }
         }
 
@@ -3071,12 +3094,12 @@ namespace Office_File_Explorer
 
         private void BtnConvertXlsm2Xlsx_Click(object sender, EventArgs e)
         {
-            ConvertToNonMacro(_excel);
+            ConvertToNonMacro(StringResources.excel);
         }
 
         private void BtnConvertPptmToPptx_Click(object sender, EventArgs e)
         {
-            ConvertToNonMacro(_powerpoint);
+            ConvertToNonMacro(StringResources.powerpoint);
         }
     }
 }
