@@ -116,3 +116,4 @@ C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explore
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CopyComplete
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.exe
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache

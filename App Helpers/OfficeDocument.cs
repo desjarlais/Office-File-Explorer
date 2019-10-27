@@ -13,7 +13,6 @@ namespace Office_File_Explorer.App_Helpers
     class OfficeDocument
     {
         private Package _package;
-
         private List<OfficePart> _xmlParts;
 
         private bool _isDirty;
@@ -55,7 +54,7 @@ namespace Office_File_Explorer.App_Helpers
                 _package = Package.Open(_tempFileName, System.IO.FileMode.Open, FileAccess.ReadWrite);
             }
 
-            Debug.Assert(_package != null, "Failed to get packge.");
+            Debug.Assert(_package != null, "Failed to get package.");
             if (_package == null) return;
 
             _xmlParts = new List<OfficePart>();
@@ -155,29 +154,29 @@ namespace Office_File_Explorer.App_Helpers
         }
         #endregion
 
-        public static OfficeApplications MapFileType(string extension)
+        public static string MapFileType(string extension)
         {
             extension = extension.ToLower();
             if (extension.StartsWith(".do"))
             {
-                return OfficeApplications.Word;
+                return StringResources.word;
             }
             else if (extension.StartsWith(".xl"))
             {
-                return OfficeApplications.Excel;
+                return StringResources.excel;
             }
             else if (extension.StartsWith(".pp"))
             {
-                return OfficeApplications.PowerPoint;
+                return StringResources.powerpoint;
             }
 
             Debug.Assert(false);
-            return OfficeApplications.XML;
+            return "xml";
         }
 
         public void Save()
         {
-            Debug.Assert(_package != null, "Failed to get packge.");
+            Debug.Assert(_package != null, "Failed to get package.");
             Debug.Assert(!_isReadOnly, "File is ReadOnly!");
 
             if (_package == null || _isReadOnly) return;
@@ -648,13 +647,5 @@ namespace Office_File_Explorer.App_Helpers
         RibbonX12,
         RibbonX14,
         LastEntry //Always Last
-    }
-
-    public enum OfficeApplications
-    {
-        Word,
-        Excel,
-        PowerPoint,
-        XML,
     }
 }

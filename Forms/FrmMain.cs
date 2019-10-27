@@ -51,7 +51,7 @@ namespace Office_File_Explorer
     {
         // globals
         private string _fromAuthor;
-        //private OfficeDocument package = null;
+        private OfficeDocument oDocument = null;
         private string _FindText;
         private string _ReplaceText;
         public static char PrevChar = '<';
@@ -64,28 +64,6 @@ namespace Office_File_Explorer
         public static string StrDestFileName = string.Empty;
         private string fileType;
 
-        // static string variables
-        //private const string StringResources.fileDoesNotExist = "** File does not exist **";
-        //private const string StringResources.noFootnotes = "** No Footnotes in this document **";
-        //private const string StringResources.noEndnotes = "** No Endnotes in this document **";
-        //private const string StringResources.themeFileAdded = "Theme File Added.";
-        //private const string StringResources.unableToDownloadUpdate = "Unable to download update.";
-        //private const string StringResources.noOle = "** This document does not contain OLE objects **";
-        //private const string StringResources.txtFallbackStart = "<mc:Fallback>";
-        //private const string StringResources.txtFallbackEnd = "</mc:Fallback>";
-        //private const string StringResources.invalidTag = "Invalid Tag: ";
-        //private const string StringResources.replacedWith = "Replaced With: ";
-        //private const string StringResources.errorUnableToFixDocument = "ERROR: Unable to fix document.";
-        //private const string StringResources.errorText = "Error: ";
-        //private const string StringResources.wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        //private const string StringResources.colon = ": ";
-        //private const string StringResources.period = ". ";
-        //private const string StringResources.emptyString = "";
-        //private const string StringResources.docSecurity = "DocSecurity";
-        //private const string StringResources.word = "Word";
-        //private const string StringResources.excel = "Excel";
-        //private const string StringResources.powerpoint = "PowerPoint";
-
         // global numid lists
         private ArrayList oNumIdList = new ArrayList();
         private ArrayList aNumIdList = new ArrayList();
@@ -97,6 +75,7 @@ namespace Office_File_Explorer
         // global packageparts
         private static List<PackagePart> _pParts = new List<PackagePart>();
 
+        // corrupt doc buffer
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
 
         public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile };
