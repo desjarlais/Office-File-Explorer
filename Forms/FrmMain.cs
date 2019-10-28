@@ -1621,14 +1621,14 @@ namespace Office_File_Explorer
             }
         }
 
-        private void MnuAbout_Click(object sender, EventArgs e)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAbout frm = new FrmAbout();
             frm.ShowDialog(this);
             frm.Dispose();
         }
 
-        private void MnuOpen_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fDialog = new OpenFileDialog
             {
@@ -1777,13 +1777,13 @@ namespace Office_File_Explorer
             }
         }
 
-        private void MnuExit_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
             Application.Exit();
         }
 
-        private void MnuCheckForUpdates_Click(object sender, EventArgs e)
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Force the application to check for an update
             UpdateCheckInfo info = null;
@@ -2863,7 +2863,7 @@ namespace Office_File_Explorer
             FixedFallback = originalText;
         }
 
-        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             FrmSettings form = new FrmSettings();
             form.Show();
@@ -3025,7 +3025,7 @@ namespace Office_File_Explorer
             pFrm.ShowDialog();
         }
 
-        private void ErrorLogToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void errorLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmErrorLog errFrm = new FrmErrorLog()
             {
@@ -3034,7 +3034,7 @@ namespace Office_File_Explorer
             errFrm.ShowDialog();
         }
 
-        private void CopyOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        private void copyOutputToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
             {
