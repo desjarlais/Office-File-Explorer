@@ -77,6 +77,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
             this.BtnSetCustomProps = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
@@ -84,32 +85,23 @@
             this.LstDisplay = new System.Windows.Forms.ListBox();
             this.TxtFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyOutputToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BtnListWSInfo = new System.Windows.Forms.Button();
+            this.mnuMainApp = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.errorLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
-            this.BtnListWSInfo = new System.Windows.Forms.Button();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.mnuMainApp.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -676,6 +668,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnListPackageParts);
             this.groupBox4.Controls.Add(this.BtnListCustomProps);
             this.groupBox4.Controls.Add(this.BtnSetCustomProps);
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
@@ -689,6 +682,16 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
+            // 
+            // BtnListPackageParts
+            // 
+            this.BtnListPackageParts.Location = new System.Drawing.Point(6, 165);
+            this.BtnListPackageParts.Name = "BtnListPackageParts";
+            this.BtnListPackageParts.Size = new System.Drawing.Size(114, 23);
+            this.BtnListPackageParts.TabIndex = 8;
+            this.BtnListPackageParts.Text = "List Package Parts";
+            this.BtnListPackageParts.UseVisualStyleBackColor = true;
+            this.BtnListPackageParts.Click += new System.EventHandler(this.BtnListPackageParts_Click);
             // 
             // BtnListCustomProps
             // 
@@ -763,131 +766,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "File Path:";
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem1,
-            this.helpToolStripMenuItem1});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(2, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(926, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.copyOutputToolStripMenuItem1,
-            this.settingsToolStripMenuItem1,
-            this.toolStripSeparator1,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 22);
-            this.fileToolStripMenuItem1.Text = "File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // copyOutputToolStripMenuItem1
-            // 
-            this.copyOutputToolStripMenuItem1.Name = "copyOutputToolStripMenuItem1";
-            this.copyOutputToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
-            this.copyOutputToolStripMenuItem1.Text = "Copy Output";
-            this.copyOutputToolStripMenuItem1.Click += new System.EventHandler(this.copyOutputToolStripMenuItem1_Click);
-            // 
-            // settingsToolStripMenuItem1
-            // 
-            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
-            this.settingsToolStripMenuItem1.Text = "Settings";
-            this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.errorLogToolStripMenuItem,
-            this.checkForUpdatesToolStripMenuItem});
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // errorLogToolStripMenuItem
-            // 
-            this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.errorLogToolStripMenuItem.Text = "Error Log";
-            this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Update Now";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MnuOpen,
-            this.copyOutputToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.MnuExit});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // copyOutputToolStripMenuItem
-            // 
-            this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MnuAbout,
-            this.errorLogToolStripMenuItem1,
-            this.MnuCheckForUpdates});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // errorLogToolStripMenuItem1
-            // 
-            this.errorLogToolStripMenuItem1.Name = "errorLogToolStripMenuItem1";
-            this.errorLogToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
-            // 
             // BtnListWSInfo
             // 
             this.BtnListWSInfo.Location = new System.Drawing.Point(552, 126);
@@ -898,6 +776,93 @@
             this.BtnListWSInfo.Text = "List Worksheet Info";
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
+            // 
+            // mnuMainApp
+            // 
+            this.mnuMainApp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.mnuMainApp.Location = new System.Drawing.Point(0, 0);
+            this.mnuMainApp.Name = "mnuMainApp";
+            this.mnuMainApp.Size = new System.Drawing.Size(926, 24);
+            this.mnuMainApp.TabIndex = 8;
+            this.mnuMainApp.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.copyOutputToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // copyOutputToolStripMenuItem
+            // 
+            this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyOutputToolStripMenuItem.Text = "Copy Output";
+            this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.settingsToolStripMenuItem.Text = "&Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.errorLogToolStripMenuItem,
+            this.updateNowToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // errorLogToolStripMenuItem
+            // 
+            this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.errorLogToolStripMenuItem.Text = "&Error Log";
+            this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
+            // 
+            // updateNowToolStripMenuItem
+            // 
+            this.updateNowToolStripMenuItem.Name = "updateNowToolStripMenuItem";
+            this.updateNowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateNowToolStripMenuItem.Text = "&Update Now";
+            this.updateNowToolStripMenuItem.Click += new System.EventHandler(this.updateNowToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -914,10 +879,10 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.mnuMainApp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mnuMainApp;
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximizeBox = false;
             this.Name = "FrmMain";
@@ -927,8 +892,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mnuMainApp.ResumeLayout(false);
+            this.mnuMainApp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -965,13 +930,6 @@
         private System.Windows.Forms.Button BtnListRevisions;
         private System.Windows.Forms.Button BtnListAuthors;
         private System.Windows.Forms.Button BtnViewCustomDocProps;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MnuOpen;
-        private System.Windows.Forms.ToolStripMenuItem MnuExit;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MnuAbout;
-        private System.Windows.Forms.ToolStripMenuItem MnuCheckForUpdates;
         private System.Windows.Forms.Button BtnPPTListHyperlinks;
         private System.Windows.Forms.Button BtnPPTGetAllSlideTitles;
         private System.Windows.Forms.Button BtnSearchAndReplace;
@@ -992,26 +950,25 @@
         private System.Windows.Forms.Button BtnConvertDocmToDocx;
         private System.Windows.Forms.Button BtnListSlideText;
         private System.Windows.Forms.Button BtnFixCorruptDocument;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.Button BtnListConnections;
         private System.Windows.Forms.Button BtnListCustomProps;
         private System.Windows.Forms.Button BtnSetCustomProps;
         private System.Windows.Forms.Button BtnSetPrintOrientation;
-        private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem copyOutputToolStripMenuItem;
         private System.Windows.Forms.Button BtnViewParagraphs;
         private System.Windows.Forms.Button BtnConvertXlsmToXlsx;
         private System.Windows.Forms.Button BtnConvertPptmToPptx;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.Button BtnListPackageParts;
+        private System.Windows.Forms.MenuStrip mnuMainApp;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyOutputToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem copyOutputToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateNowToolStripMenuItem;
     }
 }
 

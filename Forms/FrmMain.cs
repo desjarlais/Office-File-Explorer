@@ -51,7 +51,6 @@ namespace Office_File_Explorer
     {
         // globals
         private string _fromAuthor;
-        private OfficeDocument oDocument = null;
         private string _FindText;
         private string _ReplaceText;
         public static char PrevChar = '<';
@@ -73,7 +72,7 @@ namespace Office_File_Explorer
         private static List<string> _nodes = new List<string>();
 
         // global packageparts
-        private static List<PackagePart> _pParts = new List<PackagePart>();
+        private static List<string> _pParts = new List<string>();
 
         // corrupt doc buffer
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
@@ -166,6 +165,7 @@ namespace Office_File_Explorer
             BtnViewParagraphs.Enabled = false;
             BtnConvertPptmToPptx.Enabled = false;
             BtnConvertXlsmToXlsx.Enabled = false;
+            BtnListPackageParts.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -316,6 +316,7 @@ namespace Office_File_Explorer
             BtnListOle.Enabled = true;
             BtnListCustomProps.Enabled = true;
             BtnSetCustomProps.Enabled = true;
+            BtnListPackageParts.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -1670,12 +1671,15 @@ namespace Office_File_Explorer
 
         public void PopulatePackageParts()
         {
+            _pParts.Clear();
+
             //package = new OfficeDocument(TxtFileName.Text);
-            Package _package = Package.Open(TxtFileName.Text, System.IO.FileMode.Open, FileAccess.Read);
-            
-            foreach (PackagePart pckg in _package.GetParts())
+            using (Package _package = Package.Open(TxtFileName.Text, System.IO.FileMode.Open, FileAccess.Read))
             {
-                _pParts.Add(pckg);
+                foreach (PackagePart pckg in _package.GetParts())
+                {
+                    _pParts.Add(pckg.Uri.ToString());
+                }
             }
         }
 
@@ -1777,13 +1781,7 @@ namespace Office_File_Explorer
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.Save();
-            Application.Exit();
-        }
-
-        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void updateNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Force the application to check for an update
             UpdateCheckInfo info = null;
@@ -2863,12 +2861,6 @@ namespace Office_File_Explorer
             FixedFallback = originalText;
         }
 
-        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            FrmSettings form = new FrmSettings();
-            form.Show();
-        }
-
         private void BtnListConnections_Click(object sender, EventArgs e)
         {
             try
@@ -3025,16 +3017,7 @@ namespace Office_File_Explorer
             pFrm.ShowDialog();
         }
 
-        private void errorLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FrmErrorLog errFrm = new FrmErrorLog()
-            {
-                Owner = this
-            };
-            errFrm.ShowDialog();
-        }
-
-        private void copyOutputToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void copyOutputToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -3079,6 +3062,37 @@ namespace Office_File_Explorer
         private void BtnConvertPptmToPptx_Click(object sender, EventArgs e)
         {
             ConvertToNonMacro(StringResources.powerpoint);
+        }
+
+        private void BtnListPackageParts_Click(object sender, EventArgs e)
+        {
+            LstDisplay.Items.Clear();
+
+            foreach (var o in _pParts)
+            {
+                LstDisplay.Items.Add(o);
+            }
+        }
+        
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmSettings form = new FrmSettings();
+            form.Show();
+        }
+
+        private void errorLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmErrorLog errFrm = new FrmErrorLog()
+            {
+                Owner = this
+            };
+            errFrm.ShowDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+            Application.Exit();
         }
     }
 }
