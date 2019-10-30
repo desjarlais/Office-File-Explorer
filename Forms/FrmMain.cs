@@ -17,6 +17,7 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -44,6 +45,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
+using Field = DocumentFormat.OpenXml.Drawing.Field;
+using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
+using Path = System.IO.Path;
 
 namespace Office_File_Explorer
 {
@@ -172,7 +176,7 @@ namespace Office_File_Explorer
 
         public OxmlFileFormat GetFileFormat()
         {
-            string fileExt = Path.GetExtension(TxtFileName.Text);
+            string fileExt = System.IO.Path.GetExtension(TxtFileName.Text);
             fileExt = fileExt.ToLower();
 
             if (fileExt == ".docx")
@@ -454,18 +458,29 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    int hlinkCount = myDoc.MainDocumentPart.HyperlinkRelationships.Count();
-                    if (hlinkCount == 0)
+                    // first check that hyperlinks exist
+                    int count = 0;
+                    if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0)
                     {
                         LstDisplay.Items.Add("** There are no hyperlinks in this document **");
                     }
-                    else
+
+                    // first check for regular hyperlinks
+                    foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
                     {
-                        int count = 0;
-                        foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
+                        count++;
+                        LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
+                    }
+
+                    // now we need to check for field hyperlinks
+                    foreach (var field in myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>())
+                    {
+                        string fldText;
+                        if (field.InnerText.StartsWith(" HYPERLINK"))
                         {
                             count++;
-                            LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
+                            fldText = field.InnerText.Remove(0, 11);
+                            LstDisplay.Items.Add(count + StringResources.period + fldText);
                         }
                     }
                 }
@@ -2501,7 +2516,7 @@ namespace Office_File_Explorer
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
-                StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + "(Fixed)" + StrExtension;
+                StrDestFileName = Path.GetFileNameWithoutExtension(StrOrigFileName) + "(Fixed)" + StrExtension;
 
                 // check if file we are about to copy exists and append a number so its unique
                 if (File.Exists(StrDestFileName))
