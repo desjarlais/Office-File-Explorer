@@ -263,7 +263,7 @@ namespace Office_File_Explorer
             }
             else if (ffmt == OxmlFileFormat.Xlsx || ffmt == OxmlFileFormat.Xlsm || ffmt == OxmlFileFormat.Xlst)
             {
-                fileType = StringResources.word;
+                fileType = StringResources.excel;
 
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;

@@ -94,8 +94,7 @@ namespace Office_File_Explorer.App_Helpers
             }
 
             // Now that you have handled the parameters, start working on the document.
-            Guid id = Guid.NewGuid();
-            newProp.FormatId = id.ToString();
+            newProp.FormatId = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}";
             newProp.Name = propertyName;
 
             if (fileType == "Word")
