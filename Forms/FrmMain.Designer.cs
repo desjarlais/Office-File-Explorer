@@ -97,6 +97,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BtnListFieldCodes = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -106,6 +107,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnListFieldCodes);
             this.groupBox1.Controls.Add(this.BtnViewParagraphs);
             this.groupBox1.Controls.Add(this.BtnSetPrintOrientation);
             this.groupBox1.Controls.Add(this.BtnFixCorruptDocument);
@@ -803,33 +805,33 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -861,8 +863,18 @@
             // 
             this.updateNowToolStripMenuItem.Name = "updateNowToolStripMenuItem";
             this.updateNowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.updateNowToolStripMenuItem.Text = "&Update Now";
+            this.updateNowToolStripMenuItem.Text = "&Check for Update";
             this.updateNowToolStripMenuItem.Click += new System.EventHandler(this.updateNowToolStripMenuItem_Click);
+            // 
+            // BtnListFieldCodes
+            // 
+            this.BtnListFieldCodes.Location = new System.Drawing.Point(130, 129);
+            this.BtnListFieldCodes.Name = "BtnListFieldCodes";
+            this.BtnListFieldCodes.Size = new System.Drawing.Size(109, 23);
+            this.BtnListFieldCodes.TabIndex = 22;
+            this.BtnListFieldCodes.Text = "List Field Codes";
+            this.BtnListFieldCodes.UseVisualStyleBackColor = true;
+            this.BtnListFieldCodes.Click += new System.EventHandler(this.BtnListFieldCodes_Click);
             // 
             // FrmMain
             // 
@@ -969,6 +981,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateNowToolStripMenuItem;
+        private System.Windows.Forms.Button BtnListFieldCodes;
     }
 }
 

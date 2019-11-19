@@ -17,7 +17,6 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
-using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -45,7 +44,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
-using Field = DocumentFormat.OpenXml.Drawing.Field;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Path = System.IO.Path;
 
@@ -170,6 +168,7 @@ namespace Office_File_Explorer
             BtnConvertPptmToPptx.Enabled = false;
             BtnConvertXlsmToXlsx.Enabled = false;
             BtnListPackageParts.Enabled = false;
+            BtnListFieldCodes.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -255,6 +254,7 @@ namespace Office_File_Explorer
                 BtnSetPrintOrientation.Enabled = true;
                 BtnViewParagraphs.Enabled = true;
                 BtnRemovePII.Enabled = true;
+                BtnListFieldCodes.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -3108,6 +3108,43 @@ namespace Office_File_Explorer
         {
             Properties.Settings.Default.Save();
             Application.Exit();
+        }
+
+        private void BtnListFieldCodes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    IEnumerable<FieldCode> fcList = package.MainDocumentPart.Document.Descendants<FieldCode>();
+
+                    if (fcList.Count() > 0)
+                    {
+                        LstDisplay.Items.Clear();
+                        int count = 1;
+
+                        foreach (FieldCode fc in fcList)
+                        {
+                            LstDisplay.Items.Add(count + ". " + fc.Text);
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("Document does not contain any field codes.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("Error: " + ex.Message);
+                LoggingHelper.Log("BtnListFieldCodes: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }
