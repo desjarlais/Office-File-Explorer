@@ -16,6 +16,7 @@ namespace Office_File_Explorer.Forms
         {
             Properties.Settings.Default.RemoveFallback = ckRemoveFallback.Checked ? "true" : "false";
             Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked ? "true" : "false";
+            Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked ? "true" : "false";
             Properties.Settings.Default.Save();
             Close();
         }

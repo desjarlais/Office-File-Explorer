@@ -9,10 +9,13 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="RemoveFallback" Type="System.String" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="OpenInWord" Type="System.String" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">false</Value>
+    </Setting>
+    <Setting Name="FixGroupedShapes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">false</Value>
     </Setting>
   </Settings>
 </SettingsFile>

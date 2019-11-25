@@ -34,6 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
+            this.ckGroupShapeFix = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,18 +60,19 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ckGroupShapeFix);
             this.groupBox1.Controls.Add(this.ckRemoveFallback);
             this.groupBox1.Controls.Add(this.ckOpenInWord);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(227, 79);
+            this.groupBox1.Size = new System.Drawing.Size(227, 101);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Corrupt Document Settings";
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(173, 97);
+            this.BtnCancel.Location = new System.Drawing.Point(173, 119);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(63, 23);
             this.BtnCancel.TabIndex = 2;
@@ -80,7 +82,7 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(108, 97);
+            this.BtnOK.Location = new System.Drawing.Point(108, 119);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(60, 23);
             this.BtnOK.TabIndex = 3;
@@ -88,11 +90,21 @@
             this.BtnOK.UseVisualStyleBackColor = true;
             this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
+            // ckGroupShapeFix
+            // 
+            this.ckGroupShapeFix.AutoSize = true;
+            this.ckGroupShapeFix.Location = new System.Drawing.Point(6, 65);
+            this.ckGroupShapeFix.Name = "ckGroupShapeFix";
+            this.ckGroupShapeFix.Size = new System.Drawing.Size(118, 17);
+            this.ckGroupShapeFix.TabIndex = 2;
+            this.ckGroupShapeFix.Text = "Fix grouped shapes";
+            this.ckGroupShapeFix.UseVisualStyleBackColor = true;
+            // 
             // FrmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(248, 127);
+            this.ClientSize = new System.Drawing.Size(248, 154);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnCancel);
@@ -116,5 +128,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOK;
+        private System.Windows.Forms.CheckBox ckGroupShapeFix;
     }
 }

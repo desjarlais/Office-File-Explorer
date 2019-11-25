@@ -20,6 +20,7 @@ namespace Office_File_Explorer.Word_Helpers
         public const string StrValidomathwpi = "<m:oMath><mc:AlternateContent><mc:Choice Requires=\"wpi\">";
         public const string StrValidomathwpc = "<m:oMath><mc:AlternateContent><mc:Choice Requires=\"wpc\">";
         public const string StrValidVshape = "</w:txbxContent></v:textbox></v:shape></w:pict></mc:Fallback></mc:AlternateContent>";
+        public const string StrValidVshapegroup = "</w:txbxContent></v:textbox></v:shape></v:group></w:pict></mc:Fallback></mc:AlternateContent>";
 
         public IEnumerable<string> ValidTags()
         {
@@ -33,6 +34,7 @@ namespace Office_File_Explorer.Word_Helpers
             yield return StrValidomathwps;
             yield return StrOmitFallback;
             yield return StrValidVshape;
+            yield return StrValidVshapegroup;
         }
     }
 }

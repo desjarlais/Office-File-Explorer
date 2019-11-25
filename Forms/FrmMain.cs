@@ -2579,9 +2579,21 @@ namespace Office_File_Explorer
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidVshape:
-                                                        strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshape);
-                                                        LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
-                                                        LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidVshape);
+                                                        // the original strvalidvshape fixes most corruptions, but there are
+                                                        // some that are within a group so I added this for those rare situations
+                                                        // where the v:group closing tag needs to be included
+                                                        if (Properties.Settings.Default.FixGroupedShapes == "true")
+                                                        {
+                                                            strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshapegroup);
+                                                            LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidVshapegroup);
+                                                        }
+                                                        else
+                                                        {
+                                                            strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshape);
+                                                            LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
+                                                            LstDisplay.Items.Add(StringResources.replacedWith + ValidXmlTags.StrValidVshape);
+                                                        }
                                                         break;
 
                                                     case InvalidXmlTags.StrInvalidOmathWps:
