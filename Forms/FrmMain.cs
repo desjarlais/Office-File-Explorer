@@ -169,6 +169,7 @@ namespace Office_File_Explorer
             BtnConvertXlsmToXlsx.Enabled = false;
             BtnListPackageParts.Enabled = false;
             BtnListFieldCodes.Enabled = false;
+            BtnListBookmarks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -255,6 +256,7 @@ namespace Office_File_Explorer
                 BtnViewParagraphs.Enabled = true;
                 BtnRemovePII.Enabled = true;
                 BtnListFieldCodes.Enabled = true;
+                BtnListBookmarks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -3130,10 +3132,10 @@ namespace Office_File_Explorer
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     IEnumerable<FieldCode> fcList = package.MainDocumentPart.Document.Descendants<FieldCode>();
+                    LstDisplay.Items.Clear();
 
                     if (fcList.Count() > 0)
                     {
-                        LstDisplay.Items.Clear();
                         int count = 1;
 
                         foreach (FieldCode fc in fcList)
@@ -3152,6 +3154,43 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add("Error: " + ex.Message);
                 LoggingHelper.Log("BtnListFieldCodes: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnListBookmarks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
+                    LstDisplay.Items.Clear();
+
+                    if (bkList.Count() > 0)
+                    {
+                        int count = 1;
+
+                        foreach (BookmarkStart bk in bkList)
+                        {
+                            LstDisplay.Items.Add(count + ". " + bk.Name);
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("Document does not contain any bookmarks.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("Error: " + ex.Message);
+                LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
             }
             finally
             {
