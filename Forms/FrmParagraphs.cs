@@ -19,6 +19,11 @@ namespace Office_File_Explorer.Forms
             InitializeComponent();
             filePath = file;
             PopulateParagraphComboBox();
+
+            if (cbParagraphs.Items.Count > 0)
+            {
+                cbParagraphs.SelectedIndex = 0;
+            }
         }
 
         public void PopulateParagraphComboBox()

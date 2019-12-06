@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Office_File_Explorer.App_Helpers
+﻿namespace Office_File_Explorer.App_Helpers
 {
     class StringResources
     {
@@ -25,7 +19,6 @@ namespace Office_File_Explorer.App_Helpers
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
         public const string errorText = "Error: ";
-        public const string wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         public const string colon = ": ";
         public const string period = ". ";
         public const string emptyString = "";
@@ -45,6 +38,7 @@ namespace Office_File_Explorer.App_Helpers
         public const string ImagePartRelType = schemaOxml2006 + "image";
 
         // WordprocessingML package relationship ids
+        public const string wordMainAttributeNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         public const string AfPartType = schemaOxml2006 + "aFChunk";
         public const string CommentsPartType = schemaOxml2006 + "comments"; // same as Excel, PowerPoint
         public const string DocumentSettingsPartType = schemaOxml2006 + "settings";
