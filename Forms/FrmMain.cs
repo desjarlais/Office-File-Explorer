@@ -17,6 +17,7 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.Office2010.Word;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -170,6 +171,7 @@ namespace Office_File_Explorer
             BtnListPackageParts.Enabled = false;
             BtnListFieldCodes.Enabled = false;
             BtnListBookmarks.Enabled = false;
+            BtnListCC.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -257,6 +259,7 @@ namespace Office_File_Explorer
                 BtnRemovePII.Enabled = true;
                 BtnListFieldCodes.Enabled = true;
                 BtnListBookmarks.Enabled = true;
+                BtnListCC.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -2952,7 +2955,6 @@ namespace Office_File_Explorer
         {
             try
             {
-                // if the file is opened by the SDK, we can proceed with opening in tool
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
@@ -3166,7 +3168,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
                     LstDisplay.Items.Clear();
@@ -3191,6 +3193,103 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add("Error: " + ex.Message);
                 LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnListCC_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
+                {
+                    LstDisplay.Items.Clear();
+                    int count = 0;
+
+                    foreach (var cc in package.ContentControls())
+                    {
+                        string ccType = "";
+                        string ccVal = "";
+                        string dropVal = "";
+                        bool isDropDown = false;
+
+                        SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+
+                        // loop the properties and get the type
+                        foreach (OpenXmlElement oxe in props.ChildElements)
+                        {
+                            if (oxe.GetType().Name == "Tag")
+                            {
+                                Tag tag = props.Elements<Tag>().FirstOrDefault();
+                                ccType = "Rich / Plain Text";
+                                ccVal = tag.Val;
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentDropDownList")
+                            {
+                                Tag tag = props.Elements<Tag>().FirstOrDefault();
+                                dropVal = tag.Val;
+                                isDropDown = true;
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentDocPartList")
+                            {
+                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
+                                ccType = "Building Block Gallery";
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentCheckBox")
+                            {
+                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
+                                ccType = "Check Box";
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentPicture")
+                            {
+                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
+                                ccType = "Picture";
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentComboBox")
+                            {
+                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
+                                ccType = "Combo Box";
+                            }
+
+                            if (oxe.GetType().Name == "SdtContentDate")
+                            {
+                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
+                                ccType = "Date Picker";
+                            }
+                        }
+
+                        // display the cc type
+                        count++;
+                        if (isDropDown)
+                        {
+                            LstDisplay.Items.Add(count + ". " + "Drop Down List: ");
+                            continue;
+                        }
+                        else
+                        {
+                            LstDisplay.Items.Add(count + ". " + ccType);
+                        }
+                    }
+
+                    if (count == 0)
+                    {
+                        LstDisplay.Items.Add("** Document does not contain any content controls **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("Error: " + ex.Message);
+                LoggingHelper.Log("BtnListCC: " + ex.Message);
             }
             finally
             {
