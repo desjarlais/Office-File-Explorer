@@ -31,11 +31,11 @@ namespace Office_File_Explorer.Excel_Helpers
             }
         }
 
-        public static List<Sheet> GetSheets(string fileName)
+        public static List<Sheet> GetSheets(string fileName, bool fileIsEditable)
         {
             List<Sheet> returnVal = new List<Sheet>();
 
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, true))
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, fileIsEditable))
             {
                 foreach (Sheet sheet in excelDoc.WorkbookPart.Workbook.Sheets)
                 {
@@ -46,11 +46,11 @@ namespace Office_File_Explorer.Excel_Helpers
             return returnVal;
         }
 
-        public static List<Worksheet> GetWorkSheets(string fileName)
+        public static List<Worksheet> GetWorkSheets(string fileName, bool fileIsEditable)
         {
             List<Worksheet> returnVal = new List<Worksheet>();
 
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, true))
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, fileIsEditable))
             {
                 foreach (WorksheetPart wsPart in excelDoc.WorkbookPart.WorksheetParts)
                 {
@@ -61,11 +61,11 @@ namespace Office_File_Explorer.Excel_Helpers
             return returnVal;
         }
 
-        public static List<Sheet> GetHiddenSheets(string fileName)
+        public static List<Sheet> GetHiddenSheets(string fileName, bool fileIsEditable)
         {
             List<Sheet> returnVal = new List<Sheet>();
 
-            using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, fileIsEditable))
             {
                 var sheets = document.WorkbookPart.Workbook.Descendants<Sheet>();
 

@@ -335,7 +335,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
                     int count = 0;
@@ -398,7 +398,7 @@ namespace Office_File_Explorer
             try
             {
                 LstDisplay.Items.Clear();
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     MainDocumentPart mainPart = myDoc.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
@@ -461,7 +461,7 @@ namespace Office_File_Explorer
             try
             {
                 LstDisplay.Items.Clear();
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     // first check that hyperlinks exist
                     int count = 0;
@@ -508,7 +508,7 @@ namespace Office_File_Explorer
 
             try
             {
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     MainDocumentPart mainPart = myDoc.MainDocumentPart;
                     NumberingDefinitionsPart numPart = mainPart.NumberingDefinitionsPart;
@@ -1115,7 +1115,7 @@ namespace Office_File_Explorer
                 int count = 0;
                 LstDisplay.Items.Clear();
 
-                foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text))
+                foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text, false))
                 {
                     foreach (var s in sht)
                     {
@@ -1157,7 +1157,7 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Clear();
                 int count = 0;
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
@@ -1183,7 +1183,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     LstDisplay.Items.Clear();
                     FootnotesPart footnotePart = doc.MainDocumentPart.FootnotesPart;
@@ -1222,7 +1222,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     LstDisplay.Items.Clear();
                     EndnotesPart endnotePart = doc.MainDocumentPart.EndnotesPart;
@@ -1294,7 +1294,7 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
@@ -1389,7 +1389,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     LstDisplay.Items.Clear();
                     WordprocessingPeoplePart peoplePart = doc.MainDocumentPart.WordprocessingPeoplePart;
@@ -1423,7 +1423,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     LstDisplay.Items.Clear();
                     DocumentSettingsPart docSettingsPart = doc.MainDocumentPart.DocumentSettingsPart;
@@ -1991,7 +1991,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     int ExtRelCount = 0;
@@ -2039,7 +2039,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int nameCount = 0;
 
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
 
@@ -2078,7 +2078,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     Sheets theSheets = wbPart.Workbook.Sheets;
@@ -2155,7 +2155,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sheetCount = 0;
 
-                foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text, false))
                 {
                     sheetCount++;
                     LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
@@ -2182,7 +2182,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int hiddenCount = 0;
 
-                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text))
+                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text, false))
                 {
                     hiddenCount++;
                     LstDisplay.Items.Add(hiddenCount + StringResources.period + sht.Name);
@@ -2214,7 +2214,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sharedStringCount = 0;
 
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     SharedStringTablePart sstp = wbPart.SharedStringTablePart;
@@ -2247,7 +2247,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     int commentCount = 1;
@@ -2900,7 +2900,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
                     ConnectionsPart cPart = wbPart.ConnectionsPart;
@@ -3131,7 +3131,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<FieldCode> fcList = package.MainDocumentPart.Document.Descendants<FieldCode>();
                     LstDisplay.Items.Clear();
