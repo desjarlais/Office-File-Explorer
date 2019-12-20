@@ -30,6 +30,9 @@ using O = DocumentFormat.OpenXml;
 using AO = DocumentFormat.OpenXml.Office.Drawing;
 using A = DocumentFormat.OpenXml.Drawing;
 using PK = DocumentFormat.OpenXml.Packaging;
+using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
+using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
+using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
 
 // this app references
 using Office_File_Explorer.App_Helpers;
@@ -51,10 +54,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
-using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Path = System.IO.Path;
-using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
 
 namespace Office_File_Explorer
 {
