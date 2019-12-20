@@ -17,9 +17,12 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office.Drawing;
 using DocumentFormat.OpenXml.Office2010.Word;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -47,6 +50,7 @@ using System.Xml;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Path = System.IO.Path;
+using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
 
 namespace Office_File_Explorer
 {
@@ -172,6 +176,7 @@ namespace Office_File_Explorer
             BtnListFieldCodes.Enabled = false;
             BtnListBookmarks.Enabled = false;
             BtnListCC.Enabled = false;
+            BtnListShapes.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -326,6 +331,7 @@ namespace Office_File_Explorer
             BtnListCustomProps.Enabled = true;
             BtnSetCustomProps.Enabled = true;
             BtnListPackageParts.Enabled = true;
+            BtnListShapes.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -470,7 +476,7 @@ namespace Office_File_Explorer
                         LstDisplay.Items.Add("** There are no hyperlinks in this document **");
                     }
 
-                    // first check for regular hyperlinks
+                    // then check for regular hyperlinks
                     foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
                     {
                         count++;
@@ -3290,6 +3296,241 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add("Error: " + ex.Message);
                 LoggingHelper.Log("BtnListCC: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public string GetObjectType(string objType)
+        {
+            string[] valArray = objType.Split('.');
+            return valArray[valArray.Length - 1];
+        }
+
+        private void BtnListShapes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                LstDisplay.Items.Clear();
+                int count = 0;
+
+                if (fileType == StringResources.word)
+                {
+                    // with Word, we can just run through the entire body and get the shapes
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
+                    {
+                        foreach (DocumentFormat.OpenXml.Packaging.ChartPart c in document.MainDocumentPart.ChartParts)
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + c.Uri + StringResources.arrow + GetObjectType(c.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Office.Drawing.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Office.Drawing.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Vml.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Vml.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Math.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Math.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Drawing.Charts.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Drawing.Charts.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Drawing.Shape shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Drawing.Shape>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D shape in document.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D>())
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                        }
+
+                        if (count == 0)
+                        {
+                            LstDisplay.Items.Add("** Document does not contain any shapes **");
+                        }
+                    }
+                }
+                else if (fileType == StringResources.excel)
+                {
+                    // with XL, we would need to check all sheets
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
+                    {
+                        foreach (Sheet sheet in document.WorkbookPart.Workbook.Sheets)
+                        {
+                            foreach (DocumentFormat.OpenXml.Drawing.Spreadsheet.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.Spreadsheet.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Office.Drawing.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Office.Drawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Vml.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Vml.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Math.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Math.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Charts.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.Charts.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Shape shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D shape in sheet.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            if (count == 0)
+                            {
+                                LstDisplay.Items.Add("** Document does not contain any shapes **");
+                            }
+                        }
+                    }
+                }
+                else if (fileType == StringResources.powerpoint)
+                {
+                    // with PPT, we need to run through all slides
+                    using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
+                    {
+                        foreach (SlidePart slidePart in document.PresentationPart.SlideParts)
+                        {
+                            foreach (DocumentFormat.OpenXml.Presentation.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Presentation.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Office.Drawing.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Office.Drawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Vml.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Vml.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Math.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Math.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.ChartDrawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Charts.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Charts.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Shape shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Shape>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            foreach (DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D shape in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Diagrams.Shape3D>())
+                            {
+                                count++;
+                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            }
+
+                            if (count == 0)
+                            {
+                                LstDisplay.Items.Add("** Document does not contain any shapes **");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListShapes Error: " + ioe.Message);
+                LstDisplay.Items.Add("Error listing shapes.");
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListShapes Error: " + ex.Message);
             }
             finally
             {

@@ -35,10 +35,13 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.FrmMain.resource
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Properties.Resources.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.GenerateResource.cache
-E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.TrustInfo.xml
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe.manifest
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.application
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.pdb
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmCustomProperties.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmParagraphs.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmPrintOrientation.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSettings.resources

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
             this.BtnListFieldCodes = new System.Windows.Forms.Button();
             this.BtnViewParagraphs = new System.Windows.Forms.Button();
@@ -79,6 +80,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
             this.BtnSetCustomProps = new System.Windows.Forms.Button();
@@ -99,7 +101,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BtnListCC = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -145,6 +146,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
             // 
+            // BtnListCC
+            // 
+            this.BtnListCC.Location = new System.Drawing.Point(6, 20);
+            this.BtnListCC.Name = "BtnListCC";
+            this.BtnListCC.Size = new System.Drawing.Size(120, 23);
+            this.BtnListCC.TabIndex = 9;
+            this.BtnListCC.Text = "List Content Controls";
+            this.BtnListCC.UseVisualStyleBackColor = true;
+            this.BtnListCC.Click += new System.EventHandler(this.BtnListCC_Click);
+            // 
             // BtnListBookmarks
             // 
             this.BtnListBookmarks.Location = new System.Drawing.Point(131, 157);
@@ -167,7 +178,7 @@
             // 
             // BtnViewParagraphs
             // 
-            this.BtnViewParagraphs.Location = new System.Drawing.Point(130, 100);
+            this.BtnViewParagraphs.Location = new System.Drawing.Point(130, 185);
             this.BtnViewParagraphs.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnViewParagraphs.Name = "BtnViewParagraphs";
             this.BtnViewParagraphs.Size = new System.Drawing.Size(115, 23);
@@ -421,10 +432,10 @@
             // 
             // BtnListComments
             // 
-            this.BtnListComments.Location = new System.Drawing.Point(6, 20);
+            this.BtnListComments.Location = new System.Drawing.Point(130, 100);
             this.BtnListComments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListComments.Name = "BtnListComments";
-            this.BtnListComments.Size = new System.Drawing.Size(120, 23);
+            this.BtnListComments.Size = new System.Drawing.Size(116, 23);
             this.BtnListComments.TabIndex = 4;
             this.BtnListComments.Text = "List Comments";
             this.BtnListComments.UseVisualStyleBackColor = true;
@@ -694,6 +705,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnListShapes);
             this.groupBox4.Controls.Add(this.BtnListPackageParts);
             this.groupBox4.Controls.Add(this.BtnListCustomProps);
             this.groupBox4.Controls.Add(this.BtnSetCustomProps);
@@ -709,9 +721,19 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
+            // BtnListShapes
+            // 
+            this.BtnListShapes.Location = new System.Drawing.Point(6, 108);
+            this.BtnListShapes.Name = "BtnListShapes";
+            this.BtnListShapes.Size = new System.Drawing.Size(114, 23);
+            this.BtnListShapes.TabIndex = 9;
+            this.BtnListShapes.Text = "List Shapes";
+            this.BtnListShapes.UseVisualStyleBackColor = true;
+            this.BtnListShapes.Click += new System.EventHandler(this.BtnListShapes_Click);
+            // 
             // BtnListPackageParts
             // 
-            this.BtnListPackageParts.Location = new System.Drawing.Point(6, 165);
+            this.BtnListPackageParts.Location = new System.Drawing.Point(6, 137);
             this.BtnListPackageParts.Name = "BtnListPackageParts";
             this.BtnListPackageParts.Size = new System.Drawing.Size(114, 23);
             this.BtnListPackageParts.TabIndex = 8;
@@ -721,7 +743,7 @@
             // 
             // BtnListCustomProps
             // 
-            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 107);
+            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 166);
             this.BtnListCustomProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListCustomProps.Name = "BtnListCustomProps";
             this.BtnListCustomProps.Size = new System.Drawing.Size(114, 23);
@@ -732,7 +754,7 @@
             // 
             // BtnSetCustomProps
             // 
-            this.BtnSetCustomProps.Location = new System.Drawing.Point(6, 136);
+            this.BtnSetCustomProps.Location = new System.Drawing.Point(6, 195);
             this.BtnSetCustomProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSetCustomProps.Name = "BtnSetCustomProps";
             this.BtnSetCustomProps.Size = new System.Drawing.Size(114, 23);
@@ -746,7 +768,7 @@
             this.BtnChangeTheme.Location = new System.Drawing.Point(6, 49);
             this.BtnChangeTheme.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtnChangeTheme.Name = "BtnChangeTheme";
-            this.BtnChangeTheme.Size = new System.Drawing.Size(114, 24);
+            this.BtnChangeTheme.Size = new System.Drawing.Size(114, 23);
             this.BtnChangeTheme.TabIndex = 7;
             this.BtnChangeTheme.Text = "Change Theme";
             this.BtnChangeTheme.UseVisualStyleBackColor = true;
@@ -837,7 +859,7 @@
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
             this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.copyOutputToolStripMenuItem.Text = "Copy Output";
+            this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
@@ -872,33 +894,23 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // errorLogToolStripMenuItem
             // 
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
             // 
             // updateNowToolStripMenuItem
             // 
             this.updateNowToolStripMenuItem.Name = "updateNowToolStripMenuItem";
-            this.updateNowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updateNowToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.updateNowToolStripMenuItem.Text = "&Check For Update";
             this.updateNowToolStripMenuItem.Click += new System.EventHandler(this.updateNowToolStripMenuItem_Click);
-            // 
-            // BtnListCC
-            // 
-            this.BtnListCC.Location = new System.Drawing.Point(130, 186);
-            this.BtnListCC.Name = "BtnListCC";
-            this.BtnListCC.Size = new System.Drawing.Size(115, 23);
-            this.BtnListCC.TabIndex = 9;
-            this.BtnListCC.Text = "List Content Controls";
-            this.BtnListCC.UseVisualStyleBackColor = true;
-            this.BtnListCC.Click += new System.EventHandler(this.BtnListCC_Click);
             // 
             // FrmMain
             // 
@@ -1008,6 +1020,7 @@
         private System.Windows.Forms.Button BtnListFieldCodes;
         private System.Windows.Forms.Button BtnListBookmarks;
         private System.Windows.Forms.Button BtnListCC;
+        private System.Windows.Forms.Button BtnListShapes;
     }
 }
 

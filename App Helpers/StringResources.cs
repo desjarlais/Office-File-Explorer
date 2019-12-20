@@ -1,4 +1,6 @@
-﻿namespace Office_File_Explorer.App_Helpers
+﻿using System.CodeDom;
+
+namespace Office_File_Explorer.App_Helpers
 {
     class StringResources
     {
@@ -23,6 +25,7 @@
         public const string period = ". ";
         public const string emptyString = "";
         public const string docSecurity = "DocSecurity";
+        public const string arrow = " --> ";
         public const string nonEmptyId = "Target Id cannot be empty.";
         public const string duplicateId = "OOXML part Id <1> already exists.";
 
