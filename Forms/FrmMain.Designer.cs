@@ -66,7 +66,6 @@
             this.BtnDeleteComment = new System.Windows.Forms.Button();
             this.BtnComments = new System.Windows.Forms.Button();
             this.BtnListSharedStrings = new System.Windows.Forms.Button();
-            this.BtnListHiddenWorksheets = new System.Windows.Forms.Button();
             this.BtnListWorksheets = new System.Windows.Forms.Button();
             this.BtnListHiddenRowsColumns = new System.Windows.Forms.Button();
             this.BtnListDefinedNames = new System.Windows.Forms.Button();
@@ -100,7 +99,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -461,7 +459,6 @@
             this.groupBox2.Controls.Add(this.BtnDeleteComment);
             this.groupBox2.Controls.Add(this.BtnComments);
             this.groupBox2.Controls.Add(this.BtnListSharedStrings);
-            this.groupBox2.Controls.Add(this.BtnListHiddenWorksheets);
             this.groupBox2.Controls.Add(this.BtnListWorksheets);
             this.groupBox2.Controls.Add(this.BtnListHiddenRowsColumns);
             this.groupBox2.Controls.Add(this.BtnListDefinedNames);
@@ -479,10 +476,10 @@
             // 
             // BtnConvertXlsmToXlsx
             // 
-            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(142, 159);
+            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(140, 157);
             this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
-            this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(116, 21);
+            this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(120, 21);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
             this.BtnConvertXlsmToXlsx.Text = "Convert -> Xlsx";
             this.BtnConvertXlsmToXlsx.UseVisualStyleBackColor = true;
@@ -501,7 +498,7 @@
             // 
             // BtnListCellValuesDOM
             // 
-            this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 238);
+            this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 209);
             this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
             this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
@@ -512,7 +509,7 @@
             // 
             // BtnListCellValuesSAX
             // 
-            this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 211);
+            this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 182);
             this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
@@ -545,7 +542,7 @@
             // 
             // BtnListSharedStrings
             // 
-            this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 186);
+            this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 157);
             this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
@@ -553,17 +550,6 @@
             this.BtnListSharedStrings.Text = "List Shared Strings";
             this.BtnListSharedStrings.UseVisualStyleBackColor = true;
             this.BtnListSharedStrings.Click += new System.EventHandler(this.BtnListSharedStrings_Click);
-            // 
-            // BtnListHiddenWorksheets
-            // 
-            this.BtnListHiddenWorksheets.Location = new System.Drawing.Point(6, 157);
-            this.BtnListHiddenWorksheets.Margin = new System.Windows.Forms.Padding(2);
-            this.BtnListHiddenWorksheets.Name = "BtnListHiddenWorksheets";
-            this.BtnListHiddenWorksheets.Size = new System.Drawing.Size(130, 25);
-            this.BtnListHiddenWorksheets.TabIndex = 23;
-            this.BtnListHiddenWorksheets.Text = "List Hidden Worksheets";
-            this.BtnListHiddenWorksheets.UseVisualStyleBackColor = true;
-            this.BtnListHiddenWorksheets.Click += new System.EventHandler(this.BtnListHiddenWorksheets_Click);
             // 
             // BtnListWorksheets
             // 
@@ -885,8 +871,7 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
-            this.errorLogToolStripMenuItem,
-            this.updateNowToolStripMenuItem});
+            this.errorLogToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
@@ -894,23 +879,16 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // errorLogToolStripMenuItem
             // 
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
-            // 
-            // updateNowToolStripMenuItem
-            // 
-            this.updateNowToolStripMenuItem.Name = "updateNowToolStripMenuItem";
-            this.updateNowToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.updateNowToolStripMenuItem.Text = "&Check For Update";
-            this.updateNowToolStripMenuItem.Click += new System.EventHandler(this.updateNowToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -986,7 +964,6 @@
         private System.Windows.Forms.Button BtnListDefinedNames;
         private System.Windows.Forms.Button BtnListHiddenRowsColumns;
         private System.Windows.Forms.Button BtnListWorksheets;
-        private System.Windows.Forms.Button BtnListHiddenWorksheets;
         private System.Windows.Forms.Button BtnListSharedStrings;
         private System.Windows.Forms.Button BtnComments;
         private System.Windows.Forms.Button BtnDeleteComment;
@@ -1016,7 +993,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem updateNowToolStripMenuItem;
         private System.Windows.Forms.Button BtnListFieldCodes;
         private System.Windows.Forms.Button BtnListBookmarks;
         private System.Windows.Forms.Button BtnListCC;

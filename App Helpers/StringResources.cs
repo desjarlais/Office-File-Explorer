@@ -15,6 +15,7 @@ namespace Office_File_Explorer.App_Helpers
         public const string themeFileAdded = "Theme File Added.";
         public const string unableToDownloadUpdate = "Unable to download update.";
         public const string noOle = "** This document does not contain OLE objects **";
+        public const string noShapes = "** Document does not contain any shapes **";
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
         public const string invalidTag = "Invalid Tag: ";

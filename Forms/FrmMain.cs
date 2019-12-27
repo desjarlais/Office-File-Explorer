@@ -143,7 +143,6 @@ namespace Office_File_Explorer
             BtnListWorksheets.Enabled = false;
             BtnListFootnotes.Enabled = false;
             BtnListFormulas.Enabled = false;
-            BtnListHiddenWorksheets.Enabled = false;
             BtnListHiddenRowsColumns.Enabled = false;
             BtnListSharedStrings.Enabled = false;
             BtnListHyperlinks.Enabled = false;
@@ -285,7 +284,6 @@ namespace Office_File_Explorer
                 BtnListLinks.Enabled = true;
                 BtnListFormulas.Enabled = true;
                 BtnListWorksheets.Enabled = true;
-                BtnListHiddenWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
                 BtnComments.Enabled = true;
                 BtnDeleteComment.Enabled = true;
@@ -476,7 +474,7 @@ namespace Office_File_Explorer
                     int count = 0;
                     if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0)
                     {
-                        LstDisplay.Items.Add("** There are no hyperlinks in this document **");
+                        LstDisplay.Items.Add("** Document does not contain any hyperlinks **");
                     }
 
                     // then check for regular hyperlinks
@@ -1060,10 +1058,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Add("-------------------------------------------");
             }
 
-            if (count == 0)
-            {
-                LstDisplay.Items.Add("** No errors found **");
-            }
+            DisplayEmptyCount(count, "errors.");
         }
 
         private void BtnValidateFile_Click(object sender, EventArgs e)
@@ -1143,10 +1138,7 @@ namespace Office_File_Explorer
                     }
                 }
 
-                if (count == 0)
-                {
-                    LstDisplay.Items.Add("** No formulas in file **");
-                }
+                DisplayEmptyCount(count, "formulas");
             }
             catch (Exception ex)
             {
@@ -1175,10 +1167,7 @@ namespace Office_File_Explorer
                     }
                 }
 
-                if (count == 0)
-                {
-                    LstDisplay.Items.Add("** No Fonts **");
-                }
+                DisplayEmptyCount(count, "fonts");
             }
             catch (Exception ex)
             {
@@ -1208,10 +1197,8 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        if (count == 0)
-                        {
-                            DisplayInformation(InformationOutput.TextOnly, StringResources.noFootnotes);
-                        }
+                        DisplayEmptyCount(count, "footnotes");
+                        
                     }
                     else
                     {
@@ -1247,10 +1234,7 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        if (count == 0)
-                        {
-                            DisplayInformation(InformationOutput.TextOnly, StringResources.noEndnotes);
-                        }
+                        DisplayEmptyCount(count, "endnotes");
                     }
                     else
                     {
@@ -1305,6 +1289,27 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
+                    // first make sure there are authors
+                    WordprocessingPeoplePart peoplePart = document.MainDocumentPart.WordprocessingPeoplePart;
+                    if (peoplePart != null)
+                    {
+                        int count = 0;
+                        foreach (Person person in peoplePart.People)
+                        {
+                            count++;
+                            PresenceInfo pi = person.PresenceInfo;
+                            LstDisplay.Items.Add(count + StringResources.period + person.Author);
+                            LstDisplay.Items.Add("   - User Id = " + pi.UserId);
+                            LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
+                        }
+                    }
+                    else
+                    {
+                        DisplayInformation(InformationOutput.TextOnly, "** There are no authors in this document **");
+                        return;
+                    }
+
+                    // if we have an author, go through all the revisions
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
                     var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
@@ -1332,13 +1337,11 @@ namespace Office_File_Explorer
                         if ((paragraphChanged.Count + runChanged.Count + deleted.Count + inserted.Count + deletedParagraph.Count) == 0)
                         {
                             DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
-                            Cursor = Cursors.Default;
                             return;
                         }
                     }
                     else
                     {
-                        Cursor = Cursors.Default;
                         DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
                         return;
                     }
@@ -1382,14 +1385,15 @@ namespace Office_File_Explorer
                         }
                     }
                 }
-
-                Cursor = Cursors.Default;
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
                 LoggingHelper.Log("BtnListRevisions_Click Error");
                 LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
                 Cursor = Cursors.Default;
             }
         }
@@ -1432,9 +1436,11 @@ namespace Office_File_Explorer
         {
             try
             {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    LstDisplay.Items.Clear();
                     DocumentSettingsPart docSettingsPart = doc.MainDocumentPart.DocumentSettingsPart;
                     GetStandardFileProps(doc.PackageProperties);
                     GetExtendedFileProps(doc.ExtendedFilePropertiesPart);
@@ -1565,6 +1571,10 @@ namespace Office_File_Explorer
                 LoggingHelper.Log("BtnViewCustomDocProps_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         public void GetStandardFileProps(PackageProperties props)
@@ -1660,44 +1670,58 @@ namespace Office_File_Explorer
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // disable buttons before each open
-            DisableButtons();
-
-            OpenFileDialog fDialog = new OpenFileDialog
+            try
             {
-                Title = "Select Office Open Xml File.",
-                Filter = "Open XML Files | *.docx; *.dotx; *.docm; *.dotm; *.xlsx; *.xlsm; *.xlst; *.xltm; *.pptx; *.pptm; *.potx; *.potm",
-                RestoreDirectory = true,
-                InitialDirectory = @"%userprofile%"
-            };
+                Cursor = Cursors.WaitCursor;
 
-            if (fDialog.ShowDialog() == DialogResult.OK)
-            {
-                TxtFileName.Text = fDialog.FileName.ToString();
-                if (!File.Exists(TxtFileName.Text))
+                // disable buttons before each open
+                DisableButtons();
+
+                OpenFileDialog fDialog = new OpenFileDialog
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
-                    return;
-                }
-                else
+                    Title = "Select Office Open Xml File.",
+                    Filter = "Open XML Files | *.docx; *.dotx; *.docm; *.dotm; *.xlsx; *.xlsm; *.xlst; *.xltm; *.pptx; *.pptm; *.potx; *.potm",
+                    RestoreDirectory = true,
+                    InitialDirectory = @"%userprofile%"
+                };
+
+                if (fDialog.ShowDialog() == DialogResult.OK)
                 {
-                    LstDisplay.Items.Clear();
-                    if (!IsZipArchiveFile(TxtFileName.Text))
+                    TxtFileName.Text = fDialog.FileName.ToString();
+                    if (!File.Exists(TxtFileName.Text))
                     {
-                        LstDisplay.Items.Add("** Unable to open file, it is corrupted, encrypted or is not a valid Open Xml file. **");
+                        DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
                         return;
                     }
                     else
                     {
-                        OpenWithSdk(TxtFileName.Text, true);
-                        PopulatePackageParts();
+                        LstDisplay.Items.Clear();
+                        if (!IsZipArchiveFile(TxtFileName.Text))
+                        {
+                            LstDisplay.Items.Add("** Unable to open file, it is corrupted, encrypted or is not a valid Open Xml file. **");
+                            return;
+                        }
+                        else
+                        {
+                            OpenWithSdk(TxtFileName.Text, true);
+                            PopulatePackageParts();
+                        }
                     }
                 }
+                else
+                {
+                    // user cancelled dialog, just return
+                    return;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // user cancelled dialog, just return
-                return;
+                LoggingHelper.Log("File Open Error:");
+                LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -1813,84 +1837,6 @@ namespace Office_File_Explorer
             }
         }
 
-        private void updateNowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Force the application to check for an update
-            UpdateCheckInfo info = null;
-
-            if (ApplicationDeployment.IsNetworkDeployed)
-            {
-                ApplicationDeployment ad = ApplicationDeployment.CurrentDeployment;
-
-                try
-                {
-                    info = ad.CheckForDetailedUpdate();
-                }
-                catch (DeploymentDownloadException dde)
-                {
-                    MessageBox.Show("The new version of the application cannot be downloaded at this time. Please check your network connection, or try again later. Error: " + dde.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                catch (InvalidDeploymentException ide)
-                {
-                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                catch (InvalidOperationException ioe)
-                {
-                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (info.UpdateAvailable)
-                {
-                    Boolean doUpdate = true;
-
-                    if (!info.IsUpdateRequired)
-                    {
-                        DialogResult dr = MessageBox.Show("An update is available. Would you like to update the application now?", "Update Available",
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                        if (!(DialogResult.OK == dr))
-                        {
-                            doUpdate = false;
-                        }
-                    }
-                    else
-                    {
-                        // Display a message that the app MUST reboot. Display the minimum required version.
-                        MessageBox.Show("This application has detected a mandatory update from your current " +
-                            "version to version " + info.MinimumRequiredVersion +
-                            ". The application will now install the update and restart.",
-                            "Update Available", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-
-                    if (doUpdate)
-                    {
-                        try
-                        {
-                            ad.Update();
-                            MessageBox.Show("The application has been upgraded, and will now restart.", "Upgrade successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Application.Restart();
-                        }
-                        catch (DeploymentDownloadException dde)
-                        {
-                            MessageBox.Show("Cannot install the latest version of the application. Please check your network connection, or try again later. Error: " + dde, StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("You already have the latest version.", "Application Update",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                MessageBox.Show("The new version of the application cannot be downloaded at this time.", StringResources.unableToDownloadUpdate, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void BtnPPTListHyperlinks_Click(object sender, EventArgs e)
         {
             try
@@ -1907,10 +1853,7 @@ namespace Office_File_Explorer
                         LstDisplay.Items.Add(linkCount + StringResources.period + s);
                     }
 
-                    if (linkCount == 0)
-                    {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** No Hyperlinks in file **");
-                    }
+                    DisplayEmptyCount(linkCount, "hyperlinks");
                 }
             }
             catch (Exception ex)
@@ -1936,10 +1879,7 @@ namespace Office_File_Explorer
                         LstDisplay.Items.Add(slideCount + StringResources.period + s);
                     }
 
-                    if (slideCount == 0)
-                    {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** No slides in file **");
-                    }
+                    DisplayEmptyCount(slideCount, "slides");
                 }
             }
             catch (Exception ex)
@@ -2158,6 +2098,14 @@ namespace Office_File_Explorer
             }
         }
 
+        private void DisplayEmptyCount(int count, string input)
+        {
+            if (count == 0)
+            {
+                LstDisplay.Items.Add("** Document contains no " + input + " **");
+            }
+        }
+
         private void BtnListWorksheets_Click(object sender, EventArgs e)
         {
             try
@@ -2167,48 +2115,31 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sheetCount = 0;
 
+                LstDisplay.Items.Add("## VISIBLE WORKSHEETS ##");
                 foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text, false))
                 {
                     sheetCount++;
                     LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
                 }
+
+                DisplayEmptyCount(sheetCount, "worksheets");
+
+                LstDisplay.Items.Add("");
+                LstDisplay.Items.Add("## HIDDEN WORKSHEETS ##");
+                sheetCount = 0;
+                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text, false))
+                {
+                    sheetCount++;
+                    LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
+                }
+
+                DisplayEmptyCount(sheetCount, "hidden worksheets");
+
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
                 LoggingHelper.Log("BtnListWorksheets_Click Error");
-                LoggingHelper.Log(ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
-
-        private void BtnListHiddenWorksheets_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-
-                LstDisplay.Items.Clear();
-                int hiddenCount = 0;
-
-                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text, false))
-                {
-                    hiddenCount++;
-                    LstDisplay.Items.Add(hiddenCount + StringResources.period + sht.Name);
-                }
-
-                if (hiddenCount == 0)
-                {
-                    LstDisplay.Items.Add("** No Hidden Worksheets **");
-                }
-            }
-            catch (Exception ex)
-            {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnListHiddenWorksheets_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
             finally
@@ -2403,10 +2334,7 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    if (commentCount == 0)
-                    {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** File does not have any comments **");
-                    }
+                    DisplayEmptyCount(commentCount, "comments");
                 }
             }
             catch (Exception ex)
@@ -3020,16 +2948,14 @@ namespace Office_File_Explorer
             }
 
             int count = 0;
+            
             foreach (var v in cfpList(cfp))
             {
                 count++;
                 LstDisplay.Items.Add(count + StringResources.period + v);
             }
 
-            if (count == 0)
-            {
-                LstDisplay.Items.Add(StringResources.noCustomDocProps);
-            }
+            DisplayEmptyCount(count, "custom document properties");
         }
 
         public List<string> cfpList(CustomFilePropertiesPart part)
@@ -3292,10 +3218,7 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    if (count == 0)
-                    {
-                        LstDisplay.Items.Add("** Document does not contain any content controls **");
-                    }
+                    DisplayEmptyCount(count, "content controls.");
                 }
             }
             catch (Exception ex)
@@ -3382,10 +3305,7 @@ namespace Office_File_Explorer
                             LstDisplay.Items.Add(count + ". 3D Shape");
                         }
 
-                        if (count == 0)
-                        {
-                            LstDisplay.Items.Add("** Document does not contain any shapes **");
-                        }
+                        DisplayEmptyCount(count, "shapes.");
                     }
                 }
                 else if (fileType == StringResources.excel)
@@ -3449,10 +3369,7 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add(count + ". 3D Shape");
                             }
 
-                            if (count == 0)
-                            {
-                                LstDisplay.Items.Add("** Document does not contain any shapes **");
-                            }
+                            DisplayEmptyCount(count, "shapes.");
                         }
                     }
                 }
@@ -3530,10 +3447,7 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add(count + ". 3D Shape");
                             }
 
-                            if (count == 0)
-                            {
-                                LstDisplay.Items.Add("** Document does not contain any shapes **");
-                            }
+                            DisplayEmptyCount(count, "shapes.");
                         }
                     }
                 }
