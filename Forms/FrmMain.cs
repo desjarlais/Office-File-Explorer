@@ -29,7 +29,6 @@ using P = DocumentFormat.OpenXml.Presentation;
 using O = DocumentFormat.OpenXml;
 using AO = DocumentFormat.OpenXml.Office.Drawing;
 using A = DocumentFormat.OpenXml.Drawing;
-using PK = DocumentFormat.OpenXml.Packaging;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
@@ -1661,6 +1660,9 @@ namespace Office_File_Explorer
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // disable buttons before each open
+            DisableButtons();
+
             OpenFileDialog fDialog = new OpenFileDialog
             {
                 Title = "Select Office Open Xml File.",
@@ -1682,7 +1684,7 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     if (!IsZipArchiveFile(TxtFileName.Text))
                     {
-                        LstDisplay.Items.Add("** File is not a valid Open Xml Document **");
+                        LstDisplay.Items.Add("** Unable to open file, it is corrupted, encrypted or is not a valid Open Xml file. **");
                         return;
                     }
                     else
@@ -3326,58 +3328,58 @@ namespace Office_File_Explorer
                     // with Word, we can just run through the entire body and get the shapes
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
-                        foreach (PK.ChartPart c in document.MainDocumentPart.ChartParts)
+                        foreach (ChartPart c in document.MainDocumentPart.ChartParts)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + c.Uri + StringResources.arrow + GetObjectType(c.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". " + c.Uri + StringResources.arrow + "Chart");
                         }
 
                         foreach (AO.Shape shape in document.MainDocumentPart.Document.Body.Descendants<AO.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Office Drawing");
                         }
 
                         foreach (O.Vml.Shape shape in document.MainDocumentPart.Document.Body.Descendants<O.Vml.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + "Vml Shape");
                         }
 
                         foreach (O.Math.Shape shape in document.MainDocumentPart.Document.Body.Descendants<O.Math.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Math Shape");
                         }
 
                         foreach (A.Diagrams.Shape shape in document.MainDocumentPart.Document.Body.Descendants<A.Diagrams.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Drawing Diagram Shape");
                         }
 
                         foreach (A.ChartDrawing.Shape shape in document.MainDocumentPart.Document.Body.Descendants<A.ChartDrawing.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Chart Drawing Shape");
                         }
 
                         foreach (A.Charts.Shape shape in document.MainDocumentPart.Document.Body.Descendants<A.Charts.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Chart Shape");
                         }
 
                         foreach (A.Shape shape in document.MainDocumentPart.Document.Body.Descendants<A.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". Shape");
                         }
 
                         foreach (A.Diagrams.Shape3D shape in document.MainDocumentPart.Document.Body.Descendants<A.Diagrams.Shape3D>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                            LstDisplay.Items.Add(count + ". 3D Shape");
                         }
 
                         if (count == 0)
@@ -3396,55 +3398,55 @@ namespace Office_File_Explorer
                             foreach (A.Spreadsheet.Shape shape in sheet.Descendants<A.Spreadsheet.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Spreadsheet Drawing");
                             }
 
                             foreach (AO.Shape shape in sheet.Descendants<AO.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Office Drawing");
                             }
 
                             foreach (O.Vml.Shape shape in sheet.Descendants<O.Vml.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + "Vml Shape");
                             }
 
                             foreach (O.Math.Shape shape in sheet.Descendants<O.Math.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Math Shape");
                             }
 
                             foreach (A.Diagrams.Shape shape in sheet.Descendants<A.Diagrams.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Diagram Shape");
                             }
 
                             foreach (A.ChartDrawing.Shape shape in sheet.Descendants<A.ChartDrawing.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Chart Drawing");
                             }
 
                             foreach (A.Charts.Shape shape in sheet.Descendants<A.Charts.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Chart Shape");
                             }
 
                             foreach (A.Shape shape in sheet.Descendants<A.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Shape");
                             }
 
                             foreach (A.Diagrams.Shape3D shape in sheet.Descendants<A.Diagrams.Shape3D>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". 3D Shape");
                             }
 
                             if (count == 0)
@@ -3464,55 +3466,68 @@ namespace Office_File_Explorer
                             foreach (P.Shape shape in slidePart.Slide.Descendants<P.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                foreach (OpenXmlElement child1 in shape.ChildElements)
+                                {
+                                    if (child1.GetType().ToString() == "DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties")
+                                    {
+                                        foreach (OpenXmlElement child2 in child1.ChildElements)
+                                        {
+                                            if (child2.GetType().ToString() == "DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties")
+                                            {
+                                                P.NonVisualDrawingProperties nvdp = (P.NonVisualDrawingProperties)child2;
+                                                LstDisplay.Items.Add(count + ". " + nvdp.Name);
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             foreach (AO.Shape shape in slidePart.Slide.Descendants<AO.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Office Drawing");
                             }
 
                             foreach (O.Vml.Shape shape in slidePart.Slide.Descendants<O.Vml.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". " + shape.Id + StringResources.arrow + "Vml Shape");
                             }
 
                             foreach (O.Math.Shape shape in slidePart.Slide.Descendants<O.Math.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Math Shape");
                             }
 
                             foreach (A.Diagrams.Shape shape in slidePart.Slide.Descendants<A.Diagrams.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Diagram Shape");
                             }
 
                             foreach (A.ChartDrawing.Shape shape in slidePart.Slide.Descendants<A.ChartDrawing.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Chart Drawing Shape");
                             }
 
                             foreach (A.Charts.Shape shape in slidePart.Slide.Descendants<A.Charts.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Chart Shape");
                             }
 
                             foreach (A.Shape shape in slidePart.Slide.Descendants<A.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". Shape");
                             }
 
                             foreach (A.Diagrams.Shape3D shape in slidePart.Slide.Descendants<A.Diagrams.Shape3D>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + ". " + GetObjectType(shape.GetType().ToString()));
+                                LstDisplay.Items.Add(count + ". 3D Shape");
                             }
 
                             if (count == 0)
