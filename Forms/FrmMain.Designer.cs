@@ -99,6 +99,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BtnListParagraphStyles = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -108,6 +109,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnListParagraphStyles);
             this.groupBox1.Controls.Add(this.BtnListCC);
             this.groupBox1.Controls.Add(this.BtnListBookmarks);
             this.groupBox1.Controls.Add(this.BtnListFieldCodes);
@@ -890,6 +892,16 @@
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
             // 
+            // BtnListParagraphStyles
+            // 
+            this.BtnListParagraphStyles.Location = new System.Drawing.Point(130, 215);
+            this.BtnListParagraphStyles.Name = "BtnListParagraphStyles";
+            this.BtnListParagraphStyles.Size = new System.Drawing.Size(115, 22);
+            this.BtnListParagraphStyles.TabIndex = 9;
+            this.BtnListParagraphStyles.Text = "List Paragraph Styles";
+            this.BtnListParagraphStyles.UseVisualStyleBackColor = true;
+            this.BtnListParagraphStyles.Click += new System.EventHandler(this.BtnListParagraphStyles_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -997,6 +1009,7 @@
         private System.Windows.Forms.Button BtnListBookmarks;
         private System.Windows.Forms.Button BtnListCC;
         private System.Windows.Forms.Button BtnListShapes;
+        private System.Windows.Forms.Button BtnListParagraphStyles;
     }
 }
 

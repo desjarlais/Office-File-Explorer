@@ -44,7 +44,6 @@ using Office_File_Explorer.Word_Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
@@ -54,6 +53,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using Path = System.IO.Path;
+using System.Xml.Linq;
 
 namespace Office_File_Explorer
 {
@@ -179,6 +179,7 @@ namespace Office_File_Explorer
             BtnListBookmarks.Enabled = false;
             BtnListCC.Enabled = false;
             BtnListShapes.Enabled = false;
+            BtnListParagraphStyles.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -267,6 +268,7 @@ namespace Office_File_Explorer
                 BtnListFieldCodes.Enabled = true;
                 BtnListBookmarks.Enabled = true;
                 BtnListCC.Enabled = true;
+                BtnListParagraphStyles.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -699,8 +701,8 @@ namespace Office_File_Explorer
 
                         foreach (WorksheetPart wPart in doc.WorkbookPart.WorksheetParts)
                         {
-                            xlOleObjCount = xlOleObjCount + GetEmbeddedObjectProperties(wPart);
-                            xlOlePkgPart = xlOlePkgPart + GetEmbeddedPackageProperties(wPart);
+                            xlOleObjCount += GetEmbeddedObjectProperties(wPart);
+                            xlOlePkgPart += GetEmbeddedPackageProperties(wPart);
                         }
 
                         if (xlOlePkgPart == 0 && xlOleObjCount == 0)
@@ -718,8 +720,8 @@ namespace Office_File_Explorer
 
                         foreach (SlidePart sPart in doc.PresentationPart.SlideParts)
                         {
-                            pptOleObjCount = pptOleObjCount + GetEmbeddedObjectProperties(sPart);
-                            pptOlePkgPart = pptOlePkgPart + GetEmbeddedPackageProperties(sPart);
+                            pptOleObjCount += GetEmbeddedObjectProperties(sPart);
+                            pptOlePkgPart += GetEmbeddedPackageProperties(sPart);
                         }
 
                         if (pptOlePkgPart == 0 && pptOleObjCount == 0)
@@ -1730,7 +1732,7 @@ namespace Office_File_Explorer
             _pParts.Clear();
 
             //package = new OfficeDocument(TxtFileName.Text);
-            using (Package _package = Package.Open(TxtFileName.Text, System.IO.FileMode.Open, FileAccess.Read))
+            using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
             {
                 foreach (PackagePart pckg in _package.GetParts())
                 {
@@ -2423,7 +2425,6 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                string sldText;
                 int sCount = PowerPointOpenXml.CountSlides(TxtFileName.Text);
                 if (sCount > 0)
                 {
@@ -2431,7 +2432,7 @@ namespace Office_File_Explorer
 
                     do
                     {
-                        PowerPointOpenXml.GetSlideIdAndText(out sldText, TxtFileName.Text, count);
+                        PowerPointOpenXml.GetSlideIdAndText(out string sldText, TxtFileName.Text, count);
                         LstDisplay.Items.Add("Slide " + (count + 1) + StringResources.period + sldText);
                         count++;
                     } while (count < sCount);
@@ -2949,7 +2950,7 @@ namespace Office_File_Explorer
 
             int count = 0;
             
-            foreach (var v in cfpList(cfp))
+            foreach (var v in CfpList(cfp))
             {
                 count++;
                 LstDisplay.Items.Add(count + StringResources.period + v);
@@ -2958,7 +2959,7 @@ namespace Office_File_Explorer
             DisplayEmptyCount(count, "custom document properties");
         }
 
-        public List<string> cfpList(CustomFilePropertiesPart part)
+        public List<string> CfpList(CustomFilePropertiesPart part)
         {
             List<string> val = new List<string>();
             foreach (CustomDocumentProperty cdp in part.RootElement)
@@ -3464,6 +3465,116 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnListShapes Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public static string ParagraphText(XElement e)
+        {
+            XNamespace w = e.Name.Namespace;
+            return e
+                   .Elements(w + "r")
+                   .Elements(w + "t")
+                   .StringConcatenate(element => (string)element);
+        }
+
+        private void BtnListParagraphStyles_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                LstDisplay.Items.Clear();
+
+                const string documentRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
+                const string stylesRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles";
+                const string wordmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+                XNamespace w = wordmlNamespace;
+
+                XDocument xDoc = null;
+                XDocument styleDoc = null;
+
+                using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+                {
+                    PackageRelationship docPackageRelationship =
+                      wdPackage
+                      .GetRelationshipsByType(documentRelationshipType)
+                      .FirstOrDefault();
+                    if (docPackageRelationship != null)
+                    {
+                        Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), docPackageRelationship.TargetUri);
+                        PackagePart documentPart = wdPackage.GetPart(documentUri);
+
+                        //  Load the document XML in the part into an XDocument instance.  
+                        xDoc = XDocument.Load(XmlReader.Create(documentPart.GetStream()));
+
+                        //  Find the styles part. There will only be one.  
+                        PackageRelationship styleRelation = documentPart.GetRelationshipsByType(stylesRelationshipType).FirstOrDefault();
+                        if (styleRelation != null)
+                        {
+                            Uri styleUri = PackUriHelper.ResolvePartUri(documentUri, styleRelation.TargetUri);
+                            PackagePart stylePart = wdPackage.GetPart(styleUri);
+
+                            //  Load the style XML in the part into an XDocument instance.  
+                            styleDoc = XDocument.Load(XmlReader.Create(stylePart.GetStream()));
+                        }
+                    }
+                }
+
+                string defaultStyle =
+                    (string)(
+                        from style in styleDoc.Root.Elements(w + "style")
+                        where (string)style.Attribute(w + "type") == "paragraph" &&
+                              (string)style.Attribute(w + "default") == "1"
+                        select style
+                    ).First().Attribute(w + "styleId");
+
+                // Find all paragraphs in the document.  
+                var paragraphs =
+                    from para in xDoc
+                                 .Root
+                                 .Element(w + "body")
+                                 .Descendants(w + "p")
+                    let styleNode = para
+                                    .Elements(w + "pPr")
+                                    .Elements(w + "pStyle")
+                                    .FirstOrDefault()
+                    select new
+                    {
+                        ParagraphNode = para,
+                        StyleName = styleNode != null ?
+                            (string)styleNode.Attribute(w + "val") :
+                            defaultStyle
+                    };
+
+                // Retrieve the text of each paragraph.  
+                var paraWithText =
+                    from para in paragraphs
+                    select new
+                    {
+                        ParagraphNode = para.ParagraphNode,
+                        StyleName = para.StyleName,
+                        Text = ParagraphText(para.ParagraphNode)
+                    };
+
+                int count = 0;
+
+                foreach (var p in paraWithText)
+                {
+                    count++;
+                    LstDisplay.Items.Add(count + ". StyleName: " + p.StyleName + " Text: " + p.Text);
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListParagraphStyles Error: " + ioe.Message);
+                LstDisplay.Items.Add("Error listing paragraphs.");
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListParagraphs Error: " + ex.Message);
             }
             finally
             {
