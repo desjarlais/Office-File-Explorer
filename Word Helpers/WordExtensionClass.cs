@@ -63,6 +63,39 @@ namespace Office_File_Explorer.Word_Helpers
             return sb.ToString();
         }
 
+        // Return true if the style id is in the document, false otherwise.
+        public static bool IsStyleIdInDocument(WordprocessingDocument doc,
+            string styleid)
+        {
+            // Get access to the Styles element for this document.
+            Styles s = doc.MainDocumentPart.StyleDefinitionsPart.Styles;
+
+            // Check that there are styles and how many.
+            int n = s.Elements<Style>().Count();
+            if (n == 0)
+                return false;
+
+            // Look for a match on styleid.
+            Style style = s.Elements<Style>()
+                .Where(st => (st.StyleId == styleid) && (st.Type == StyleValues.Paragraph))
+                .FirstOrDefault();
+            if (style == null)
+                return false;
+
+            return true;
+        }
+
+        // Return styleid that matches the styleName, or null when there's no match.
+        public static string GetStyleIdFromStyleName(WordprocessingDocument doc, string styleName)
+        {
+            StyleDefinitionsPart stylePart = doc.MainDocumentPart.StyleDefinitionsPart;
+            string styleId = stylePart.Styles.Descendants<StyleName>()
+                .Where(s => s.Val.Value.Equals(styleName) &&
+                    (((Style)s.Parent).Type == StyleValues.Paragraph))
+                .Select(n => ((Style)n.Parent).StyleId).FirstOrDefault();
+            return styleId;
+        }
+
         public static IEnumerable<OpenXmlElement> ContentControls(this OpenXmlPart part)
         {
             return part.RootElement.Descendants().Where(e => e is SdtBlock || e is SdtRun);

@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Office_File_Explorer.App_Helpers;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 using RunProperties = DocumentFormat.OpenXml.Wordprocessing.RunProperties;
+using Color = System.Drawing.Color;
 
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,16 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Xml.Linq;
 using Office_File_Explorer.Word_Helpers;
+using System.Linq;
+using System.Globalization;
 
 namespace Office_File_Explorer.Forms
 {
     public partial class FrmParagraphs : Form
     {
         string filePath;
+        string styleName, fontColor;
+        int fontSize;
 
         public FrmParagraphs(string file)
         {
@@ -100,6 +105,29 @@ namespace Office_File_Explorer.Forms
                             if (count == pNum)
                             {
                                 GetRunDetails(p);
+
+                                ParagraphProperties pPr = p.Elements<ParagraphProperties>().First();
+                                StyleDefinitionsPart stPart = package.MainDocumentPart.StyleDefinitionsPart;
+                                
+                                foreach (var obj in stPart.Styles)
+                                {
+                                    if (obj.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Style")
+                                    {
+                                        Style style = (Style)obj;
+                                        if (style.StyleId.ToString() == pPr.ParagraphStyleId.Val)
+                                        {
+                                            StyleRunProperties srPr = style.StyleRunProperties;
+                                            fontSize = Convert.ToInt32(srPr.FontSize.Val);
+                                            LblFontSize.Text = srPr.FontSize.Val;
+
+                                            styleName = style.StyleId.ToString();
+                                            LblStyleName.Text = styleName;
+
+                                            fontColor = "#" + srPr.Color.Val;
+                                            LblFontColor.Text = fontColor;                                            
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -114,7 +142,6 @@ namespace Office_File_Explorer.Forms
         public void GetRunDetails(Paragraph p)
         {
             RunProperties rPr = new RunProperties();
-
             foreach (Run r in p.Descendants<Run>())
             {
                 rPr = r.RunProperties;
@@ -165,11 +192,45 @@ namespace Office_File_Explorer.Forms
                    .StringConcatenate(element => (string)element);
         }
 
+        /// <summary>
+        /// Gets the System.Drawing.Color object from hex string.
+        /// </summary>
+        /// <param name="hexString">The hex string.</param>
+        /// <returns></returns>
+        private System.Drawing.Color GetSystemDrawingColorFromHexString(string hexString)
+        {
+            try
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(hexString, @"\B#(?:[a-fA-F0–9]{6}|[a-fA-F0–9]{3})\b"))
+                {
+                    throw new ArgumentException();
+                }
+
+                int red = int.Parse(hexString.Substring(1, 2), NumberStyles.HexNumber);
+                int green = int.Parse(hexString.Substring(3, 2), NumberStyles.HexNumber);
+                int blue = int.Parse(hexString.Substring(5, 2), NumberStyles.HexNumber);
+                return Color.FromArgb(red, green, blue);
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("GetSystemDrawingColorFromHexString Error: " + ex.Message);
+                return Color.Black;
+            }
+        }
+
         private void PBoxFont_Paint_1(object sender, PaintEventArgs e)
         {
             try
             {
-                RenderText(e.Graphics, richTextBox1.Text, "Calibri", System.Drawing.Color.Black, PBoxFont.ClientRectangle, 24);
+                if (fontColor != null)
+                {
+                    Color fColor = GetSystemDrawingColorFromHexString(fontColor);
+                    RenderText(e.Graphics, richTextBox1.Text, "Calibri", fColor, PBoxFont.ClientRectangle, fontSize);
+                }
+                else
+                {
+                    RenderText(e.Graphics, richTextBox1.Text, "Calibri", Color.Black, PBoxFont.ClientRectangle, fontSize);
+                }
             }
             catch (NullReferenceException)
             {

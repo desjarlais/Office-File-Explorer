@@ -1037,10 +1037,16 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    WordExtensionClass.RemovePersonalInfo(document);
+                    if (WordExtensionClass.HasPersonalInfo(document) == true)
+                    {
+                        WordExtensionClass.RemovePersonalInfo(document);
+                        DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
+                    }
+                    else
+                    {
+                        DisplayInformation(InformationOutput.ClearAndAdd, "Document does not contain PII.");
+                    }
                 }
-
-                DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
             }
         }
 
