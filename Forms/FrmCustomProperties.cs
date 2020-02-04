@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -9,7 +10,10 @@ namespace Office_File_Explorer.Forms
     public partial class FrmCustomProperties : Form
     {
         string fName, fType;
+        List<string> bFiles;
+        bool isBatch;
 
+        // single file constructor
         public FrmCustomProperties(string filePath, string fileType)
         {
             InitializeComponent();
@@ -20,12 +24,29 @@ namespace Office_File_Explorer.Forms
             TxtBoxNumber.Enabled = false;
             TxtBoxText.Enabled = false;
             DtDateTime.Enabled = false;
+            isBatch = false;
+        }
+
+        // multiple file constructor
+        public FrmCustomProperties(List<string> files, string fileType)
+        {
+            InitializeComponent();
+            fType = fileType;
+            bFiles = files;
+            rdoNo.Enabled = false;
+            rdoYes.Enabled = false;
+            TxtBoxNumber.Enabled = false;
+            TxtBoxText.Enabled = false;
+            DtDateTime.Enabled = false;
+            isBatch = true;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 bool value;
                 int num;
                 double number;
@@ -41,31 +62,96 @@ namespace Office_File_Explorer.Forms
                         {
                             value = true;
                         }
-
-                        OfficeHelpers.SetCustomProperty(fName, TxtName.Text, value, OfficeHelpers.PropertyTypes.YesNo, fType);                        
+                        
+                        if (isBatch == true)
+                        {
+                            foreach (string f in bFiles)
+                            {
+                                OfficeHelpers.SetCustomProperty(f, TxtName.Text, value, OfficeHelpers.PropertyTypes.YesNo, fType);
+                            }
+                        }
+                        else
+                        {
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, value, OfficeHelpers.PropertyTypes.YesNo, fType);
+                        }
+                        
                         break;
                     case "Date":
-                        OfficeHelpers.SetCustomProperty(fName, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
+                        if (isBatch == true)
+                        {
+                            foreach (string f in bFiles)
+                            {
+                                OfficeHelpers.SetCustomProperty(f, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
+                            }
+                        }
+                        else
+                        {
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
+                        }
+                        
                         break;
                     case "Number":                       
                         if (Int32.TryParse(TxtBoxNumber.Text, out num))
                         {
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, num, OfficeHelpers.PropertyTypes.NumberInteger, fType);
+                            if (isBatch == true)
+                            {
+                                foreach (string f in bFiles)
+                                {
+                                    OfficeHelpers.SetCustomProperty(f, TxtName.Text, num, OfficeHelpers.PropertyTypes.NumberInteger, fType);
+                                }
+                            }
+                            else
+                            {
+                                OfficeHelpers.SetCustomProperty(fName, TxtName.Text, num, OfficeHelpers.PropertyTypes.NumberInteger, fType);
+                            }
+                            
                         }
                         else if (Double.TryParse(TxtBoxNumber.Text, out number))
                         {
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, number, OfficeHelpers.PropertyTypes.NumberDouble, fType);
+                            if (isBatch == true)
+                            {
+                                foreach (string f in bFiles)
+                                {
+                                    OfficeHelpers.SetCustomProperty(f, TxtName.Text, number, OfficeHelpers.PropertyTypes.NumberDouble, fType);
+                                }
+                            }
+                            else
+                            {
+                                OfficeHelpers.SetCustomProperty(fName, TxtName.Text, number, OfficeHelpers.PropertyTypes.NumberDouble, fType);
+                            }
                         }
                         else
                         {
                             // if the value isn't an int or double, just use text format
                             MessageBox.Show("The value entered is not a valid number and will be stored as text.", "Invalid Number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.Text, fType);
+
+                            if (isBatch == true)
+                            {
+                                foreach (string f in bFiles)
+                                {
+                                    OfficeHelpers.SetCustomProperty(f, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                                }
+                            }
+                            else
+                            {
+                                OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                            }
                         }
                         break;
                     default:
                         // Text is default
-                        OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                        if (isBatch == true)
+                        {
+                            foreach (string f in bFiles)
+                            {
+                                OfficeHelpers.SetCustomProperty(f, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                            }
+                        }
+                        else
+                        {
+                            OfficeHelpers.SetCustomProperty(fName, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
+                        }
+                        
                         break;
                 }
 
@@ -80,6 +166,10 @@ namespace Office_File_Explorer.Forms
             {
                 LoggingHelper.Log("BtnOKCustomProps Error: " + ex.Message);
                 Close();
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 

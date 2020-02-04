@@ -107,6 +107,12 @@
     <Compile Include="Forms\FrmAbout.Designer.cs">
       <DependentUpon>FrmAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmBatch.Designer.cs">
+      <DependentUpon>FrmBatch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmCustomProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmAbout.resx">
       <DependentUpon>FrmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBatch.resx">
+      <DependentUpon>FrmBatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmCustomProperties.resx">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>

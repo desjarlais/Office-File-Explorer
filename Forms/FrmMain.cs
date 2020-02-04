@@ -3587,5 +3587,14 @@ namespace Office_File_Explorer
                 Cursor = Cursors.Default;
             }
         }
+
+        private void batchProcessingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmBatch bFrm = new FrmBatch()
+            {
+                Owner = this
+            };
+            bFrm.ShowDialog();
+        }
     }
 }

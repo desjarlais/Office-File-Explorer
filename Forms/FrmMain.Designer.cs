@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnListParagraphStyles = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
             this.BtnListFieldCodes = new System.Windows.Forms.Button();
@@ -99,7 +100,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BtnListParagraphStyles = new System.Windows.Forms.Button();
+            this.batchProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -145,6 +146,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnListParagraphStyles
+            // 
+            this.BtnListParagraphStyles.Location = new System.Drawing.Point(130, 215);
+            this.BtnListParagraphStyles.Name = "BtnListParagraphStyles";
+            this.BtnListParagraphStyles.Size = new System.Drawing.Size(115, 22);
+            this.BtnListParagraphStyles.TabIndex = 9;
+            this.BtnListParagraphStyles.Text = "List Paragraph Styles";
+            this.BtnListParagraphStyles.UseVisualStyleBackColor = true;
+            this.BtnListParagraphStyles.Click += new System.EventHandler(this.BtnListParagraphStyles_Click);
             // 
             // BtnListCC
             // 
@@ -828,6 +839,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
+            this.batchProcessingToolStripMenuItem,
             this.copyOutputToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.toolStripSeparator1,
@@ -839,33 +851,33 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -892,15 +904,12 @@
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
             // 
-            // BtnListParagraphStyles
+            // batchProcessingToolStripMenuItem
             // 
-            this.BtnListParagraphStyles.Location = new System.Drawing.Point(130, 215);
-            this.BtnListParagraphStyles.Name = "BtnListParagraphStyles";
-            this.BtnListParagraphStyles.Size = new System.Drawing.Size(115, 22);
-            this.BtnListParagraphStyles.TabIndex = 9;
-            this.BtnListParagraphStyles.Text = "List Paragraph Styles";
-            this.BtnListParagraphStyles.UseVisualStyleBackColor = true;
-            this.BtnListParagraphStyles.Click += new System.EventHandler(this.BtnListParagraphStyles_Click);
+            this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
+            this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -1010,6 +1019,7 @@
         private System.Windows.Forms.Button BtnListCC;
         private System.Windows.Forms.Button BtnListShapes;
         private System.Windows.Forms.Button BtnListParagraphStyles;
+        private System.Windows.Forms.ToolStripMenuItem batchProcessingToolStripMenuItem;
     }
 }
 
