@@ -4,7 +4,7 @@
   <description asmv2:iconFile="1 (47).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Office File Explorer" version="1.0.2.16" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Office File Explorer" version="1.0.2.17" language="neutral" processorArchitecture="msil" />
     <commandLine file="Office File Explorer.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="1805824">
-      <assemblyIdentity name="Office File Explorer" version="1.0.2.16" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="1806848">
+      <assemblyIdentity name="Office File Explorer" version="1.0.2.17" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sVSHd+jlO1hg92VqnRs4OENAxz+e4JZd7XeGVjlt4PA=</dsig:DigestValue>
+        <dsig:DigestValue>wT07s9QfvMnvj15BNwwpA99iN+hOMPYE5M2UfUrWds4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

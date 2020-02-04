@@ -93,6 +93,7 @@
             this.mnuMainApp = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.batchProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -100,12 +101,15 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.batchProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.mnuMainApp.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -138,7 +142,7 @@
             this.groupBox1.Controls.Add(this.BtnListHyperlinks);
             this.groupBox1.Controls.Add(this.BtnListStyles);
             this.groupBox1.Controls.Add(this.BtnListComments);
-            this.groupBox1.Location = new System.Drawing.Point(12, 51);
+            this.groupBox1.Location = new System.Drawing.Point(12, 82);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -478,7 +482,7 @@
             this.groupBox2.Controls.Add(this.BtnDeleteExternalLinks);
             this.groupBox2.Controls.Add(this.BtnListLinks);
             this.groupBox2.Controls.Add(this.BtnListFormulas);
-            this.groupBox2.Location = new System.Drawing.Point(410, 51);
+            this.groupBox2.Location = new System.Drawing.Point(408, 82);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -638,7 +642,7 @@
             this.groupBox3.Controls.Add(this.BtnViewPPTComments);
             this.groupBox3.Controls.Add(this.BtnPPTGetAllSlideTitles);
             this.groupBox3.Controls.Add(this.BtnPPTListHyperlinks);
-            this.groupBox3.Location = new System.Drawing.Point(678, 51);
+            this.groupBox3.Location = new System.Drawing.Point(676, 82);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -711,7 +715,7 @@
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
             this.groupBox4.Controls.Add(this.BtnListOle);
-            this.groupBox4.Location = new System.Drawing.Point(786, 51);
+            this.groupBox4.Location = new System.Drawing.Point(787, 82);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -788,30 +792,30 @@
             // 
             this.LstDisplay.FormattingEnabled = true;
             this.LstDisplay.HorizontalScrollbar = true;
-            this.LstDisplay.Location = new System.Drawing.Point(12, 365);
+            this.LstDisplay.Location = new System.Drawing.Point(6, 19);
             this.LstDisplay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.LstDisplay.Name = "LstDisplay";
-            this.LstDisplay.Size = new System.Drawing.Size(903, 446);
+            this.LstDisplay.Size = new System.Drawing.Size(889, 433);
             this.LstDisplay.TabIndex = 0;
             // 
             // TxtFileName
             // 
-            this.TxtFileName.Location = new System.Drawing.Point(86, 28);
+            this.TxtFileName.Location = new System.Drawing.Point(57, 19);
             this.TxtFileName.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.TxtFileName.Name = "TxtFileName";
-            this.TxtFileName.Size = new System.Drawing.Size(828, 20);
+            this.TxtFileName.Size = new System.Drawing.Size(838, 20);
             this.TxtFileName.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(10, 31);
+            this.label1.Location = new System.Drawing.Point(16, 22);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "File Path:";
+            this.label1.Text = "Path:";
             // 
             // BtnListWSInfo
             // 
@@ -855,6 +859,13 @@
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // batchProcessingToolStripMenuItem
+            // 
+            this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
+            this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
+            // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
@@ -893,23 +904,37 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // errorLogToolStripMenuItem
             // 
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
             // 
-            // batchProcessingToolStripMenuItem
+            // groupBox5
             // 
-            this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
-            this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
+            this.groupBox5.Controls.Add(this.label1);
+            this.groupBox5.Controls.Add(this.TxtFileName);
+            this.groupBox5.Location = new System.Drawing.Point(12, 27);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(902, 49);
+            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "File Location:";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.LstDisplay);
+            this.groupBox6.Location = new System.Drawing.Point(12, 396);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(902, 468);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Output";
             // 
             // FrmMain
             // 
@@ -917,11 +942,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(926, 690);
+            this.ClientSize = new System.Drawing.Size(926, 876);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.BtnListWSInfo);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.TxtFileName);
-            this.Controls.Add(this.LstDisplay);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -941,6 +965,9 @@
             this.groupBox4.ResumeLayout(false);
             this.mnuMainApp.ResumeLayout(false);
             this.mnuMainApp.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1020,6 +1047,8 @@
         private System.Windows.Forms.Button BtnListShapes;
         private System.Windows.Forms.Button BtnListParagraphStyles;
         private System.Windows.Forms.ToolStripMenuItem batchProcessingToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox6;
     }
 }
 

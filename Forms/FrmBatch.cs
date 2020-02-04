@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Office_File_Explorer.App_Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -21,17 +22,17 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Checked == true)
             {
                 fileType = "*.docx";
-                fType = "Word";
+                fType = StringResources.word;
             }
             else if (rdoExcel.Checked == true)
             {
                 fileType = "*.xlsx";
-                fType = "Excel";
+                fType = StringResources.excel;
             }
             else if (rdoPowerPoint.Checked == true)
             {
                 fileType = "*.pptx";
-                fType = "PowerPoint";
+                fType = StringResources.powerpoint;
             }
 
             return fileType;
@@ -79,7 +80,7 @@ namespace Office_File_Explorer.Forms
             cFrm.ShowDialog();
 
             lstOutput.Items.Clear();
-            lstOutput.Items.Add("Batch Processing done");
+            lstOutput.Items.Add("** Batch Processing done **");
         }
     }
 }
