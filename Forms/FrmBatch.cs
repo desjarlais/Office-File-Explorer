@@ -38,6 +38,40 @@ namespace Office_File_Explorer.Forms
             return fileType;
         }
 
+        public void PopulateAndDisplayFiles()
+        {
+            try
+            {
+                lstOutput.Items.Clear();
+
+                // get all the file paths for .docx files in the folder
+                DirectoryInfo dir = new DirectoryInfo(TxbDirectoryPath.Text);
+                foreach (FileInfo f in dir.GetFiles(GetFileExtension()))
+                {
+                    if (f.Name.StartsWith("~"))
+                    {
+                        // we don't want to change temp files
+                        continue;
+                    }
+                    else
+                    {
+                        // populate the list of file paths
+                        files.Add(f.FullName);
+                        lstOutput.Items.Add(f.FullName);
+                    }
+                }
+            }
+            catch (ArgumentException ae)
+            {
+                LoggingHelper.Log("BtnPopulateAndDisplayFiles Error: " + ae.Message);
+                lstOutput.Items.Add("** Invalid folder path **");
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("PopulateAndDisplayFiles Error: " + ex.Message);
+            }
+        }
+
         private void BtnBrowseDirectory_Click(object sender, EventArgs e)
         {
             try
@@ -46,28 +80,12 @@ namespace Office_File_Explorer.Forms
                 if (result == DialogResult.OK)
                 {
                     TxbDirectoryPath.Text = folderBrowserDialog1.SelectedPath;
-
-                    // get all the file paths for .docx files in the folder
-                    DirectoryInfo dir = new DirectoryInfo(TxbDirectoryPath.Text);
-                    foreach (FileInfo f in dir.GetFiles(GetFileExtension()))
-                    {
-                        if (f.Name.StartsWith("~"))
-                        {
-                            // we don't want to change temp files
-                            continue;
-                        }
-                        else
-                        {
-                            // populate the list of file paths
-                            files.Add(f.FullName);
-                            lstOutput.Items.Add(f.FullName);
-                        }
-                    }
+                    PopulateAndDisplayFiles();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                LoggingHelper.Log("BtnBrowseDirectory Error: " + ex.Message);
             }
         }
 
@@ -81,6 +99,33 @@ namespace Office_File_Explorer.Forms
 
             lstOutput.Items.Clear();
             lstOutput.Items.Add("** Batch Processing done **");
+        }
+
+        private void rdoPowerPoint_CheckedChanged(object sender, EventArgs e)
+        {
+            // only need to run if the change was to enable the button
+            // disabling one of the other options causes multiple events
+            // so we just want to run the populate function once
+            if (rdoPowerPoint.Checked)
+            {
+                PopulateAndDisplayFiles();
+            }
+        }
+
+        private void rdoExcel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoExcel.Checked)
+            {
+                PopulateAndDisplayFiles();
+            }
+        }
+
+        private void rdoWord_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoWord.Checked)
+            {
+                PopulateAndDisplayFiles();
+            }
         }
     }
 }

@@ -113,6 +113,7 @@
             this.rdoPowerPoint.TabIndex = 2;
             this.rdoPowerPoint.Text = "PowerPoint";
             this.rdoPowerPoint.UseVisualStyleBackColor = true;
+            this.rdoPowerPoint.CheckedChanged += new System.EventHandler(this.rdoPowerPoint_CheckedChanged);
             // 
             // rdoExcel
             // 
@@ -123,6 +124,7 @@
             this.rdoExcel.TabIndex = 1;
             this.rdoExcel.Text = "Excel";
             this.rdoExcel.UseVisualStyleBackColor = true;
+            this.rdoExcel.CheckedChanged += new System.EventHandler(this.rdoExcel_CheckedChanged);
             // 
             // rdoWord
             // 
@@ -135,6 +137,7 @@
             this.rdoWord.TabStop = true;
             this.rdoWord.Text = "Word";
             this.rdoWord.UseVisualStyleBackColor = true;
+            this.rdoWord.CheckedChanged += new System.EventHandler(this.rdoWord_CheckedChanged);
             // 
             // groupBox2
             // 
