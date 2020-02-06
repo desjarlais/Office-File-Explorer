@@ -471,6 +471,7 @@
             // 
             this.groupBox2.Controls.Add(this.BtnConvertXlsmToXlsx);
             this.groupBox2.Controls.Add(this.BtnListConnections);
+            this.groupBox2.Controls.Add(this.BtnListWSInfo);
             this.groupBox2.Controls.Add(this.BtnListCellValuesDOM);
             this.groupBox2.Controls.Add(this.BtnListCellValuesSAX);
             this.groupBox2.Controls.Add(this.BtnDeleteComment);
@@ -819,7 +820,7 @@
             // 
             // BtnListWSInfo
             // 
-            this.BtnListWSInfo.Location = new System.Drawing.Point(552, 126);
+            this.BtnListWSInfo.Location = new System.Drawing.Point(140, 73);
             this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(118, 23);
@@ -855,40 +856,40 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // batchProcessingToolStripMenuItem
             // 
             this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
             this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -945,7 +946,6 @@
             this.ClientSize = new System.Drawing.Size(926, 876);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.BtnListWSInfo);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

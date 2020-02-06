@@ -54,6 +54,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Path = System.IO.Path;
 using System.Xml.Linq;
+using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
 namespace Office_File_Explorer
 {
@@ -3078,22 +3079,62 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    IEnumerable<FieldCode> fcList = package.MainDocumentPart.Document.Descendants<FieldCode>();
+                    IEnumerable<Run> rList = package.MainDocumentPart.Document.Descendants<Run>();
                     LstDisplay.Items.Clear();
-
-                    if (fcList.Count() > 0)
+                    List<string> fieldCodeList = new List<string>();
+                    
+                    foreach (Run r in rList)
                     {
-                        int count = 1;
-
-                        foreach (FieldCode fc in fcList)
+                        foreach (OpenXmlElement oxe in r.ChildElements)
                         {
-                            LstDisplay.Items.Add(count + ". " + fc.Text);
-                            count++;
+                            if (oxe.LocalName == "fldChar")
+                            {
+                                FieldChar fc = new FieldChar();
+                                fc = (FieldChar)oxe;
+                                if (fc.FieldCharType == "begin")
+                                {
+                                    fieldCodeList.Add("begin");
+                                }
+                                else if (fc.FieldCharType == "end")
+                                {
+                                    fieldCodeList.Add("end");
+                                }
+                            }
+                            else if (oxe.LocalName == "instrText")
+                            {
+                                fieldCodeList.Add(oxe.InnerText);
+                            }
                         }
+                    }
+
+                    if (fieldCodeList.Count == 0)
+                    {
+                        LstDisplay.Items.Add("** Document does not contain any field codes **");
+                        return;
                     }
                     else
                     {
-                        LstDisplay.Items.Add("Document does not contain any field codes.");
+                        StringBuilder sb = new StringBuilder();
+                        int fCount = 0;
+
+                        foreach (string s in fieldCodeList)
+                        {
+                            if (s == "begin")
+                            {
+                                continue;
+                            }
+                            else if (s == "end")
+                            {
+                                // display the field code values
+                                fCount++;
+                                LstDisplay.Items.Add(fCount + ". " + sb);
+                                sb.Clear();
+                            }
+                            else
+                            {
+                                sb.Append(s);
+                            }
+                        }
                     }
                 }
             }
