@@ -127,5 +127,36 @@ namespace Office_File_Explorer.Forms
                 PopulateAndDisplayFiles();
             }
         }
+
+        private void BtnChangeTheme_Click(object sender, EventArgs e)
+        {
+            string sThemeFilePath = StringResources.emptyString;
+            lstOutput.Items.Clear();
+
+            OpenFileDialog fDialog = new OpenFileDialog
+            {
+                Title = "Select Office Theme File.",
+                Filter = "Open XML Theme File | *.xml",
+                RestoreDirectory = true,
+                InitialDirectory = @"%userprofile%"
+            };
+
+            if (fDialog.ShowDialog() == DialogResult.OK)
+            {
+                sThemeFilePath = fDialog.FileName.ToString();
+
+                foreach (string f in files)
+                {
+                    // call the replace function using the theme file provided
+                    OfficeHelpers.ReplaceTheme(f, sThemeFilePath, fType);
+                }
+
+                lstOutput.Items.Add("** Theme Changed ** ");
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }

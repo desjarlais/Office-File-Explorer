@@ -42,6 +42,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -153,10 +154,11 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnChangeTheme);
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
             this.groupBox3.Location = new System.Drawing.Point(15, 296);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(164, 59);
+            this.groupBox3.Size = new System.Drawing.Size(773, 59);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
@@ -170,6 +172,16 @@
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
+            // 
+            // BtnChangeTheme
+            // 
+            this.BtnChangeTheme.Location = new System.Drawing.Point(154, 19);
+            this.BtnChangeTheme.Name = "BtnChangeTheme";
+            this.BtnChangeTheme.Size = new System.Drawing.Size(98, 23);
+            this.BtnChangeTheme.TabIndex = 5;
+            this.BtnChangeTheme.Text = "Change Theme";
+            this.BtnChangeTheme.UseVisualStyleBackColor = true;
+            this.BtnChangeTheme.Click += new System.EventHandler(this.BtnChangeTheme_Click);
             // 
             // FrmBatch
             // 
@@ -211,5 +223,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button BtnChangeTheme;
     }
 }
