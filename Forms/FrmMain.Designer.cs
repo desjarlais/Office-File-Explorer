@@ -62,6 +62,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
             this.BtnListConnections = new System.Windows.Forms.Button();
+            this.BtnListWSInfo = new System.Windows.Forms.Button();
             this.BtnListCellValuesDOM = new System.Windows.Forms.Button();
             this.BtnListCellValuesSAX = new System.Windows.Forms.Button();
             this.BtnDeleteComment = new System.Windows.Forms.Button();
@@ -89,7 +90,6 @@
             this.LstDisplay = new System.Windows.Forms.ListBox();
             this.TxtFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.BtnListWSInfo = new System.Windows.Forms.Button();
             this.mnuMainApp = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +103,8 @@
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnCopyLine = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -514,6 +516,17 @@
             this.BtnListConnections.UseVisualStyleBackColor = true;
             this.BtnListConnections.Click += new System.EventHandler(this.BtnListConnections_Click);
             // 
+            // BtnListWSInfo
+            // 
+            this.BtnListWSInfo.Location = new System.Drawing.Point(140, 73);
+            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnListWSInfo.Name = "BtnListWSInfo";
+            this.BtnListWSInfo.Size = new System.Drawing.Size(118, 23);
+            this.BtnListWSInfo.TabIndex = 7;
+            this.BtnListWSInfo.Text = "List Worksheet Info";
+            this.BtnListWSInfo.UseVisualStyleBackColor = true;
+            this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
+            // 
             // BtnListCellValuesDOM
             // 
             this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 209);
@@ -796,7 +809,7 @@
             this.LstDisplay.Location = new System.Drawing.Point(6, 19);
             this.LstDisplay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.LstDisplay.Name = "LstDisplay";
-            this.LstDisplay.Size = new System.Drawing.Size(889, 433);
+            this.LstDisplay.Size = new System.Drawing.Size(889, 407);
             this.LstDisplay.TabIndex = 0;
             // 
             // TxtFileName
@@ -817,17 +830,6 @@
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Path:";
-            // 
-            // BtnListWSInfo
-            // 
-            this.BtnListWSInfo.Location = new System.Drawing.Point(140, 73);
-            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
-            this.BtnListWSInfo.Name = "BtnListWSInfo";
-            this.BtnListWSInfo.Size = new System.Drawing.Size(118, 23);
-            this.BtnListWSInfo.TabIndex = 7;
-            this.BtnListWSInfo.Text = "List Worksheet Info";
-            this.BtnListWSInfo.UseVisualStyleBackColor = true;
-            this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
             // 
             // mnuMainApp
             // 
@@ -856,40 +858,40 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // batchProcessingToolStripMenuItem
             // 
             this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
             this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -929,6 +931,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.BtnCopyLine);
+            this.groupBox6.Controls.Add(this.BtnCopyAll);
             this.groupBox6.Controls.Add(this.LstDisplay);
             this.groupBox6.Location = new System.Drawing.Point(12, 396);
             this.groupBox6.Name = "groupBox6";
@@ -936,6 +940,26 @@
             this.groupBox6.TabIndex = 10;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Output";
+            // 
+            // BtnCopyAll
+            // 
+            this.BtnCopyAll.Location = new System.Drawing.Point(791, 432);
+            this.BtnCopyAll.Name = "BtnCopyAll";
+            this.BtnCopyAll.Size = new System.Drawing.Size(104, 23);
+            this.BtnCopyAll.TabIndex = 1;
+            this.BtnCopyAll.Text = "Copy All Output";
+            this.BtnCopyAll.UseVisualStyleBackColor = true;
+            this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
+            // 
+            // BtnCopyLine
+            // 
+            this.BtnCopyLine.Location = new System.Drawing.Point(670, 432);
+            this.BtnCopyLine.Name = "BtnCopyLine";
+            this.BtnCopyLine.Size = new System.Drawing.Size(115, 23);
+            this.BtnCopyLine.TabIndex = 2;
+            this.BtnCopyLine.Text = "Copy Selected Line";
+            this.BtnCopyLine.UseVisualStyleBackColor = true;
+            this.BtnCopyLine.Click += new System.EventHandler(this.BtnCopyLine_Click);
             // 
             // FrmMain
             // 
@@ -1049,6 +1073,8 @@
         private System.Windows.Forms.ToolStripMenuItem batchProcessingToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button BtnCopyLine;
+        private System.Windows.Forms.Button BtnCopyAll;
     }
 }
 

@@ -2996,28 +2996,7 @@ namespace Office_File_Explorer
 
         private void copyOutputToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (LstDisplay.Items.Count <= 0)
-                {
-                    return;
-                }
-
-                StringBuilder buffer = new StringBuilder();
-                foreach (object t in LstDisplay.Items)
-                {
-                    buffer.Append(t);
-                    buffer.Append('\n');
-                }
-
-                Clipboard.SetText(buffer.ToString());
-            }
-            catch (Exception ex)
-            {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnCopyOutput Error");
-                LoggingHelper.Log(ex.Message);
-            }
+            CopyAllItems();
         }
 
         private void BtnViewParagraphs_Click(object sender, EventArgs e)
@@ -3636,6 +3615,56 @@ namespace Office_File_Explorer
                 Owner = this
             };
             bFrm.ShowDialog();
+        }
+
+        private void BtnCopyLine_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (LstDisplay.Items.Count <= 0)
+                {
+                    return;
+                }
+
+                Clipboard.SetText(LstDisplay.SelectedItem.ToString());
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LoggingHelper.Log("BtnCopyLineOutput Error");
+                LoggingHelper.Log(ex.Message);
+            }
+        }
+
+        private void BtnCopyAll_Click(object sender, EventArgs e)
+        {
+            CopyAllItems();
+        }
+
+        public void CopyAllItems()
+        {
+            try
+            {
+                if (LstDisplay.Items.Count <= 0)
+                {
+                    return;
+                }
+
+                StringBuilder buffer = new StringBuilder();
+                foreach (object t in LstDisplay.Items)
+                {
+                    buffer.Append(t);
+                    buffer.Append('\n');
+                }
+
+                Clipboard.SetText(buffer.ToString());
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LoggingHelper.Log("BtnCopyOutput Error");
+                LoggingHelper.Log(ex.Message);
+            }
         }
     }
 }
