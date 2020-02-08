@@ -1504,7 +1504,7 @@ namespace Office_File_Explorer
                                                 }
                                                 else
                                                 {
-                                                    compatModeVersion = " (Word 2019)";
+                                                    compatModeVersion = " (Unknown Version)";
                                                 }
 
                                                 LstDisplay.Items.Add(cs.Name + StringResources.colon + cs.Val + compatModeVersion);
@@ -1738,7 +1738,6 @@ namespace Office_File_Explorer
         {
             _pParts.Clear();
 
-            //package = new OfficeDocument(TxtFileName.Text);
             using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
             {
                 foreach (PackagePart pckg in _package.GetParts())
