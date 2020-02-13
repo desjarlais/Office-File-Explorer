@@ -181,6 +181,7 @@ namespace Office_File_Explorer
             BtnListCC.Enabled = false;
             BtnListShapes.Enabled = false;
             BtnListParagraphStyles.Enabled = false;
+            BtnNotesPageSize.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -309,6 +310,7 @@ namespace Office_File_Explorer
                 BtnPPTListHyperlinks.Enabled = true;
                 BtnViewPPTComments.Enabled = true;
                 BtnListSlideText.Enabled = true;
+                BtnNotesPageSize.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Pptm)
                 {
@@ -3663,6 +3665,16 @@ namespace Office_File_Explorer
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
                 LoggingHelper.Log("BtnCopyOutput Error");
                 LoggingHelper.Log(ex.Message);
+            }
+        }
+
+        private void BtnNotesPageSize_Click(object sender, EventArgs e)
+        {
+            using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+            {
+                PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                LstDisplay.Items.Clear();
+                LstDisplay.Items.Add("Size Fixed");
             }
         }
     }

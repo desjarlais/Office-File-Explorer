@@ -43,6 +43,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -167,6 +168,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnFixNotesPageSize);
             this.groupBox3.Controls.Add(this.BtnChangeTheme);
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
             this.groupBox3.Location = new System.Drawing.Point(22, 697);
@@ -200,6 +202,16 @@
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
+            // 
+            // BtnFixNotesPageSize
+            // 
+            this.BtnFixNotesPageSize.Location = new System.Drawing.Point(385, 29);
+            this.BtnFixNotesPageSize.Name = "BtnFixNotesPageSize";
+            this.BtnFixNotesPageSize.Size = new System.Drawing.Size(185, 35);
+            this.BtnFixNotesPageSize.TabIndex = 9;
+            this.BtnFixNotesPageSize.Text = "Fix Notes Page Size";
+            this.BtnFixNotesPageSize.UseVisualStyleBackColor = true;
+            this.BtnFixNotesPageSize.Click += new System.EventHandler(this.BtnFixNotesPageSize_Click);
             // 
             // FrmBatch
             // 
@@ -243,5 +255,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button BtnChangeTheme;
+        private System.Windows.Forms.Button BtnFixNotesPageSize;
     }
 }

@@ -48,6 +48,26 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             return ret;
         }
 
+        public static void ChangeNotesPageSize(PresentationDocument pDoc)
+        {
+            if (pDoc == null)
+            {
+                throw new ArgumentNullException("presentationDocument");
+            }
+
+            // Get the presentation part of document.
+            PresentationPart presentationPart = pDoc.PresentationPart;
+            
+            // Get the slide count from the SlideParts.
+            if (presentationPart != null)
+            {
+                NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+                Presentation p = presentationPart.Presentation;
+                p.NotesSize = notesSize1;
+                p.Save();
+            }
+        }
+
         // Get a list of the titles of all the slides in the presentation.
         public static IList<string> GetSlideTitles(PresentationDocument presentationDocument)
         {

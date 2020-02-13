@@ -1,4 +1,5 @@
-﻿using Office_File_Explorer.App_Helpers;
+﻿using DocumentFormat.OpenXml.Packaging;
+using Office_File_Explorer.App_Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -157,6 +158,21 @@ namespace Office_File_Explorer.Forms
             {
                 return;
             }
+        }
+
+        private void BtnFixNotesPageSize_Click(object sender, EventArgs e)
+        {
+            lstOutput.Items.Clear();
+
+            foreach (string f in files)
+            {
+                using (PresentationDocument document = PresentationDocument.Open(f, true))
+                {
+                    PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                }
+            }
+
+            lstOutput.Items.Add("** Notes Page Size Fixed **");
         }
     }
 }

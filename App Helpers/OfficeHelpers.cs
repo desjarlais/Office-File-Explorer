@@ -219,20 +219,21 @@ namespace Office_File_Explorer.App_Helpers
                         {
                             item.PropertyId = pid++;
                         }
+
                         props.Save();
                     }
                 }
             }
+
             return returnValue;
         }
-
 
         /// <summary>
         /// replace the current theme with a user specified theme
         /// </summary>
-        /// <param name="document"></param>
-        /// <param name="themeFile"></param>
-        /// <param name="app"></param>
+        /// <param name="document">document file lcoation</param>
+        /// <param name="themeFile">theme xml file location</param>
+        /// <param name="app">which app is the document</param>
         public static void ReplaceTheme(string document, string themeFile, string app)
         {
             if (app == "Word")
