@@ -16,6 +16,7 @@ namespace Office_File_Explorer.Forms
         public FrmBatch()
         {
             InitializeComponent();
+            BtnFixNotesPageSize.Enabled = false;
         }
 
         public string GetFileExtension()
@@ -110,6 +111,7 @@ namespace Office_File_Explorer.Forms
             if (rdoPowerPoint.Checked)
             {
                 PopulateAndDisplayFiles();
+                BtnFixNotesPageSize.Enabled = true;
             }
         }
 
@@ -118,6 +120,7 @@ namespace Office_File_Explorer.Forms
             if (rdoExcel.Checked)
             {
                 PopulateAndDisplayFiles();
+                BtnFixNotesPageSize.Enabled = false;
             }
         }
 
@@ -126,6 +129,7 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Checked)
             {
                 PopulateAndDisplayFiles();
+                BtnFixNotesPageSize.Enabled = false;
             }
         }
 
