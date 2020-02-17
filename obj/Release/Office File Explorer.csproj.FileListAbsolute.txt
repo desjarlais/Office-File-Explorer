@@ -46,3 +46,29 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmParagra
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmPrintOrientation.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSettings.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmBatch.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\Office File Explorer.exe.config
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\Office File Explorer.exe.manifest
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\Office File Explorer.application
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\Office File Explorer.exe
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\Office File Explorer.pdb
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\DocumentFormat.OpenXml.dll
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\bin\Release\DocumentFormat.OpenXml.xml
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.csprojAssemblyReference.cache
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmAuthors.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmAbout.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmBatch.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmCustomProperties.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmErrorLog.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.FrmMain.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmParagraphs.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmPrintOrientation.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSearchAndReplace.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmSettings.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office_File_Explorer.Properties.Resources.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.csproj.GenerateResource.cache
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.TrustInfo.xml
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.exe.manifest
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.application
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.exe
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.pdb

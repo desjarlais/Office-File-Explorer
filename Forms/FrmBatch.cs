@@ -45,6 +45,7 @@ namespace Office_File_Explorer.Forms
             try
             {
                 lstOutput.Items.Clear();
+                files.Clear();
 
                 // get all the file paths for .docx files in the folder
                 DirectoryInfo dir = new DirectoryInfo(TxbDirectoryPath.Text);
@@ -152,11 +153,19 @@ namespace Office_File_Explorer.Forms
 
                 foreach (string f in files)
                 {
-                    // call the replace function using the theme file provided
-                    OfficeHelpers.ReplaceTheme(f, sThemeFilePath, fType);
+                    try
+                    {
+                        // call the replace function using the theme file provided
+                        OfficeHelpers.ReplaceTheme(f, sThemeFilePath, fType);
+                        LoggingHelper.Log(f + ": Theme Replaced.");
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingHelper.Log(f + " : Failed to replace theme : Error = " + ex.Message);
+                    }
                 }
 
-                lstOutput.Items.Add("** Theme Changed ** ");
+                lstOutput.Items.Add("** Themes Changed ** ");
             }
             else
             {
@@ -170,13 +179,21 @@ namespace Office_File_Explorer.Forms
 
             foreach (string f in files)
             {
-                using (PresentationDocument document = PresentationDocument.Open(f, true))
+                try
                 {
-                    PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                    using (PresentationDocument document = PresentationDocument.Open(f, true))
+                    {
+                        PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                        lstOutput.Items.Add(f + ": Notes Page Size Reset.");
+                        LoggingHelper.Log(f + ": Notes Page Size Reset.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lstOutput.Items.Add(f + " not saved : error = " + ex.Message);
+                    LoggingHelper.Log(f + " not saved : error = " + ex.Message);
                 }
             }
-
-            lstOutput.Items.Add("** Notes Page Size Fixed **");
         }
     }
 }

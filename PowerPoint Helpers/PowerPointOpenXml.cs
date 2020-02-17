@@ -48,17 +48,20 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             return ret;
         }
 
+        /// <summary>
+        /// Reset the Notes Page Size to the default.
+        /// </summary>
+        /// <param name="pDoc"></param>
         public static void ChangeNotesPageSize(PresentationDocument pDoc)
         {
             if (pDoc == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException("pDoc");
             }
 
             // Get the presentation part of document.
             PresentationPart presentationPart = pDoc.PresentationPart;
             
-            // Get the slide count from the SlideParts.
             if (presentationPart != null)
             {
                 NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
