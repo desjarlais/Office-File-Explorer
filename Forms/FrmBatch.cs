@@ -157,15 +157,15 @@ namespace Office_File_Explorer.Forms
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(f, sThemeFilePath, fType);
-                        LoggingHelper.Log(f + ": Theme Replaced.");
+                        LoggingHelper.Log(f + "--> Theme Replaced.");
+                        lstOutput.Items.Add(f + "--> Theme Replaced.");
                     }
                     catch (Exception ex)
                     {
-                        LoggingHelper.Log(f + " : Failed to replace theme : Error = " + ex.Message);
+                        LoggingHelper.Log(f + " --> Failed to replace theme : Error = " + ex.Message);
+                        lstOutput.Items.Add(f + " --> Failed to replace theme : Error = " + ex.Message);
                     }
                 }
-
-                lstOutput.Items.Add("** Themes Changed ** ");
             }
             else
             {
@@ -184,14 +184,14 @@ namespace Office_File_Explorer.Forms
                     using (PresentationDocument document = PresentationDocument.Open(f, true))
                     {
                         PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                        lstOutput.Items.Add(f + ": Notes Page Size Reset.");
-                        LoggingHelper.Log(f + ": Notes Page Size Reset.");
+                        lstOutput.Items.Add(f + "--> Notes Page Size Reset.");
+                        LoggingHelper.Log(f + "--> Notes Page Size Reset.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    lstOutput.Items.Add(f + " not saved : error = " + ex.Message);
-                    LoggingHelper.Log(f + " not saved : error = " + ex.Message);
+                    lstOutput.Items.Add(f + "--> error = " + ex.Message);
+                    LoggingHelper.Log(f + "--> error = " + ex.Message);
                 }
             }
         }
