@@ -16,7 +16,7 @@ namespace Office_File_Explorer.Forms
         public FrmBatch()
         {
             InitializeComponent();
-            BtnFixNotesPageSize.Enabled = false;
+            DisableUI();
         }
 
         public string GetFileExtension()
@@ -40,12 +40,34 @@ namespace Office_File_Explorer.Forms
             return fileType;
         }
 
+        public void DisableUI()
+        {
+            BtnFixNotesPageSize.Enabled = false;
+            BtnChangeTheme.Enabled = false;
+            BtnChangeCustomProps.Enabled = false;
+
+            rdoExcel.Enabled = false;
+            rdoPowerPoint.Enabled = false;
+            rdoWord.Enabled = false;
+        }
+
+        public void EnableUI()
+        {
+            BtnChangeTheme.Enabled = true;
+            BtnChangeCustomProps.Enabled = true;
+
+            rdoExcel.Enabled = true;
+            rdoPowerPoint.Enabled = true;
+            rdoWord.Enabled = true;
+        }
+
         public void PopulateAndDisplayFiles()
         {
             try
             {
                 lstOutput.Items.Clear();
                 files.Clear();
+                int fCount = 0;
 
                 // get all the file paths for .docx files in the folder
                 DirectoryInfo dir = new DirectoryInfo(TxbDirectoryPath.Text);
@@ -61,12 +83,23 @@ namespace Office_File_Explorer.Forms
                         // populate the list of file paths
                         files.Add(f.FullName);
                         lstOutput.Items.Add(f.FullName);
+                        fCount++;
                     }
+                }
+
+                if (fCount == 0)
+                {
+                    lstOutput.Items.Add("** No Files **");
                 }
             }
             catch (ArgumentException ae)
             {
                 LoggingHelper.Log("BtnPopulateAndDisplayFiles Error: " + ae.Message);
+                lstOutput.Items.Add("** Invalid folder path **");
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                LoggingHelper.Log("BtnPopulateAndDisplayFiles Error: " + dnfe.Message);
                 lstOutput.Items.Add("** Invalid folder path **");
             }
             catch (Exception ex)
@@ -84,6 +117,7 @@ namespace Office_File_Explorer.Forms
                 {
                     TxbDirectoryPath.Text = folderBrowserDialog1.SelectedPath;
                     PopulateAndDisplayFiles();
+                    EnableUI();
                 }
             }
             catch (Exception ex)
@@ -193,6 +227,14 @@ namespace Office_File_Explorer.Forms
                     lstOutput.Items.Add(f + "--> error = " + ex.Message);
                     LoggingHelper.Log(f + "--> error = " + ex.Message);
                 }
+            }
+        }
+
+        private void TxbDirectoryPath_TextChanged(object sender, EventArgs e)
+        {
+            if (rdoWord.Enabled == false)
+            {
+                EnableUI();
             }
         }
     }
