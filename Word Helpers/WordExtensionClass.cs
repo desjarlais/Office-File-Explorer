@@ -3,10 +3,10 @@ Module Name:  WordExtensionClass.cs
 Project:      Office File Explorer
 Copyright (c) Microsoft Corporation.
 
-Main window for OFE.
+Word Specific funtion helper class
 
-This source is subject to the Microsoft Public License.
-See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
+This source is subject to the following license.
+See https://github.com/desjarlais/Office-File-Explorer/blob/master/LICENSE
 All other rights reserved.
 
 THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 

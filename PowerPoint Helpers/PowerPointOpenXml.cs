@@ -1,8 +1,8 @@
 ﻿using Drawing = DocumentFormat.OpenXml.Drawing;
-using A = DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml;
+using A = DocumentFormat.OpenXml.Drawing;
 
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         // Iterate through all the external relationships in the slide part. 
                         foreach (HyperlinkRelationship relation in slidePart.HyperlinkRelationships)
                         {
-                            // If the relationship ID matches the link ID…
+                            // If the relationship ID matches the link ID
                             if (relation.Id.Equals(link.Id))
                             {
                                 // Add the URI of the external relationship to the list of strings.

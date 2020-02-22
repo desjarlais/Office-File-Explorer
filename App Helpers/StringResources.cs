@@ -1,6 +1,4 @@
-﻿using System.CodeDom;
-
-namespace Office_File_Explorer.App_Helpers
+﻿namespace Office_File_Explorer.App_Helpers
 {
     class StringResources
     {

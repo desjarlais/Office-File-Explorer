@@ -5,8 +5,8 @@ Copyright (c) Microsoft Corporation.
 
 Main window for OFE.
 
-This source is subject to the Microsoft Public License.
-See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
+This source is subject to the following license.
+See https://github.com/desjarlais/Office-File-Explorer/blob/master/LICENSE
 All other rights reserved.
 
 THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
@@ -2628,6 +2628,8 @@ namespace Office_File_Explorer
 
                                         // remove all fallback tags is a 3 step process
                                         // Step 1. start by getting a list of all nodes/values in the document.xml file
+                                        // Step 2. call GetAllNodes to add each fallbacktag
+                                        // Step 3. call ParseOutFallbackTags to remove each fallback
                                         if (Properties.Settings.Default.RemoveFallback == "true")
                                         {
                                             CharEnumerator charEnum = strDocText.GetEnumerator();
@@ -2713,9 +2715,10 @@ namespace Office_File_Explorer
                     }
                 }
             }
-            catch (IOException)
+            catch (IOException ioe)
             {
                 LstDisplay.Items.Add(StringResources.errorUnableToFixDocument);
+                LoggingHelper.Log("Corrupt Doc IO Exception = " + ioe.Message);
             }
             catch (FileFormatException ffe)
             {
@@ -2729,6 +2732,7 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LstDisplay.Items.Add(StringResources.errorUnableToFixDocument + ex.Message);
+                LoggingHelper.Log("Corrupt Doc Exception = " + ex.Message);
             }
             finally
             {
@@ -2770,7 +2774,6 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// Step 2 of remove fallback tags
         /// this function loops through all nodes parsed out from Step 1
         /// check each node and add fallback tags only to the list
         /// </summary>
@@ -2802,7 +2805,6 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// Step 3 of remove fallback tags
         /// we should only have a list of fallback start tags, end tags and each tag in between
         /// the idea is to combine these start/middle/end tags into a long string
         /// then they can be replaced with an empty string
@@ -2893,6 +2895,7 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
+                LoggingHelper.Log("List Connections Failed = " + ex.Message);
             }
             finally
             {
@@ -2940,6 +2943,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
+                LstDisplay.Items.Add("BtnListCustomProps Error: " + ex.Message);
                 LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
             }
             finally
@@ -3673,8 +3677,7 @@ namespace Office_File_Explorer
             using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
             {
                 PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                LstDisplay.Items.Clear();
-                LstDisplay.Items.Add(TxtFileName.Text + " : Notes Page Size Fixed");
+                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + " : Notes Page Size Fixed");
             }
         }
     }
