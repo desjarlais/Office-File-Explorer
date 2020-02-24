@@ -20,6 +20,8 @@
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
         public const string errorText = "Error: ";
+        public const string sEnd = "end";
+        public const string sBegin = "begin";
         public const string colon = ": ";
         public const string period = ". ";
         public const string emptyString = "";

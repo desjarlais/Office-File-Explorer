@@ -32,6 +32,7 @@ using A = DocumentFormat.OpenXml.Drawing;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
+using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
 // this app references
 using Office_File_Explorer.App_Helpers;
@@ -52,9 +53,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using Path = System.IO.Path;
 using System.Xml.Linq;
-using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
+using Path = System.IO.Path;
 
 namespace Office_File_Explorer
 {
@@ -3075,13 +3075,13 @@ namespace Office_File_Explorer
                             {
                                 FieldChar fc = new FieldChar();
                                 fc = (FieldChar)oxe;
-                                if (fc.FieldCharType == "begin")
+                                if (fc.FieldCharType == StringResources.sBegin)
                                 {
-                                    fieldCodeList.Add("begin");
+                                    fieldCodeList.Add(StringResources.sBegin);
                                 }
-                                else if (fc.FieldCharType == "end")
+                                else if (fc.FieldCharType == StringResources.sEnd)
                                 {
-                                    fieldCodeList.Add("end");
+                                    fieldCodeList.Add(StringResources.sEnd);
                                 }
                             }
                             else if (oxe.LocalName == "instrText")
@@ -3103,11 +3103,11 @@ namespace Office_File_Explorer
 
                         foreach (string s in fieldCodeList)
                         {
-                            if (s == "begin")
+                            if (s == StringResources.sBegin)
                             {
                                 continue;
                             }
-                            else if (s == "end")
+                            else if (s == StringResources.sEnd)
                             {
                                 // display the field code values
                                 fCount++;
@@ -3124,7 +3124,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("Error: " + ex.Message);
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnListFieldCodes: " + ex.Message);
             }
             finally
@@ -3161,7 +3161,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("Error: " + ex.Message);
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
             }
             finally
@@ -3255,7 +3255,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("Error: " + ex.Message);
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnListCC: " + ex.Message);
             }
             finally
