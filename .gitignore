@@ -26,3 +26,8 @@ bin/Debug/Office File Explorer.pdb
 bin/Debug/Office File Explorer.exe.manifest
 bin/Debug/Office File Explorer.exe
 bin/Debug/Office File Explorer.application
+*.exe
+*.application
+*.pdb
+bin/Debug/app.publish/Office File Explorer.exe
+*.manifest

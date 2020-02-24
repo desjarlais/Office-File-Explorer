@@ -1,8 +1,8 @@
-﻿using Drawing = DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml;
 using A = DocumentFormat.OpenXml.Drawing;
+using Drawing = DocumentFormat.OpenXml.Drawing;
 
 using System;
 using System.Collections.Generic;
