@@ -2186,7 +2186,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
+                DisplayInformation(InformationOutput.TextOnly, "** Document does not contain any shared strings **");
                 LoggingHelper.Log("BtnListSharedStrings_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -3679,6 +3679,11 @@ namespace Office_File_Explorer
                 PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
                 DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + " : Notes Page Size Fixed");
             }
+        }
+
+        private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(StringResources.helpLocation);
         }
     }
 }

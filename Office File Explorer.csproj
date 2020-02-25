@@ -327,6 +327,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1 %2847%29.ico" />
+    <Content Include="Resources\BatchFile_16x.png" />
+    <Content Include="Resources\CopyToClipboard_16x.png" />
+    <Content Include="Resources\Dialog_16x.png" />
+    <Content Include="Resources\ErrorSummary_16x.png" />
+    <None Include="Resources\Exit_16x1.png" />
+    <Content Include="Resources\FeedbackBubble_16x.png" />
+    <Content Include="Resources\OpenFile_16x.png" />
+    <Content Include="Resources\SendEmail_16x.png" />
+    <Content Include="Resources\Settings_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

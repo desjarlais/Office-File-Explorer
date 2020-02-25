@@ -101,6 +101,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -242,7 +243,7 @@
             // BtnConvertDocmToDocx
             // 
             this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(250, 214);
-            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(140, 24);
             this.BtnConvertDocmToDocx.TabIndex = 17;
@@ -498,7 +499,7 @@
             // BtnConvertXlsmToXlsx
             // 
             this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(140, 157);
-            this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
             this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 21);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
@@ -520,7 +521,7 @@
             // BtnListWSInfo
             // 
             this.BtnListWSInfo.Location = new System.Drawing.Point(140, 73);
-            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(109, 23);
             this.BtnListWSInfo.TabIndex = 7;
@@ -531,7 +532,7 @@
             // BtnListCellValuesDOM
             // 
             this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 209);
-            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
             this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
             this.BtnListCellValuesDOM.TabIndex = 26;
@@ -542,7 +543,7 @@
             // BtnListCellValuesSAX
             // 
             this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 182);
-            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
             this.BtnListCellValuesSAX.TabIndex = 25;
@@ -575,7 +576,7 @@
             // BtnListSharedStrings
             // 
             this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 157);
-            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -586,7 +587,7 @@
             // BtnListWorksheets
             // 
             this.BtnListWorksheets.Location = new System.Drawing.Point(6, 73);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(130, 23);
             this.BtnListWorksheets.TabIndex = 7;
@@ -597,7 +598,7 @@
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
-            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 24);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -608,7 +609,7 @@
             // BtnListDefinedNames
             // 
             this.BtnListDefinedNames.Location = new System.Drawing.Point(142, 103);
-            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(107, 21);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -670,7 +671,7 @@
             // BtnNotesPageSize
             // 
             this.BtnNotesPageSize.Location = new System.Drawing.Point(6, 157);
-            this.BtnNotesPageSize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnNotesPageSize.Margin = new System.Windows.Forms.Padding(2);
             this.BtnNotesPageSize.Name = "BtnNotesPageSize";
             this.BtnNotesPageSize.Size = new System.Drawing.Size(113, 23);
             this.BtnNotesPageSize.TabIndex = 24;
@@ -681,7 +682,7 @@
             // BtnConvertPptmToPptx
             // 
             this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(6, 130);
-            this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
             this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(110, 22);
             this.BtnConvertPptmToPptx.TabIndex = 22;
@@ -692,7 +693,7 @@
             // BtnListSlideText
             // 
             this.BtnListSlideText.Location = new System.Drawing.Point(6, 103);
-            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSlideText.Name = "BtnListSlideText";
             this.BtnListSlideText.Size = new System.Drawing.Size(110, 21);
             this.BtnListSlideText.TabIndex = 21;
@@ -703,7 +704,7 @@
             // BtnViewPPTComments
             // 
             this.BtnViewPPTComments.Location = new System.Drawing.Point(6, 75);
-            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnViewPPTComments.Name = "BtnViewPPTComments";
             this.BtnViewPPTComments.Size = new System.Drawing.Size(110, 24);
             this.BtnViewPPTComments.TabIndex = 23;
@@ -872,41 +873,46 @@
             // 
             // openToolStripMenuItem
             // 
+            this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // batchProcessingToolStripMenuItem
             // 
+            this.batchProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
             this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
             this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
+            this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -914,6 +920,7 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
+            this.feedbackToolStripMenuItem,
             this.errorLogToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
@@ -921,15 +928,25 @@
             // 
             // aboutToolStripMenuItem
             // 
+            this.aboutToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Dialog_16x;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // feedbackToolStripMenuItem
+            // 
+            this.feedbackToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FeedbackBubble_16x;
+            this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.feedbackToolStripMenuItem.Text = "&Feedback / Suggestions";
+            this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.feedbackToolStripMenuItem_Click);
+            // 
             // errorLogToolStripMenuItem
             // 
+            this.errorLogToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ErrorSummary_16x;
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.errorLogToolStripMenuItem_Click);
             // 
@@ -1091,6 +1108,7 @@
         private System.Windows.Forms.Button BtnCopyLine;
         private System.Windows.Forms.Button BtnCopyAll;
         private System.Windows.Forms.Button BtnNotesPageSize;
+        private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
     }
 }
 

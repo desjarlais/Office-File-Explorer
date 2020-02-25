@@ -63,9 +63,39 @@ namespace Office_File_Explorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BatchFile_16x {
+            get {
+                object obj = ResourceManager.GetObject("BatchFile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap chart {
             get {
                 object obj = ResourceManager.GetObject("chart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CopyToClipboard_16x {
+            get {
+                object obj = ResourceManager.GetObject("CopyToClipboard_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dialog_16x {
+            get {
+                object obj = ResourceManager.GetObject("Dialog_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -86,6 +116,16 @@ namespace Office_File_Explorer.Properties {
         internal static System.Drawing.Bitmap Enum_582_32 {
             get {
                 object obj = ResourceManager.GetObject("Enum_582_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ErrorSummary_16x {
+            get {
+                object obj = ResourceManager.GetObject("ErrorSummary_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,6 +156,26 @@ namespace Office_File_Explorer.Properties {
         internal static System.Drawing.Bitmap ExcelWorksheetView_11748_32 {
             get {
                 object obj = ResourceManager.GetObject("ExcelWorksheetView_11748_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Exit_16x {
+            get {
+                object obj = ResourceManager.GetObject("Exit_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FeedbackBubble_16x {
+            get {
+                object obj = ResourceManager.GetObject("FeedbackBubble_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,6 +263,16 @@ namespace Office_File_Explorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap OpenFile_16x {
+            get {
+                object obj = ResourceManager.GetObject("OpenFile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap powerpoint {
             get {
                 object obj = ResourceManager.GetObject("powerpoint", resourceCulture);
@@ -236,6 +306,16 @@ namespace Office_File_Explorer.Properties {
         internal static System.Drawing.Bitmap recoverytxt {
             get {
                 object obj = ResourceManager.GetObject("recoverytxt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Settings_16x {
+            get {
+                object obj = ResourceManager.GetObject("Settings_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
