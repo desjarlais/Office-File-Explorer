@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="2146304">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="2152448">
       <assemblyIdentity name="Office File Explorer" version="1.0.2.20" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1/RG4s6rUFGmWYf1Cw7zAaZZctmoNh500bSen9q7xu0=</dsig:DigestValue>
+        <dsig:DigestValue>qbqDgjjzMycbAbWsaXpB/Vb56BhPmRdiCuf46KU+gn8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -82,6 +82,78 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>56XVcLemz+23t4bLzkb+eHMftSSzk+xirATIfMKiUm0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\BatchFile_16x.png" size="344">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gglVMaI8jue68XCoSPb0h9icAuZIuHY5tL1eGZCw6P4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\CopyToClipboard_16x.png" size="290">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>n+zjNpJ7BgiZm/9QoJ22XlnUm+aVIohlIjNzp0XcTAc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Dialog_16x.png" size="198">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>rlKUUvbV43ZkZ9AGcmJ8qQnd2lduSjU6RHij61bvD7w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\ErrorSummary_16x.png" size="397">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VN28OW52wE6x1Jjn13IYm/NXWW5O2kU1OpSLbdelQCY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\FeedbackBubble_16x.png" size="387">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>cMg8QfK22hUdoq7sGtp4cQAqSbEzG3exSErWq3dkuPY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\OpenFile_16x.png" size="455">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EXfgIVvrYhHuSVzuG65ZAXjBV6vGagWjk0wUCnTp5BQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\SendEmail_16x.png" size="19052">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>80dcautOqFW3ONiPdjsbzxWa83elNGLT6cYMEDVNkkY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Settings_16x.png" size="480">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ddReJf9do/jaXgEtzVxacMrg3nCW14f3JxEnj7MPvmI=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

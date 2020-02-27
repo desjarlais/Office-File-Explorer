@@ -32,9 +32,9 @@
             this.ckRemoveFallback = new System.Windows.Forms.CheckBox();
             this.ckOpenInWord = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ckGroupShapeFix = new System.Windows.Forms.CheckBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
-            this.ckGroupShapeFix = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +70,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Corrupt Document Settings";
             // 
+            // ckGroupShapeFix
+            // 
+            this.ckGroupShapeFix.AutoSize = true;
+            this.ckGroupShapeFix.Location = new System.Drawing.Point(6, 65);
+            this.ckGroupShapeFix.Name = "ckGroupShapeFix";
+            this.ckGroupShapeFix.Size = new System.Drawing.Size(118, 17);
+            this.ckGroupShapeFix.TabIndex = 2;
+            this.ckGroupShapeFix.Text = "Fix grouped shapes";
+            this.ckGroupShapeFix.UseVisualStyleBackColor = true;
+            // 
             // BtnCancel
             // 
             this.BtnCancel.Location = new System.Drawing.Point(173, 119);
@@ -90,16 +100,6 @@
             this.BtnOK.UseVisualStyleBackColor = true;
             this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
-            // ckGroupShapeFix
-            // 
-            this.ckGroupShapeFix.AutoSize = true;
-            this.ckGroupShapeFix.Location = new System.Drawing.Point(6, 65);
-            this.ckGroupShapeFix.Name = "ckGroupShapeFix";
-            this.ckGroupShapeFix.Size = new System.Drawing.Size(118, 17);
-            this.ckGroupShapeFix.TabIndex = 2;
-            this.ckGroupShapeFix.Text = "Fix grouped shapes";
-            this.ckGroupShapeFix.UseVisualStyleBackColor = true;
-            // 
             // FrmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -113,7 +113,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

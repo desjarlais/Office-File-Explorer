@@ -30,6 +30,17 @@
         public const string nonEmptyId = "Target Id cannot be empty.";
         public const string duplicateId = "OOXML part Id <1> already exists.";
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
+        public const string shpChart = "Chart";
+        public const string shpOfficeDrawing = ". Office Drawing";
+        public const string shpVml = "Vml Shape";
+        public const string shpMath = ". Math Shape";
+        public const string shpDrawingDgm = ". Drawing Diagram Shape";
+        public const string shpChartDraw = ". Chart Drawing Shape";
+        public const string shpChartShape = ". Chart Shape";
+        public const string shpShape = ". Shape";
+        public const string shp3D = ". 3D Shape";
+        public const string shpXlDraw = ". Spreadsheet Drawing";
+
 
         // schema base urls
         public const string schemaOxml2006 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
