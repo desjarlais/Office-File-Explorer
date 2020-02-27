@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 
 using Office_File_Explorer.App_Helpers;
+using Office_File_Explorer.Word_Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +47,7 @@ namespace Office_File_Explorer.Forms
             BtnFixNotesPageSize.Enabled = false;
             BtnChangeTheme.Enabled = false;
             BtnChangeCustomProps.Enabled = false;
+            BtnRemovePII.Enabled = false;
 
             rdoExcel.Enabled = false;
             rdoPowerPoint.Enabled = false;
@@ -56,6 +58,7 @@ namespace Office_File_Explorer.Forms
         {
             BtnChangeTheme.Enabled = true;
             BtnChangeCustomProps.Enabled = true;
+            BtnRemovePII.Enabled = true;
 
             rdoExcel.Enabled = true;
             rdoPowerPoint.Enabled = true;
@@ -236,6 +239,38 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Enabled == false)
             {
                 EnableUI();
+            }
+        }
+
+        private void BtnRemovePII_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                foreach (string f in files)
+                {
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    {
+                        if (WordExtensionClass.HasPersonalInfo(document) == true)
+                        {
+                            WordExtensionClass.RemovePersonalInfo(document);
+                            LoggingHelper.Log(f + " : PII removed from file.");
+                        }
+                        else
+                        {
+                            LoggingHelper.Log(f + " : does not contain PII.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnRemovePII Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
     }

@@ -44,6 +44,7 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnRemovePII = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -89,9 +90,9 @@
             // 
             this.BtnChangeCustomProps.Location = new System.Drawing.Point(7, 19);
             this.BtnChangeCustomProps.Name = "BtnChangeCustomProps";
-            this.BtnChangeCustomProps.Size = new System.Drawing.Size(141, 23);
+            this.BtnChangeCustomProps.Size = new System.Drawing.Size(120, 23);
             this.BtnChangeCustomProps.TabIndex = 4;
-            this.BtnChangeCustomProps.Text = "Change Custom Props";
+            this.BtnChangeCustomProps.Text = "Add Custom Props";
             this.BtnChangeCustomProps.UseVisualStyleBackColor = true;
             this.BtnChangeCustomProps.Click += new System.EventHandler(this.BtnChangeCustomProps_Click);
             // 
@@ -156,6 +157,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnRemovePII);
             this.groupBox3.Controls.Add(this.BtnFixNotesPageSize);
             this.groupBox3.Controls.Add(this.BtnChangeTheme);
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
@@ -168,8 +170,8 @@
             // 
             // BtnFixNotesPageSize
             // 
-            this.BtnFixNotesPageSize.Location = new System.Drawing.Point(257, 19);
-            this.BtnFixNotesPageSize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnFixNotesPageSize.Location = new System.Drawing.Point(236, 19);
+            this.BtnFixNotesPageSize.Margin = new System.Windows.Forms.Padding(2);
             this.BtnFixNotesPageSize.Name = "BtnFixNotesPageSize";
             this.BtnFixNotesPageSize.Size = new System.Drawing.Size(123, 23);
             this.BtnFixNotesPageSize.TabIndex = 9;
@@ -179,7 +181,7 @@
             // 
             // BtnChangeTheme
             // 
-            this.BtnChangeTheme.Location = new System.Drawing.Point(154, 19);
+            this.BtnChangeTheme.Location = new System.Drawing.Point(133, 19);
             this.BtnChangeTheme.Name = "BtnChangeTheme";
             this.BtnChangeTheme.Size = new System.Drawing.Size(98, 23);
             this.BtnChangeTheme.TabIndex = 5;
@@ -196,6 +198,16 @@
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
+            // 
+            // BtnRemovePII
+            // 
+            this.BtnRemovePII.Location = new System.Drawing.Point(364, 19);
+            this.BtnRemovePII.Name = "BtnRemovePII";
+            this.BtnRemovePII.Size = new System.Drawing.Size(101, 23);
+            this.BtnRemovePII.TabIndex = 10;
+            this.BtnRemovePII.Text = "Remove PII";
+            this.BtnRemovePII.UseVisualStyleBackColor = true;
+            this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
             // 
             // FrmBatch
             // 
@@ -239,5 +251,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button BtnChangeTheme;
         private System.Windows.Forms.Button BtnFixNotesPageSize;
+        private System.Windows.Forms.Button BtnRemovePII;
     }
 }
