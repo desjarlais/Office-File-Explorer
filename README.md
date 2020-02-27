@@ -31,6 +31,7 @@ The purpose of this tool is to provide potential file specific troubleshooting o
 * Change Theme
 * Add Custom Properties
 * Fix Note Page Size
+* Remove Personally Identifiable Information
 
 # Note
 Keep in mind if you use this on a production document and choose to use something that changes or removes data, you should be working on a copy of the file, not the original.  
