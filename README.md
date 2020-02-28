@@ -38,8 +38,8 @@ Keep in mind if you use this on a production document and choose to use somethin
 
 # App UI
 
-## Main Window
+Main Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
 
-## Batch Window
+Batch Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
