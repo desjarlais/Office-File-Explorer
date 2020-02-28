@@ -23,6 +23,7 @@
         public const string sEnd = "end";
         public const string sBegin = "begin";
         public const string colon = ": ";
+        public const string colonBuffer = " : ";
         public const string period = ". ";
         public const string emptyString = "";
         public const string docSecurity = "DocSecurity";

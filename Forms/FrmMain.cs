@@ -1668,7 +1668,7 @@ namespace Office_File_Explorer
             }
             else
             {
-                LstDisplay.Items.Add(elem.Name + " : " + elem.InnerText);
+                LstDisplay.Items.Add(elem.Name + StringResources.colonBuffer + elem.InnerText);
             }
         }
 
@@ -2373,7 +2373,7 @@ namespace Office_File_Explorer
                 {
                     foreach (OpenXmlAttribute attr in sheet.GetAttributes())
                     {
-                        LstDisplay.Items.Add(attr.LocalName + " : " + attr.Value);
+                        LstDisplay.Items.Add(attr.LocalName + StringResources.colonBuffer + attr.Value);
                     }
                 }
             }
@@ -2976,7 +2976,7 @@ namespace Office_File_Explorer
             List<string> val = new List<string>();
             foreach (CustomDocumentProperty cdp in part.RootElement)
             {
-                val.Add(cdp.Name + " : " + cdp.InnerText);
+                val.Add(cdp.Name + StringResources.colonBuffer + cdp.InnerText);
             }
             return val;
         }
