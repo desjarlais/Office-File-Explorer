@@ -36,4 +36,10 @@ The purpose of this tool is to provide potential file specific troubleshooting o
 # Note
 Keep in mind if you use this on a production document and choose to use something that changes or removes data, you should be working on a copy of the file, not the original.  
 
-![image](https://i.imgur.com/isBD4He.jpg)
+# App UI
+
+## Main Window
+![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
+
+## Batch Window
+![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
