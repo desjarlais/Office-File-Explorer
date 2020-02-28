@@ -31,6 +31,8 @@ namespace Office_File_Explorer.Forms
             {
                 Word_Helpers.WordOpenXml.SetPrintOrientation(fName, PageOrientationValues.Portrait);
             }
+
+            Close();
         }
     }
 }

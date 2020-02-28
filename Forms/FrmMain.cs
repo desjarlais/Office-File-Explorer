@@ -972,8 +972,14 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                WordOpenXml.DeleteHiddenText(TxtFileName.Text);
-                DisplayInformation(InformationOutput.TextOnly, "** Hidden text deleted **");
+                if (WordOpenXml.DeleteHiddenText(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Hidden text deleted **");
+                }
+                else
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain hiddent text **");
+                }
             }
             catch (Exception ex)
             {
@@ -992,8 +998,14 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                WordOpenXml.RemoveHeadersFooters(TxtFileName.Text);
-                DisplayInformation(InformationOutput.TextOnly, "** Headers/Footer removed **");
+                if (WordOpenXml.RemoveHeadersFooters(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Headers/Footer removed **");
+                }
+                else
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain a header or footer **");
+                }
             }
             catch (Exception ex)
             {
@@ -1026,8 +1038,14 @@ namespace Office_File_Explorer
 
         private void BtnDeleteBreaks_Click(object sender, EventArgs e)
         {
-            WordOpenXml.RemoveBreaks(TxtFileName.Text);
-            DisplayInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **");
+            if (WordOpenXml.RemoveBreaks(TxtFileName.Text))
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **");
+            }
+            else
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain any page breaks **");
+            }
         }
 
         private void BtnRemovePII_Click(object sender, EventArgs e)
@@ -1265,8 +1283,14 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
-                WordOpenXml.RemoveFootnotes(TxtFileName.Text);
+                if (WordOpenXml.RemoveFootnotes(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Footnotes removed from document **");
+                }
+                else
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain footnotes **");
+                }
             }
             catch (Exception ex)
             {
@@ -1280,8 +1304,14 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
-                WordOpenXml.RemoveEndnotes(TxtFileName.Text);
+                if (WordOpenXml.RemoveEndnotes(TxtFileName.Text))
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Endnotes removed from document **");
+                }
+                else
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain endnotes **");
+                }
             }
             catch (Exception ex)
             {

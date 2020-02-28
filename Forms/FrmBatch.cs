@@ -176,7 +176,6 @@ namespace Office_File_Explorer.Forms
 
         private void BtnChangeTheme_Click(object sender, EventArgs e)
         {
-            string sThemeFilePath = StringResources.emptyString;
             lstOutput.Items.Clear();
 
             OpenFileDialog fDialog = new OpenFileDialog
@@ -189,7 +188,7 @@ namespace Office_File_Explorer.Forms
 
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
-                sThemeFilePath = fDialog.FileName.ToString();
+                string sThemeFilePath = fDialog.FileName.ToString();
 
                 foreach (string f in files)
                 {

@@ -41,10 +41,10 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnRemovePII = new System.Windows.Forms.Button();
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnRemovePII = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,10 +163,20 @@
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
             this.groupBox3.Location = new System.Drawing.Point(15, 453);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(773, 59);
+            this.groupBox3.Size = new System.Drawing.Size(773, 56);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnRemovePII
+            // 
+            this.BtnRemovePII.Location = new System.Drawing.Point(364, 19);
+            this.BtnRemovePII.Name = "BtnRemovePII";
+            this.BtnRemovePII.Size = new System.Drawing.Size(101, 23);
+            this.BtnRemovePII.TabIndex = 10;
+            this.BtnRemovePII.Text = "Remove PII";
+            this.BtnRemovePII.UseVisualStyleBackColor = true;
+            this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
             // 
             // BtnFixNotesPageSize
             // 
@@ -199,21 +209,11 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
-            // BtnRemovePII
-            // 
-            this.BtnRemovePII.Location = new System.Drawing.Point(364, 19);
-            this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(101, 23);
-            this.BtnRemovePII.TabIndex = 10;
-            this.BtnRemovePII.Text = "Remove PII";
-            this.BtnRemovePII.UseVisualStyleBackColor = true;
-            this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
-            // 
             // FrmBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 521);
+            this.ClientSize = new System.Drawing.Size(800, 518);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

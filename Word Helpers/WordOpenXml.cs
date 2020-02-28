@@ -29,8 +29,12 @@ namespace Office_File_Explorer.Word_Helpers
 {
     class WordOpenXml
     {
-        public static void RemoveBreaks(string filename)
+        public static bool fWorked;
+
+        public static bool RemoveBreaks(string filename)
         {
+            fWorked = false;
+
             // this function will remove both page and section breaks in a document
             using (WordprocessingDocument myDoc = WordprocessingDocument.Open(filename, true))
             {
@@ -52,6 +56,16 @@ namespace Office_File_Explorer.Word_Helpers
                 }
 
                 mainPart.Document.Save();
+                fWorked = true;
+            }
+
+            if (fWorked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -193,8 +207,10 @@ namespace Office_File_Explorer.Word_Helpers
         }
 
         // Delete headers and footers from a document.
-        public static void RemoveHeadersFooters(string docName)
+        public static bool RemoveHeadersFooters(string docName)
         {
+            fWorked = false;
+
             // Given a document name, remove all headers and footers.
             using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(docName, true))
             {
@@ -221,13 +237,25 @@ namespace Office_File_Explorer.Word_Helpers
                         footer.Parent.RemoveChild(footer);
                     }
                     doc.Save();
+                    fWorked = true;
                 }
+            }
+
+            if (fWorked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         // Given a document, remove all hidden text.
-        public static void DeleteHiddenText(string docName)
+        public static bool DeleteHiddenText(string docName)
         {
+            fWorked = false;
+
             using (WordprocessingDocument document = WordprocessingDocument.Open(docName, true))
             {
                 Document doc = document.MainDocumentPart.Document;
@@ -253,12 +281,24 @@ namespace Office_File_Explorer.Word_Helpers
                     }
                 }
                 doc.Save();
+                fWorked = true;
+            }
+
+            if (fWorked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         // Delete headers and footers from a document.
-        public static void RemoveFootnotes(string docName)
+        public static bool RemoveFootnotes(string docName)
         {
+            fWorked = false;
+
             using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(docName, true))
             {
                 FootnotesPart fnp = wdDoc.MainDocumentPart.FootnotesPart;
@@ -280,12 +320,24 @@ namespace Office_File_Explorer.Word_Helpers
 
                 wdDoc.MainDocumentPart.Document.Save();
                 wdDoc.Close();
+                fWorked = true;
+            }
+
+            if (fWorked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         // Delete headers and footers from a document.
-        public static void RemoveEndnotes(string docName)
+        public static bool RemoveEndnotes(string docName)
         {
+            fWorked = false;
+
             // Given a document name, remove all headers and footers.
             using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(docName, true))
             {
@@ -308,7 +360,17 @@ namespace Office_File_Explorer.Word_Helpers
 
                     mainPart.Document.Save();
                     wdDoc.Close();
+                    fWorked = true;
                 }
+            }
+
+            if (fWorked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
