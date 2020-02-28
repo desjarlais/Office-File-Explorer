@@ -52,6 +52,8 @@ namespace Office_File_Explorer.Forms
             rdoExcel.Enabled = false;
             rdoPowerPoint.Enabled = false;
             rdoWord.Enabled = false;
+
+            lstOutput.Items.Clear();
         }
 
         public void EnableUI()
@@ -236,9 +238,16 @@ namespace Office_File_Explorer.Forms
 
         private void TxbDirectoryPath_TextChanged(object sender, EventArgs e)
         {
+            // Word is enabled by default, once a text change happens we can enable UI
             if (rdoWord.Enabled == false)
             {
                 EnableUI();
+            }
+
+            // if someone deletes the text, disable ui
+            if (TxbDirectoryPath.Text.Length == 0)
+            {
+                DisableUI();
             }
         }
 
