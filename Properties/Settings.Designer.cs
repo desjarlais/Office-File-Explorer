@@ -72,5 +72,17 @@ namespace Office_File_Explorer.Properties {
                 this["FixGroupedShapes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public string ResetNotesMaster {
+            get {
+                return ((string)(this["ResetNotesMaster"]));
+            }
+            set {
+                this["ResetNotesMaster"] = value;
+            }
+        }
     }
 }

@@ -17,5 +17,8 @@
     <Setting Name="FixGroupedShapes" Type="System.String" Scope="User">
       <Value Profile="(Default)">false</Value>
     </Setting>
+    <Setting Name="ResetNotesMaster" Type="System.String" Scope="User">
+      <Value Profile="(Default)">false</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

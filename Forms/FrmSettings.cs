@@ -8,8 +8,27 @@ namespace Office_File_Explorer.Forms
         public FrmSettings()
         {
             InitializeComponent();
-            ckRemoveFallback.Checked = Properties.Settings.Default.RemoveFallback == "true";
-            ckOpenInWord.Checked = Properties.Settings.Default.OpenInWord == "true";
+
+            // populate checkboxes from settings
+            if (Properties.Settings.Default.RemoveFallback == "true")
+            {
+                ckRemoveFallback.Checked = true;
+            }
+            
+            if (Properties.Settings.Default.OpenInWord == "true")
+            {
+                ckOpenInWord.Checked = true;
+            }
+             
+            if (Properties.Settings.Default.FixGroupedShapes == "true")
+            {
+                ckGroupShapeFix.Checked = true;
+            }
+            
+            if (Properties.Settings.Default.ResetNotesMaster == "true")
+            {
+                ckResetNotesMaster.Checked = true;
+            }
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -17,6 +36,7 @@ namespace Office_File_Explorer.Forms
             Properties.Settings.Default.RemoveFallback = ckRemoveFallback.Checked ? "true" : "false";
             Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked ? "true" : "false";
             Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked ? "true" : "false";
+            Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked ? "true" : "false";
             Properties.Settings.Default.Save();
             Close();
         }

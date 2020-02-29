@@ -75,8 +75,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 p.Save();
             }
 
+            // set the existing NotesMaster to the default
             // need to find a way to flag a file if the notes master is corrupt
-            //presentationPart.NotesMasterPart.NotesMaster = GenerateNotesMaster();
+            // hiding behind a setting checkbox for now
+            if (Properties.Settings.Default.ResetNotesMaster == "true")
+            {
+                presentationPart.NotesMasterPart.NotesMaster = GenerateNotesMaster();
+            }
         }
 
         // Get a list of the titles of all the slides in the presentation.
