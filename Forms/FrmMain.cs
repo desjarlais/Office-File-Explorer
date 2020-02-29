@@ -927,6 +927,12 @@ namespace Office_File_Explorer
                     aFrm.ShowDialog();
                 }
 
+                if (_fromAuthor == "* No Authors *" || _fromAuthor == "")
+                {
+                    DisplayInformation(InformationOutput.ClearAndAdd, "** No Revisions To Accept **");
+                    return;
+                }
+
                 if (_fromAuthor == "All Authors")
                 {
                     _fromAuthor = StringResources.emptyString;
@@ -1330,26 +1336,6 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    // first make sure there are authors
-                    WordprocessingPeoplePart peoplePart = document.MainDocumentPart.WordprocessingPeoplePart;
-                    if (peoplePart != null)
-                    {
-                        int count = 0;
-                        foreach (Person person in peoplePart.People)
-                        {
-                            count++;
-                            PresenceInfo pi = person.PresenceInfo;
-                            LstDisplay.Items.Add(count + StringResources.period + person.Author);
-                            LstDisplay.Items.Add("   - User Id = " + pi.UserId);
-                            LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
-                        }
-                    }
-                    else
-                    {
-                        DisplayInformation(InformationOutput.TextOnly, "** There are no authors in this document **");
-                        return;
-                    }
-
                     // if we have an author, go through all the revisions
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
@@ -1377,7 +1363,15 @@ namespace Office_File_Explorer
 
                         if ((paragraphChanged.Count + runChanged.Count + deleted.Count + inserted.Count + deletedParagraph.Count) == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
+                            if (_fromAuthor == "* No Authors *")
+                            {
+                                DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                            }
+                            else
+                            {
+                                DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
+                            }
+                            
                             return;
                         }
                     }

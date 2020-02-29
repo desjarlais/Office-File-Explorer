@@ -40,6 +40,13 @@ namespace Office_File_Explorer.Forms
 
                 cmbAuthors.SelectedIndex = 0;
             }
+
+            // handle documents with no authors
+            if (cmbAuthors.Items.Count == 0)
+            {
+                cmbAuthors.Items.Add("* No Authors *");
+                cmbAuthors.SelectedIndex = 0;
+            }
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
