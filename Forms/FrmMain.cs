@@ -1893,6 +1893,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                LoggingHelper.Log("BtnPPTListHyperlinks_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -1919,6 +1921,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                LoggingHelper.Log("BtnGetAllSlideTitles_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
         }
 
@@ -2050,6 +2054,8 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.TextOnly, ex.Message);
+                LoggingHelper.Log("BtnListDefinedNames_Click Error");
+                LoggingHelper.Log(ex.Message);
             }
             finally
             {
@@ -3179,7 +3185,7 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LstDisplay.Items.Add("Document does not contain any bookmarks.");
+                        LstDisplay.Items.Add("** Document does not contain any bookmarks **");
                     }
                 }
             }
