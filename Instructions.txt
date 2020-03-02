@@ -1,0 +1,11 @@
+﻿Instructions for downloading:
+
+1. Download the file "Office.File.Explorer.zip" to your local hard drive
+2. Right-click on the .zip file once it has finished downloading and click on Properties
+3. In the General tab, click on the "Unblock" check box
+4. Click Ok
+5. Create a new folder called "Office File Explorer"
+6. Open the .zip file and extract the contents into the folder created from step 5
+7. Double-click on the .exe
+8. It is possible you get a warning about running executables, click More Info
+9. click Run Anyway if you trust this .exe from running

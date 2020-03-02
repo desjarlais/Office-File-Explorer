@@ -50,7 +50,8 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         }
 
         /// <summary>
-        /// Reset the Notes Page Size to the default.
+        /// Check the notes page size and reset
+        /// generate a new notes master if setting is enabled
         /// </summary>
         /// <param name="pDoc"></param>
         public static void ChangeNotesPageSize(PresentationDocument pDoc)
@@ -66,21 +67,25 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             if (presentationPart != null)
             {
                 Presentation p = presentationPart.Presentation;
-                
-                // first reset the notes size values
-                NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
-                p.NotesSize = notesSize1;
+            
+                // if the notes size is already the default, no need to make any changes
+                if (p.NotesSize.Cx != 6858000 && p.NotesSize.Cy != 9144000)
+                {
+                    // first reset the notes size values
+                    NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+                    p.NotesSize = notesSize1;
 
-                // now save up the part
-                p.Save();
-            }
+                    // now save up the part
+                    p.Save();
+                }
 
-            // set the existing NotesMaster to the default
-            // need to find a way to flag a file if the notes master is corrupt
-            // hiding behind a setting checkbox for now
-            if (Properties.Settings.Default.ResetNotesMaster == "true")
-            {
-                presentationPart.NotesMasterPart.NotesMaster = GenerateNotesMaster();
+                // set the existing NotesMaster to the default
+                // need to find a way to flag a file if the notes master is corrupt
+                // hiding behind a setting checkbox for now
+                if (Properties.Settings.Default.ResetNotesMaster == "true")
+                {
+                    presentationPart.NotesMasterPart.NotesMaster = GenerateNotesMaster();
+                }
             }
         }
 

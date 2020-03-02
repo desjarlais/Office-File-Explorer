@@ -3707,7 +3707,7 @@ namespace Office_File_Explorer
             using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
             {
                 PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + " : Notes Page Size Fixed.");
+                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
             }
         }
 

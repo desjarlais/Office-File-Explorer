@@ -20,6 +20,7 @@
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
         public const string errorText = "Error: ";
+        public const string pptNotesSizeReset = "Notes Page Size Reset.";
         public const string sEnd = "end";
         public const string sBegin = "begin";
         public const string colon = ": ";

@@ -223,14 +223,14 @@ namespace Office_File_Explorer.Forms
                     using (PresentationDocument document = PresentationDocument.Open(f, true))
                     {
                         PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                        lstOutput.Items.Add(f + "--> Notes Page Size Reset.");
-                        LoggingHelper.Log(f + "--> Notes Page Size Reset.");
+                        lstOutput.Items.Add(f + StringResources.arrow + StringResources.pptNotesSizeReset);
+                        LoggingHelper.Log(f + StringResources.arrow + StringResources.pptNotesSizeReset);
                     }
                 }
                 catch (Exception ex)
                 {
-                    lstOutput.Items.Add(f + "--> error = " + ex.Message);
-                    LoggingHelper.Log(f + "--> error = " + ex.Message);
+                    lstOutput.Items.Add(f + StringResources.arrow + "error = " + ex.Message);
+                    LoggingHelper.Log(f + StringResources.arrow + "error = " + ex.Message);
                 }
             }
         }
