@@ -3704,11 +3704,27 @@ namespace Office_File_Explorer
 
         private void BtnNotesPageSize_Click(object sender, EventArgs e)
         {
-            using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+            try
             {
-                PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
+                using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+                {
+                    PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                    DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
+                }
             }
+            catch (NullReferenceException nre)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
+                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log(nre.Message);
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log(ex.Message);
+            }
+            
         }
 
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)

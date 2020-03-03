@@ -227,6 +227,11 @@ namespace Office_File_Explorer.Forms
                         LoggingHelper.Log(f + StringResources.arrow + StringResources.pptNotesSizeReset);
                     }
                 }
+                catch (NullReferenceException nre)
+                {
+                    lstOutput.Items.Add(f + StringResources.arrow + "** Document does not contain Notes Master **");
+                    LoggingHelper.Log(f + StringResources.arrow + "error = " + nre.Message);
+                }
                 catch (Exception ex)
                 {
                     lstOutput.Items.Add(f + StringResources.arrow + "error = " + ex.Message);
