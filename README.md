@@ -27,7 +27,7 @@ The purpose of this tool is to provide potential file specific troubleshooting o
 * change theme for a file
 * validate underlying xml file details
 
-### Batch Processing (following features can be used to change many documents at one time)
+### Batch File Processing (following features can be used to change many documents at one time)
 * Change Theme
 * Add Custom Properties
 * Fix Note Page Size
