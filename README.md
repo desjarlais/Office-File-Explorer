@@ -43,3 +43,6 @@ Keep in mind if you use this on a production document and choose to use somethin
 
 ### Batch File Processing Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
+
+# Help
+If you need assistance (find a bug, have a question or any suggestions or feedback), please report them using the issues tab
