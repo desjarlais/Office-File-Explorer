@@ -1,6 +1,6 @@
 # Office-File-Explorer
 
-The purpose of this tool is to provide potential file specific troubleshooting of Office Open Xml formatted documents for Word, Excel or PowerPoint (.docx, .dotx, .docm, .xlsx, .xlst, .xlsm, .pptx, .pptm).
+The purpose of this tool is to provide potential file specific troubleshooting of Office Open Xml formatted documents for Word, Excel and PowerPoint (.docx, .dotx, .docm, .xlsx, .xlst, .xlsm, .pptx, .pptm).
 
 ## List of features
 
@@ -27,7 +27,7 @@ The purpose of this tool is to provide potential file specific troubleshooting o
 * change theme for a file
 * validate underlying xml file details
 
-### Batch Processing (following features can be used to change many documents at one time)
+### Batch File Processing (following features can be used to change many documents at one time)
 * Change Theme
 * Add Custom Properties
 * Fix Note Page Size
@@ -41,5 +41,8 @@ Keep in mind if you use this on a production document and choose to use somethin
 ### Main Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
 
-### Batch Window
+### Batch File Processing Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
+
+# Help
+If you need assistance (find a bug, have a question or any suggestions or feedback), please report them using the [Issues tab](https://github.com/desjarlais/Office-File-Explorer/issues)
