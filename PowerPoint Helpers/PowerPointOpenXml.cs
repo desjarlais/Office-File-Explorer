@@ -16,6 +16,11 @@ using ShapeStyle = DocumentFormat.OpenXml.Presentation.ShapeStyle;
 using ShapeProperties = DocumentFormat.OpenXml.Presentation.ShapeProperties;
 using NonVisualShapeProperties = DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties;
 using NonVisualDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties;
+using NonVisualGroupShapeProperties = DocumentFormat.OpenXml.Presentation.NonVisualGroupShapeProperties;
+using ColorMap = DocumentFormat.OpenXml.Presentation.ColorMap;
+using TextBody = DocumentFormat.OpenXml.Presentation.TextBody;
+using NonVisualShapeDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties;
+using NonVisualGroupShapeDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualGroupShapeDrawingProperties;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -75,8 +80,9 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             {
                 Presentation p = presentationPart.Presentation;
             
+                // Step 1 : Resize the presentation notesz prop
                 // if the notes size is already the default, no need to make any changes
-                if (p.NotesSize.Cx != 6858000 && p.NotesSize.Cy != 9144000)
+                if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
                 {
                     // first reset the notes size values
                     NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
@@ -86,11 +92,74 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     p.Save();
                 }
 
-                // reset the existing NotesSlide sizes
+                // Step 2 : loop the shapes in the notes master and reset their sizes
                 // need to find a way to flag a file if the notes master is corrupt
                 // hiding behind a setting checkbox for now
                 if (Properties.Settings.Default.ResetNotesMaster == "true")
                 {
+                    // we need to reset sizes in the notes master for each shape
+                    ShapeTree mSt = presentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
+                    foreach (var mShp in mSt)
+                    {
+                        if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                        {
+                            PShape ps = (PShape)mShp;
+                            NonVisualShapeProperties nvsp = ps.NonVisualShapeProperties;
+                            NonVisualDrawingProperties nvdpr = nvsp.NonVisualDrawingProperties;
+                            ShapeProperties sp = ps.ShapeProperties;
+                            Transform2D t2d = ps.ShapeProperties.Transform2D;
+
+                            if (nvdpr.Name == "Header Placeholder 1")
+                            {
+                                t2d.Offset.X = 0L;
+                                t2d.Offset.Y = 0L;
+                                t2d.Extents.Cx = 2971800L;
+                                t2d.Extents.Cy = 458788L;
+                            }
+
+                            if (nvdpr.Name == "Date Placeholder 2")
+                            {
+                                t2d.Offset.X = 3884613L;
+                                t2d.Offset.Y = 0L;
+                                t2d.Extents.Cx = 2971800L;
+                                t2d.Extents.Cy = 458788L;
+                            }
+
+                            if (nvdpr.Name == "Slide Image Placeholder 3")
+                            {
+                                t2d.Offset.X = 685800L;
+                                t2d.Offset.Y = 1143000L;
+                                t2d.Extents.Cx = 5486400L;
+                                t2d.Extents.Cy = 3086100L;
+                            }
+
+                            if (nvdpr.Name == "Notes Placeholder 4")
+                            {
+                                t2d.Offset.X = 685800L;
+                                t2d.Offset.Y = 4400550L;
+                                t2d.Extents.Cx = 5486400L;
+                                t2d.Extents.Cy = 3600450L;
+                            }
+
+                            if (nvdpr.Name == "Footer Placeholder 5")
+                            {
+                                t2d.Offset.X = 0L;
+                                t2d.Offset.Y = 8685213L;
+                                t2d.Extents.Cx = 2971800L;
+                                t2d.Extents.Cy = 458787L;
+                            }
+
+                            if (nvdpr.Name == "Slide Number Placeholder 6")
+                            {
+                                t2d.Offset.X = 3884613L;
+                                t2d.Offset.Y = 8685213L;
+                                t2d.Extents.Cx = 2971800L;
+                                t2d.Extents.Cy = 458787L;
+                            }
+                        }
+                    }
+                    
+                    // Step 3 : we need to delete the transform2d data so that each slide will pull the size from the master
                     foreach (var slideId in p.SlideIdList.Elements<SlideId>())
                     {
                         SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
@@ -98,7 +167,8 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         NotesSlide ns = nsp.NotesSlide;
                         CommonSlideData csd = ns.CommonSlideData;
                         ShapeTree st = csd.ShapeTree;
-                        
+                        ParagraphProperties paragraphProperties1 = new ParagraphProperties() { LeftMargin = 57150, Indent = -57150 };
+
                         foreach (var s in st)
                         {
                             if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
@@ -113,6 +183,28 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 if (t2d != null)
                                 {
                                     t2d.Remove();
+                                }
+
+                                // if there are drawing paragraph props, reset them to a default value
+                                // there are times when the margin and indent get pushed to weird places
+                                if (ps.TextBody != null)
+                                {
+                                    TextBody tb = ps.TextBody;
+                                    
+                                    foreach (var x in tb.ChildElements)
+                                    {
+                                        if (x.ToString() == "DocumentFormat.OpenXml.Drawing.Paragraph")
+                                        {
+                                            DocumentFormat.OpenXml.Drawing.Paragraph para = (DocumentFormat.OpenXml.Drawing.Paragraph)x;
+                                            if (para.ParagraphProperties.LeftMargin != null)
+                                            {
+                                                if (para.ParagraphProperties.LeftMargin != 57150)
+                                                {
+                                                    para.ParagraphProperties = paragraphProperties1;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
