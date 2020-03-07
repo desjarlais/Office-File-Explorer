@@ -79,7 +79,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             if (presentationPart != null)
             {
                 Presentation p = presentationPart.Presentation;
-            
+
                 // Step 1 : Resize the presentation notesz prop
                 // if the notes size is already the default, no need to make any changes
                 if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
@@ -87,7 +87,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     // first reset the notes size values
                     NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
                     p.NotesSize = notesSize1;
-                                        
+
                     // now save up the part
                     p.Save();
                 }
@@ -158,7 +158,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                             }
                         }
                     }
-                    
+
                     // Step 3 : we need to delete the transform2d data so that each slide will pull the size from the master
                     foreach (var slideId in p.SlideIdList.Elements<SlideId>())
                     {
@@ -167,7 +167,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         NotesSlide ns = nsp.NotesSlide;
                         CommonSlideData csd = ns.CommonSlideData;
                         ShapeTree st = csd.ShapeTree;
-                        ParagraphProperties paragraphProperties1 = new ParagraphProperties() { LeftMargin = 57150, Indent = -57150 };
+                        ParagraphProperties paragraphProperties1 = new ParagraphProperties() { LeftMargin = 0, Indent = 0 };
 
                         foreach (var s in st)
                         {
@@ -178,30 +178,27 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 NonVisualDrawingProperties nvdpr = nvsp.NonVisualDrawingProperties;
                                 ShapeProperties sp = ps.ShapeProperties;
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
-                                
+
                                 // if the transform exists, delete it for each slide
                                 if (t2d != null)
                                 {
                                     t2d.Remove();
                                 }
 
-                                // if there are drawing paragraph props, reset them to a default value
+                                // if there are drawing paragraph props, reset them to 0
                                 // there are times when the margin and indent get pushed to weird places
                                 if (ps.TextBody != null)
                                 {
                                     TextBody tb = ps.TextBody;
-                                    
+
                                     foreach (var x in tb.ChildElements)
                                     {
                                         if (x.ToString() == "DocumentFormat.OpenXml.Drawing.Paragraph")
                                         {
                                             DocumentFormat.OpenXml.Drawing.Paragraph para = (DocumentFormat.OpenXml.Drawing.Paragraph)x;
-                                            if (para.ParagraphProperties.LeftMargin != null)
+                                            if (para.ParagraphProperties != null)
                                             {
-                                                if (para.ParagraphProperties.LeftMargin != 57150)
-                                                {
-                                                    para.ParagraphProperties = paragraphProperties1;
-                                                }
+                                                para.ParagraphProperties = paragraphProperties1;
                                             }
                                         }
                                     }
