@@ -70,11 +70,15 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             if (pDoc == null)
             {
-                throw new ArgumentNullException("pDoc");
+                throw new ArgumentNullException("pDoc = null");
             }
 
-            // Get the presentation part of document.
+            // Get the presentation part of document
             PresentationPart presentationPart = pDoc.PresentationPart;
+
+            // setup size objects to be used during resets
+            NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+            ParagraphProperties zeroParagraphProperties = new ParagraphProperties() { LeftMargin = 0, Indent = 0 };
 
             if (presentationPart != null)
             {
@@ -84,16 +88,15 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 // if the notes size is already the default, no need to make any changes
                 if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
                 {
-                    // first reset the notes size values
-                    NotesSize notesSize1 = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
-                    p.NotesSize = notesSize1;
+                    // first reset the notes size values        
+                    p.NotesSize = defaultNotesSize;
 
                     // now save up the part
                     p.Save();
                 }
 
                 // Step 2 : loop the shapes in the notes master and reset their sizes
-                // need to find a way to flag a file if the notes master is corrupt
+                // need to find a way to flag a file if the notes master and/or notes slides become corrupt
                 // hiding behind a setting checkbox for now
                 if (Properties.Settings.Default.ResetNotesMaster == "true")
                 {
@@ -167,10 +170,10 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         NotesSlide ns = nsp.NotesSlide;
                         CommonSlideData csd = ns.CommonSlideData;
                         ShapeTree st = csd.ShapeTree;
-                        ParagraphProperties paragraphProperties1 = new ParagraphProperties() { LeftMargin = 0, Indent = 0 };
-
+                        
                         foreach (var s in st)
                         {
+                            // we only want to make changes to the shapes
                             if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
                             {
                                 PShape ps = (PShape)s;
@@ -186,7 +189,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 }
 
                                 // if there are drawing paragraph props, reset them to 0
-                                // there are times when the margin and indent get pushed to weird places
                                 if (ps.TextBody != null)
                                 {
                                     TextBody tb = ps.TextBody;
@@ -198,7 +200,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                             DocumentFormat.OpenXml.Drawing.Paragraph para = (DocumentFormat.OpenXml.Drawing.Paragraph)x;
                                             if (para.ParagraphProperties != null)
                                             {
-                                                para.ParagraphProperties = paragraphProperties1;
+                                                para.ParagraphProperties = zeroParagraphProperties;
                                             }
                                         }
                                     }
