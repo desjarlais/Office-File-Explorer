@@ -76,10 +76,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             // Get the presentation part of document
             PresentationPart presentationPart = pDoc.PresentationPart;
 
-            // setup size objects to be used during resets
-            NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
-            ParagraphProperties zeroParagraphProperties = new ParagraphProperties() { LeftMargin = 0, Indent = 0 };
-
             if (presentationPart != null)
             {
                 Presentation p = presentationPart.Presentation;
@@ -88,6 +84,9 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 // if the notes size is already the default, no need to make any changes
                 if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
                 {
+                    // setup default size
+                    NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+
                     // first reset the notes size values        
                     p.NotesSize = defaultNotesSize;
 
@@ -188,7 +187,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Remove();
                                 }
 
-                                // if there are drawing paragraph props, reset them to 0
+                                // if there are drawing paragraph props, reset the margin and indent to 0
                                 if (ps.TextBody != null)
                                 {
                                     TextBody tb = ps.TextBody;
@@ -200,7 +199,15 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                             DocumentFormat.OpenXml.Drawing.Paragraph para = (DocumentFormat.OpenXml.Drawing.Paragraph)x;
                                             if (para.ParagraphProperties != null)
                                             {
-                                                para.ParagraphProperties = zeroParagraphProperties;
+                                                if (para.ParagraphProperties.LeftMargin != null)
+                                                {
+                                                    para.ParagraphProperties.LeftMargin = 0;
+                                                }
+
+                                                if (para.ParagraphProperties.Indent != null)
+                                                {
+                                                    para.ParagraphProperties.Indent = 0;
+                                                }
                                             }
                                         }
                                     }
