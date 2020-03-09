@@ -215,6 +215,7 @@ namespace Office_File_Explorer.Forms
         private void BtnFixNotesPageSize_Click(object sender, EventArgs e)
         {
             lstOutput.Items.Clear();
+            Cursor = Cursors.WaitCursor;
 
             foreach (string f in files)
             {
@@ -236,6 +237,10 @@ namespace Office_File_Explorer.Forms
                 {
                     lstOutput.Items.Add(f + StringResources.arrow + "error = " + ex.Message);
                     LoggingHelper.Log(f + StringResources.arrow + "error = " + ex.Message);
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
                 }
             }
         }

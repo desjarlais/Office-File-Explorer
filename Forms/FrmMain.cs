@@ -3706,6 +3706,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                 {
                     PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
@@ -3724,7 +3725,10 @@ namespace Office_File_Explorer
                 LoggingHelper.Log("BtnNotesPageSize_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
-            
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
