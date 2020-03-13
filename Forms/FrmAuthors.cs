@@ -42,6 +42,10 @@ namespace Office_File_Explorer.Forms
                 cmbAuthors.Items.Add("* No Authors *");
                 cmbAuthors.SelectedIndex = 0;
             }
+            else
+            {
+                cmbAuthors.Items.Add("* All Authors *");
+            }
 
             cmbAuthors.SelectedIndex = 0;
         }

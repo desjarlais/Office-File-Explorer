@@ -921,7 +921,7 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = StringResources.emptyString;
 
-                    authors = allAuthors(document.MainDocumentPart.Document);
+                    authors = WordOpenXml.AllAuthors(document.MainDocumentPart.Document);
 
                     FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authors)
                     {
@@ -930,15 +930,17 @@ namespace Office_File_Explorer
                     aFrm.ShowDialog();
                 }
 
+                Cursor = Cursors.WaitCursor;
+
                 if (_fromAuthor == "* No Authors *" || _fromAuthor == "")
                 {
                     DisplayInformation(InformationOutput.ClearAndAdd, "** No Revisions To Accept **");
                     return;
                 }
 
-                if (_fromAuthor == "All Authors")
+                if (_fromAuthor == "* All Authors *")
                 {
-                    _fromAuthor = StringResources.emptyString;
+                    _fromAuthor = "* All Authors *";
                 }
 
                 WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
@@ -1330,48 +1332,6 @@ namespace Office_File_Explorer
             }
         }
 
-        public List<string> allAuthors(Document doc)
-        {
-            List<string> allAuthorsInDocument = new List<string>();
-            List<string> distinctAuthors = new List<string>();
-
-            var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
-            var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
-            var deleted = doc.Descendants<DeletedRun>().ToList();
-            var deletedParagraph = doc.Descendants<Deleted>().ToList();
-            var inserted = doc.Descendants<InsertedRun>().ToList();
-
-            // loop through each revision and catalog the authors
-            foreach (ParagraphPropertiesChange ppc in paragraphChanged)
-            {
-                allAuthorsInDocument.Add(ppc.Author);
-            }
-
-            foreach (RunPropertiesChange rpc in runChanged)
-            {
-                allAuthorsInDocument.Add(rpc.Author);
-            }
-
-            foreach (DeletedRun dr in deleted)
-            {
-                allAuthorsInDocument.Add(dr.Author);
-            }
-
-            foreach (Deleted d in deletedParagraph)
-            {
-                allAuthorsInDocument.Add(d.Author);
-            }
-
-            foreach (InsertedRun ir in inserted)
-            {
-                allAuthorsInDocument.Add(ir.Author);
-            }
-
-            distinctAuthors = allAuthorsInDocument.Distinct().ToList();
-
-            return distinctAuthors;
-        }
-
         private void BtnListRevisions_Click(object sender, EventArgs e)
         {
             try
@@ -1385,7 +1345,7 @@ namespace Office_File_Explorer
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     // if we have an author, go through all the revisions
-                    authorList = allAuthors(document.MainDocumentPart.Document);
+                    authorList = WordOpenXml.AllAuthors(document.MainDocumentPart.Document);
 
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
@@ -1403,70 +1363,132 @@ namespace Office_File_Explorer
                     };
                     aFrm.ShowDialog();
 
-                    // list the selected authors revisions
-                    if (!String.IsNullOrEmpty(_fromAuthor))
+                    if (_fromAuthor == "* All Authors *")
                     {
-                        paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();
-                        runChanged = runChanged.Where(item => item.Author == _fromAuthor).ToList();
-                        deleted = deleted.Where(item => item.Author == _fromAuthor).ToList();
-                        inserted = inserted.Where(item => item.Author == _fromAuthor).ToList();
-                        deletedParagraph = deletedParagraph.Where(item => item.Author == _fromAuthor).ToList();
-
-                        if ((paragraphChanged.Count + runChanged.Count + deleted.Count + inserted.Count + deletedParagraph.Count) == 0)
+                        List<string> temp = new List<string>();
+                        temp = WordOpenXml.AllAuthors(doc);
+                        
+                        foreach (string s in temp)
                         {
-                            if (_fromAuthor == "* No Authors *")
+                            var tempParagraphChanged = paragraphChanged.Where(item => item.Author == s).ToList();
+                            var tempRunChanged = runChanged.Where(item => item.Author == s).ToList();
+                            var tempDeleted = deleted.Where(item => item.Author == s).ToList();
+                            var tempInserted = inserted.Where(item => item.Author == s).ToList();
+                            var tempDeletedParagraph = deletedParagraph.Where(item => item.Author == s).ToList();
+
+                            if ((tempParagraphChanged.Count + tempRunChanged.Count + tempDeleted.Count + tempInserted.Count + tempDeletedParagraph.Count) == 0)
                             {
-                                DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                                LstDisplay.Items.Add(s + " has no changes.");
+                                continue;
                             }
-                            else
+
+                            foreach (var item in tempParagraphChanged)
                             {
-                                DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
+                                revCount++;
+                                LstDisplay.Items.Add(revCount + ". " + s + " : Paragraph Changed ");
                             }
-                            
-                            return;
+
+                            foreach (var item in tempDeletedParagraph)
+                            {
+                                revCount++;
+                                LstDisplay.Items.Add(revCount + ". " + s + " : Paragraph Deleted ");
+                            }
+
+                            foreach (var item in tempRunChanged)
+                            {
+                                revCount++;
+                                LstDisplay.Items.Add(revCount + ". " + s + " :  Run Changed = " + item.InnerText);
+                            }
+
+                            foreach (var item in tempDeleted)
+                            {
+                                revCount++;
+                                LstDisplay.Items.Add(revCount + ". " + s + " :  Deletion = " + item.InnerText);
+                            }
+
+                            foreach (var item in tempInserted)
+                            {
+                                if (item.Parent != null)
+                                {
+                                    var textRuns = item.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList();
+                                    var parent = item.Parent;
+
+                                    foreach (var textRun in textRuns)
+                                    {
+                                        revCount++;
+                                        LstDisplay.Items.Add(revCount + ". " + s + " :  Insertion = " + textRun.InnerText);
+                                    }
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
-                        return;
-                    }
-
-                    foreach (var item in paragraphChanged)
-                    {
-                        revCount++;
-                        LstDisplay.Items.Add(revCount + ": Paragraph Changed ");
-                    }
-
-                    foreach (var item in deletedParagraph)
-                    {
-                        revCount++;
-                        LstDisplay.Items.Add(revCount + ": Paragraph Deleted ");
-                    }
-
-                    foreach (var item in runChanged)
-                    {
-                        revCount++;
-                        LstDisplay.Items.Add(revCount + ": Run Changed = " + item.InnerText);
-                    }
-
-                    foreach (var item in deleted)
-                    {
-                        revCount++;
-                        LstDisplay.Items.Add(revCount + ": Deletion = " + item.InnerText);
-                    }
-
-                    foreach (var item in inserted)
-                    {
-                        if (item.Parent != null)
+                        // list the selected authors revisions
+                        if (!String.IsNullOrEmpty(_fromAuthor))
                         {
-                            var textRuns = item.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList();
-                            var parent = item.Parent;
+                            paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();
+                            runChanged = runChanged.Where(item => item.Author == _fromAuthor).ToList();
+                            deleted = deleted.Where(item => item.Author == _fromAuthor).ToList();
+                            inserted = inserted.Where(item => item.Author == _fromAuthor).ToList();
+                            deletedParagraph = deletedParagraph.Where(item => item.Author == _fromAuthor).ToList();
 
-                            foreach (var textRun in textRuns)
+                            if ((paragraphChanged.Count + runChanged.Count + deleted.Count + inserted.Count + deletedParagraph.Count) == 0)
                             {
-                                revCount++;
-                                LstDisplay.Items.Add(revCount + ": Insertion = " + textRun.InnerText);
+                                if (_fromAuthor == "* No Authors *")
+                                {
+                                    DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                                }
+                                else
+                                {
+                                    DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
+                                }
+
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                            return;
+                        }
+
+                        foreach (var item in paragraphChanged)
+                        {
+                            revCount++;
+                            LstDisplay.Items.Add(revCount + ". Paragraph Changed ");
+                        }
+
+                        foreach (var item in deletedParagraph)
+                        {
+                            revCount++;
+                            LstDisplay.Items.Add(revCount + ". Paragraph Deleted ");
+                        }
+
+                        foreach (var item in runChanged)
+                        {
+                            revCount++;
+                            LstDisplay.Items.Add(revCount + ". Run Changed = " + item.InnerText);
+                        }
+
+                        foreach (var item in deleted)
+                        {
+                            revCount++;
+                            LstDisplay.Items.Add(revCount + ". Deletion = " + item.InnerText);
+                        }
+
+                        foreach (var item in inserted)
+                        {
+                            if (item.Parent != null)
+                            {
+                                var textRuns = item.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList();
+                                var parent = item.Parent;
+
+                                foreach (var textRun in textRuns)
+                                {
+                                    revCount++;
+                                    LstDisplay.Items.Add(revCount + ". Insertion = " + textRun.InnerText);
+                                }
                             }
                         }
                     }
@@ -1488,13 +1510,16 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     LstDisplay.Items.Clear();
+                    int count = 0;
+
+                    // first check the people part to get authors
                     WordprocessingPeoplePart peoplePart = doc.MainDocumentPart.WordprocessingPeoplePart;
                     if (peoplePart != null)
-                    {
-                        int count = 0;
+                    { 
                         foreach (Person person in peoplePart.People)
                         {
                             count++;
@@ -1504,7 +1529,21 @@ namespace Office_File_Explorer
                             LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
                         }
                     }
-                    else
+
+                    // second, sometimes there are authors in a file but they don't exist in people.xml
+                    // list those
+                    List<string> tempAuthors = WordOpenXml.AllAuthors(doc.MainDocumentPart.Document);
+                    if (tempAuthors.Count > 0)
+                    {
+                        foreach (string s in tempAuthors)
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + ". User Name = " + s);
+                        }
+                    }
+
+                    // log if we have no authors in the listbox
+                    if (count == 0)
                     {
                         DisplayInformation(InformationOutput.TextOnly, "** There are no authors in this document **");
                     }
@@ -1515,6 +1554,10 @@ namespace Office_File_Explorer
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
                 LoggingHelper.Log("BtnListAuthors_Click Error");
                 LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
