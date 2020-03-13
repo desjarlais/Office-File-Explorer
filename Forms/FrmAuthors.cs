@@ -18,6 +18,7 @@ using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Office_File_Explorer.Forms
@@ -26,19 +27,13 @@ namespace Office_File_Explorer.Forms
     {
         string author = "";
 
-        public FrmAuthors(string filename, WordprocessingDocument doc)
+        public FrmAuthors(string filename, List<string> authors)
         {
             InitializeComponent();
 
-            WordprocessingPeoplePart peoplePart = doc.MainDocumentPart.WordprocessingPeoplePart;
-            if (peoplePart != null)
+            foreach (string s in authors)
             {
-                foreach (Person person in peoplePart.People)
-                {
-                    cmbAuthors.Items.Add(person.Author);
-                }
-
-                cmbAuthors.SelectedIndex = 0;
+                cmbAuthors.Items.Add(s);
             }
 
             // handle documents with no authors
@@ -47,6 +42,8 @@ namespace Office_File_Explorer.Forms
                 cmbAuthors.Items.Add("* No Authors *");
                 cmbAuthors.SelectedIndex = 0;
             }
+
+            cmbAuthors.SelectedIndex = 0;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)

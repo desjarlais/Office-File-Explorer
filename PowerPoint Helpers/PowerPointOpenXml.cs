@@ -1,26 +1,18 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing;
 using A = DocumentFormat.OpenXml.Drawing;
 using PShape = DocumentFormat.OpenXml.Presentation.Shape;
-using P14 = DocumentFormat.OpenXml.Office2010.PowerPoint;
 using Drawing = DocumentFormat.OpenXml.Drawing;
+using ShapeStyle = DocumentFormat.OpenXml.Presentation.ShapeStyle;
+using NonVisualDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties;
+using TextBody = DocumentFormat.OpenXml.Presentation.TextBody;
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using DocumentFormat.OpenXml.Drawing;
-using System.Windows.Forms;
-using ShapeStyle = DocumentFormat.OpenXml.Presentation.ShapeStyle;
-using ShapeProperties = DocumentFormat.OpenXml.Presentation.ShapeProperties;
-using NonVisualShapeProperties = DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties;
-using NonVisualDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties;
-using NonVisualGroupShapeProperties = DocumentFormat.OpenXml.Presentation.NonVisualGroupShapeProperties;
-using ColorMap = DocumentFormat.OpenXml.Presentation.ColorMap;
-using TextBody = DocumentFormat.OpenXml.Presentation.TextBody;
-using NonVisualShapeDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties;
-using NonVisualGroupShapeDrawingProperties = DocumentFormat.OpenXml.Presentation.NonVisualGroupShapeDrawingProperties;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -62,10 +54,9 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         }
 
         /// <summary>
-        /// Check the notes page size and reset
-        /// generate a new notes master if setting is enabled
+        /// Check the notes page size and reset values
         /// </summary>
-        /// <param name="pDoc"></param>
+        /// <param name="pDoc">oxml doc to change</param>
         public static void ChangeNotesPageSize(PresentationDocument pDoc)
         {
             if (pDoc == null)
@@ -101,14 +92,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 {
                     // we need to reset sizes in the notes master for each shape
                     ShapeTree mSt = presentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
+                    
                     foreach (var mShp in mSt)
                     {
                         if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
                         {
                             PShape ps = (PShape)mShp;
-                            NonVisualShapeProperties nvsp = ps.NonVisualShapeProperties;
-                            NonVisualDrawingProperties nvdpr = nvsp.NonVisualDrawingProperties;
-                            ShapeProperties sp = ps.ShapeProperties;
+                            NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                             Transform2D t2d = ps.ShapeProperties.Transform2D;
 
                             if (nvdpr.Name == "Header Placeholder 1")
@@ -161,27 +151,22 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         }
                     }
 
-                    // Step 3 : we need to delete the transform2d data so that each slide will pull the size from the master
+                    // Step 3 : we need to delete the size values for each notes slide
                     foreach (var slideId in p.SlideIdList.Elements<SlideId>())
                     {
                         SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
-                        NotesSlidePart nsp = slidePart.NotesSlidePart;
-                        NotesSlide ns = nsp.NotesSlide;
-                        CommonSlideData csd = ns.CommonSlideData;
-                        ShapeTree st = csd.ShapeTree;
+                        ShapeTree st = slidePart.NotesSlidePart.NotesSlide.CommonSlideData.ShapeTree;
                         
                         foreach (var s in st)
                         {
                             // we only want to make changes to the shapes
                             if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
                             {
-                                PShape ps = (PShape)s;
-                                NonVisualShapeProperties nvsp = ps.NonVisualShapeProperties;
-                                NonVisualDrawingProperties nvdpr = nvsp.NonVisualDrawingProperties;
-                                ShapeProperties sp = ps.ShapeProperties;
+                                PShape ps = (PShape)s;                                
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
+                                TextBody tb = ps.TextBody;
 
-                                // if the transform exists, delete it for each slide
+                                // if the transform exists, delete it for each shape
                                 if (t2d != null)
                                 {
                                     t2d.Remove();
@@ -190,8 +175,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 // if there are drawing paragraph props, reset the margin and indent to 0
                                 if (ps.TextBody != null)
                                 {
-                                    TextBody tb = ps.TextBody;
-
                                     foreach (var x in tb.ChildElements)
                                     {
                                         if (x.ToString() == "DocumentFormat.OpenXml.Drawing.Paragraph")

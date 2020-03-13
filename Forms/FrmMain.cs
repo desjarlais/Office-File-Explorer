@@ -914,13 +914,16 @@ namespace Office_File_Explorer
             try
             {
                 WordprocessingDocument document;
+                List<string> authors = new List<string>();
 
                 using (document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     // get the list of authors
                     _fromAuthor = StringResources.emptyString;
 
-                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
+                    authors = allAuthors(document.MainDocumentPart.Document);
+
+                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authors)
                     {
                         Owner = this
                     };
@@ -1327,16 +1330,63 @@ namespace Office_File_Explorer
             }
         }
 
+        public List<string> allAuthors(Document doc)
+        {
+            List<string> allAuthorsInDocument = new List<string>();
+            List<string> distinctAuthors = new List<string>();
+
+            var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
+            var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
+            var deleted = doc.Descendants<DeletedRun>().ToList();
+            var deletedParagraph = doc.Descendants<Deleted>().ToList();
+            var inserted = doc.Descendants<InsertedRun>().ToList();
+
+            // loop through each revision and catalog the authors
+            foreach (ParagraphPropertiesChange ppc in paragraphChanged)
+            {
+                allAuthorsInDocument.Add(ppc.Author);
+            }
+
+            foreach (RunPropertiesChange rpc in runChanged)
+            {
+                allAuthorsInDocument.Add(rpc.Author);
+            }
+
+            foreach (DeletedRun dr in deleted)
+            {
+                allAuthorsInDocument.Add(dr.Author);
+            }
+
+            foreach (Deleted d in deletedParagraph)
+            {
+                allAuthorsInDocument.Add(d.Author);
+            }
+
+            foreach (InsertedRun ir in inserted)
+            {
+                allAuthorsInDocument.Add(ir.Author);
+            }
+
+            distinctAuthors = allAuthorsInDocument.Distinct().ToList();
+
+            return distinctAuthors;
+        }
+
         private void BtnListRevisions_Click(object sender, EventArgs e)
         {
-            int revCount = 0;
-            LstDisplay.Items.Clear();
-            Cursor = Cursors.WaitCursor;
             try
             {
+                int revCount = 0;
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                List<string> authorList = new List<string>();
+                
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     // if we have an author, go through all the revisions
+                    authorList = allAuthors(document.MainDocumentPart.Document);
+
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
                     var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
@@ -1347,12 +1397,13 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = StringResources.emptyString;
 
-                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, document)
+                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authorList)
                     {
                         Owner = this
                     };
                     aFrm.ShowDialog();
 
+                    // list the selected authors revisions
                     if (!String.IsNullOrEmpty(_fromAuthor))
                     {
                         paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();

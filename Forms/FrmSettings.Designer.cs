@@ -101,7 +101,7 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(497, 180);
+            this.BtnOK.Location = new System.Drawing.Point(497, 181);
             this.BtnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(90, 35);
@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 234);
+            this.ClientSize = new System.Drawing.Size(719, 233);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
