@@ -1827,7 +1827,11 @@ namespace Office_File_Explorer
                         LstDisplay.Items.Clear();
                         if (!IsZipArchiveFile(TxtFileName.Text))
                         {
-                            LstDisplay.Items.Add("** Unable to open file, it is corrupted, encrypted or is not a valid Open Xml file. **");
+                            LstDisplay.Items.Add("Unable to open file, possible causes are:");
+                            LstDisplay.Items.Add("  - file corruption");
+                            LstDisplay.Items.Add("  - file encrypted");
+                            LstDisplay.Items.Add("  - file password protected");
+                            LstDisplay.Items.Add("  - not a valid Open Xml file");
                             return;
                         }
                         else
@@ -1903,7 +1907,6 @@ namespace Office_File_Explorer
         /// <summary>
         /// function to open the file in the SDK
         /// if the SDK fails to open the file, it is not a valid docx
-        /// warn the user to try remove all fallback tags
         /// </summary>
         /// <param name="file">the path to the initial fix attempt</param>
         public void OpenWithSdk(string file, bool IsFileOpen)

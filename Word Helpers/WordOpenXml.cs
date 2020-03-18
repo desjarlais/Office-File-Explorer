@@ -161,7 +161,6 @@ namespace Office_File_Explorer.Word_Helpers
         public static List<string> AllAuthors(Document doc)
         {
             List<string> allAuthorsInDocument = new List<string>();
-            List<string> distinctAuthors = new List<string>();
 
             var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
             var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
@@ -195,7 +194,7 @@ namespace Office_File_Explorer.Word_Helpers
                 allAuthorsInDocument.Add(ir.Author);
             }
 
-            distinctAuthors = allAuthorsInDocument.Distinct().ToList();
+            List<string> distinctAuthors = allAuthorsInDocument.Distinct().ToList();
 
             return distinctAuthors;
         }
@@ -218,6 +217,7 @@ namespace Office_File_Explorer.Word_Helpers
                     List<string> temp = new List<string>();
                     temp = AllAuthors(document.MainDocumentPart.Document);
 
+                    // create a temp list for each author so we can loop the changes individually and list them
                     foreach (string s in temp)
                     {
                         var tempParagraphChanged = paragraphChanged.Where(item => item.Author == s).ToList();
@@ -254,11 +254,11 @@ namespace Office_File_Explorer.Word_Helpers
                             }
                         }
                     }
-
                     doc.Save();
                 }
                 else
                 {
+                    // for single author, just loop that authors from the original list
                     if (!String.IsNullOrEmpty(authorName))
                     {
                         paragraphChanged = paragraphChanged.Where(item => item.Author == authorName).ToList();

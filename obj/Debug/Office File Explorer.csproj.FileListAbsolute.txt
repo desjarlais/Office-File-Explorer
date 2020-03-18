@@ -119,3 +119,4 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.pdb
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatch.resources
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatch.resources
+C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
