@@ -479,7 +479,7 @@ namespace Office_File_Explorer
                     int count = 0;
                     if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0)
                     {
-                        LstDisplay.Items.Add("** Document does not contain any hyperlinks **");
+                        DisplayEmptyCount(0, "hyperlinks");
                     }
 
                     // then check for regular hyperlinks
@@ -921,7 +921,7 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = StringResources.emptyString;
 
-                    authors = WordOpenXml.AllAuthors(document.MainDocumentPart.Document);
+                    authors = WordOpenXml.GetAllAuthors(document.MainDocumentPart.Document);
 
                     FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authors)
                     {
@@ -1345,7 +1345,7 @@ namespace Office_File_Explorer
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     // if we have an author, go through all the revisions
-                    authorList = WordOpenXml.AllAuthors(document.MainDocumentPart.Document);
+                    authorList = WordOpenXml.GetAllAuthors(document.MainDocumentPart.Document);
 
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
@@ -1366,7 +1366,7 @@ namespace Office_File_Explorer
                     if (_fromAuthor == "* All Authors *")
                     {
                         List<string> temp = new List<string>();
-                        temp = WordOpenXml.AllAuthors(doc);
+                        temp = WordOpenXml.GetAllAuthors(doc);
                         
                         foreach (string s in temp)
                         {
@@ -1532,7 +1532,7 @@ namespace Office_File_Explorer
 
                     // second, sometimes there are authors in a file but they don't exist in people.xml
                     // list those
-                    List<string> tempAuthors = WordOpenXml.AllAuthors(doc.MainDocumentPart.Document);
+                    List<string> tempAuthors = WordOpenXml.GetAllAuthors(doc.MainDocumentPart.Document);
                     if (tempAuthors.Count > 0)
                     {
                         foreach (string s in tempAuthors)
@@ -2422,13 +2422,11 @@ namespace Office_File_Explorer
                     }
                     else if (fileType == StringResources.excel)
                     {
-                        // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
                     }
                     else if (fileType == StringResources.powerpoint)
                     {
-                        // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
                     }
@@ -3389,12 +3387,6 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.Default;
             }
-        }
-
-        public string GetObjectType(string objType)
-        {
-            string[] valArray = objType.Split('.');
-            return valArray[valArray.Length - 1];
         }
 
         private void BtnListShapes_Click(object sender, EventArgs e)

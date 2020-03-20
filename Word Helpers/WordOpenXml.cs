@@ -158,7 +158,7 @@ namespace Office_File_Explorer.Word_Helpers
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static List<string> AllAuthors(Document doc)
+        public static List<string> GetAllAuthors(Document doc)
         {
             List<string> allAuthorsInDocument = new List<string>();
 
@@ -215,7 +215,7 @@ namespace Office_File_Explorer.Word_Helpers
                 if (authorName == "* All Authors *")
                 {
                     List<string> temp = new List<string>();
-                    temp = AllAuthors(document.MainDocumentPart.Document);
+                    temp = GetAllAuthors(document.MainDocumentPart.Document);
 
                     // create a temp list for each author so we can loop the changes individually and list them
                     foreach (string s in temp)

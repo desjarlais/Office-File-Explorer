@@ -23,12 +23,17 @@ namespace Office_File_Explorer.App_Helpers
             NumberDouble
         }
 
+        /// <summary>
+        /// Given a document name, a property name/value, and the property type add a custom property to a document. 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="propertyValue"></param>
+        /// <param name="propertyType"></param>
+        /// <param name="fileType"></param>
+        /// <returns>returns the original value, if it existed</returns>
         public static string SetCustomProperty(string fileName, string propertyName, object propertyValue, PropertyTypes propertyType, string fileType)
         {
-            // Given a document name, a property name/value, and the property type, 
-            // add a custom property to a document. The method returns the original
-            // value, if it existed.
-
             string returnValue = null;
 
             var newProp = new CustomDocumentProperty();
@@ -39,10 +44,8 @@ namespace Office_File_Explorer.App_Helpers
             {
                 case PropertyTypes.DateTime:
 
-                    // Be sure you were passed a real date, 
-                    // and if so, format in the correct way. 
-                    // The date/time value passed in should 
-                    // represent a UTC date/time.
+                    // Be sure you were passed a real date and if so, format in the correct way. 
+                    // The date/time value passed in should represent a UTC date/time.
                     if ((propertyValue) is DateTime)
                     {
                         newProp.VTFileTime = new VTFileTime(string.Format("{0:s}Z", Convert.ToDateTime(propertyValue)));
@@ -146,8 +149,6 @@ namespace Office_File_Explorer.App_Helpers
                     var customProps = document.CustomFilePropertiesPart;
                     if (customProps == null)
                     {
-                        // No custom properties? Add the part, and the
-                        // collection of properties now.
                         customProps = document.AddCustomFilePropertiesPart();
                         customProps.Properties = new DocumentFormat.OpenXml.CustomProperties.Properties();
                     }
@@ -155,22 +156,14 @@ namespace Office_File_Explorer.App_Helpers
                     var props = customProps.Properties;
                     if (props != null)
                     {
-                        // This will trigger an exception if the property's Name 
-                        // property is null, but if that happens, the property is damaged, 
-                        // and probably should raise an exception.
                         var prop = props.Where(p => ((CustomDocumentProperty)p).Name.Value == propertyName).FirstOrDefault();
 
-                        // Does the property exist? If so, get the return value, 
-                        // and then delete the property.
                         if (prop != null)
                         {
                             returnValue = prop.InnerText;
                             prop.Remove();
                         }
 
-                        // Append the new property, and 
-                        // fix up all the property ID values. 
-                        // The PropertyId value must start at 2.
                         props.AppendChild(newProp);
                         int pid = 2;
                         foreach (CustomDocumentProperty item in props)
@@ -188,8 +181,6 @@ namespace Office_File_Explorer.App_Helpers
                     var customProps = document.CustomFilePropertiesPart;
                     if (customProps == null)
                     {
-                        // No custom properties? Add the part, and the
-                        // collection of properties now.
                         customProps = document.AddCustomFilePropertiesPart();
                         customProps.Properties = new DocumentFormat.OpenXml.CustomProperties.Properties();
                     }
@@ -197,22 +188,14 @@ namespace Office_File_Explorer.App_Helpers
                     var props = customProps.Properties;
                     if (props != null)
                     {
-                        // This will trigger an exception if the property's Name 
-                        // property is null, but if that happens, the property is damaged, 
-                        // and probably should raise an exception.
                         var prop = props.Where(p => ((CustomDocumentProperty)p).Name.Value == propertyName).FirstOrDefault();
 
-                        // Does the property exist? If so, get the return value, 
-                        // and then delete the property.
                         if (prop != null)
                         {
                             returnValue = prop.InnerText;
                             prop.Remove();
                         }
 
-                        // Append the new property, and 
-                        // fix up all the property ID values. 
-                        // The PropertyId value must start at 2.
                         props.AppendChild(newProp);
                         int pid = 2;
                         foreach (CustomDocumentProperty item in props)
@@ -259,12 +242,8 @@ namespace Office_File_Explorer.App_Helpers
             {
                 using (PresentationDocument presDoc = PresentationDocument.Open(document, true))
                 {
-                    PresentationPart mainPart = presDoc.PresentationPart;
-
-                    // Delete the old document part.
+                    PresentationPart mainPart = presDoc.PresentationPart;                   
                     mainPart.DeletePart(mainPart.ThemePart);
-
-                    // Add a new document part and then add content.
                     ThemePart themePart = mainPart.AddNewPart<ThemePart>();
 
                     using (StreamReader streamReader = new StreamReader(themeFile))
@@ -279,11 +258,7 @@ namespace Office_File_Explorer.App_Helpers
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(document, true))
                 {
                     WorkbookPart mainPart = excelDoc.WorkbookPart;
-
-                    // Delete the old document part.
                     mainPart.DeletePart(mainPart.ThemePart);
-
-                    // Add a new document part and then add content.
                     ThemePart themePart = mainPart.AddNewPart<ThemePart>();
 
                     using (StreamReader streamReader = new StreamReader(themeFile))
@@ -295,6 +270,12 @@ namespace Office_File_Explorer.App_Helpers
             }
         }
 
+        /// <summary>
+        /// Function to convert a macro enabled file to a non-macro enabled file
+        /// </summary>
+        /// <param name="fileName">file location</param>
+        /// <param name="app">app type</param>
+        /// <returns></returns>
         public static string ConvertMacroEnabled2NonMacroEnabled(string fileName, string app)
         {
             bool fileChanged = false;
@@ -330,21 +311,13 @@ namespace Office_File_Explorer.App_Helpers
                 fileExtension = ".pptx";
                 using (PresentationDocument document = PresentationDocument.Open(fileName, true))
                 {
-                    // Access the main document part.
                     var docPart = document.PresentationPart;
-
-                    // Look for the vbaProject part. If it is there, delete it.
                     var vbaPart = docPart.VbaProjectPart;
                     if (vbaPart != null)
                     {
-                        // Delete the vbaProject part and then save the document.
                         docPart.DeletePart(vbaPart);
                         docPart.Presentation.Save();
-
-                        // Change the document type to not macro-enabled.
                         document.ChangeDocumentType(PresentationDocumentType.Presentation);
-
-                        // Track that the document has been changed.
                         fileChanged = true;
                     }
                 }
@@ -354,21 +327,13 @@ namespace Office_File_Explorer.App_Helpers
                 fileExtension = ".xlsx";
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, true))
                 {
-                    // Access the main document part.
                     var docPart = document.WorkbookPart;
-
-                    // Look for the vbaProject part. If it is there, delete it.
                     var vbaPart = docPart.VbaProjectPart;
                     if (vbaPart != null)
                     {
-                        // Delete the vbaProject part and then save the document.
                         docPart.DeletePart(vbaPart);
                         docPart.Workbook.Save();
-
-                        // Change the document type to not macro-enabled.
                         document.ChangeDocumentType(SpreadsheetDocumentType.Workbook);
-
-                        // Track that the document has been changed.
                         fileChanged = true;
                     }
                 }
