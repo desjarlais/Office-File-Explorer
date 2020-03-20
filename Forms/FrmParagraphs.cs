@@ -117,14 +117,17 @@ namespace Office_File_Explorer.Forms
                                         if (style.StyleId.ToString() == pPr.ParagraphStyleId.Val)
                                         {
                                             StyleRunProperties srPr = style.StyleRunProperties;
-                                            fontSize = Convert.ToInt32(srPr.FontSize.Val);
-                                            LblFontSize.Text = srPr.FontSize.Val;
+                                            if (srPr != null)
+                                            {
+                                                fontSize = Convert.ToInt32(srPr.FontSize.Val);
+                                                LblFontSize.Text = srPr.FontSize.Val;
 
-                                            styleName = style.StyleId.ToString();
-                                            LblStyleName.Text = styleName;
+                                                styleName = style.StyleId.ToString();
+                                                LblStyleName.Text = styleName;
 
-                                            fontColor = "#" + srPr.Color.Val;
-                                            LblFontColor.Text = fontColor;                                            
+                                                fontColor = "#" + srPr.Color.Val;
+                                                LblFontColor.Text = fontColor;
+                                            }         
                                         }
                                     }
                                 }
@@ -132,6 +135,10 @@ namespace Office_File_Explorer.Forms
                         }
                     }
                 }
+            }
+            catch (NullReferenceException nre)
+            {
+                LoggingHelper.Log("ListParagraphs Error: " + nre.Message);
             }
             catch (Exception ex)
             {

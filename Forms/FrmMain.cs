@@ -350,11 +350,18 @@ namespace Office_File_Explorer
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
-                    int count = 0;
-                    foreach (DocumentFormat.OpenXml.Wordprocessing.Comment cm in commentsPart.Comments)
+                    if (commentsPart == null)
                     {
-                        count++;
-                        LstDisplay.Items.Add(count + StringResources.period + cm.InnerText);
+                        DisplayEmptyCount(0, "comments");
+                    }
+                    else
+                    {
+                        int count = 0;
+                        foreach (DocumentFormat.OpenXml.Wordprocessing.Comment cm in commentsPart.Comments)
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + StringResources.period + cm.InnerText);
+                        }
                     }
                 }
             }
@@ -1825,6 +1832,7 @@ namespace Office_File_Explorer
                     else
                     {
                         LstDisplay.Items.Clear();
+                        // if the file doesn't start with PK, we can stop trying to process it
                         if (!IsZipArchiveFile(TxtFileName.Text))
                         {
                             LstDisplay.Items.Add("Unable to open file, possible causes are:");
@@ -1836,6 +1844,7 @@ namespace Office_File_Explorer
                         }
                         else
                         {
+                            // if the file does start with PK, check if it fails in the SDK
                             OpenWithSdk(TxtFileName.Text, true);
                             PopulatePackageParts();
                         }
@@ -2297,8 +2306,7 @@ namespace Office_File_Explorer
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
-                    SharedStringTablePart sstp = wbPart.SharedStringTablePart;
-                    SharedStringTable sst = sstp.SharedStringTable;
+                    SharedStringTable sst = wbPart.SharedStringTablePart.SharedStringTable;
                     LstDisplay.Items.Add("SharedString Count = " + sst.Count());
                     LstDisplay.Items.Add("Unique Count = " + sst.UniqueCount);
                     LstDisplay.Items.Add(StringResources.emptyString);
