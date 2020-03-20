@@ -543,11 +543,6 @@ namespace Office_File_Explorer
                                 numIdList.Add(pNumId.Val);
                             }
                         }
-                        else
-                        {
-                            DisplayInformation(InformationOutput.TextOnly, "** There are no List Templates in this document **");
-                            return;
-                        }
                     }
 
                     // Loop each header, get the NumId and add it to the array
@@ -613,14 +608,16 @@ namespace Office_File_Explorer
 
                     // Loop through each AbstractNumId
                     LstDisplay.Items.Add(StringResources.emptyString);
-                    LstDisplay.Items.Add("List Templates in document:");
+                    LstDisplay.Items.Add("All List Templates in document:");
+                    int aCount = 0;
                     foreach (OpenXmlElement el in numPart.Numbering.Elements())
                     {
                         foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
                         {
                             string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
                             aNumIdList.Add(strNumId);
-                            LstDisplay.Items.Add("numId = " + strNumId + " " + "AbstractNumId = " + aNumId.Val);
+                            aCount++;
+                            LstDisplay.Items.Add(aCount + ". numId = " + strNumId);
                         }
                     }
 
@@ -628,9 +625,11 @@ namespace Office_File_Explorer
                     oNumIdList = OrphanedListTemplates(numIdList, aNumIdList);
                     LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add("Orphaned List Templates:");
+                    int oCount = 0;
                     foreach (object item in oNumIdList)
                     {
-                        LstDisplay.Items.Add("numId = " + item);
+                        oCount++;
+                        LstDisplay.Items.Add(oCount + ". numId = " + item);
                     }
                 }
             }
@@ -649,10 +648,20 @@ namespace Office_File_Explorer
         // method to display the non-duplicate numId used in the document.
         private void LoopArrayList(ArrayList al)
         {
-            LstDisplay.Items.Add("numId used in document:");
+            LstDisplay.Items.Add("Active List Templates in this document:");
+            
+            // if we don't have any active templates, just continue checking for orphaned
+            if (al.Count == 0)
+            {
+                LstDisplay.Items.Add(" -- none ");
+                return;
+            }
+
+            int count = 0;
             foreach (object item in al)
             {
-                LstDisplay.Items.Add("numID = " + item);
+                count++;
+                LstDisplay.Items.Add(count + ". numID = " + item);
             }
         }
 
@@ -1046,7 +1055,7 @@ namespace Office_File_Explorer
                 {
                     WordOpenXml.RemoveListTemplatesNumId(TxtFileName.Text, orphanLT.ToString());
                 }
-                DisplayInformation(InformationOutput.TextOnly, "** List Templates removed **");
+                DisplayInformation(InformationOutput.ClearAndAdd, "** List Templates removed **");
             }
             catch (Exception ex)
             {

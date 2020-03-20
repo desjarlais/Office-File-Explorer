@@ -93,6 +93,7 @@ namespace Office_File_Explorer.Forms
                     int count = 0;
 
                     richTextBox1.Clear();
+                    // TODO: lot of work to getting this dialog to render the content from the paragraph
                     foreach (Paragraph p in pList)
                     {
                         if (p.InnerText == "")
@@ -119,8 +120,11 @@ namespace Office_File_Explorer.Forms
                                             StyleRunProperties srPr = style.StyleRunProperties;
                                             if (srPr != null)
                                             {
-                                                fontSize = Convert.ToInt32(srPr.FontSize.Val);
-                                                LblFontSize.Text = srPr.FontSize.Val;
+                                                if (srPr.FontSize != null)
+                                                {
+                                                    fontSize = Convert.ToInt32(srPr.FontSize.Val);
+                                                    LblFontSize.Text = srPr.FontSize.Val;
+                                                }
 
                                                 styleName = style.StyleId.ToString();
                                                 LblStyleName.Text = styleName;
