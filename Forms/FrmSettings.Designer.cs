@@ -125,9 +125,9 @@
             this.ckResetNotesMaster.AutoSize = true;
             this.ckResetNotesMaster.Location = new System.Drawing.Point(15, 29);
             this.ckResetNotesMaster.Name = "ckResetNotesMaster";
-            this.ckResetNotesMaster.Size = new System.Drawing.Size(177, 24);
+            this.ckResetNotesMaster.Size = new System.Drawing.Size(301, 24);
             this.ckResetNotesMaster.TabIndex = 0;
-            this.ckResetNotesMaster.Text = "Reset Notes Master";
+            this.ckResetNotesMaster.Text = "Reset Notes Slides and Notes Master";
             this.ckResetNotesMaster.UseVisualStyleBackColor = true;
             // 
             // FrmSettings

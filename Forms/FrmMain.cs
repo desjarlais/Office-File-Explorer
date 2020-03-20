@@ -3816,6 +3816,7 @@ namespace Office_File_Explorer
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                 {
                     PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                    MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
                 }
             }
