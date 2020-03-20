@@ -9,7 +9,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 
 ### Word
 * List function to display (content controls, styles, hyperlinks, List Templates, fonts, footnotes, endnotes, document properties, authors, revisions/tracked changes, comments, field codes, bookmarks, paragraphs, paragraph styles)
-* Delete content (headers / footers, list templates, page breaks, comments, hidden text, footnotes, endnotes)
+* Delete content (headers / footers, orphan list templates, page breaks, comments, hidden text, footnotes, endnotes)
 * Convert Macro enabled file (.docm) to non-macro enabled (.docx)
 * Fix corrupt documents
 * Remove PII
