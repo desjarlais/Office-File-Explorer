@@ -2270,7 +2270,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 int sheetCount = 0;
 
-                LstDisplay.Items.Add("## VISIBLE WORKSHEETS ##");
+                LstDisplay.Items.Add("## WORKSHEETS ##");
                 foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text, false))
                 {
                     sheetCount++;

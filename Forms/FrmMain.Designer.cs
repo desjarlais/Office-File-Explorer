@@ -235,7 +235,7 @@
             // BtnRemovePII
             // 
             this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(422, 285);
+            this.BtnRemovePII.Location = new System.Drawing.Point(422, 419);
             this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnRemovePII.Name = "BtnRemovePII";
             this.BtnRemovePII.Size = new System.Drawing.Size(229, 35);
@@ -355,7 +355,7 @@
             // 
             // BtnDeleteListTemplates
             // 
-            this.BtnDeleteListTemplates.Location = new System.Drawing.Point(422, 417);
+            this.BtnDeleteListTemplates.Location = new System.Drawing.Point(422, 285);
             this.BtnDeleteListTemplates.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteListTemplates.Name = "BtnDeleteListTemplates";
             this.BtnDeleteListTemplates.Size = new System.Drawing.Size(229, 35);
@@ -501,7 +501,7 @@
             // 
             // BtnConvertXlsmToXlsx
             // 
-            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(210, 242);
+            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(210, 113);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
             this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(164, 32);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
@@ -511,10 +511,10 @@
             // 
             // BtnListConnections
             // 
-            this.BtnListConnections.Location = new System.Drawing.Point(213, 198);
+            this.BtnListConnections.Location = new System.Drawing.Point(210, 153);
             this.BtnListConnections.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnListConnections.Name = "BtnListConnections";
-            this.BtnListConnections.Size = new System.Drawing.Size(160, 35);
+            this.BtnListConnections.Size = new System.Drawing.Size(164, 35);
             this.BtnListConnections.TabIndex = 8;
             this.BtnListConnections.Text = "List Connections";
             this.BtnListConnections.UseVisualStyleBackColor = true;
@@ -522,9 +522,9 @@
             // 
             // BtnListWSInfo
             // 
-            this.BtnListWSInfo.Location = new System.Drawing.Point(210, 112);
+            this.BtnListWSInfo.Location = new System.Drawing.Point(9, 360);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
-            this.BtnListWSInfo.Size = new System.Drawing.Size(164, 35);
+            this.BtnListWSInfo.Size = new System.Drawing.Size(195, 35);
             this.BtnListWSInfo.TabIndex = 7;
             this.BtnListWSInfo.Text = "List Worksheet Info";
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
@@ -604,9 +604,9 @@
             // 
             // BtnListDefinedNames
             // 
-            this.BtnListDefinedNames.Location = new System.Drawing.Point(213, 158);
+            this.BtnListDefinedNames.Location = new System.Drawing.Point(9, 401);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
-            this.BtnListDefinedNames.Size = new System.Drawing.Size(160, 32);
+            this.BtnListDefinedNames.Size = new System.Drawing.Size(195, 32);
             this.BtnListDefinedNames.TabIndex = 21;
             this.BtnListDefinedNames.Text = "List Defined Names";
             this.BtnListDefinedNames.UseVisualStyleBackColor = true;
@@ -665,19 +665,19 @@
             // 
             // BtnNotesPageSize
             // 
-            this.BtnNotesPageSize.Location = new System.Drawing.Point(9, 242);
+            this.BtnNotesPageSize.Location = new System.Drawing.Point(6, 242);
             this.BtnNotesPageSize.Name = "BtnNotesPageSize";
             this.BtnNotesPageSize.Size = new System.Drawing.Size(170, 35);
             this.BtnNotesPageSize.TabIndex = 24;
-            this.BtnNotesPageSize.Text = "Fix Note Page Size";
+            this.BtnNotesPageSize.Text = "Fix Notes Page Size";
             this.BtnNotesPageSize.UseVisualStyleBackColor = true;
             this.BtnNotesPageSize.Click += new System.EventHandler(this.BtnNotesPageSize_Click);
             // 
             // BtnConvertPptmToPptx
             // 
-            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(9, 200);
+            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(6, 202);
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
-            this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(165, 34);
+            this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(168, 34);
             this.BtnConvertPptmToPptx.TabIndex = 22;
             this.BtnConvertPptmToPptx.Text = "Convert -> Pptx";
             this.BtnConvertPptmToPptx.UseVisualStyleBackColor = true;
