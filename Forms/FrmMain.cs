@@ -3655,20 +3655,13 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 LstDisplay.Items.Clear();
 
-                const string documentRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
-                const string stylesRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles";
-                const string wordmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-                XNamespace w = wordmlNamespace;
-
+                XNamespace w = StringResources.wordMainAttributeNamespace;
                 XDocument xDoc = null;
                 XDocument styleDoc = null;
 
                 using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
                 {
-                    PackageRelationship docPackageRelationship =
-                      wdPackage
-                      .GetRelationshipsByType(documentRelationshipType)
-                      .FirstOrDefault();
+                    PackageRelationship docPackageRelationship = wdPackage.GetRelationshipsByType(StringResources.MainDocumentPartType).FirstOrDefault();
                     if (docPackageRelationship != null)
                     {
                         Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), docPackageRelationship.TargetUri);
@@ -3678,7 +3671,7 @@ namespace Office_File_Explorer
                         xDoc = XDocument.Load(XmlReader.Create(documentPart.GetStream()));
 
                         //  Find the styles part. There will only be one.  
-                        PackageRelationship styleRelation = documentPart.GetRelationshipsByType(stylesRelationshipType).FirstOrDefault();
+                        PackageRelationship styleRelation = documentPart.GetRelationshipsByType(StringResources.StyleDefsPartType).FirstOrDefault();
                         if (styleRelation != null)
                         {
                             Uri styleUri = PackUriHelper.ResolvePartUri(documentUri, styleRelation.TargetUri);

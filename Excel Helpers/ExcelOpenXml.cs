@@ -98,8 +98,11 @@ namespace Office_File_Explorer.Excel_Helpers
                 {
                     foreach (Cell c in r.Elements<Cell>())
                     {
-                        text = c.CellValue.Text;
-                        values.Add(text + " ");
+                        if (c.CellValue != null)
+                        {
+                            text = c.CellValue.Text;
+                            values.Add(text + " ");
+                        }
                     }
                 }
 

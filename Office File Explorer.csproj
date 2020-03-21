@@ -91,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App Helpers\LoggingHelper.cs" />
-    <Compile Include="App Helpers\OfficeDocument.cs" />
     <Compile Include="App Helpers\OfficeHelpers.cs" />
     <Compile Include="App Helpers\StringResources.cs" />
     <Compile Include="Excel Helpers\ExcelOpenXml.cs" />

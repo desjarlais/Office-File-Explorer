@@ -972,7 +972,7 @@
             // 
             // BtnCopyLine
             // 
-            this.BtnCopyLine.Location = new System.Drawing.Point(1005, 665);
+            this.BtnCopyLine.Location = new System.Drawing.Point(1075, 665);
             this.BtnCopyLine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnCopyLine.Name = "BtnCopyLine";
             this.BtnCopyLine.Size = new System.Drawing.Size(172, 35);
@@ -983,7 +983,7 @@
             // 
             // BtnCopyAll
             // 
-            this.BtnCopyAll.Location = new System.Drawing.Point(1186, 665);
+            this.BtnCopyAll.Location = new System.Drawing.Point(1255, 665);
             this.BtnCopyAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnCopyAll.Name = "BtnCopyAll";
             this.BtnCopyAll.Size = new System.Drawing.Size(156, 35);
@@ -998,7 +998,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1455, 1062);
+            this.ClientSize = new System.Drawing.Size(1455, 1348);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
