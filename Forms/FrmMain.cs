@@ -2353,11 +2353,18 @@ namespace Office_File_Explorer
                     foreach (WorksheetPart wsp in wbPart.WorksheetParts)
                     {
                         WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
-                        foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                        if (wcp != null)
                         {
-                            CommentText cText = cmt.CommentText;
-                            LstDisplay.Items.Add(commentCount + StringResources.period + cText.InnerText);
-                            commentCount++;
+                            foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                            {
+                                CommentText cText = cmt.CommentText;
+                                LstDisplay.Items.Add(commentCount + StringResources.period + cText.InnerText);
+                                commentCount++;
+                            }
+                        }
+                        else
+                        {
+                            DisplayEmptyCount(0, "comments");
                         }
                     }
                 }
