@@ -7,5 +7,6 @@
 5. Create a new folder called "Office File Explorer"
 6. Open the .zip file and extract the contents into the folder created from step 5
 7. Double-click on the .exe
-8. It is possible you get a warning about running executables, click More Info
-9. click Run Anyway if you trust this .exe from running
+   7a. It is possible you get a warning about running executables
+   7b. if you do click More Info and click Run Anyway 
+   7c. (keep in mind, you are saying you trust this .exe)

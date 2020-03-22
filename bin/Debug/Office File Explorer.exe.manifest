@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>u1A7GVvXnmLdaQ2dzdMGSj/HexTQeN/CNn38MJD56wg=</dsig:DigestValue>
+        <dsig:DigestValue>KWZihKmWwWUqPXaQbrFOMxOZRY5U1i9pTi0DICgRnMI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>MkDPg3tixwwj/EFv9l31uCdVgSLv7NfPzluKLH1bvsw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Instructions.txt" size="572">
+  <file name="Instructions.txt" size="617">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>YrDvrXmlOQGTwk9wV9mMwsqyGU9xE8Ce4tJXjj0tXHk=</dsig:DigestValue>
+      <dsig:DigestValue>RgO0FsNYFxycaPen1CzLodvMDa31JS0/NC5RmPBgXfg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Office File Explorer.exe.config" size="1733">

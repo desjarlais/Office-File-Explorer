@@ -72,7 +72,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(340, 155);
+            this.groupBox1.Size = new System.Drawing.Size(263, 155);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Corrupt Document";
@@ -90,7 +90,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(595, 181);
+            this.BtnCancel.Location = new System.Drawing.Point(521, 181);
             this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(94, 35);
@@ -101,7 +101,7 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(497, 181);
+            this.BtnOK.Location = new System.Drawing.Point(420, 181);
             this.BtnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(90, 35);
@@ -113,9 +113,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ckResetNotesMaster);
-            this.groupBox2.Location = new System.Drawing.Point(365, 18);
+            this.groupBox2.Location = new System.Drawing.Point(288, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(324, 155);
+            this.groupBox2.Size = new System.Drawing.Size(327, 155);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PowerPoint Notes Page Fix";
@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 233);
+            this.ClientSize = new System.Drawing.Size(630, 233);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);

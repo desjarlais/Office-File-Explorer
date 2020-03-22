@@ -43,7 +43,6 @@
         public const string shp3D = ". 3D Shape";
         public const string shpXlDraw = ". Spreadsheet Drawing";
 
-
         // schema base urls
         public const string schemaOxml2006 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
         public const string schemaMsft2007 = "http://schemas.microsoft.com/office/2007/relationships/";
