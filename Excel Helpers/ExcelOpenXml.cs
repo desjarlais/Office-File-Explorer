@@ -9,8 +9,10 @@ namespace Office_File_Explorer.Excel_Helpers
 {
     class ExcelOpenXml
     {
-        public static void RemoveExternalLinks(string docName)
+        public static bool RemoveExternalLinks(string docName)
         {
+            bool linkRemoved = false;
+
             // Given a document name, remove all headers and footers.
             using (SpreadsheetDocument xlDoc = SpreadsheetDocument.Open(docName, true))
             {
@@ -24,11 +26,14 @@ namespace Office_File_Explorer.Excel_Helpers
                     foreach (var link in wbLinks)
                     {
                         link.Parent.RemoveChild(link);
+                        linkRemoved = true;
                     }
 
                     xlDoc.Close();
                 }
             }
+
+            return linkRemoved;
         }
 
         public static List<Sheet> GetSheets(string fileName, bool fileIsEditable)

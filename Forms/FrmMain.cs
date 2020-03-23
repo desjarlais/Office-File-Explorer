@@ -367,7 +367,7 @@ namespace Office_File_Explorer
             }
             catch (NullReferenceException)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, "** There are no comments to display **");
+                DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noComments);
             }
             catch (Exception ex)
             {
@@ -2131,9 +2131,15 @@ namespace Office_File_Explorer
 
         private void BtnDeleteExternalLinks_Click(object sender, EventArgs e)
         {
-            ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text);
             LstDisplay.Items.Clear();
-            LstDisplay.Items.Add("** External References Deleted **");
+            if (ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text))
+            {
+                LstDisplay.Items.Add("** External References Deleted **");
+            }
+            else
+            {
+                LstDisplay.Items.Add("** Document does not contain external references **");
+            }
         }
 
         private void BtnListDefinedNames_Click(object sender, EventArgs e)
@@ -2385,6 +2391,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                bool hasComments = false;
+
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
@@ -2392,15 +2400,32 @@ namespace Office_File_Explorer
 
                     foreach (WorksheetPart wsp in wbPart.WorksheetParts)
                     {
-                        WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
-                        foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                        if (wsp.WorksheetCommentsPart != null)
                         {
-                            cmt.Remove();
+                            if (wsp.WorksheetCommentsPart.Comments.Count() > 0)
+                            {
+                                WorksheetCommentsPart wcp = wsp.WorksheetCommentsPart;
+                                foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
+                                {
+                                    cmt.Remove();
+                                }
+                            }
+                            else
+                            {
+                                hasComments = true;
+                            }
                         }
                     }
 
-                    wbPart.Workbook.Save();
-                    LstDisplay.Items.Add("** Comments Deleted **");
+                    if (hasComments == true)
+                    {
+                        wbPart.Workbook.Save();
+                        LstDisplay.Items.Add("** Comments Deleted **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add(StringResources.noComments);
+                    }
                 }
             }
             catch (Exception ex)

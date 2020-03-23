@@ -129,8 +129,11 @@ namespace Office_File_Explorer.Forms
                                                 styleName = style.StyleId.ToString();
                                                 LblStyleName.Text = styleName;
 
-                                                fontColor = "#" + srPr.Color.Val;
-                                                LblFontColor.Text = fontColor;
+                                                if (srPr.Color != null)
+                                                {
+                                                    fontColor = "#" + srPr.Color.Val;
+                                                    LblFontColor.Text = fontColor;
+                                                }
                                             }         
                                         }
                                     }
@@ -242,9 +245,12 @@ namespace Office_File_Explorer.Forms
                 {
                     RenderText(e.Graphics, richTextBox1.Text, "Calibri", Color.Black, PBoxFont.ClientRectangle, fontSize);
                 }
+
+                fontColor = null;
             }
             catch (NullReferenceException)
             {
+                fontColor = null;
                 return;
             }
         }
