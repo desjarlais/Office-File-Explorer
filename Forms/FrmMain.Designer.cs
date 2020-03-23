@@ -107,6 +107,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -118,6 +119,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnFixCorruptBookmarks);
             this.groupBox1.Controls.Add(this.BtnListParagraphStyles);
             this.groupBox1.Controls.Add(this.BtnListCC);
             this.groupBox1.Controls.Add(this.BtnListBookmarks);
@@ -235,10 +237,10 @@
             // BtnRemovePII
             // 
             this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(422, 419);
+            this.BtnRemovePII.Location = new System.Drawing.Point(217, 375);
             this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(229, 35);
+            this.BtnRemovePII.Size = new System.Drawing.Size(198, 35);
             this.BtnRemovePII.TabIndex = 15;
             this.BtnRemovePII.Text = "Remove PII";
             this.BtnRemovePII.UseVisualStyleBackColor = true;
@@ -992,6 +994,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
+            // BtnFixCorruptBookmarks
+            // 
+            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(422, 417);
+            this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
+            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(229, 35);
+            this.BtnFixCorruptBookmarks.TabIndex = 23;
+            this.BtnFixCorruptBookmarks.Text = "Fix Corrupt Bookmarks";
+            this.BtnFixCorruptBookmarks.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptBookmarks.Click += new System.EventHandler(this.BtnFixCorruptBookmarks_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1108,6 +1120,7 @@
         private System.Windows.Forms.Button BtnCopyAll;
         private System.Windows.Forms.Button BtnNotesPageSize;
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
+        private System.Windows.Forms.Button BtnFixCorruptBookmarks;
     }
 }
 

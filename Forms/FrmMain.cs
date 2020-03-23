@@ -182,6 +182,7 @@ namespace Office_File_Explorer
             BtnListShapes.Enabled = false;
             BtnListParagraphStyles.Enabled = false;
             BtnNotesPageSize.Enabled = false;
+            BtnFixCorruptBookmarks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -271,6 +272,7 @@ namespace Office_File_Explorer
                 BtnListBookmarks.Enabled = true;
                 BtnListCC.Enabled = true;
                 BtnListParagraphStyles.Enabled = true;
+                BtnFixCorruptBookmarks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -3866,6 +3868,68 @@ namespace Office_File_Explorer
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(StringResources.helpLocation);
+        }
+
+        private void BtnFixCorruptBookmarks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
+                    LstDisplay.Items.Clear();
+
+                    if (bkList.Count() > 0)
+                    {
+                        foreach (BookmarkStart bk in bkList)
+                        {
+                            var cElem = bk.Parent;
+                            var pElem = bk.Parent;
+                            bool endLoop = false;
+
+                            do
+                            {
+                                if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
+                                {
+                                    // if the parent is a content control, we shouldn't have a bookmark
+                                    // remove that bookmark
+                                    bk.Remove();
+                                    endLoop = true;
+                                }
+                                else
+                                {
+                                    pElem = cElem.Parent;
+                                    cElem = pElem;
+
+                                    // if the parent is body, we can stop looping up
+                                    // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                    if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
+                                    {
+                                        endLoop = true;
+                                    }
+                                }
+                            } while (endLoop == false);
+                        }
+
+                        package.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** Document does not contain any bookmarks **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }

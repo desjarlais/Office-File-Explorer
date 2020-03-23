@@ -1,10 +1,11 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
-
+using DocumentFormat.OpenXml.Wordprocessing;
 using Office_File_Explorer.App_Helpers;
 using Office_File_Explorer.Word_Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Office_File_Explorer.Forms
@@ -44,11 +45,14 @@ namespace Office_File_Explorer.Forms
 
         public void DisableUI()
         {
+            // disable all buttons
             BtnFixNotesPageSize.Enabled = false;
             BtnChangeTheme.Enabled = false;
             BtnChangeCustomProps.Enabled = false;
             BtnRemovePII.Enabled = false;
+            BtnFixCorruptBookmarks.Enabled = false;
 
+            // disable all radio buttons
             rdoExcel.Enabled = false;
             rdoPowerPoint.Enabled = false;
             rdoWord.Enabled = false;
@@ -58,13 +62,34 @@ namespace Office_File_Explorer.Forms
 
         public void EnableUI()
         {
+            // enable buttons that work for each app
             BtnChangeTheme.Enabled = true;
             BtnChangeCustomProps.Enabled = true;
             BtnRemovePII.Enabled = true;
 
+            // enable the radio buttons
             rdoExcel.Enabled = true;
             rdoPowerPoint.Enabled = true;
             rdoWord.Enabled = true;
+
+            // now check which radio button is selected and light up appropriate buttons
+            if (rdoWord.Checked == true)
+            {
+                BtnFixCorruptBookmarks.Enabled = true;
+                BtnFixNotesPageSize.Enabled = false;
+            }
+
+            if (rdoPowerPoint.Checked == true)
+            {
+                BtnFixNotesPageSize.Enabled = true;
+                BtnFixCorruptBookmarks.Enabled = false;
+            }
+
+            if (rdoExcel.Checked == true)
+            {
+                BtnFixNotesPageSize.Enabled = false;
+                BtnFixCorruptBookmarks.Enabled = false;
+            }
         }
 
         public void PopulateAndDisplayFiles()
@@ -146,13 +171,10 @@ namespace Office_File_Explorer.Forms
 
         private void rdoPowerPoint_CheckedChanged(object sender, EventArgs e)
         {
-            // only need to run if the change was to enable the button
-            // disabling one of the other options causes multiple events
-            // so we just want to run the populate function once
             if (rdoPowerPoint.Checked)
             {
                 PopulateAndDisplayFiles();
-                BtnFixNotesPageSize.Enabled = true;
+                EnableUI();
             }
         }
 
@@ -161,7 +183,7 @@ namespace Office_File_Explorer.Forms
             if (rdoExcel.Checked)
             {
                 PopulateAndDisplayFiles();
-                BtnFixNotesPageSize.Enabled = false;
+                EnableUI();
             }
         }
 
@@ -170,7 +192,7 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Checked)
             {
                 PopulateAndDisplayFiles();
-                BtnFixNotesPageSize.Enabled = false;
+                EnableUI();
             }
         }
 
@@ -285,6 +307,71 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnRemovePII Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixCorruptBookmarks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                foreach (string f in files)
+                {
+                    using (WordprocessingDocument package = WordprocessingDocument.Open(f, true))
+                    {
+                        IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
+                        lstOutput.Items.Clear();
+
+                        if (bkList.Count() > 0)
+                        {
+                            foreach (BookmarkStart bk in bkList)
+                            {
+                                var cElem = bk.Parent;
+                                var pElem = bk.Parent;
+                                bool endLoop = false;
+
+                                do
+                                {
+                                    if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
+                                    {
+                                        // if the parent is a content control, we shouldn't have a bookmark
+                                        // remove that bookmark
+                                        bk.Remove();
+                                        endLoop = true;
+                                    }
+                                    else
+                                    {
+                                        pElem = cElem.Parent;
+                                        cElem = pElem;
+
+                                        // if the parent is body, we can stop looping up
+                                        // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                        if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
+                                        {
+                                            endLoop = true;
+                                        }
+                                    }
+                                } while (endLoop == false);
+                            }
+
+                            package.MainDocumentPart.Document.Save();
+                            lstOutput.Items.Add("** Fixed Corrupt Bookmarks **");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add("** Document does not contain any bookmarks **");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
             }
             finally
             {
