@@ -12,6 +12,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Delete content (headers / footers, orphan list templates, page breaks, comments, hidden text, footnotes, endnotes)
 * Convert Macro enabled file (.docm) to non-macro enabled (.docx)
 * Fix corrupt documents
+* Fix corrupt bookmarks
 * Remove PII
 
 ### Excel
@@ -34,6 +35,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Change Theme
 * Add Custom Properties
 * Reset note page size to default value
+* Fix corrupt bookmarks
 * Remove Personally Identifiable Information
 
 # App UI
