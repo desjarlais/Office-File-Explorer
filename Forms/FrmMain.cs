@@ -484,14 +484,24 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    // first check that hyperlinks exist
                     int count = 0;
-                    if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0)
+                    
+                    IEnumerable<DocumentFormat.OpenXml.Wordprocessing.Hyperlink> hLinks = myDoc.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Hyperlink>();
+                    
+                    // handle if no links are found
+                    if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0 && hLinks.Count() == 0)
                     {
                         DisplayEmptyCount(0, "hyperlinks");
                     }
 
-                    // then check for regular hyperlinks
+                    // loop through regular hyperlinks
+                    foreach (var h in hLinks)
+                    {
+                        count++;
+                        LstDisplay.Items.Add(count + ". " + h.InnerText);
+                    }
+
+                    // then check for hyperlinks relationships
                     foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
                     {
                         count++;
@@ -3928,11 +3938,12 @@ namespace Office_File_Explorer
                                 }
                                 else
                                 {
+                                    // set pElem to the parent so we can check for the end of the loop
+                                    // set cElem to the parent also so we can continue moving up the element chain
                                     pElem = cElem.Parent;
                                     cElem = pElem;
 
-                                    // if the parent is body, we can stop looping up
-                                    // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                    // loop should continue until we get to the body element, then we can stop looping
                                     if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
                                     {
                                         endLoop = true;
