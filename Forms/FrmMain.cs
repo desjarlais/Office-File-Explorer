@@ -3325,7 +3325,34 @@ namespace Office_File_Explorer
 
                         foreach (BookmarkStart bk in bkList)
                         {
-                            LstDisplay.Items.Add(count + ". " + bk.Name);
+                            var cElem = bk.Parent;
+                            var pElem = bk.Parent;
+                            bool endLoop = false;
+                            string isCorrupt = "";
+
+                            do
+                            {
+                                if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
+                                {
+                                    // if the parent is a content control, we shouldn't have a bookmark, let the user know
+                                    isCorrupt = " <-- ## Warning ## - this bookmark is in a content control which is not allowed";
+                                    endLoop = true;
+                                }
+                                else
+                                {
+                                    pElem = cElem.Parent;
+                                    cElem = pElem;
+
+                                    // if the parent is body, we can stop looping up
+                                    // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                    if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
+                                    {
+                                        endLoop = true;
+                                    }
+                                }
+                            } while (endLoop == false);
+
+                            LstDisplay.Items.Add(count + ". " + bk.Name + isCorrupt);
                             count++;
                         }
                     }
@@ -3877,24 +3904,26 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
+                    IEnumerable<BookmarkStart> bkStartList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
+                    IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.Document.Descendants<BookmarkEnd>();
+                    List<string> removedBookmarkIds = new List<string>();
                     LstDisplay.Items.Clear();
 
-                    if (bkList.Count() > 0)
+                    if (bkStartList.Count() > 0)
                     {
-                        foreach (BookmarkStart bk in bkList)
+                        foreach (BookmarkStart bk in bkStartList)
                         {
                             var cElem = bk.Parent;
                             var pElem = bk.Parent;
                             bool endLoop = false;
-
+                            
                             do
                             {
                                 if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                 {
                                     // if the parent is a content control, we shouldn't have a bookmark
-                                    // remove that bookmark
-                                    bk.Remove();
+                                    // add the id to the list of bookmarks that need to be deleted
+                                    removedBookmarkIds.Add(bk.Id);
                                     endLoop = true;
                                 }
                                 else
@@ -3912,6 +3941,28 @@ namespace Office_File_Explorer
                             } while (endLoop == false);
                         }
 
+                        // now that we have the list of bookmark id's to be removed
+                        // loop each list and delete any bookmark that has a matching id
+                        foreach (var o in removedBookmarkIds)
+                        {
+                            foreach (BookmarkStart bkStart in bkStartList)
+                            {
+                                if (bkStart.Id == o)
+                                {
+                                    bkStart.Remove();
+                                }
+                            }
+
+                            foreach (BookmarkEnd bkEnd in bkEndList)
+                            {
+                                if (bkEnd.Id == o)
+                                {
+                                    bkEnd.Remove();
+                                }
+                            }
+                        }
+                        
+                        // save the part
                         package.MainDocumentPart.Document.Save();
                         LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
                     }
