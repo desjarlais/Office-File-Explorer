@@ -3964,7 +3964,16 @@ namespace Office_File_Explorer
                         
                         // save the part
                         package.MainDocumentPart.Document.Save();
-                        LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
+
+                        // check if there were any fixes made and update the output display
+                        if (removedBookmarkIds.Count > 0)
+                        {
+                            LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
+                        }
+                        else
+                        {
+                            LstDisplay.Items.Add("** No Corrupt Bookmarks Found **");
+                        }                        
                     }
                     else
                     {
