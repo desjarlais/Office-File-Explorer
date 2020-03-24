@@ -394,7 +394,7 @@ namespace Office_File_Explorer.Forms
                         }
                         else
                         {
-                            lstOutput.Items.Add("** Document does not contain any bookmarks **");
+                            lstOutput.Items.Add(f + " : " + " does not contain any bookmarks.");
                         }
                     }
                 }
