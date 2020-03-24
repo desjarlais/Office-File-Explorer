@@ -319,6 +319,7 @@ namespace Office_File_Explorer.Forms
             try
             {
                 Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
                     using (WordprocessingDocument package = WordprocessingDocument.Open(f, true))
@@ -326,7 +327,6 @@ namespace Office_File_Explorer.Forms
                         IEnumerable<BookmarkStart> bkStartList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
                         IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.Document.Descendants<BookmarkEnd>();
                         List<string> removedBookmarkIds = new List<string>();
-                        lstOutput.Items.Clear();
 
                         if (bkStartList.Count() > 0)
                         {
@@ -383,7 +383,14 @@ namespace Office_File_Explorer.Forms
 
                             // save the part
                             package.MainDocumentPart.Document.Save();
-                            lstOutput.Items.Add("** Fixed Corrupt Bookmarks **");
+                            if (removedBookmarkIds.Count > 0)
+                            {
+                                lstOutput.Items.Add(f + " : " + "bookmarks fixed.");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : " + "does not contain any corrupt bookmarks.");
+                            }
                         }
                         else
                         {
