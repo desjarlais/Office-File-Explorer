@@ -966,11 +966,6 @@ namespace Office_File_Explorer
                     return;
                 }
 
-                if (_fromAuthor == "* All Authors *")
-                {
-                    _fromAuthor = "* All Authors *";
-                }
-
                 WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Revisions Accepted **");
             }
