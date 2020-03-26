@@ -32,11 +32,11 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Validate underlying xml file details
 
 ### Batch File Processing (following features can be used to change many documents at one time)
-* Change Theme
-* Add Custom Properties
-* Reset note page size to default value
-* Fix corrupt bookmarks
-* Remove Personally Identifiable Information
+* Change Theme (Word, Excel, PowerPoint)
+* Add Custom Properties (Word, Excel, PowerPoint)
+* Reset note page size to default value (PowerPoint)
+* Fix corrupt bookmarks (Word)
+* Remove Personally Identifiable Information (Word, Excel, PowerPoint)
 
 # App UI
 
