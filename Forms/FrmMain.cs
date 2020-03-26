@@ -519,6 +519,8 @@ namespace Office_File_Explorer
                             LstDisplay.Items.Add(count + StringResources.period + fldText);
                         }
                     }
+
+                    DisplayEmptyCount(count, "hyperlinks");
                 }
             }
             catch (Exception ex)
@@ -622,27 +624,43 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add("All List Templates in document:");
                     int aCount = 0;
-                    foreach (OpenXmlElement el in numPart.Numbering.Elements())
+
+                    if (numPart != null)
                     {
-                        foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
+                        foreach (OpenXmlElement el in numPart.Numbering.Elements())
                         {
-                            string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
-                            aNumIdList.Add(strNumId);
-                            aCount++;
-                            LstDisplay.Items.Add(aCount + ". numId = " + strNumId);
+                            foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
+                            {
+                                string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
+                                aNumIdList.Add(strNumId);
+                                aCount++;
+                                LstDisplay.Items.Add(aCount + ". numId = " + strNumId);
+                            }
                         }
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add(" -- none");
                     }
 
                     // get the unused list templates
                     oNumIdList = OrphanedListTemplates(numIdList, aNumIdList);
                     LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add("Orphaned List Templates:");
-                    int oCount = 0;
-                    foreach (object item in oNumIdList)
+                    if (oNumIdList.Count > 0)
                     {
-                        oCount++;
-                        LstDisplay.Items.Add(oCount + ". numId = " + item);
+                        int oCount = 0;
+                        foreach (object item in oNumIdList)
+                        {
+                            oCount++;
+                            LstDisplay.Items.Add(oCount + ". numId = " + item);
+                        }
                     }
+                    else
+                    {
+                        LstDisplay.Items.Add(" -- none");
+                    }
+                    
                 }
             }
             catch (Exception ex)
