@@ -2284,6 +2284,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// display function to handle logging empty collection counts for objects
+        /// </summary>
+        /// <param name="count">the count of the list/collection</param>
+        /// <param name="input">the name of the list/collection (ex: hyperlinks)</param>
         private void DisplayEmptyCount(int count, string input)
         {
             if (count == 0)
@@ -3351,15 +3356,31 @@ namespace Office_File_Explorer
                             var cElem = bk.Parent;
                             var pElem = bk.Parent;
                             bool endLoop = false;
-                            string isCorrupt = "";
+                            string isCorruptText = "";
 
                             do
                             {
                                 if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                 {
-                                    // if the parent is a content control, we shouldn't have a bookmark, let the user know
-                                    isCorrupt = " <-- ## Warning ## - this bookmark is in a content control which is not allowed";
-                                    endLoop = true;
+                                    foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
+                                    {
+                                        if (oxe.GetType().Name == "SdtProperties")
+                                        {
+                                            foreach (OpenXmlElement oxeSdtAlias in oxe)
+                                            {
+                                                if (oxeSdtAlias.GetType().Name == "SdtContentText")
+                                                {
+                                                    // if the parent is a content control, bookmark is only allowed in rich text
+                                                    // if this is a plain text control, it is invalid
+                                                    isCorruptText = " <-- ## Warning ## - this bookmark is in a content control which is not allowed";
+                                                    endLoop = true;
+                                                }
+                                            }
+                                        }                                    
+                                    }
+                                    
+                                    pElem = cElem.Parent;
+                                    cElem = pElem;
                                 }
                                 else
                                 {
@@ -3375,7 +3396,7 @@ namespace Office_File_Explorer
                                 }
                             } while (endLoop == false);
 
-                            LstDisplay.Items.Add(count + ". " + bk.Name + isCorrupt);
+                            LstDisplay.Items.Add(count + ". " + bk.Name + isCorruptText);
                             count++;
                         }
                     }
@@ -3409,71 +3430,72 @@ namespace Office_File_Explorer
                     foreach (var cc in package.ContentControls())
                     {
                         string ccType = StringResources.emptyString;
-                        string ccVal = StringResources.emptyString;
-                        string dropVal = StringResources.emptyString;
-                        bool isDropDown = false;
-
+                        bool PropFound = false;
                         SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
 
                         // loop the properties and get the type
                         foreach (OpenXmlElement oxe in props.ChildElements)
                         {
-                            if (oxe.GetType().Name == "Tag")
+                            if (oxe.GetType().Name == "SdtContentText")
                             {
-                                Tag tag = props.Elements<Tag>().FirstOrDefault();
-                                ccType = "Rich / Plain Text";
-                                ccVal = tag.Val;
+                                ccType = "Plain Text";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentDropDownList")
                             {
-                                Tag tag = props.Elements<Tag>().FirstOrDefault();
-                                dropVal = tag.Val;
-                                isDropDown = true;
+                                ccType = "Drop Down List";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentDocPartList")
                             {
-                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
                                 ccType = "Building Block Gallery";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentCheckBox")
                             {
-                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
                                 ccType = "Check Box";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentPicture")
                             {
-                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
                                 ccType = "Picture";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentComboBox")
                             {
-                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
                                 ccType = "Combo Box";
+                                PropFound = true;
                             }
 
                             if (oxe.GetType().Name == "SdtContentDate")
                             {
-                                SdtContentCheckBox sccb = props.Elements<SdtContentCheckBox>().FirstOrDefault();
                                 ccType = "Date Picker";
+                                PropFound = true;
+                            }
+
+                            if (oxe.GetType().Name == "SdtRepeatedSection")
+                            {
+                                ccType = "Repeating Section";
+                                PropFound = true;
                             }
                         }
 
                         // display the cc type
                         count++;
-                        if (isDropDown)
-                        {
-                            LstDisplay.Items.Add(count + ". " + "Drop Down List: ");
-                            continue;
-                        }
-                        else
+                        if (PropFound == true)
                         {
                             LstDisplay.Items.Add(count + ". " + ccType);
                         }
+                        else
+                        {
+                            LstDisplay.Items.Add(count + ". " + "Rich Text");
+                        }
+                        
                     }
 
                     DisplayEmptyCount(count, "content controls.");
@@ -3944,10 +3966,26 @@ namespace Office_File_Explorer
                             {
                                 if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                 {
-                                    // if the parent is a content control, we shouldn't have a bookmark
-                                    // add the id to the list of bookmarks that need to be deleted
-                                    removedBookmarkIds.Add(bk.Id);
-                                    endLoop = true;
+                                    foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
+                                    {
+                                        if (oxe.GetType().Name == "SdtProperties")
+                                        {
+                                            foreach (OpenXmlElement oxeSdtAlias in oxe)
+                                            {
+                                                if (oxeSdtAlias.GetType().Name == "SdtContentText")
+                                                {
+                                                    // if the parent is a content control, bookmark is only allowed in rich text
+                                                    // if this is a plain text control, it is invalid
+                                                    // add the id to the list of bookmarks that need to be deleted
+                                                    removedBookmarkIds.Add(bk.Id);
+                                                    endLoop = true;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    pElem = cElem.Parent;
+                                    cElem = pElem;
                                 }
                                 else
                                 {

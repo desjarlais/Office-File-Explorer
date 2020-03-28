@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Office_File_Explorer.App_Helpers;
 using Office_File_Explorer.Word_Helpers;
@@ -340,10 +341,26 @@ namespace Office_File_Explorer.Forms
                                 {
                                     if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                     {
-                                        // if the parent is a content control, we shouldn't have a bookmark
-                                        // add the id to the list of bookmarks that need to be deleted
-                                        removedBookmarkIds.Add(bk.Id);
-                                        endLoop = true;
+                                        foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
+                                        {
+                                            if (oxe.GetType().Name == "SdtProperties")
+                                            {
+                                                foreach (OpenXmlElement oxeSdtAlias in oxe)
+                                                {
+                                                    if (oxeSdtAlias.GetType().Name == "SdtContentText")
+                                                    {
+                                                        // if the parent is a content control, bookmark is only allowed in rich text
+                                                        // if this is a plain text control, it is invalid
+                                                        // add the id to the list of bookmarks that need to be deleted
+                                                        removedBookmarkIds.Add(bk.Id);
+                                                        endLoop = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        pElem = cElem.Parent;
+                                        cElem = pElem;
                                     }
                                     else
                                     {

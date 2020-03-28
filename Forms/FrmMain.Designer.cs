@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.BtnListParagraphStyles = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
@@ -107,7 +108,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -156,6 +156,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnFixCorruptBookmarks
+            // 
+            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(422, 417);
+            this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
+            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(229, 35);
+            this.BtnFixCorruptBookmarks.TabIndex = 23;
+            this.BtnFixCorruptBookmarks.Text = "Fix Corrupt Bookmarks";
+            this.BtnFixCorruptBookmarks.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptBookmarks.Click += new System.EventHandler(this.BtnFixCorruptBookmarks_Click);
             // 
             // BtnListParagraphStyles
             // 
@@ -993,16 +1003,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // BtnFixCorruptBookmarks
-            // 
-            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(422, 417);
-            this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
-            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(229, 35);
-            this.BtnFixCorruptBookmarks.TabIndex = 23;
-            this.BtnFixCorruptBookmarks.Text = "Fix Corrupt Bookmarks";
-            this.BtnFixCorruptBookmarks.UseVisualStyleBackColor = true;
-            this.BtnFixCorruptBookmarks.Click += new System.EventHandler(this.BtnFixCorruptBookmarks_Click);
             // 
             // FrmMain
             // 
