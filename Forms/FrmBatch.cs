@@ -339,18 +339,20 @@ namespace Office_File_Explorer.Forms
 
                                 do
                                 {
+                                    // first check if we are a content control
                                     if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                     {
                                         foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                         {
+                                            // if we are a content control, loop until we get the properties
                                             if (oxe.GetType().Name == "SdtProperties")
                                             {
                                                 foreach (OpenXmlElement oxeSdtAlias in oxe)
                                                 {
+                                                    // if we are the properties of the control, check for plain text
                                                     if (oxeSdtAlias.GetType().Name == "SdtContentText")
                                                     {
-                                                        // if the parent is a content control, bookmark is only allowed in rich text
-                                                        // if this is a plain text control, it is invalid
+                                                        // if the parent is a plain text content control, bookmark is not allowed
                                                         // add the id to the list of bookmarks that need to be deleted
                                                         removedBookmarkIds.Add(bk.Id);
                                                         endLoop = true;
