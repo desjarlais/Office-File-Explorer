@@ -344,12 +344,12 @@ namespace Office_File_Explorer.Forms
                                     {
                                         foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                         {
-                                            // if we are a content control, loop until we get the properties
+                                            // get the properties
                                             if (oxe.GetType().Name == "SdtProperties")
                                             {
                                                 foreach (OpenXmlElement oxeSdtAlias in oxe)
                                                 {
-                                                    // if we are the properties of the control, check for plain text
+                                                    // check for plain text
                                                     if (oxeSdtAlias.GetType().Name == "SdtContentText")
                                                     {
                                                         // if the parent is a plain text content control, bookmark is not allowed
@@ -370,7 +370,7 @@ namespace Office_File_Explorer.Forms
                                         cElem = pElem;
 
                                         // if the parent is body, we can stop looping up
-                                        // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                        // otherwise, we can continue moving up the element chain
                                         if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
                                         {
                                             endLoop = true;
@@ -402,6 +402,8 @@ namespace Office_File_Explorer.Forms
 
                             // save the part
                             package.MainDocumentPart.Document.Save();
+
+                            // update the list output
                             if (removedBookmarkIds.Count > 0)
                             {
                                 lstOutput.Items.Add(f + " : " + "bookmarks fixed.");

@@ -93,7 +93,7 @@ namespace Office_File_Explorer.Forms
                     int count = 0;
 
                     richTextBox1.Clear();
-                    // TODO: lot of work to getting this dialog to render the content from the paragraph
+                    // TODO: getting this dialog to render the content from the paragraph is still a work in progress
                     foreach (Paragraph p in pList)
                     {
                         if (p.InnerText == "")

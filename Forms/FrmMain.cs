@@ -2351,16 +2351,23 @@ namespace Office_File_Explorer
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
-                    SharedStringTable sst = wbPart.SharedStringTablePart.SharedStringTable;
-                    LstDisplay.Items.Add("SharedString Count = " + sst.Count());
-                    LstDisplay.Items.Add("Unique Count = " + sst.UniqueCount);
-                    LstDisplay.Items.Add(StringResources.emptyString);
-
-                    foreach (SharedStringItem ssi in sst)
+                    if (wbPart.SharedStringTablePart != null)
                     {
-                        sharedStringCount++;
-                        DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
-                        LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
+                        SharedStringTable sst = wbPart.SharedStringTablePart.SharedStringTable;
+                        LstDisplay.Items.Add("SharedString Count = " + sst.Count());
+                        LstDisplay.Items.Add("Unique Count = " + sst.UniqueCount);
+                        LstDisplay.Items.Add(StringResources.emptyString);
+
+                        foreach (SharedStringItem ssi in sst)
+                        {
+                            sharedStringCount++;
+                            DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
+                            LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
+                        }
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** Document does not contain any shared strings **");
                     }
                 }
             }
@@ -3372,23 +3379,25 @@ namespace Office_File_Explorer
                                                 {
                                                     // if the parent is a content control, bookmark is only allowed in rich text
                                                     // if this is a plain text control, it is invalid
-                                                    isCorruptText = " <-- ## Warning ## - this bookmark is in a content control which is not allowed";
+                                                    isCorruptText = " <-- ## Warning ## - this bookmark is in a plain text content control which is not allowed";
                                                     endLoop = true;
                                                 }
                                             }
                                         }                                    
                                     }
                                     
+                                    // set next element
                                     pElem = cElem.Parent;
                                     cElem = pElem;
                                 }
                                 else
                                 {
+                                    // set next element
                                     pElem = cElem.Parent;
                                     cElem = pElem;
 
                                     // if the parent is body, we can stop looping up
-                                    // otherwise, set cElem to the parent so we can continue moving up the element chain
+                                    // otherwise, we can continue moving up the element chain
                                     if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
                                     {
                                         endLoop = true;
@@ -3969,12 +3978,12 @@ namespace Office_File_Explorer
                                 {
                                     foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                     {
-                                        // if we are a content control, loop until we get the properties
+                                        // get the properties
                                         if (oxe.GetType().Name == "SdtProperties")
                                         {
                                             foreach (OpenXmlElement oxeSdtAlias in oxe)
                                             {
-                                                // if we are the properties of the control, check for plain text
+                                                // check for plain text
                                                 if (oxeSdtAlias.GetType().Name == "SdtContentText")
                                                 {
                                                     // if the parent is a plain text content control, bookmark is not allowed
@@ -3986,6 +3995,7 @@ namespace Office_File_Explorer
                                         }
                                     }
 
+                                    // set the next element to the parent and continue moving up the element chain
                                     pElem = cElem.Parent;
                                     cElem = pElem;
                                 }

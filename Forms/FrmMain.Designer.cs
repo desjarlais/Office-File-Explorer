@@ -159,9 +159,9 @@
             // 
             // BtnFixCorruptBookmarks
             // 
-            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(422, 417);
+            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(422, 375);
             this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
-            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(229, 35);
+            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(229, 34);
             this.BtnFixCorruptBookmarks.TabIndex = 23;
             this.BtnFixCorruptBookmarks.Text = "Fix Corrupt Bookmarks";
             this.BtnFixCorruptBookmarks.UseVisualStyleBackColor = true;
@@ -235,10 +235,10 @@
             // 
             // BtnFixCorruptDocument
             // 
-            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(422, 374);
+            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(422, 331);
             this.BtnFixCorruptDocument.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnFixCorruptDocument.Name = "BtnFixCorruptDocument";
-            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(229, 35);
+            this.BtnFixCorruptDocument.Size = new System.Drawing.Size(229, 33);
             this.BtnFixCorruptDocument.TabIndex = 8;
             this.BtnFixCorruptDocument.Text = "Fix Corrupt Document";
             this.BtnFixCorruptDocument.UseVisualStyleBackColor = true;
@@ -258,9 +258,9 @@
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(422, 327);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(215, 415);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
-            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(229, 37);
+            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(202, 37);
             this.BtnConvertDocmToDocx.TabIndex = 17;
             this.BtnConvertDocmToDocx.Text = "Convert to Docx";
             this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
@@ -312,7 +312,7 @@
             // 
             // BtnDeleteEndnotes
             // 
-            this.BtnDeleteEndnotes.Location = new System.Drawing.Point(422, 247);
+            this.BtnDeleteEndnotes.Location = new System.Drawing.Point(422, 241);
             this.BtnDeleteEndnotes.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteEndnotes.Name = "BtnDeleteEndnotes";
             this.BtnDeleteEndnotes.Size = new System.Drawing.Size(229, 35);
@@ -323,7 +323,7 @@
             // 
             // BtnDeleteFootnotes
             // 
-            this.BtnDeleteFootnotes.Location = new System.Drawing.Point(422, 207);
+            this.BtnDeleteFootnotes.Location = new System.Drawing.Point(422, 199);
             this.BtnDeleteFootnotes.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteFootnotes.Name = "BtnDeleteFootnotes";
             this.BtnDeleteFootnotes.Size = new System.Drawing.Size(229, 35);
@@ -378,7 +378,7 @@
             // 
             // BtnDeleteBreaks
             // 
-            this.BtnDeleteBreaks.Location = new System.Drawing.Point(422, 76);
+            this.BtnDeleteBreaks.Location = new System.Drawing.Point(422, 71);
             this.BtnDeleteBreaks.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteBreaks.Name = "BtnDeleteBreaks";
             this.BtnDeleteBreaks.Size = new System.Drawing.Size(229, 35);
@@ -400,7 +400,7 @@
             // 
             // BtnDeleteHiddenText
             // 
-            this.BtnDeleteHiddenText.Location = new System.Drawing.Point(422, 162);
+            this.BtnDeleteHiddenText.Location = new System.Drawing.Point(422, 155);
             this.BtnDeleteHiddenText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteHiddenText.Name = "BtnDeleteHiddenText";
             this.BtnDeleteHiddenText.Size = new System.Drawing.Size(229, 35);
@@ -411,7 +411,7 @@
             // 
             // BtnDeleteComments
             // 
-            this.BtnDeleteComments.Location = new System.Drawing.Point(422, 120);
+            this.BtnDeleteComments.Location = new System.Drawing.Point(422, 113);
             this.BtnDeleteComments.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.BtnDeleteComments.Name = "BtnDeleteComments";
             this.BtnDeleteComments.Size = new System.Drawing.Size(229, 35);

@@ -4,7 +4,7 @@
   <description asmv2:iconFile="1 (47).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Office File Explorer" version="1.0.2.27" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Office File Explorer" version="1.0.2.29" language="neutral" processorArchitecture="msil" />
     <commandLine file="Office File Explorer.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -56,13 +56,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="2148352">
-      <assemblyIdentity name="Office File Explorer" version="1.0.2.27" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Office File Explorer" version="1.0.2.29" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>E/ZNauTiMFIZfm5J+FfKda63fJ9YDw2y8CYT+9e0MIY=</dsig:DigestValue>
+        <dsig:DigestValue>2dzGzx2OU+gsv8+hV7FXdlPrwt/Xx5uoP1+eBSgMF+A=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
