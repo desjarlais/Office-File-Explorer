@@ -1557,7 +1557,7 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     int count = 0;
 
-                    // first check the people part to get authors
+                    // check the peoplepart and list those authors
                     WordprocessingPeoplePart peoplePart = doc.MainDocumentPart.WordprocessingPeoplePart;
                     if (peoplePart != null)
                     { 
@@ -1570,12 +1570,19 @@ namespace Office_File_Explorer
                             LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
                         }
                     }
-
-                    // second, sometimes there are authors in a file but they don't exist in people.xml
-                    // list those
+                                        
                     List<string> tempAuthors = WordOpenXml.GetAllAuthors(doc.MainDocumentPart.Document);
+                    
+                    // sometimes there are authors in a file but they don't exist in people.xml
                     if (tempAuthors.Count > 0)
                     {
+                        // if the people part count is the same as GetAllAuthors, they must be the same authors
+                        if (count == tempAuthors.Count)
+                        {
+                            return;
+                        }
+
+                        // if the count is not the same, display those authors
                         foreach (string s in tempAuthors)
                         {
                             count++;
@@ -1583,7 +1590,7 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    // log if we have no authors in the listbox
+                    // if the count is 0 at this point, no authors exist
                     if (count == 0)
                     {
                         DisplayInformation(InformationOutput.TextOnly, "** There are no authors in this document **");
