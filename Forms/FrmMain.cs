@@ -493,34 +493,34 @@ namespace Office_File_Explorer
                     {
                         DisplayEmptyCount(0, "hyperlinks");
                     }
-
-                    // loop through regular hyperlinks
-                    foreach (var h in hLinks)
+                    else
                     {
-                        count++;
-                        LstDisplay.Items.Add(count + ". " + h.InnerText);
-                    }
-
-                    // then check for hyperlinks relationships
-                    foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
-                    {
-                        count++;
-                        LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
-                    }
-
-                    // now we need to check for field hyperlinks
-                    foreach (var field in myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>())
-                    {
-                        string fldText;
-                        if (field.InnerText.StartsWith(" HYPERLINK"))
+                        // loop through regular hyperlinks
+                        foreach (var h in hLinks)
                         {
                             count++;
-                            fldText = field.InnerText.Remove(0, 11);
-                            LstDisplay.Items.Add(count + StringResources.period + fldText);
+                            LstDisplay.Items.Add(count + ". " + h.InnerText);
+                        }
+
+                        // then check for hyperlinks relationships
+                        foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
+                        {
+                            count++;
+                            LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
+                        }
+
+                        // now we need to check for field hyperlinks
+                        foreach (var field in myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>())
+                        {
+                            string fldText;
+                            if (field.InnerText.StartsWith(" HYPERLINK"))
+                            {
+                                count++;
+                                fldText = field.InnerText.Remove(0, 11);
+                                LstDisplay.Items.Add(count + StringResources.period + fldText);
+                            }
                         }
                     }
-
-                    DisplayEmptyCount(count, "hyperlinks");
                 }
             }
             catch (Exception ex)
