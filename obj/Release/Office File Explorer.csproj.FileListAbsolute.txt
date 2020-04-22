@@ -73,3 +73,4 @@ C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explo
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.exe
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.pdb
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CoreCompileInputs.cache
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CoreCompileInputs.cache

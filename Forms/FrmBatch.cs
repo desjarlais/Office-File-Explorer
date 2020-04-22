@@ -52,6 +52,7 @@ namespace Office_File_Explorer.Forms
             BtnChangeCustomProps.Enabled = false;
             BtnRemovePII.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
+            BtnFixCorruptRevisions.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -77,6 +78,7 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Checked == true)
             {
                 BtnFixCorruptBookmarks.Enabled = true;
+                BtnFixCorruptRevisions.Enabled = true;
                 BtnFixNotesPageSize.Enabled = false;
             }
 
@@ -84,12 +86,14 @@ namespace Office_File_Explorer.Forms
             {
                 BtnFixNotesPageSize.Enabled = true;
                 BtnFixCorruptBookmarks.Enabled = false;
+                BtnFixCorruptRevisions.Enabled = false;
             }
 
             if (rdoExcel.Checked == true)
             {
                 BtnFixNotesPageSize.Enabled = false;
                 BtnFixCorruptBookmarks.Enabled = false;
+                BtnFixCorruptRevisions.Enabled = false;
             }
         }
 
@@ -423,7 +427,71 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 lstOutput.Items.Add(StringResources.errorText + ex.Message);
-                LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
+                LoggingHelper.Log("BtnFixCorruptBookmarks: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixCorruptRevisions_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
+                foreach (string f in files)
+                {
+                    bool isFixed = false;
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    {
+                        Document doc = document.MainDocumentPart.Document;
+                        var deleted = doc.Descendants<DeletedRun>().ToList();
+
+                        // loop each deleted run
+                        foreach (DeletedRun dr in deleted)
+                        {
+                            foreach (OpenXmlElement oxedr in dr)
+                            {
+                                // if we have a run, we need to look for Text tags
+                                if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
+                                {
+                                    Run r = (Run)oxedr;
+                                    foreach (OpenXmlElement oxe in oxedr.ChildElements)
+                                    {
+                                        // you can't have a text tag inside a deleted run
+                                        if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
+                                        {
+                                            // create a deletedtext object so we can remove the text and add the deletedtext
+                                            DeletedText dt = new DeletedText();
+                                            dt.Text = oxe.InnerText;
+                                            oxe.Remove();
+                                            r.Append(dt);
+                                            isFixed = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // now save the file if we have changes
+                        if (isFixed == true)
+                        {
+                            doc.Save();
+                            lstOutput.Items.Add(f + ": Fixed Corrupt Revisions");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + ": No Corrupt Revisions Found");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
             }
             finally
             {

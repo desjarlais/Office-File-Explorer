@@ -183,6 +183,7 @@ namespace Office_File_Explorer
             BtnListParagraphStyles.Enabled = false;
             BtnNotesPageSize.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
+            BtnFixCorruptRevisions.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -273,6 +274,7 @@ namespace Office_File_Explorer
                 BtnListCC.Enabled = true;
                 BtnListParagraphStyles.Enabled = true;
                 BtnFixCorruptBookmarks.Enabled = true;
+                BtnFixCorruptRevisions.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -4069,7 +4071,67 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LstDisplay.Items.Add(StringResources.errorText + ex.Message);
-                LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
+                LoggingHelper.Log("BtnFixCorruptBookmarks: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixCorruptRevisions_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                bool isFixed = false;
+                Cursor = Cursors.WaitCursor;
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    Document doc = document.MainDocumentPart.Document;
+                    var deleted = doc.Descendants<DeletedRun>().ToList();
+
+                    // loop each deleted run
+                    foreach (DeletedRun dr in deleted)
+                    {
+                        foreach (OpenXmlElement oxedr in dr)
+                        {
+                            // if we have a run, we need to look for Text tags
+                            if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
+                            {
+                                Run r = (Run)oxedr;
+                                foreach (OpenXmlElement oxe in oxedr.ChildElements)
+                                {
+                                    // you can't have a text tag inside a deleted run
+                                    if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
+                                    {
+                                        // create a deletedtext object so we can remove the text and add the deletedtext
+                                        DeletedText dt = new DeletedText();
+                                        dt.Text = oxe.InnerText;
+                                        oxe.Remove();
+                                        r.Append(dt);
+                                        isFixed = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // now save the file if we have changes
+                    if (isFixed == true)
+                    {
+                        doc.Save();
+                        LstDisplay.Items.Add("** Fixed Corrupt Revisions **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Revisions Found **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
             }
             finally
             {
