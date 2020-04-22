@@ -13,6 +13,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Convert Macro enabled file (.docm) to non-macro enabled (.docx)
 * Fix corrupt documents
 * Fix corrupt bookmarks
+* Fix corrupt revisions
 * Remove PII
 
 ### Excel
@@ -36,6 +37,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Add Custom Properties (Word, Excel, PowerPoint)
 * Reset note page size to default value (PowerPoint)
 * Fix corrupt bookmarks (Word)
+* Fix corrupt revisions (Word)
 * Remove Personally Identifiable Information (Word, Excel, PowerPoint)
 
 # App UI
