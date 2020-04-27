@@ -449,23 +449,26 @@ namespace Office_File_Explorer.Forms
                         Document doc = document.MainDocumentPart.Document;
                         var deleted = doc.Descendants<DeletedRun>().ToList();
 
-                        // loop each deleted run
+                        // loop each DeletedRun
                         foreach (DeletedRun dr in deleted)
                         {
                             foreach (OpenXmlElement oxedr in dr)
                             {
-                                // if we have a run, we need to look for Text tags
+                                // if we have a Run, we need to look for Text tags
                                 if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
                                 {
                                     Run r = (Run)oxedr;
                                     foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                     {
-                                        // you can't have a text tag inside a deleted run
+                                        // you can't have a Text tag inside a DeletedRun
                                         if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
                                         {
-                                            // create a deletedtext object so we can remove the text and add the deletedtext
-                                            DeletedText dt = new DeletedText();
-                                            dt.Text = oxe.InnerText;
+                                            // create a DeletedText object so we can replace it with the Text tag
+                                            DeletedText dt = new DeletedText
+                                            {
+                                                Text = oxe.InnerText
+                                            };
+
                                             oxe.Remove();
                                             r.Append(dt);
                                             isFixed = true;

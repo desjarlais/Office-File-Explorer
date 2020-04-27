@@ -112,7 +112,7 @@ namespace Office_File_Explorer.Forms
                                 
                                 foreach (var obj in stPart.Styles)
                                 {
-                                    if (obj.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Style")
+                                    if (obj.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Style" && pPr.ParagraphStyleId != null)
                                     {
                                         Style style = (Style)obj;
                                         if (style.StyleId.ToString() == pPr.ParagraphStyleId.Val)
