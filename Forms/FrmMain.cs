@@ -3376,7 +3376,7 @@ namespace Office_File_Explorer
 
                             do
                             {
-                                if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
+                                if (cElem != null && cElem.Parent != null && cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                 {
                                     foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                     {
@@ -3392,7 +3392,7 @@ namespace Office_File_Explorer
                                                     endLoop = true;
                                                 }
                                             }
-                                        }                                    
+                                        }
                                     }
                                     
                                     // set next element
@@ -3401,13 +3401,19 @@ namespace Office_File_Explorer
                                 }
                                 else
                                 {
+                                    // if the next element is null, bail
+                                    if (cElem == null || cElem.Parent == null)
+                                    {
+                                        return;
+                                    }
+
                                     // set next element
                                     pElem = cElem.Parent;
                                     cElem = pElem;
 
                                     // if the parent is body, we can stop looping up
                                     // otherwise, we can continue moving up the element chain
-                                    if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
+                                    if (pElem != null && pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
                                     {
                                         endLoop = true;
                                     }
@@ -4105,13 +4111,22 @@ namespace Office_File_Explorer
                                     if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
                                     {
                                         // create a DeletedText object so we can replace it with the Text tag
-                                        DeletedText dt = new DeletedText
+                                        DeletedText dt = new DeletedText();
+                                        
+                                        // check for attributes
+                                        if (oxe.HasAttributes)
                                         {
-                                            Text = oxe.InnerText
-                                        };
+                                            if (oxe.GetAttributes().Count > 0)
+                                            {
+                                                dt.SetAttributes(oxe.GetAttributes());
+                                            }
+                                        }
 
-                                        oxe.Remove();
-                                        r.Append(dt);
+                                        // set the text value
+                                        dt.Text = oxe.InnerText;
+                                        
+                                        // replace the Text with new DeletedText
+                                        r.ReplaceChild(dt, oxe);
                                         isFixed = true;
                                     }
                                 }

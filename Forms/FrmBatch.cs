@@ -464,13 +464,22 @@ namespace Office_File_Explorer.Forms
                                         if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
                                         {
                                             // create a DeletedText object so we can replace it with the Text tag
-                                            DeletedText dt = new DeletedText
-                                            {
-                                                Text = oxe.InnerText
-                                            };
+                                            DeletedText dt = new DeletedText();
 
-                                            oxe.Remove();
-                                            r.Append(dt);
+                                            // check for attributes
+                                            if (oxe.HasAttributes)
+                                            {
+                                                if (oxe.GetAttributes().Count > 0)
+                                                {
+                                                    dt.SetAttributes(oxe.GetAttributes());
+                                                }
+                                            }
+
+                                            // set the text value
+                                            dt.Text = oxe.InnerText;
+
+                                            // replace the Text with new DeletedText
+                                            r.ReplaceChild(dt, oxe);
                                             isFixed = true;
                                         }
                                     }
