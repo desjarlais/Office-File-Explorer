@@ -160,6 +160,7 @@ namespace Office_File_Explorer.Word_Helpers
         /// <returns></returns>
         public static List<string> GetAllAuthors(Document doc)
         {
+            bool nullAuthor = false;
             List<string> allAuthorsInDocument = new List<string>();
 
             var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
@@ -171,29 +172,70 @@ namespace Office_File_Explorer.Word_Helpers
             // loop through each revision and catalog the authors
             foreach (ParagraphPropertiesChange ppc in paragraphChanged)
             {
-                allAuthorsInDocument.Add(ppc.Author);
+                if (ppc.Author != null)
+                {
+                    allAuthorsInDocument.Add(ppc.Author);
+                }
+                else
+                {
+                    nullAuthor = true;
+                }
             }
 
             foreach (RunPropertiesChange rpc in runChanged)
             {
-                allAuthorsInDocument.Add(rpc.Author);
+                if (rpc.Author != null)
+                {
+                    allAuthorsInDocument.Add(rpc.Author);
+                }
+                else
+                {
+                    nullAuthor = true;
+                }
             }
 
             foreach (DeletedRun dr in deleted)
             {
-                allAuthorsInDocument.Add(dr.Author);
+                if (dr.Author != null)
+                {
+                    allAuthorsInDocument.Add(dr.Author);
+                }
+                else
+                {
+                    nullAuthor = true;
+                }
             }
 
             foreach (Deleted d in deletedParagraph)
             {
-                allAuthorsInDocument.Add(d.Author);
+                if (d.Author != null)
+                {
+                    allAuthorsInDocument.Add(d.Author);
+                }
+                else
+                {
+                    nullAuthor = true;
+                }
             }
 
             foreach (InsertedRun ir in inserted)
             {
-                allAuthorsInDocument.Add(ir.Author);
+                if (ir.Author != null)
+                {
+                    allAuthorsInDocument.Add(ir.Author);
+                }
+                else
+                {
+                    nullAuthor = true;
+                }
             }
 
+            // log if we have a null author, not sure how this happens yet
+            if (nullAuthor)
+            {
+                LoggingHelper.Log("Null Author Found");
+            }
+            
             List<string> distinctAuthors = allAuthorsInDocument.Distinct().ToList();
 
             return distinctAuthors;
