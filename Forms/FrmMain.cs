@@ -17,7 +17,6 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
-using DocumentFormat.OpenXml.Office2010.Word;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -31,7 +30,6 @@ using AO = DocumentFormat.OpenXml.Office.Drawing;
 using A = DocumentFormat.OpenXml.Drawing;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
-using Tag = DocumentFormat.OpenXml.Wordprocessing.Tag;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
 // this app references
@@ -55,6 +53,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using Path = System.IO.Path;
+using System.IO.Compression;
 
 namespace Office_File_Explorer
 {
@@ -1914,11 +1913,22 @@ namespace Office_File_Explorer
         {
             _pParts.Clear();
 
-            using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+            //using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+            //{
+            //    foreach (PackagePart pckg in _package.GetParts())
+            //    {
+            //        _pParts.Add(pckg.Uri.ToString());
+            //    }
+            //}
+
+            using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open))
             {
-                foreach (PackagePart pckg in _package.GetParts())
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
                 {
-                    _pParts.Add(pckg.Uri.ToString());
+                    foreach (ZipArchiveEntry zae in archive.Entries)
+                    {
+                        _pParts.Add(zae.FullName + " : " + FileUtilities.SizeSuffix(zae.Length));
+                    }
                 }
             }
         }

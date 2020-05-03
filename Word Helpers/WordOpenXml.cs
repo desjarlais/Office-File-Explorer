@@ -170,6 +170,7 @@ namespace Office_File_Explorer.Word_Helpers
             var inserted = doc.Descendants<InsertedRun>().ToList();
 
             // loop through each revision and catalog the authors
+            // some authors show up as null, check and ignore
             foreach (ParagraphPropertiesChange ppc in paragraphChanged)
             {
                 if (ppc.Author != null)
