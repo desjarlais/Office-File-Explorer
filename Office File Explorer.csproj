@@ -328,6 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1 %2847%29.ico" />
+    <Content Include="CommentedCode.txt" />
     <Content Include="Instructions.txt" />
     <Content Include="Resources\BatchFile_16x.png" />
     <Content Include="Resources\CopyToClipboard_16x.png" />

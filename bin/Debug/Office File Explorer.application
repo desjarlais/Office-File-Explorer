@@ -14,14 +14,14 @@
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Office File Explorer.exe.manifest" size="9465">
+    <dependentAssembly dependencyType="install" codebase="Office File Explorer.exe.manifest" size="9859">
       <assemblyIdentity name="Office File Explorer.exe" version="1.0.2.15" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>84r34Oank7AYZeqruM+ldv62JLRvfzuKeZoW4By4OCw=</dsig:DigestValue>
+        <dsig:DigestValue>cfeiWhChuoMWhgzVYiVblMBgrw5x+ek4hvh2wB76bas=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

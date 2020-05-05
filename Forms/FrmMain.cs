@@ -1875,7 +1875,7 @@ namespace Office_File_Explorer
                     {
                         LstDisplay.Items.Clear();
                         // if the file doesn't start with PK, we can stop trying to process it
-                        if (!IsZipArchiveFile(TxtFileName.Text))
+                        if (!FileUtilities.IsZipArchiveFile(TxtFileName.Text))
                         {
                             LstDisplay.Items.Add("Unable to open file, possible causes are:");
                             LstDisplay.Items.Add("  - file corruption");
@@ -1913,56 +1913,15 @@ namespace Office_File_Explorer
         {
             _pParts.Clear();
 
-            //using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
-            //{
-            //    foreach (PackagePart pckg in _package.GetParts())
-            //    {
-            //        _pParts.Add(pckg.Uri.ToString());
-            //    }
-            //}
-
             using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open))
             {
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read))
                 {
                     foreach (ZipArchiveEntry zae in archive.Entries)
                     {
                         _pParts.Add(zae.FullName + " : " + FileUtilities.SizeSuffix(zae.Length));
                     }
                 }
-            }
-        }
-
-        public bool IsZipArchiveFile(string filePath)
-        {
-            byte[] buffer = new byte[2];
-            try
-            {
-                // open the file and populate the first 2 bytes into the buffer
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    fs.Read(buffer, 0, buffer.Length);
-                }
-
-                // if the buffer starts with PK the file is a zip archive
-                if (buffer[0].ToString() == "80" && buffer[1].ToString() == "75")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (UnauthorizedAccessException uae)
-            {
-                LoggingHelper.Log(uae.Message);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                LoggingHelper.Log(ex.Message);
-                return false;
             }
         }
 
