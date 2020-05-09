@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
             this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.BtnListParagraphStyles = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
@@ -108,7 +109,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
+            this.BtnPPTRemovePII = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -159,10 +160,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
             // 
+            // BtnFixCorruptRevisions
+            // 
+            this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(281, 270);
+            this.BtnFixCorruptRevisions.Name = "BtnFixCorruptRevisions";
+            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(152, 23);
+            this.BtnFixCorruptRevisions.TabIndex = 24;
+            this.BtnFixCorruptRevisions.Text = "Fix Corrupt Revisions";
+            this.BtnFixCorruptRevisions.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptRevisions.Click += new System.EventHandler(this.BtnFixCorruptRevisions_Click);
+            // 
             // BtnFixCorruptBookmarks
             // 
             this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(281, 244);
-            this.BtnFixCorruptBookmarks.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnFixCorruptBookmarks.Margin = new System.Windows.Forms.Padding(2);
             this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
             this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(153, 22);
             this.BtnFixCorruptBookmarks.TabIndex = 23;
@@ -258,7 +269,7 @@
             // BtnConvertDocmToDocx
             // 
             this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(143, 270);
-            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(135, 24);
             this.BtnConvertDocmToDocx.TabIndex = 17;
@@ -514,7 +525,7 @@
             // BtnConvertXlsmToXlsx
             // 
             this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(140, 73);
-            this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
             this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 21);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
@@ -536,7 +547,7 @@
             // BtnListWSInfo
             // 
             this.BtnListWSInfo.Location = new System.Drawing.Point(6, 234);
-            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(130, 23);
             this.BtnListWSInfo.TabIndex = 7;
@@ -547,7 +558,7 @@
             // BtnListCellValuesDOM
             // 
             this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 209);
-            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
             this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
             this.BtnListCellValuesDOM.TabIndex = 26;
@@ -558,7 +569,7 @@
             // BtnListCellValuesSAX
             // 
             this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 182);
-            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
             this.BtnListCellValuesSAX.TabIndex = 25;
@@ -591,7 +602,7 @@
             // BtnListSharedStrings
             // 
             this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 157);
-            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
             this.BtnListSharedStrings.TabIndex = 7;
@@ -602,7 +613,7 @@
             // BtnListWorksheets
             // 
             this.BtnListWorksheets.Location = new System.Drawing.Point(6, 73);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWorksheets.Name = "BtnListWorksheets";
             this.BtnListWorksheets.Size = new System.Drawing.Size(130, 23);
             this.BtnListWorksheets.TabIndex = 7;
@@ -613,7 +624,7 @@
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
-            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 24);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
@@ -624,7 +635,7 @@
             // BtnListDefinedNames
             // 
             this.BtnListDefinedNames.Location = new System.Drawing.Point(6, 261);
-            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(130, 21);
             this.BtnListDefinedNames.TabIndex = 21;
@@ -668,6 +679,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnPPTRemovePII);
             this.groupBox3.Controls.Add(this.BtnNotesPageSize);
             this.groupBox3.Controls.Add(this.BtnConvertPptmToPptx);
             this.groupBox3.Controls.Add(this.BtnListSlideText);
@@ -686,7 +698,7 @@
             // BtnNotesPageSize
             // 
             this.BtnNotesPageSize.Location = new System.Drawing.Point(4, 157);
-            this.BtnNotesPageSize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnNotesPageSize.Margin = new System.Windows.Forms.Padding(2);
             this.BtnNotesPageSize.Name = "BtnNotesPageSize";
             this.BtnNotesPageSize.Size = new System.Drawing.Size(113, 23);
             this.BtnNotesPageSize.TabIndex = 24;
@@ -697,7 +709,7 @@
             // BtnConvertPptmToPptx
             // 
             this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(4, 131);
-            this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
             this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(112, 22);
             this.BtnConvertPptmToPptx.TabIndex = 22;
@@ -708,7 +720,7 @@
             // BtnListSlideText
             // 
             this.BtnListSlideText.Location = new System.Drawing.Point(6, 103);
-            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSlideText.Name = "BtnListSlideText";
             this.BtnListSlideText.Size = new System.Drawing.Size(110, 21);
             this.BtnListSlideText.TabIndex = 21;
@@ -719,7 +731,7 @@
             // BtnViewPPTComments
             // 
             this.BtnViewPPTComments.Location = new System.Drawing.Point(6, 75);
-            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnViewPPTComments.Name = "BtnViewPPTComments";
             this.BtnViewPPTComments.Size = new System.Drawing.Size(110, 24);
             this.BtnViewPPTComments.TabIndex = 23;
@@ -1008,15 +1020,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnFixCorruptRevisions
+            // BtnPPTRemovePII
             // 
-            this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(281, 270);
-            this.BtnFixCorruptRevisions.Name = "BtnFixCorruptRevisions";
-            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(152, 23);
-            this.BtnFixCorruptRevisions.TabIndex = 24;
-            this.BtnFixCorruptRevisions.Text = "Fix Corrupt Revisions";
-            this.BtnFixCorruptRevisions.UseVisualStyleBackColor = true;
-            this.BtnFixCorruptRevisions.Click += new System.EventHandler(this.BtnFixCorruptRevisions_Click);
+            this.BtnPPTRemovePII.Location = new System.Drawing.Point(4, 184);
+            this.BtnPPTRemovePII.Name = "BtnPPTRemovePII";
+            this.BtnPPTRemovePII.Size = new System.Drawing.Size(111, 23);
+            this.BtnPPTRemovePII.TabIndex = 25;
+            this.BtnPPTRemovePII.Text = "Remove PII";
+            this.BtnPPTRemovePII.UseVisualStyleBackColor = true;
+            this.BtnPPTRemovePII.Click += new System.EventHandler(this.BtnPPTRemovePII_Click);
             // 
             // FrmMain
             // 
@@ -1136,6 +1148,7 @@
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
         private System.Windows.Forms.Button BtnFixCorruptBookmarks;
         private System.Windows.Forms.Button BtnFixCorruptRevisions;
+        private System.Windows.Forms.Button BtnPPTRemovePII;
     }
 }
 

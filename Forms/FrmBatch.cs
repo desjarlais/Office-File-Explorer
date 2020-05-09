@@ -344,7 +344,7 @@ namespace Office_File_Explorer.Forms
                                 do
                                 {
                                     // first check if we are a content control
-                                    if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
+                                    if (cElem.Parent != null && cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
                                     {
                                         foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                         {
@@ -370,6 +370,13 @@ namespace Office_File_Explorer.Forms
                                     }
                                     else
                                     {
+                                        // if the next element is null, bail
+                                        if (cElem == null || cElem.Parent == null)
+                                        {
+                                            endLoop = true;
+                                        }
+
+                                        // set next element
                                         pElem = cElem.Parent;
                                         cElem = pElem;
 
@@ -504,6 +511,43 @@ namespace Office_File_Explorer.Forms
             {
                 lstOutput.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnPPTResetPII_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
+                foreach (string f in files)
+                {
+                    bool isFixed = false;
+                    Cursor = Cursors.WaitCursor;
+                    using (PresentationDocument document = PresentationDocument.Open(f, true))
+                    {
+                        document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
+                        document.PresentationPart.Presentation.Save();
+                    }
+
+                    if (isFixed)
+                    {
+                        lstOutput.Items.Add(f + ": PII Reset");
+                    }
+                    else
+                    {
+                        lstOutput.Items.Add(f + ": PII Not Reset");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnPPTResetPII: " + ex.Message);
             }
             finally
             {

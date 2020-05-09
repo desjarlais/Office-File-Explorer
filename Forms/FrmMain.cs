@@ -183,6 +183,7 @@ namespace Office_File_Explorer
             BtnNotesPageSize.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
             BtnFixCorruptRevisions.Enabled = false;
+            BtnPPTRemovePII.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -314,6 +315,7 @@ namespace Office_File_Explorer
                 BtnViewPPTComments.Enabled = true;
                 BtnListSlideText.Enabled = true;
                 BtnNotesPageSize.Enabled = true;
+                BtnPPTRemovePII.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Pptm)
                 {
@@ -3331,6 +3333,7 @@ namespace Office_File_Explorer
                 {
                     IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
                     LstDisplay.Items.Clear();
+                    LstDisplay.Items.Add("** Document Bookmarks **");
 
                     if (bkList.Count() > 0)
                     {
@@ -3373,7 +3376,7 @@ namespace Office_File_Explorer
                                     // if the next element is null, bail
                                     if (cElem == null || cElem.Parent == null)
                                     {
-                                        return;
+                                        endLoop = true;
                                     }
 
                                     // set next element
@@ -3393,7 +3396,22 @@ namespace Office_File_Explorer
                             count++;
                         }
                     }
-                    else
+
+                    IEnumerable<BookmarkStart> bkCommentList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkStart>();
+                    int bkCommentCount = 0;
+                    
+                    if (bkCommentList.Count() > 0)
+                    {
+                        LstDisplay.Items.Add("");
+                        LstDisplay.Items.Add("** Comment Bookmarks ** ");
+                        foreach (BookmarkStart bkc in bkCommentList)
+                        {
+                            bkCommentCount++;
+                            LstDisplay.Items.Add(bkCommentCount + ". " + bkc.Name);
+                        }
+                    }
+
+                    if (bkCommentList.Count() == 0 && bkList.Count() == 0)
                     {
                         LstDisplay.Items.Add("** Document does not contain any bookmarks **");
                     }
@@ -3941,116 +3959,15 @@ namespace Office_File_Explorer
 
         private void BtnFixCorruptBookmarks_Click(object sender, EventArgs e)
         {
-            try
+            LstDisplay.Items.Clear();
+
+            if (WordOpenXml.RemoveMissingBookmarkTags(TxtFileName.Text) == true || WordOpenXml.RemovePlainTextCcFromBookmark(TxtFileName.Text) == true)
             {
-                Cursor = Cursors.WaitCursor;
-                using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, true))
-                {
-                    IEnumerable<BookmarkStart> bkStartList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
-                    IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.Document.Descendants<BookmarkEnd>();
-                    List<string> removedBookmarkIds = new List<string>();
-                    LstDisplay.Items.Clear();
-
-                    if (bkStartList.Count() > 0)
-                    {
-                        foreach (BookmarkStart bk in bkStartList)
-                        {
-                            var cElem = bk.Parent;
-                            var pElem = bk.Parent;
-                            bool endLoop = false;
-                            
-                            do
-                            {
-                                // first check if we are a content control
-                                if (cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
-                                {
-                                    foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
-                                    {
-                                        // get the properties
-                                        if (oxe.GetType().Name == "SdtProperties")
-                                        {
-                                            foreach (OpenXmlElement oxeSdtAlias in oxe)
-                                            {
-                                                // check for plain text
-                                                if (oxeSdtAlias.GetType().Name == "SdtContentText")
-                                                {
-                                                    // if the parent is a plain text content control, bookmark is not allowed
-                                                    // add the id to the list of bookmarks that need to be deleted
-                                                    removedBookmarkIds.Add(bk.Id);
-                                                    endLoop = true;
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    // set the next element to the parent and continue moving up the element chain
-                                    pElem = cElem.Parent;
-                                    cElem = pElem;
-                                }
-                                else
-                                {
-                                    // set pElem to the parent so we can check for the end of the loop
-                                    // set cElem to the parent also so we can continue moving up the element chain
-                                    pElem = cElem.Parent;
-                                    cElem = pElem;
-
-                                    // loop should continue until we get to the body element, then we can stop looping
-                                    if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
-                                    {
-                                        endLoop = true;
-                                    }
-                                }
-                            } while (endLoop == false);
-                        }
-
-                        // now that we have the list of bookmark id's to be removed
-                        // loop each list and delete any bookmark that has a matching id
-                        foreach (var o in removedBookmarkIds)
-                        {
-                            foreach (BookmarkStart bkStart in bkStartList)
-                            {
-                                if (bkStart.Id == o)
-                                {
-                                    bkStart.Remove();
-                                }
-                            }
-
-                            foreach (BookmarkEnd bkEnd in bkEndList)
-                            {
-                                if (bkEnd.Id == o)
-                                {
-                                    bkEnd.Remove();
-                                }
-                            }
-                        }
-                        
-                        // save the part
-                        package.MainDocumentPart.Document.Save();
-
-                        // check if there were any fixes made and update the output display
-                        if (removedBookmarkIds.Count > 0)
-                        {
-                            LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
-                        }
-                        else
-                        {
-                            LstDisplay.Items.Add("** No Corrupt Bookmarks Found **");
-                        }                        
-                    }
-                    else
-                    {
-                        LstDisplay.Items.Add("** Document does not contain any bookmarks **");
-                    }
-                }
+                LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
             }
-            catch (Exception ex)
+            else
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
-                LoggingHelper.Log("BtnFixCorruptBookmarks: " + ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
+                LstDisplay.Items.Add("** No Corrupt Bookmarks Found **");
             }
         }
 
@@ -4119,6 +4036,28 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnPPTRemovePII_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+                {
+                    document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
+                    document.PresentationPart.Presentation.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
             }
             finally
             {
