@@ -1854,9 +1854,6 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.WaitCursor;
 
-                // disable buttons before each open
-                DisableButtons();
-
                 OpenFileDialog fDialog = new OpenFileDialog
                 {
                     Title = "Select Office Open Xml File.",
@@ -1867,6 +1864,9 @@ namespace Office_File_Explorer
 
                 if (fDialog.ShowDialog() == DialogResult.OK)
                 {
+                    // disable buttons before each open
+                    DisableButtons();
+
                     TxtFileName.Text = fDialog.FileName.ToString();
                     if (!File.Exists(TxtFileName.Text))
                     {
@@ -3329,6 +3329,8 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                bool hasBookmark = false;
+
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
@@ -3338,6 +3340,7 @@ namespace Office_File_Explorer
                     if (bkList.Count() > 0)
                     {
                         int count = 1;
+                        hasBookmark = true;
 
                         foreach (BookmarkStart bk in bkList)
                         {
@@ -3397,21 +3400,29 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    IEnumerable<BookmarkStart> bkCommentList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkStart>();
-                    int bkCommentCount = 0;
-                    
-                    if (bkCommentList.Count() > 0)
+                    if (package.MainDocumentPart.WordprocessingCommentsPart != null)
                     {
-                        LstDisplay.Items.Add("");
-                        LstDisplay.Items.Add("** Comment Bookmarks ** ");
-                        foreach (BookmarkStart bkc in bkCommentList)
+                        if (package.MainDocumentPart.WordprocessingCommentsPart.Comments != null)
                         {
-                            bkCommentCount++;
-                            LstDisplay.Items.Add(bkCommentCount + ". " + bkc.Name);
+                            IEnumerable<BookmarkStart> bkCommentList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkStart>();
+                            int bkCommentCount = 0;
+
+                            if (bkCommentList.Count() > 0)
+                            {
+                                LstDisplay.Items.Add("");
+                                LstDisplay.Items.Add("** Comment Bookmarks ** ");
+                                hasBookmark = true;
+
+                                foreach (BookmarkStart bkc in bkCommentList)
+                                {
+                                    bkCommentCount++;
+                                    LstDisplay.Items.Add(bkCommentCount + ". " + bkc.Name);
+                                }
+                            }
                         }
                     }
 
-                    if (bkCommentList.Count() == 0 && bkList.Count() == 0)
+                    if (hasBookmark == false)
                     {
                         LstDisplay.Items.Add("** Document does not contain any bookmarks **");
                     }

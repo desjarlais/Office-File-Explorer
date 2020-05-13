@@ -378,14 +378,7 @@ namespace Office_File_Explorer.Word_Helpers
                 }
             }
 
-            if (fWorked)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return fWorked;
         }
 
         // Given a document, remove all hidden text.
@@ -421,14 +414,7 @@ namespace Office_File_Explorer.Word_Helpers
                 fWorked = true;
             }
 
-            if (fWorked)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return fWorked;
         }
 
         // Delete headers and footers from a document.
@@ -460,14 +446,7 @@ namespace Office_File_Explorer.Word_Helpers
                 fWorked = true;
             }
 
-            if (fWorked)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return fWorked;
         }
 
         // Delete headers and footers from a document.
@@ -501,14 +480,7 @@ namespace Office_File_Explorer.Word_Helpers
                 }
             }
 
-            if (fWorked)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return fWorked;
         }
 
         /// <summary>
@@ -615,6 +587,7 @@ namespace Office_File_Explorer.Word_Helpers
                         }
                     }
                 }
+
                 if (documentChanged)
                 {
                     docPart.Document.Save();
@@ -640,10 +613,11 @@ namespace Office_File_Explorer.Word_Helpers
                     IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkEnd>();
 
                     // create temp lists so we can loop and remove any that exist in both lists
-                    // if we have a start and end, the bookmark is valid and we don't care about it
+                    // if we have a start and end, the bookmark is valid and we can remove the rest
                     List<string> bkStartTagIds = new List<string>();
                     List<string> bkEndTagIds = new List<string>();
 
+                    // check each start and find if there is a matching end tag id
                     foreach (BookmarkStart bks in bkStartList)
                     {
                         foreach (BookmarkEnd bke in bkEndList)
@@ -655,6 +629,7 @@ namespace Office_File_Explorer.Word_Helpers
                         }
                     }
 
+                    // now we can check if there is a end tag with a matching start tag id
                     foreach (BookmarkEnd bke in bkEndList)
                     {
                         foreach (BookmarkStart bks in bkStartList)
@@ -666,6 +641,7 @@ namespace Office_File_Explorer.Word_Helpers
                         }
                     }
 
+                    // now that we know all the id's that match, we can loop again and remove id's that are not in the lists
                     bool startTagFound = false;
 
                     foreach (BookmarkStart bks in bkStartList)
@@ -687,7 +663,6 @@ namespace Office_File_Explorer.Word_Helpers
 
                     bool endTagFound = false;
 
-                    // loop the remaining end tags and remove from file
                     foreach (BookmarkEnd bke in bkEndList)
                     {
                         foreach (object o in bkEndTagIds)
