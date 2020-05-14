@@ -332,107 +332,13 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    using (WordprocessingDocument package = WordprocessingDocument.Open(f, true))
+                    if (WordOpenXml.RemoveMissingBookmarkTags(f) == true || WordOpenXml.RemovePlainTextCcFromBookmark(f) == true)
                     {
-                        IEnumerable<BookmarkStart> bkStartList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
-                        IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.Document.Descendants<BookmarkEnd>();
-                        List<string> removedBookmarkIds = new List<string>();
-
-                        if (bkStartList.Count() > 0)
-                        {
-                            foreach (BookmarkStart bk in bkStartList)
-                            {
-                                var cElem = bk.Parent;
-                                var pElem = bk.Parent;
-                                bool endLoop = false;
-
-                                do
-                                {
-                                    // first check if we are a content control
-                                    if (cElem.Parent != null && cElem.Parent.ToString().Contains("DocumentFormat.OpenXml.Wordprocessing.Sdt"))
-                                    {
-                                        foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
-                                        {
-                                            // get the properties
-                                            if (oxe.GetType().Name == "SdtProperties")
-                                            {
-                                                foreach (OpenXmlElement oxeSdtAlias in oxe)
-                                                {
-                                                    // check for plain text
-                                                    if (oxeSdtAlias.GetType().Name == "SdtContentText")
-                                                    {
-                                                        // if the parent is a plain text content control, bookmark is not allowed
-                                                        // add the id to the list of bookmarks that need to be deleted
-                                                        removedBookmarkIds.Add(bk.Id);
-                                                        endLoop = true;
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        pElem = cElem.Parent;
-                                        cElem = pElem;
-                                    }
-                                    else
-                                    {
-                                        // if the next element is null, bail
-                                        if (cElem == null || cElem.Parent == null)
-                                        {
-                                            endLoop = true;
-                                        }
-
-                                        // set next element
-                                        pElem = cElem.Parent;
-                                        cElem = pElem;
-
-                                        // if the parent is body, we can stop looping up
-                                        // otherwise, we can continue moving up the element chain
-                                        if (pElem.ToString() == "DocumentFormat.OpenXml.Wordprocessing.Body")
-                                        {
-                                            endLoop = true;
-                                        }
-                                    }
-                                } while (endLoop == false);
-                            }
-
-                            // now that we have the list of bookmark id's to be removed
-                            // loop each list and delete any bookmark that has a matching id
-                            foreach (var o in removedBookmarkIds)
-                            {
-                                foreach (BookmarkStart bkStart in bkStartList)
-                                {
-                                    if (bkStart.Id == o)
-                                    {
-                                        bkStart.Remove();
-                                    }
-                                }
-
-                                foreach (BookmarkEnd bkEnd in bkEndList)
-                                {
-                                    if (bkEnd.Id == o)
-                                    {
-                                        bkEnd.Remove();
-                                    }
-                                }
-                            }
-
-                            // save the part
-                            package.MainDocumentPart.Document.Save();
-
-                            // update the list output
-                            if (removedBookmarkIds.Count > 0)
-                            {
-                                lstOutput.Items.Add(f + " : " + "bookmarks fixed.");
-                            }
-                            else
-                            {
-                                lstOutput.Items.Add(f + " : " + "does not contain any corrupt bookmarks.");
-                            }
-                        }
-                        else
-                        {
-                            lstOutput.Items.Add(f + " : " + " does not contain any bookmarks.");
-                        }
+                        lstOutput.Items.Add(f + " : Fixed Corrupt Bookmarks");
+                    }
+                    else
+                    {
+                        lstOutput.Items.Add(f + " : No Corrupt Bookmarks Found");
                     }
                 }
             }

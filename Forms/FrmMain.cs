@@ -1078,6 +1078,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 BtnListTemplates.PerformClick();
                 foreach (object orphanLT in oNumIdList)
                 {
@@ -1088,6 +1090,10 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -2459,8 +2465,6 @@ namespace Office_File_Explorer
 
         private void BtnChangeTheme_Click(object sender, EventArgs e)
         {
-            string sThemeFilePath = StringResources.emptyString;
-
             OpenFileDialog fDialog = new OpenFileDialog
             {
                 Title = "Select Office Theme File.",
@@ -2471,8 +2475,7 @@ namespace Office_File_Explorer
 
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
-                sThemeFilePath = fDialog.FileName.ToString();
-
+                string sThemeFilePath = fDialog.FileName.ToString();
                 if (!File.Exists(TxtFileName.Text))
                 {
                     DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
