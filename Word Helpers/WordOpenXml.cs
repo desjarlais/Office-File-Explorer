@@ -59,14 +59,7 @@ namespace Office_File_Explorer.Word_Helpers
                 fWorked = true;
             }
 
-            if (fWorked)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return fWorked;
         }
 
         public static void RemoveListTemplatesNumId(string filename, string numId)
@@ -96,12 +89,15 @@ namespace Office_File_Explorer.Word_Helpers
                     {
                         try
                         {
-                            string x = el.GetAttribute("abstractNumId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value.ToString();
-                            string y = obj.ToString();
-
-                            if (x == y)
+                            if (el.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.AbstractNum")
                             {
-                                el.Remove();
+                                string x = el.GetAttribute("abstractNumId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value.ToString();
+                                string y = obj.ToString();
+
+                                if (x == y)
+                                {
+                                    el.Remove();
+                                }
                             }
                         }
                         catch (Exception ex)
