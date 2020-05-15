@@ -44,10 +44,9 @@
             // ckRemoveFallback
             // 
             this.ckRemoveFallback.AutoSize = true;
-            this.ckRemoveFallback.Location = new System.Drawing.Point(9, 29);
-            this.ckRemoveFallback.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ckRemoveFallback.Location = new System.Drawing.Point(6, 19);
             this.ckRemoveFallback.Name = "ckRemoveFallback";
-            this.ckRemoveFallback.Size = new System.Drawing.Size(217, 24);
+            this.ckRemoveFallback.Size = new System.Drawing.Size(150, 17);
             this.ckRemoveFallback.TabIndex = 0;
             this.ckRemoveFallback.Text = "Remove All Fallback Tags";
             this.ckRemoveFallback.UseVisualStyleBackColor = true;
@@ -55,10 +54,9 @@
             // ckOpenInWord
             // 
             this.ckOpenInWord.AutoSize = true;
-            this.ckOpenInWord.Location = new System.Drawing.Point(9, 65);
-            this.ckOpenInWord.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ckOpenInWord.Location = new System.Drawing.Point(6, 42);
             this.ckOpenInWord.Name = "ckOpenInWord";
-            this.ckOpenInWord.Size = new System.Drawing.Size(237, 24);
+            this.ckOpenInWord.Size = new System.Drawing.Size(161, 17);
             this.ckOpenInWord.TabIndex = 1;
             this.ckOpenInWord.Text = "Open file in Word after repair";
             this.ckOpenInWord.UseVisualStyleBackColor = true;
@@ -68,11 +66,9 @@
             this.groupBox1.Controls.Add(this.ckGroupShapeFix);
             this.groupBox1.Controls.Add(this.ckRemoveFallback);
             this.groupBox1.Controls.Add(this.ckOpenInWord);
-            this.groupBox1.Location = new System.Drawing.Point(18, 18);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(263, 155);
+            this.groupBox1.Size = new System.Drawing.Size(175, 101);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Corrupt Document";
@@ -80,20 +76,18 @@
             // ckGroupShapeFix
             // 
             this.ckGroupShapeFix.AutoSize = true;
-            this.ckGroupShapeFix.Location = new System.Drawing.Point(9, 100);
-            this.ckGroupShapeFix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ckGroupShapeFix.Location = new System.Drawing.Point(6, 65);
             this.ckGroupShapeFix.Name = "ckGroupShapeFix";
-            this.ckGroupShapeFix.Size = new System.Drawing.Size(174, 24);
+            this.ckGroupShapeFix.Size = new System.Drawing.Size(118, 17);
             this.ckGroupShapeFix.TabIndex = 2;
             this.ckGroupShapeFix.Text = "Fix grouped shapes";
             this.ckGroupShapeFix.UseVisualStyleBackColor = true;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(521, 181);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnCancel.Location = new System.Drawing.Point(347, 118);
             this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(94, 35);
+            this.BtnCancel.Size = new System.Drawing.Size(63, 23);
             this.BtnCancel.TabIndex = 2;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
@@ -101,10 +95,9 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(420, 181);
-            this.BtnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BtnOK.Location = new System.Drawing.Point(280, 118);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(90, 35);
+            this.BtnOK.Size = new System.Drawing.Size(60, 23);
             this.BtnOK.TabIndex = 3;
             this.BtnOK.Text = "OK";
             this.BtnOK.UseVisualStyleBackColor = true;
@@ -113,35 +106,37 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ckResetNotesMaster);
-            this.groupBox2.Location = new System.Drawing.Point(288, 18);
+            this.groupBox2.Location = new System.Drawing.Point(192, 12);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(327, 155);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(218, 101);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "PowerPoint Notes Page Fix";
+            this.groupBox2.Text = "PowerPoint Options";
             // 
             // ckResetNotesMaster
             // 
             this.ckResetNotesMaster.AutoSize = true;
-            this.ckResetNotesMaster.Location = new System.Drawing.Point(15, 29);
+            this.ckResetNotesMaster.Location = new System.Drawing.Point(10, 19);
+            this.ckResetNotesMaster.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ckResetNotesMaster.Name = "ckResetNotesMaster";
-            this.ckResetNotesMaster.Size = new System.Drawing.Size(301, 24);
+            this.ckResetNotesMaster.Size = new System.Drawing.Size(203, 17);
             this.ckResetNotesMaster.TabIndex = 0;
             this.ckResetNotesMaster.Text = "Reset Notes Slides and Notes Master";
             this.ckResetNotesMaster.UseVisualStyleBackColor = true;
             // 
             // FrmSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 233);
+            this.ClientSize = new System.Drawing.Size(420, 151);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmSettings";

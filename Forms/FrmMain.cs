@@ -1909,7 +1909,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LoggingHelper.Log("File Open Error:");
+                LoggingHelper.Log("File Open Error: ");
                 LoggingHelper.Log(ex.Message);
             }
             finally
@@ -1928,7 +1928,7 @@ namespace Office_File_Explorer
                 {
                     foreach (ZipArchiveEntry zae in archive.Entries)
                     {
-                        _pParts.Add(zae.FullName + " : " + FileUtilities.SizeSuffix(zae.Length));
+                        _pParts.Add(zae.FullName + StringResources.colonBuffer + FileUtilities.SizeSuffix(zae.Length));
                     }
                 }
             }
