@@ -43,6 +43,13 @@
         public const string shpShape = ". Shape";
         public const string shp3D = ". 3D Shape";
         public const string shpXlDraw = ". Spreadsheet Drawing";
+        public const string propsProperties = "Properties";
+        public const string propsCoreProperties = "coreProperties";
+        public const string propsCompany = "Company";
+        public const string propsCreator = "creator";
+        public const string propsLastModifiedBy = "lastModifiedBy";
+        public const string propsRemovePI = "removePersonalInformation";
+        public const string propsRemoveDateTime = "removeDateAndTime";
 
         // schema base urls
         public const string schemaOxml2006 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
@@ -139,5 +146,10 @@
         public const string ThumbnailPartType = schemaOxml2006 + "thumbnail";
         public const string VideoPartType = schemaOxml2006 + "video";
         public const string HyperlinkPartType = schemaOxml2006 + "hyperlink";
+
+        // Office Document relationship ids 
+        public const string OfficeExtendedProps = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
+        public const string OfficeCoreProps = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
+        public const string DcElements = "http://purl.org/dc/elements/1.1/";
     }
 }

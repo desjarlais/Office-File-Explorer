@@ -74,7 +74,7 @@ namespace Office_File_Explorer.Word_Helpers
                 {
                     foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
                     {
-                        string strNumId = el.GetAttribute("numId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value;
+                        string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
                         if (strNumId.Equals(numId))
                         {
                             absNumId.Add(aNumId.Val);
@@ -91,7 +91,7 @@ namespace Office_File_Explorer.Word_Helpers
                         {
                             if (el.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.AbstractNum")
                             {
-                                string x = el.GetAttribute("abstractNumId", "http://schemas.openxmlformats.org/wordprocessingml/2006/main").Value.ToString();
+                                string x = el.GetAttribute("abstractNumId", StringResources.wordMainAttributeNamespace).Value.ToString();
                                 string y = obj.ToString();
 
                                 if (x == y)

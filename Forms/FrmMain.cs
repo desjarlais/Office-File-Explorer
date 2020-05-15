@@ -976,6 +976,7 @@ namespace Office_File_Explorer
                     {
                         Owner = this
                     };
+                    
                     aFrm.ShowDialog();
                 }
 

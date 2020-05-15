@@ -24,6 +24,7 @@ using System.Xml.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.Word_Helpers
 {
@@ -37,8 +38,7 @@ namespace Office_File_Explorer.Word_Helpers
             return sb.ToString();
         }
 
-        public static string StringConcatenate<T>(this IEnumerable<T> source,
-            Func<T, string> func)
+        public static string StringConcatenate<T>(this IEnumerable<T> source, Func<T, string> func)
         {
             StringBuilder sb = new StringBuilder();
             foreach (T item in source)
@@ -54,8 +54,7 @@ namespace Office_File_Explorer.Word_Helpers
             return sb.ToString();
         }
 
-        public static string StringConcatenate<T>(this IEnumerable<T> source,
-            Func<T, string> func, string separator)
+        public static string StringConcatenate<T>(this IEnumerable<T> source, Func<T, string> func, string separator)
         {
             StringBuilder sb = new StringBuilder();
             foreach (T item in source)
@@ -64,8 +63,7 @@ namespace Office_File_Explorer.Word_Helpers
         }
 
         // Return true if the style id is in the document, false otherwise.
-        public static bool IsStyleIdInDocument(WordprocessingDocument doc,
-            string styleid)
+        public static bool IsStyleIdInDocument(WordprocessingDocument doc, string styleid)
         {
             // Get access to the Styles element for this document.
             Styles s = doc.MainDocumentPart.StyleDefinitionsPart.Styles;
@@ -134,52 +132,57 @@ namespace Office_File_Explorer.Word_Helpers
             }
 
             part.AddAnnotation(xdoc);
+            
             return xdoc;
         }
 
         public static bool HasPersonalInfo(WordprocessingDocument document)
         {
             // check for company name from /docProps/app.xml
-            XNamespace x = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
+            XNamespace x = StringResources.OfficeExtendedProps;
             OpenXmlPart extendedFilePropertiesPart = document.ExtendedFilePropertiesPart;
             XDocument extendedFilePropertiesXDoc = extendedFilePropertiesPart.GetXDocument();
-            string company = extendedFilePropertiesXDoc.Elements(x + "Properties").Elements(x + "Company").Select(e => (string)e)
-                .Aggregate("", (s, i) => s + i);
+            string company = extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + StringResources.propsCompany).Select(e => (string)e)
+                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+            
             if (company.Length > 0)
             {
                 return true;
             }
 
             // check for dc:creator, cp:lastModifiedBy from /docProps/core.xml
-            XNamespace dc = "http://purl.org/dc/elements/1.1/";
-            XNamespace cp = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
+            XNamespace dc = StringResources.DcElements;
+            XNamespace cp = StringResources.OfficeCoreProps;
             OpenXmlPart coreFilePropertiesPart = document.CoreFilePropertiesPart;
             XDocument coreFilePropertiesXDoc = coreFilePropertiesPart.GetXDocument();
-            string creator = coreFilePropertiesXDoc.Elements(cp + "coreProperties").Elements(dc + "creator").Select(e => (string)e)
-                .Aggregate("", (s, i) => s + i);
+            string creator = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(dc + StringResources.propsCreator).Select(e => (string)e)
+                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+            
             if (creator.Length > 0)
             {
                 return true;
             }
 
-            string lastModifiedBy = coreFilePropertiesXDoc.Elements(cp + "coreProperties").Elements(cp + "lastModifiedBy").Select(e => (string)e)
-                .Aggregate("", (s, i) => s + i);
+            string lastModifiedBy = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + StringResources.propsLastModifiedBy).Select(e => (string)e)
+                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+            
             if (lastModifiedBy.Length > 0)
             {
                 return true;
             }
 
             // check for nonexistence of removePersonalInformation and removeDateAndTime
-            XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+            XNamespace w = StringResources.wordMainAttributeNamespace;
             OpenXmlPart documentSettingsPart = document.MainDocumentPart.DocumentSettingsPart;
             XDocument documentSettingsXDoc = documentSettingsPart.GetXDocument();
             XElement settings = documentSettingsXDoc.Root;
-            if (settings.Element(w + "removePersonalInformation") == null)
+            
+            if (settings.Element(w + StringResources.propsRemovePI) == null)
             {
                 return true;
             }
 
-            if (settings.Element(w + "removeDateAndTime") == null)
+            if (settings.Element(w + StringResources.propsRemoveDateTime) == null)
             {
                 return true;
             }
@@ -191,11 +194,11 @@ namespace Office_File_Explorer.Word_Helpers
         {
             // remove the company name from /docProps/app.xml
             // set TotalTime to "0"
-            XNamespace x = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
+            XNamespace x = StringResources.OfficeExtendedProps;
             OpenXmlPart extendedFilePropertiesPart = document.ExtendedFilePropertiesPart;
             XDocument extendedFilePropertiesXDoc = extendedFilePropertiesPart.GetXDocument();
-            extendedFilePropertiesXDoc.Elements(x + "Properties").Elements(x + "Company").Remove();
-            XElement totalTime = extendedFilePropertiesXDoc.Elements(x + "Properties").Elements(x + "TotalTime").FirstOrDefault();
+            extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + StringResources.propsCompany).Remove();
+            XElement totalTime = extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + "TotalTime").FirstOrDefault();
             if (totalTime != null)
             {
                 totalTime.Value = "0";
@@ -208,27 +211,27 @@ namespace Office_File_Explorer.Word_Helpers
 
             // remove the values of dc:creator, cp:lastModifiedBy from /docProps/core.xml
             // set cp:revision to "1"
-            XNamespace dc = "http://purl.org/dc/elements/1.1/";
-            XNamespace cp = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
+            XNamespace dc = StringResources.DcElements;
+            XNamespace cp = StringResources.OfficeCoreProps;
             OpenXmlPart coreFilePropertiesPart = document.CoreFilePropertiesPart;
             XDocument coreFilePropertiesXDoc = coreFilePropertiesPart.GetXDocument();
-            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + "coreProperties")
-                                                           .Elements(dc + "creator")
+            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties)
+                                                           .Elements(dc + StringResources.propsCreator)
                                                            .Nodes()
                                                            .OfType<XText>())
             {
-                textNode.Value = "";
+                textNode.Value = StringResources.emptyString;
             }
 
-            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + "coreProperties")
-                                                           .Elements(cp + "lastModifiedBy")
+            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties)
+                                                           .Elements(cp + StringResources.propsLastModifiedBy)
                                                            .Nodes()
                                                            .OfType<XText>())
             {
-                textNode.Value = "";
+                textNode.Value = StringResources.emptyString;
             }
 
-            XElement revision = coreFilePropertiesXDoc.Elements(cp + "coreProperties").Elements(cp + "revision").FirstOrDefault();
+            XElement revision = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + "revision").FirstOrDefault();
             if (revision != null)
             {
                 revision.Value = "1";
@@ -240,9 +243,10 @@ namespace Office_File_Explorer.Word_Helpers
             }
 
             // add w:removePersonalInformation, w:removeDateAndTime to /word/settings.xml
-            XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+            XNamespace w = StringResources.wordMainAttributeNamespace;
             OpenXmlPart documentSettingsPart = document.MainDocumentPart.DocumentSettingsPart;
             XDocument documentSettingsXDoc = documentSettingsPart.GetXDocument();
+            
             // add the new elements in the right position.  Add them after the following three elements
             // (which may or may not exist in the xml document).
             XElement settings = documentSettingsXDoc.Root;
@@ -256,24 +260,24 @@ namespace Office_File_Explorer.Word_Helpers
             {
                 // none of those three exist, so add as first children of the root element
                 settings.AddFirst(
-                    settings.Elements(w + "removePersonalInformation").Any() ?
+                    settings.Elements(w + StringResources.propsRemovePI).Any() ?
                         null :
-                        new XElement(w + "removePersonalInformation"),
-                    settings.Elements(w + "removeDateAndTime").Any() ?
+                        new XElement(w + StringResources.propsRemovePI),
+                    settings.Elements(w + StringResources.propsRemoveDateTime).Any() ?
                         null :
-                        new XElement(w + "removeDateAndTime")
+                        new XElement(w + StringResources.propsRemoveDateTime)
                 );
             }
             else
             {
                 // one of those three exist, so add after the last one
                 lastOfTop3.AddAfterSelf(
-                    settings.Elements(w + "removePersonalInformation").Any() ?
+                    settings.Elements(w + StringResources.propsRemovePI).Any() ?
                         null :
-                        new XElement(w + "removePersonalInformation"),
-                    settings.Elements(w + "removeDateAndTime").Any() ?
+                        new XElement(w + StringResources.propsRemovePI),
+                    settings.Elements(w + StringResources.propsRemoveDateTime).Any() ?
                         null :
-                        new XElement(w + "removeDateAndTime")
+                        new XElement(w + StringResources.propsRemoveDateTime)
                 );
             }
             using (XmlWriter xw = XmlWriter.Create(documentSettingsPart.GetStream(FileMode.Create, FileAccess.Write)))
