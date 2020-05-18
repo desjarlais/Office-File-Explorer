@@ -39,7 +39,8 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Reset note page size to default value (PowerPoint)
 * Fix corrupt bookmarks (Word)
 * Fix corrupt revisions (Word)
-* Remove Personally Identifiable Information (Word, Excel, PowerPoint)
+* Remove Personally Identifiable Information (Word)
+* Remove PII (PowerPoint)
 
 # App UI
 
