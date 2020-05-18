@@ -605,6 +605,16 @@ namespace Office_File_Explorer.Word_Helpers
             {
                 using (WordprocessingDocument package = WordprocessingDocument.Open(filename, true))
                 {
+                    if (package.MainDocumentPart.WordprocessingCommentsPart == null)
+                    {
+                        return false;
+                    }
+
+                    if (package.MainDocumentPart.WordprocessingCommentsPart.Comments == null)
+                    {
+                        return false;
+                    }
+
                     IEnumerable<BookmarkStart> bkStartList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkStart>();
                     IEnumerable<BookmarkEnd> bkEndList = package.MainDocumentPart.WordprocessingCommentsPart.Comments.Descendants<BookmarkEnd>();
 

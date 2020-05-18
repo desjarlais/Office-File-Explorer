@@ -690,11 +690,21 @@ namespace Office_File_Explorer
                 return;
             }
 
+            // since we have lists, display them
             int count = 0;
             foreach (object item in al)
             {
                 count++;
                 LstDisplay.Items.Add(count + ". numID = " + item);
+            }
+
+            // Word is limited to 2047 total active lists in a document
+            if (count > 2047)
+            {
+                Cursor = Cursors.Default;
+                MessageBox.Show("You have too many lists in this file.\r\n\r\nWord will only display up to 2047 lists.", "List Template Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoggingHelper.Log("You have too many lists in this file. Word will only display up to 2047 lists.");
+                Cursor = Cursors.WaitCursor;
             }
         }
 
@@ -3990,6 +4000,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                LstDisplay.Items.Clear();
                 bool isFixed = false;
                 Cursor = Cursors.WaitCursor;
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
