@@ -696,15 +696,13 @@ namespace Office_File_Explorer
             {
                 count++;
                 LstDisplay.Items.Add(count + ". numID = " + item);
-            }
-
-            // Word is limited to 2047 total active lists in a document
-            if (count > 2047)
-            {
-                Cursor = Cursors.Default;
-                MessageBox.Show("You have too many lists in this file.\r\n\r\nWord will only display up to 2047 lists.", "List Template Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                LoggingHelper.Log("You have too many lists in this file. Word will only display up to 2047 lists.");
-                Cursor = Cursors.WaitCursor;
+                
+                // Word is limited to 2047 total active lists in a document
+                if (count == 2047)
+                {
+                    LstDisplay.Items.Add("## You have too many lists in this file. Word will only display up to 2047 lists. ##");
+                    LoggingHelper.Log("You have too many lists in this file. Word will only display up to 2047 lists.");
+                }
             }
         }
 
@@ -1486,7 +1484,7 @@ namespace Office_File_Explorer
                     else
                     {
                         // list the selected authors revisions
-                        if (!String.IsNullOrEmpty(_fromAuthor))
+                        if (!string.IsNullOrEmpty(_fromAuthor))
                         {
                             paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();
                             runChanged = runChanged.Where(item => item.Author == _fromAuthor).ToList();
@@ -2387,7 +2385,7 @@ namespace Office_File_Explorer
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
-                    int commentCount = 1;
+                    int commentCount = 0;
                     LstDisplay.Items.Clear();
 
                     foreach (WorksheetPart wsp in wbPart.WorksheetParts)
@@ -2397,15 +2395,16 @@ namespace Office_File_Explorer
                         {
                             foreach (DocumentFormat.OpenXml.Spreadsheet.Comment cmt in wcp.Comments.CommentList)
                             {
+                                commentCount++;
                                 CommentText cText = cmt.CommentText;
                                 LstDisplay.Items.Add(commentCount + StringResources.period + cText.InnerText);
-                                commentCount++;
                             }
                         }
-                        else
-                        {
-                            DisplayEmptyCount(0, "comments");
-                        }
+                    }
+
+                    if (commentCount == 0)
+                    {
+                        DisplayEmptyCount(0, "comments");
                     }
                 }
             }
