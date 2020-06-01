@@ -25,6 +25,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * List function to display (hyperlinks, slide titles, slide text, comments)
 * Convert Macro enabled file (.pptm) to non-macro enabled (.pptx)
 * Reset note page size to default value (if the button doesn't fix the issue, go to File | Settings and enable the notes master checkbox)
+* Remove PII
 
 ### Shared
 * List function to display (Ole Objects, shapes, custom properties, package parts)
@@ -38,7 +39,8 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Reset note page size to default value (PowerPoint)
 * Fix corrupt bookmarks (Word)
 * Fix corrupt revisions (Word)
-* Remove Personally Identifiable Information (Word, Excel, PowerPoint)
+* Remove Personally Identifiable Information (Word)
+* Remove PII (PowerPoint)
 
 # App UI
 
