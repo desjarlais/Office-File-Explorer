@@ -3268,7 +3268,9 @@ namespace Office_File_Explorer
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<Run> rList = package.MainDocumentPart.Document.Descendants<Run>();
+                    IEnumerable<Paragraph> pList = package.MainDocumentPart.Document.Descendants<Paragraph>();
                     LstDisplay.Items.Clear();
+                    List<string> fieldCharList = new List<string>();
                     List<string> fieldCodeList = new List<string>();
                     
                     foreach (Run r in rList)
@@ -3281,21 +3283,34 @@ namespace Office_File_Explorer
                                 fc = (FieldChar)oxe;
                                 if (fc.FieldCharType == StringResources.sBegin)
                                 {
-                                    fieldCodeList.Add(StringResources.sBegin);
+                                    fieldCharList.Add(StringResources.sBegin);
                                 }
                                 else if (fc.FieldCharType == StringResources.sEnd)
                                 {
-                                    fieldCodeList.Add(StringResources.sEnd);
+                                    fieldCharList.Add(StringResources.sEnd);
                                 }
                             }
                             else if (oxe.LocalName == "instrText")
                             {
-                                fieldCodeList.Add(oxe.InnerText);
+                                fieldCharList.Add(oxe.InnerText);
                             }
                         }
                     }
 
-                    if (fieldCodeList.Count == 0)
+                    foreach (Paragraph p in pList)
+                    {
+                        foreach (OpenXmlElement oxe in p.ChildElements)
+                        {
+                            if (oxe.LocalName == "fldSimple")
+                            {
+                                SimpleField sf = new SimpleField();
+                                sf = (SimpleField)oxe;
+                                fieldCodeList.Add(sf.Instruction);
+                            }
+                        }
+                    }
+
+                    if (fieldCharList.Count == 0 && fieldCodeList.Count == 0)
                     {
                         LstDisplay.Items.Add("** Document does not contain any field codes **");
                         return;
@@ -3305,7 +3320,7 @@ namespace Office_File_Explorer
                         StringBuilder sb = new StringBuilder();
                         int fCount = 0;
 
-                        foreach (string s in fieldCodeList)
+                        foreach (string s in fieldCharList)
                         {
                             if (s == StringResources.sBegin)
                             {
@@ -3322,6 +3337,12 @@ namespace Office_File_Explorer
                             {
                                 sb.Append(s);
                             }
+                        }
+
+                        foreach (string s in fieldCodeList)
+                        {
+                            fCount++;
+                            LstDisplay.Items.Add(fCount + ". " + s);
                         }
                     }
                 }
