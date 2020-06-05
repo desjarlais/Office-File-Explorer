@@ -37,8 +37,12 @@
             this.BtnOK = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ckResetNotesMaster = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rdoSax = new System.Windows.Forms.RadioButton();
+            this.rdoDom = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // ckRemoveFallback
@@ -85,7 +89,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(347, 118);
+            this.BtnCancel.Location = new System.Drawing.Point(527, 119);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(63, 23);
             this.BtnCancel.TabIndex = 2;
@@ -95,7 +99,7 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(280, 118);
+            this.BtnOK.Location = new System.Drawing.Point(460, 119);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(60, 23);
             this.BtnOK.TabIndex = 3;
@@ -107,9 +111,9 @@
             // 
             this.groupBox2.Controls.Add(this.ckResetNotesMaster);
             this.groupBox2.Location = new System.Drawing.Point(192, 12);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(218, 101);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
@@ -119,18 +123,52 @@
             // 
             this.ckResetNotesMaster.AutoSize = true;
             this.ckResetNotesMaster.Location = new System.Drawing.Point(10, 19);
-            this.ckResetNotesMaster.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ckResetNotesMaster.Margin = new System.Windows.Forms.Padding(2);
             this.ckResetNotesMaster.Name = "ckResetNotesMaster";
             this.ckResetNotesMaster.Size = new System.Drawing.Size(203, 17);
             this.ckResetNotesMaster.TabIndex = 0;
             this.ckResetNotesMaster.Text = "Reset Notes Slides and Notes Master";
             this.ckResetNotesMaster.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rdoDom);
+            this.groupBox3.Controls.Add(this.rdoSax);
+            this.groupBox3.Location = new System.Drawing.Point(415, 13);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(175, 100);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Excel List Cell Value Options";
+            // 
+            // rdoSax
+            // 
+            this.rdoSax.AutoSize = true;
+            this.rdoSax.Checked = true;
+            this.rdoSax.Location = new System.Drawing.Point(6, 16);
+            this.rdoSax.Name = "rdoSax";
+            this.rdoSax.Size = new System.Drawing.Size(72, 17);
+            this.rdoSax.TabIndex = 0;
+            this.rdoSax.TabStop = true;
+            this.rdoSax.Text = "SAX Style";
+            this.rdoSax.UseVisualStyleBackColor = true;
+            // 
+            // rdoDom
+            // 
+            this.rdoDom.AutoSize = true;
+            this.rdoDom.Location = new System.Drawing.Point(6, 39);
+            this.rdoDom.Name = "rdoDom";
+            this.rdoDom.Size = new System.Drawing.Size(76, 17);
+            this.rdoDom.TabIndex = 1;
+            this.rdoDom.Text = "DOM Style";
+            this.rdoDom.UseVisualStyleBackColor = true;
+            // 
             // FrmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(420, 151);
+            this.ClientSize = new System.Drawing.Size(601, 155);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
@@ -146,6 +184,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -160,5 +200,8 @@
         private System.Windows.Forms.CheckBox ckGroupShapeFix;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox ckResetNotesMaster;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton rdoDom;
+        private System.Windows.Forms.RadioButton rdoSax;
     }
 }

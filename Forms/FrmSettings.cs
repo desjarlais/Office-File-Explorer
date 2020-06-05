@@ -29,6 +29,15 @@ namespace Office_File_Explorer.Forms
             {
                 ckResetNotesMaster.Checked = true;
             }
+
+            if (Properties.Settings.Default.ListCellValuesSax == "true")
+            {
+                rdoSax.Checked = true;
+            }
+            else
+            {
+                rdoDom.Checked = true;
+            }
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -37,6 +46,16 @@ namespace Office_File_Explorer.Forms
             Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked ? "true" : "false";
             Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked ? "true" : "false";
             Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked ? "true" : "false";
+            
+            if (rdoSax.Checked == true)
+            {
+                Properties.Settings.Default.ListCellValuesSax = "true";
+            }
+            else
+            {
+                Properties.Settings.Default.ListCellValuesSax = "false";
+            }
+            
             Properties.Settings.Default.Save();
             Close();
         }

@@ -65,18 +65,17 @@
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
             this.BtnListConnections = new System.Windows.Forms.Button();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
-            this.BtnListCellValuesDOM = new System.Windows.Forms.Button();
             this.BtnListCellValuesSAX = new System.Windows.Forms.Button();
             this.BtnDeleteComment = new System.Windows.Forms.Button();
             this.BtnComments = new System.Windows.Forms.Button();
             this.BtnListSharedStrings = new System.Windows.Forms.Button();
-            this.BtnListWorksheets = new System.Windows.Forms.Button();
             this.BtnListHiddenRowsColumns = new System.Windows.Forms.Button();
             this.BtnListDefinedNames = new System.Windows.Forms.Button();
             this.BtnDeleteExternalLinks = new System.Windows.Forms.Button();
             this.BtnListLinks = new System.Windows.Forms.Button();
             this.BtnListFormulas = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnPPTRemovePII = new System.Windows.Forms.Button();
             this.BtnNotesPageSize = new System.Windows.Forms.Button();
             this.BtnConvertPptmToPptx = new System.Windows.Forms.Button();
             this.BtnListSlideText = new System.Windows.Forms.Button();
@@ -109,7 +108,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnPPTRemovePII = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -449,7 +447,7 @@
             this.BtnListTemplates.Name = "BtnListTemplates";
             this.BtnListTemplates.Size = new System.Drawing.Size(133, 23);
             this.BtnListTemplates.TabIndex = 7;
-            this.BtnListTemplates.Text = "List ListTemplates";
+            this.BtnListTemplates.Text = "View ListTemplates";
             this.BtnListTemplates.UseVisualStyleBackColor = true;
             this.BtnListTemplates.Click += new System.EventHandler(this.BtnListTemplates_Click);
             // 
@@ -502,12 +500,10 @@
             this.groupBox2.Controls.Add(this.BtnConvertXlsmToXlsx);
             this.groupBox2.Controls.Add(this.BtnListConnections);
             this.groupBox2.Controls.Add(this.BtnListWSInfo);
-            this.groupBox2.Controls.Add(this.BtnListCellValuesDOM);
             this.groupBox2.Controls.Add(this.BtnListCellValuesSAX);
             this.groupBox2.Controls.Add(this.BtnDeleteComment);
             this.groupBox2.Controls.Add(this.BtnComments);
             this.groupBox2.Controls.Add(this.BtnListSharedStrings);
-            this.groupBox2.Controls.Add(this.BtnListWorksheets);
             this.groupBox2.Controls.Add(this.BtnListHiddenRowsColumns);
             this.groupBox2.Controls.Add(this.BtnListDefinedNames);
             this.groupBox2.Controls.Add(this.BtnDeleteExternalLinks);
@@ -524,10 +520,10 @@
             // 
             // BtnConvertXlsmToXlsx
             // 
-            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(140, 73);
+            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(138, 46);
             this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
-            this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 21);
+            this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 24);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
             this.BtnConvertXlsmToXlsx.Text = "Convert -> Xlsx";
             this.BtnConvertXlsmToXlsx.UseVisualStyleBackColor = true;
@@ -535,10 +531,10 @@
             // 
             // BtnListConnections
             // 
-            this.BtnListConnections.Location = new System.Drawing.Point(140, 99);
+            this.BtnListConnections.Location = new System.Drawing.Point(6, 235);
             this.BtnListConnections.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListConnections.Name = "BtnListConnections";
-            this.BtnListConnections.Size = new System.Drawing.Size(109, 23);
+            this.BtnListConnections.Size = new System.Drawing.Size(130, 23);
             this.BtnListConnections.TabIndex = 8;
             this.BtnListConnections.Text = "List Connections";
             this.BtnListConnections.UseVisualStyleBackColor = true;
@@ -546,7 +542,7 @@
             // 
             // BtnListWSInfo
             // 
-            this.BtnListWSInfo.Location = new System.Drawing.Point(6, 234);
+            this.BtnListWSInfo.Location = new System.Drawing.Point(6, 73);
             this.BtnListWSInfo.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListWSInfo.Name = "BtnListWSInfo";
             this.BtnListWSInfo.Size = new System.Drawing.Size(130, 23);
@@ -555,17 +551,6 @@
             this.BtnListWSInfo.UseVisualStyleBackColor = true;
             this.BtnListWSInfo.Click += new System.EventHandler(this.BtnListWSInfo_Click);
             // 
-            // BtnListCellValuesDOM
-            // 
-            this.BtnListCellValuesDOM.Location = new System.Drawing.Point(6, 209);
-            this.BtnListCellValuesDOM.Margin = new System.Windows.Forms.Padding(2);
-            this.BtnListCellValuesDOM.Name = "BtnListCellValuesDOM";
-            this.BtnListCellValuesDOM.Size = new System.Drawing.Size(130, 21);
-            this.BtnListCellValuesDOM.TabIndex = 26;
-            this.BtnListCellValuesDOM.Text = "List Cell Values (DOM)";
-            this.BtnListCellValuesDOM.UseVisualStyleBackColor = true;
-            this.BtnListCellValuesDOM.Click += new System.EventHandler(this.BtnListCellValuesDOM_Click);
-            // 
             // BtnListCellValuesSAX
             // 
             this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 182);
@@ -573,13 +558,13 @@
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
             this.BtnListCellValuesSAX.TabIndex = 25;
-            this.BtnListCellValuesSAX.Text = "List Cell Values (SAX)";
+            this.BtnListCellValuesSAX.Text = "List Cell Values";
             this.BtnListCellValuesSAX.UseVisualStyleBackColor = true;
             this.BtnListCellValuesSAX.Click += new System.EventHandler(this.BtnListCellValuesSAX_Click);
             // 
             // BtnDeleteComment
             // 
-            this.BtnDeleteComment.Location = new System.Drawing.Point(140, 46);
+            this.BtnDeleteComment.Location = new System.Drawing.Point(138, 20);
             this.BtnDeleteComment.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtnDeleteComment.Name = "BtnDeleteComment";
             this.BtnDeleteComment.Size = new System.Drawing.Size(109, 24);
@@ -610,17 +595,6 @@
             this.BtnListSharedStrings.UseVisualStyleBackColor = true;
             this.BtnListSharedStrings.Click += new System.EventHandler(this.BtnListSharedStrings_Click);
             // 
-            // BtnListWorksheets
-            // 
-            this.BtnListWorksheets.Location = new System.Drawing.Point(6, 73);
-            this.BtnListWorksheets.Margin = new System.Windows.Forms.Padding(2);
-            this.BtnListWorksheets.Name = "BtnListWorksheets";
-            this.BtnListWorksheets.Size = new System.Drawing.Size(130, 23);
-            this.BtnListWorksheets.TabIndex = 7;
-            this.BtnListWorksheets.Text = "List Worksheets";
-            this.BtnListWorksheets.UseVisualStyleBackColor = true;
-            this.BtnListWorksheets.Click += new System.EventHandler(this.BtnListWorksheets_Click);
-            // 
             // BtnListHiddenRowsColumns
             // 
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
@@ -634,7 +608,7 @@
             // 
             // BtnListDefinedNames
             // 
-            this.BtnListDefinedNames.Location = new System.Drawing.Point(6, 261);
+            this.BtnListDefinedNames.Location = new System.Drawing.Point(6, 209);
             this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(130, 21);
@@ -645,10 +619,10 @@
             // 
             // BtnDeleteExternalLinks
             // 
-            this.BtnDeleteExternalLinks.Location = new System.Drawing.Point(140, 20);
+            this.BtnDeleteExternalLinks.Location = new System.Drawing.Point(6, 264);
             this.BtnDeleteExternalLinks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteExternalLinks.Name = "BtnDeleteExternalLinks";
-            this.BtnDeleteExternalLinks.Size = new System.Drawing.Size(109, 23);
+            this.BtnDeleteExternalLinks.Size = new System.Drawing.Size(130, 23);
             this.BtnDeleteExternalLinks.TabIndex = 7;
             this.BtnDeleteExternalLinks.Text = "Delete Links";
             this.BtnDeleteExternalLinks.UseVisualStyleBackColor = true;
@@ -694,6 +668,16 @@
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
+            // 
+            // BtnPPTRemovePII
+            // 
+            this.BtnPPTRemovePII.Location = new System.Drawing.Point(4, 184);
+            this.BtnPPTRemovePII.Name = "BtnPPTRemovePII";
+            this.BtnPPTRemovePII.Size = new System.Drawing.Size(111, 23);
+            this.BtnPPTRemovePII.TabIndex = 25;
+            this.BtnPPTRemovePII.Text = "Remove PII";
+            this.BtnPPTRemovePII.UseVisualStyleBackColor = true;
+            this.BtnPPTRemovePII.Click += new System.EventHandler(this.BtnPPTRemovePII_Click);
             // 
             // BtnNotesPageSize
             // 
@@ -1020,16 +1004,6 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnPPTRemovePII
-            // 
-            this.BtnPPTRemovePII.Location = new System.Drawing.Point(4, 184);
-            this.BtnPPTRemovePII.Name = "BtnPPTRemovePII";
-            this.BtnPPTRemovePII.Size = new System.Drawing.Size(111, 23);
-            this.BtnPPTRemovePII.TabIndex = 25;
-            this.BtnPPTRemovePII.Text = "Remove PII";
-            this.BtnPPTRemovePII.UseVisualStyleBackColor = true;
-            this.BtnPPTRemovePII.Click += new System.EventHandler(this.BtnPPTRemovePII_Click);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1104,7 +1078,6 @@
         private System.Windows.Forms.Button BtnDeleteExternalLinks;
         private System.Windows.Forms.Button BtnListDefinedNames;
         private System.Windows.Forms.Button BtnListHiddenRowsColumns;
-        private System.Windows.Forms.Button BtnListWorksheets;
         private System.Windows.Forms.Button BtnListSharedStrings;
         private System.Windows.Forms.Button BtnComments;
         private System.Windows.Forms.Button BtnDeleteComment;
@@ -1112,7 +1085,6 @@
         private System.Windows.Forms.Button BtnViewPPTComments;
         private System.Windows.Forms.Button BtnListWSInfo;
         private System.Windows.Forms.Button BtnListCellValuesSAX;
-        private System.Windows.Forms.Button BtnListCellValuesDOM;
         private System.Windows.Forms.Button BtnConvertDocmToDocx;
         private System.Windows.Forms.Button BtnListSlideText;
         private System.Windows.Forms.Button BtnFixCorruptDocument;

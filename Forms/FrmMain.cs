@@ -140,7 +140,6 @@ namespace Office_File_Explorer
             BtnListComments.Enabled = false;
             BtnListEndnotes.Enabled = false;
             BtnListFonts.Enabled = false;
-            BtnListWorksheets.Enabled = false;
             BtnListFootnotes.Enabled = false;
             BtnListFormulas.Enabled = false;
             BtnListHiddenRowsColumns.Enabled = false;
@@ -163,7 +162,6 @@ namespace Office_File_Explorer
             BtnViewPPTComments.Enabled = false;
             BtnListWSInfo.Enabled = false;
             BtnListCellValuesSAX.Enabled = false;
-            BtnListCellValuesDOM.Enabled = false;
             BtnConvertDocmToDocx.Enabled = false;
             BtnListSlideText.Enabled = false;
             BtnFixCorruptDocument.Enabled = false;
@@ -291,13 +289,11 @@ namespace Office_File_Explorer
                 BtnDeleteExternalLinks.Enabled = true;
                 BtnListLinks.Enabled = true;
                 BtnListFormulas.Enabled = true;
-                BtnListWorksheets.Enabled = true;
                 BtnListSharedStrings.Enabled = true;
                 BtnComments.Enabled = true;
                 BtnDeleteComment.Enabled = true;
                 BtnListWSInfo.Enabled = true;
                 BtnListCellValuesSAX.Enabled = true;
-                BtnListCellValuesDOM.Enabled = true;
                 BtnListConnections.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Xlsm)
@@ -2292,48 +2288,6 @@ namespace Office_File_Explorer
             }
         }
 
-        private void BtnListWorksheets_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-
-                LstDisplay.Items.Clear();
-                int sheetCount = 0;
-
-                LstDisplay.Items.Add("## WORKSHEETS ##");
-                foreach (Sheet sht in ExcelOpenXml.GetSheets(TxtFileName.Text, false))
-                {
-                    sheetCount++;
-                    LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
-                }
-
-                DisplayEmptyCount(sheetCount, "worksheets");
-
-                LstDisplay.Items.Add("");
-                LstDisplay.Items.Add("## HIDDEN WORKSHEETS ##");
-                sheetCount = 0;
-                foreach (Sheet sht in ExcelOpenXml.GetHiddenSheets(TxtFileName.Text, false))
-                {
-                    sheetCount++;
-                    LstDisplay.Items.Add(sheetCount + StringResources.period + sht.Name);
-                }
-
-                DisplayEmptyCount(sheetCount, "hidden worksheets");
-
-            }
-            catch (Exception ex)
-            {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnListWorksheets_Click Error");
-                LoggingHelper.Log(ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
-
         private void BtnListSharedStrings_Click(object sender, EventArgs e)
         {
             try
@@ -2577,25 +2531,32 @@ namespace Office_File_Explorer
                 {
                     foreach (OpenXmlAttribute attr in sheet.GetAttributes())
                     {
-                        LstDisplay.Items.Add(attr.LocalName + StringResources.colonBuffer + attr.Value);
+                        if (attr.LocalName == "name")
+                        {
+                            LstDisplay.Items.Add(attr.LocalName + StringResources.colonBuffer + attr.Value);
+                        }
+                        else
+                        {
+                            LstDisplay.Items.Add(" - " + attr.LocalName + StringResources.colonBuffer + attr.Value);
+                        }
                     }
                 }
             }
         }
 
-        private void BtnListCellValuesDOM_Click(object sender, EventArgs e)
-        {
-            List<string> list = ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
-            LstDisplay.Items.Clear();
-            foreach (object o in list)
-            {
-                LstDisplay.Items.Add(o.ToString());
-            }
-        }
-
         private void BtnListCellValuesSAX_Click(object sender, EventArgs e)
         {
-            List<string> list = ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
+            List<string> list;
+
+            if (Properties.Settings.Default.ListCellValuesSax == "true")
+            {
+                list = ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
+            }
+            else
+            {
+                list = ExcelOpenXml.ReadExcelFileDOM(TxtFileName.Text);
+            }
+            
             LstDisplay.Items.Clear();
             foreach (object o in list)
             {

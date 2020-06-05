@@ -4,7 +4,7 @@
   <description asmv2:iconFile="1 (47).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Office File Explorer" version="1.0.2.35" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Office File Explorer" version="1.0.2.36" language="neutral" processorArchitecture="msil" />
     <commandLine file="Office File Explorer.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="2161152">
-      <assemblyIdentity name="Office File Explorer" version="1.0.2.35" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="2160640">
+      <assemblyIdentity name="Office File Explorer" version="1.0.2.36" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WGW+X7YnVr07kPdbVodXaOyrMHoxxPh7SI90vnlbV7I=</dsig:DigestValue>
+        <dsig:DigestValue>kdV+yRsLrhiduRtkbt1sBkKbVbJcJ7HgYyf0HAGOmk0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -93,13 +93,13 @@
       <dsig:DigestValue>RgO0FsNYFxycaPen1CzLodvMDa31JS0/NC5RmPBgXfg=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Office File Explorer.exe.config" size="1733">
+  <file name="Office File Explorer.exe.config" size="1864">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>yBjJHD5zlfgmDzOy97a5SbgMEWjjGd/WdYMkYs2dw/4=</dsig:DigestValue>
+      <dsig:DigestValue>ByXt+WhSpmAEQKc0+j8/UuMFt+PqUvVjy6/SJSw9ras=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\BatchFile_16x.png" size="344">
