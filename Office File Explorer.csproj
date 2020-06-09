@@ -160,6 +160,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Word Helpers\InvalidXmlTags.cs" />
+    <Compile Include="Word Helpers\NumberingHelper.cs" />
     <Compile Include="Word Helpers\ValidXmlTags.cs" />
     <Compile Include="Word Helpers\WordExtensionClass.cs" />
     <Compile Include="Word Helpers\WordOpenXml.cs" />

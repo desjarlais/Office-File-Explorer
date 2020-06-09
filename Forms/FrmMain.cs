@@ -177,11 +177,11 @@ namespace Office_File_Explorer
             BtnListBookmarks.Enabled = false;
             BtnListCC.Enabled = false;
             BtnListShapes.Enabled = false;
-            BtnListParagraphStyles.Enabled = false;
             BtnNotesPageSize.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
             BtnFixCorruptRevisions.Enabled = false;
             BtnPPTRemovePII.Enabled = false;
+            BtnFixListNumbering.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -270,9 +270,9 @@ namespace Office_File_Explorer
                 BtnListFieldCodes.Enabled = true;
                 BtnListBookmarks.Enabled = true;
                 BtnListCC.Enabled = true;
-                BtnListParagraphStyles.Enabled = true;
                 BtnFixCorruptBookmarks.Enabled = true;
                 BtnFixCorruptRevisions.Enabled = true;
+                BtnFixListNumbering.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -418,13 +418,18 @@ namespace Office_File_Explorer
             try
             {
                 LstDisplay.Items.Clear();
+                XNamespace w = StringResources.wordMainAttributeNamespace;
+                XDocument xDoc = null;
+                XDocument styleDoc = null;
+                bool containStyle = false;
+
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     MainDocumentPart mainPart = myDoc.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
-                    bool containStyle = false;
-
+                    
                     LstDisplay.Items.Clear();
+                    LstDisplay.Items.Add("# Style Summary #");
                     try
                     {
                         foreach (OpenXmlElement el in stylePart.Styles.LatentStyles.Elements())
@@ -452,17 +457,96 @@ namespace Office_File_Explorer
                                 containStyle = true;
                             }
                         }
-
-                        if (containStyle == false)
-                        {
-                            LstDisplay.Items.Add("** No styles in this document **");
-                        }
                     }
                     catch (NullReferenceException)
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "Missing StylesWithEffects part.");
+                        DisplayInformation(InformationOutput.ClearAndAdd, "** Missing StylesWithEffects part **");
+                        return;
                     }
                 }
+
+                if (containStyle == false)
+                {
+                    LstDisplay.Items.Add("** No styles in this document **");
+                }
+                else
+                {
+                    LstDisplay.Items.Add(StringResources.emptyString);
+                    LstDisplay.Items.Add("# List of paragraph styles #");
+
+                    using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+                    {
+                        PackageRelationship docPackageRelationship = wdPackage.GetRelationshipsByType(StringResources.MainDocumentPartType).FirstOrDefault();
+                        if (docPackageRelationship != null)
+                        {
+                            Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), docPackageRelationship.TargetUri);
+                            PackagePart documentPart = wdPackage.GetPart(documentUri);
+
+                            //  Load the document XML in the part into an XDocument instance.  
+                            xDoc = XDocument.Load(XmlReader.Create(documentPart.GetStream()));
+
+                            //  Find the styles part. There will only be one.  
+                            PackageRelationship styleRelation = documentPart.GetRelationshipsByType(StringResources.StyleDefsPartType).FirstOrDefault();
+                            if (styleRelation != null)
+                            {
+                                Uri styleUri = PackUriHelper.ResolvePartUri(documentUri, styleRelation.TargetUri);
+                                PackagePart stylePart = wdPackage.GetPart(styleUri);
+
+                                //  Load the style XML in the part into an XDocument instance.  
+                                styleDoc = XDocument.Load(XmlReader.Create(stylePart.GetStream()));
+                            }
+                        }
+                    }
+
+                    string defaultStyle =
+                    (string)(
+                        from style in styleDoc.Root.Elements(w + "style")
+                        where (string)style.Attribute(w + "type") == "paragraph" &&
+                              (string)style.Attribute(w + "default") == "1"
+                        select style
+                    ).First().Attribute(w + "styleId");
+
+                    // Find all paragraphs in the document.  
+                    var paragraphs =
+                        from para in xDoc
+                                     .Root
+                                     .Element(w + "body")
+                                     .Descendants(w + "p")
+                        let styleNode = para
+                                        .Elements(w + "pPr")
+                                        .Elements(w + "pStyle")
+                                        .FirstOrDefault()
+                        select new
+                        {
+                            ParagraphNode = para,
+                            StyleName = styleNode != null ?
+                                (string)styleNode.Attribute(w + "val") :
+                                defaultStyle
+                        };
+
+                    // Retrieve the text of each paragraph.  
+                    var paraWithText =
+                        from para in paragraphs
+                        select new
+                        {
+                            ParagraphNode = para.ParagraphNode,
+                            StyleName = para.StyleName,
+                            Text = ParagraphText(para.ParagraphNode)
+                        };
+
+                    int count = 0;
+
+                    foreach (var p in paraWithText)
+                    {
+                        count++;
+                        LstDisplay.Items.Add(count + ". StyleName: " + p.StyleName + " Text: " + p.Text);
+                    }
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListStyles Error: " + ioe.Message);
+                LstDisplay.Items.Add("Error listing paragraphs.");
             }
             catch (Exception ex)
             {
@@ -3771,100 +3855,6 @@ namespace Office_File_Explorer
                    .StringConcatenate(element => (string)element);
         }
 
-        private void BtnListParagraphStyles_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
-
-                XNamespace w = StringResources.wordMainAttributeNamespace;
-                XDocument xDoc = null;
-                XDocument styleDoc = null;
-
-                using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
-                {
-                    PackageRelationship docPackageRelationship = wdPackage.GetRelationshipsByType(StringResources.MainDocumentPartType).FirstOrDefault();
-                    if (docPackageRelationship != null)
-                    {
-                        Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), docPackageRelationship.TargetUri);
-                        PackagePart documentPart = wdPackage.GetPart(documentUri);
-
-                        //  Load the document XML in the part into an XDocument instance.  
-                        xDoc = XDocument.Load(XmlReader.Create(documentPart.GetStream()));
-
-                        //  Find the styles part. There will only be one.  
-                        PackageRelationship styleRelation = documentPart.GetRelationshipsByType(StringResources.StyleDefsPartType).FirstOrDefault();
-                        if (styleRelation != null)
-                        {
-                            Uri styleUri = PackUriHelper.ResolvePartUri(documentUri, styleRelation.TargetUri);
-                            PackagePart stylePart = wdPackage.GetPart(styleUri);
-
-                            //  Load the style XML in the part into an XDocument instance.  
-                            styleDoc = XDocument.Load(XmlReader.Create(stylePart.GetStream()));
-                        }
-                    }
-                }
-
-                string defaultStyle =
-                    (string)(
-                        from style in styleDoc.Root.Elements(w + "style")
-                        where (string)style.Attribute(w + "type") == "paragraph" &&
-                              (string)style.Attribute(w + "default") == "1"
-                        select style
-                    ).First().Attribute(w + "styleId");
-
-                // Find all paragraphs in the document.  
-                var paragraphs =
-                    from para in xDoc
-                                 .Root
-                                 .Element(w + "body")
-                                 .Descendants(w + "p")
-                    let styleNode = para
-                                    .Elements(w + "pPr")
-                                    .Elements(w + "pStyle")
-                                    .FirstOrDefault()
-                    select new
-                    {
-                        ParagraphNode = para,
-                        StyleName = styleNode != null ?
-                            (string)styleNode.Attribute(w + "val") :
-                            defaultStyle
-                    };
-
-                // Retrieve the text of each paragraph.  
-                var paraWithText =
-                    from para in paragraphs
-                    select new
-                    {
-                        ParagraphNode = para.ParagraphNode,
-                        StyleName = para.StyleName,
-                        Text = ParagraphText(para.ParagraphNode)
-                    };
-
-                int count = 0;
-
-                foreach (var p in paraWithText)
-                {
-                    count++;
-                    LstDisplay.Items.Add(count + ". StyleName: " + p.StyleName + " Text: " + p.Text);
-                }
-            }
-            catch (IOException ioe)
-            {
-                LoggingHelper.Log("BtnListParagraphStyles Error: " + ioe.Message);
-                LstDisplay.Items.Add("Error listing paragraphs.");
-            }
-            catch (Exception ex)
-            {
-                LoggingHelper.Log("BtnListParagraphs Error: " + ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
-
         private void batchProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmBatch bFrm = new FrmBatch()
@@ -4065,6 +4055,209 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixListNumbering_Click(object sender, EventArgs e)
+        {
+            // TODO:
+            // loop each existing abstractnumid get numId and style, keep track of 1 bullet and 1 decimal numId
+            // loop each existing numid in document check numid style, replace with default of that style
+            // delete orphan lists
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+                NumberingHelper bulletNumberingValues = new NumberingHelper();
+                NumberingHelper decimalNumberingValues = new NumberingHelper();
+                
+                // temp lists 
+                List<int> bulletNumIdsInUse = new List<int>();
+                List<int> decimalNumIdsInUse = new List<int>();
+
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
+                    var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
+                    
+                    bool bulletFound = false;
+                    bool decimalFound = false;
+
+                    foreach (AbstractNum an in absNumsInUseList)
+                    {
+                        foreach (NumberingInstance ni in numInstancesInUseList)
+                        {
+                            if (ni.AbstractNumId.Val == an.AbstractNumberId.Value)
+                            {
+                                foreach (OpenXmlElement anChild in an)
+                                {
+                                    if (anChild.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Level")
+                                    {
+                                        DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
+                                        DocumentFormat.OpenXml.Wordprocessing.NumberingFormat nf = lvl.NumberingFormat;
+
+                                        if (nf.Val == "bullet")
+                                        {
+                                            bulletNumIdsInUse.Add(ni.NumberID);
+
+                                            if (bulletFound == false)
+                                            {
+                                                bulletNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                bulletNumberingValues.NumFormat = "bullet";
+                                                bulletNumberingValues.NumId = ni.NumberID;
+                                                bulletFound = true;
+                                            }
+                                        }
+
+                                        if (nf.Val == "decimal" && decimalFound == false)
+                                        {
+                                            decimalNumIdsInUse.Add(ni.NumberID);
+
+                                            if (decimalFound == false)
+                                            {
+                                                decimalNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                decimalNumberingValues.NumFormat = "decimal";
+                                                decimalNumberingValues.NumId = ni.NumberID;
+                                                decimalFound = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // loop document
+                    MainDocumentPart mainPart = document.MainDocumentPart;
+                    NumberingDefinitionsPart numPart = mainPart.NumberingDefinitionsPart;
+                    StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
+
+                    // Loop each paragraph, then loop each numid in use to see if we should reset the numid for bullet or decimal
+                    foreach (OpenXmlElement el in mainPart.Document.Descendants<Paragraph>())
+                    {
+                        if (el.Descendants<NumberingId>().Count() > 0)
+                        {
+                            foreach (NumberingId pNumId in el.Descendants<NumberingId>())
+                            {
+                                foreach (var o in bulletNumIdsInUse)
+                                {
+                                    if (o == pNumId.Val)
+                                    {
+                                        pNumId.Val = bulletNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in decimalNumIdsInUse)
+                                {
+                                    if (o == pNumId.Val)
+                                    {
+                                        pNumId.Val = decimalNumberingValues.NumId;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Loop each header, get the NumId and add it to the array
+                    foreach (HeaderPart hdrPart in mainPart.HeaderParts)
+                    {
+                        foreach (OpenXmlElement el in hdrPart.Header.Elements())
+                        {
+                            foreach (NumberingId hNumId in el.Descendants<NumberingId>())
+                            {
+                                foreach (var o in bulletNumIdsInUse)
+                                {
+                                    if (o == hNumId.Val)
+                                    {
+                                        hNumId.Val = bulletNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in decimalNumIdsInUse)
+                                {
+                                    if (o == hNumId.Val)
+                                    {
+                                        hNumId.Val = decimalNumberingValues.NumId;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Loop each footer, get the NumId and add it to the array
+                    foreach (FooterPart ftrPart in mainPart.FooterParts)
+                    {
+                        foreach (OpenXmlElement el in ftrPart.Footer.Elements())
+                        {
+                            foreach (NumberingId fNumId in el.Descendants<NumberingId>())
+                            {
+                                foreach (var o in bulletNumIdsInUse)
+                                {
+                                    if (o == fNumId.Val)
+                                    {
+                                        fNumId.Val = bulletNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in decimalNumIdsInUse)
+                                {
+                                    if (o == fNumId.Val)
+                                    {
+                                        fNumId.Val = decimalNumberingValues.NumId;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Loop through each style in document and get NumId
+                    foreach (OpenXmlElement el in stylePart.Styles.Elements())
+                    {
+                        try
+                        {
+                            string styleEl = el.GetAttribute("styleId", StringResources.wordMainAttributeNamespace).Value;
+                            int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
+
+                            if (pStyle > 0)
+                            {
+                                foreach (NumberingId sEl in el.Descendants<NumberingId>())
+                                {
+                                    foreach (var o in bulletNumIdsInUse)
+                                    {
+                                        if (o == sEl.Val)
+                                        {
+                                            sEl.Val = bulletNumberingValues.NumId;
+                                        }
+                                    }
+
+                                    foreach (var o in decimalNumIdsInUse)
+                                    {
+                                        if (o == sEl.Val)
+                                        {
+                                            sEl.Val = decimalNumberingValues.NumId;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Not all style elements have a styleID, so just skip these scenarios
+                            LoggingHelper.Log("BtnListTemplates_Click : " + ex.Message);
+                        }
+                    }
+
+                    document.MainDocumentPart.Document.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnFixListNumbering: " + ex.Message);
             }
             finally
             {

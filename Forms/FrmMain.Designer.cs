@@ -32,7 +32,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
             this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
-            this.BtnListParagraphStyles = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
             this.BtnListFieldCodes = new System.Windows.Forms.Button();
@@ -108,6 +107,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnFixListNumbering = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -119,9 +119,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnFixListNumbering);
             this.groupBox1.Controls.Add(this.BtnFixCorruptRevisions);
             this.groupBox1.Controls.Add(this.BtnFixCorruptBookmarks);
-            this.groupBox1.Controls.Add(this.BtnListParagraphStyles);
             this.groupBox1.Controls.Add(this.BtnListCC);
             this.groupBox1.Controls.Add(this.BtnListBookmarks);
             this.groupBox1.Controls.Add(this.BtnListFieldCodes);
@@ -162,7 +162,7 @@
             // 
             this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(281, 270);
             this.BtnFixCorruptRevisions.Name = "BtnFixCorruptRevisions";
-            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(152, 23);
+            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(153, 21);
             this.BtnFixCorruptRevisions.TabIndex = 24;
             this.BtnFixCorruptRevisions.Text = "Fix Corrupt Revisions";
             this.BtnFixCorruptRevisions.UseVisualStyleBackColor = true;
@@ -173,27 +173,17 @@
             this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(281, 244);
             this.BtnFixCorruptBookmarks.Margin = new System.Windows.Forms.Padding(2);
             this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
-            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(153, 22);
+            this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(153, 21);
             this.BtnFixCorruptBookmarks.TabIndex = 23;
             this.BtnFixCorruptBookmarks.Text = "Fix Corrupt Bookmarks";
             this.BtnFixCorruptBookmarks.UseVisualStyleBackColor = true;
             this.BtnFixCorruptBookmarks.Click += new System.EventHandler(this.BtnFixCorruptBookmarks_Click);
             // 
-            // BtnListParagraphStyles
-            // 
-            this.BtnListParagraphStyles.Location = new System.Drawing.Point(144, 215);
-            this.BtnListParagraphStyles.Name = "BtnListParagraphStyles";
-            this.BtnListParagraphStyles.Size = new System.Drawing.Size(133, 22);
-            this.BtnListParagraphStyles.TabIndex = 9;
-            this.BtnListParagraphStyles.Text = "List Paragraph Styles";
-            this.BtnListParagraphStyles.UseVisualStyleBackColor = true;
-            this.BtnListParagraphStyles.Click += new System.EventHandler(this.BtnListParagraphStyles_Click);
-            // 
             // BtnListCC
             // 
             this.BtnListCC.Location = new System.Drawing.Point(6, 20);
             this.BtnListCC.Name = "BtnListCC";
-            this.BtnListCC.Size = new System.Drawing.Size(133, 23);
+            this.BtnListCC.Size = new System.Drawing.Size(133, 21);
             this.BtnListCC.TabIndex = 9;
             this.BtnListCC.Text = "List Content Controls";
             this.BtnListCC.UseVisualStyleBackColor = true;
@@ -201,9 +191,9 @@
             // 
             // BtnListBookmarks
             // 
-            this.BtnListBookmarks.Location = new System.Drawing.Point(145, 157);
+            this.BtnListBookmarks.Location = new System.Drawing.Point(5, 268);
             this.BtnListBookmarks.Name = "BtnListBookmarks";
-            this.BtnListBookmarks.Size = new System.Drawing.Size(132, 23);
+            this.BtnListBookmarks.Size = new System.Drawing.Size(134, 21);
             this.BtnListBookmarks.TabIndex = 9;
             this.BtnListBookmarks.Text = "List Bookmarks";
             this.BtnListBookmarks.UseVisualStyleBackColor = true;
@@ -213,7 +203,7 @@
             // 
             this.BtnListFieldCodes.Location = new System.Drawing.Point(144, 129);
             this.BtnListFieldCodes.Name = "BtnListFieldCodes";
-            this.BtnListFieldCodes.Size = new System.Drawing.Size(134, 23);
+            this.BtnListFieldCodes.Size = new System.Drawing.Size(134, 21);
             this.BtnListFieldCodes.TabIndex = 22;
             this.BtnListFieldCodes.Text = "List Field Codes";
             this.BtnListFieldCodes.UseVisualStyleBackColor = true;
@@ -221,10 +211,10 @@
             // 
             // BtnViewParagraphs
             // 
-            this.BtnViewParagraphs.Location = new System.Drawing.Point(144, 185);
+            this.BtnViewParagraphs.Location = new System.Drawing.Point(5, 241);
             this.BtnViewParagraphs.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnViewParagraphs.Name = "BtnViewParagraphs";
-            this.BtnViewParagraphs.Size = new System.Drawing.Size(133, 23);
+            this.BtnViewParagraphs.Size = new System.Drawing.Size(134, 21);
             this.BtnViewParagraphs.TabIndex = 8;
             this.BtnViewParagraphs.Text = "View Paragraphs";
             this.BtnViewParagraphs.UseVisualStyleBackColor = true;
@@ -232,10 +222,10 @@
             // 
             // BtnSetPrintOrientation
             // 
-            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(6, 271);
+            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(143, 270);
             this.BtnSetPrintOrientation.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSetPrintOrientation.Name = "BtnSetPrintOrientation";
-            this.BtnSetPrintOrientation.Size = new System.Drawing.Size(133, 23);
+            this.BtnSetPrintOrientation.Size = new System.Drawing.Size(133, 21);
             this.BtnSetPrintOrientation.TabIndex = 21;
             this.BtnSetPrintOrientation.Text = "Set Print Orientation";
             this.BtnSetPrintOrientation.UseVisualStyleBackColor = true;
@@ -255,10 +245,10 @@
             // BtnRemovePII
             // 
             this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(145, 244);
+            this.BtnRemovePII.Location = new System.Drawing.Point(144, 215);
             this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(132, 23);
+            this.BtnRemovePII.Size = new System.Drawing.Size(134, 21);
             this.BtnRemovePII.TabIndex = 15;
             this.BtnRemovePII.Text = "Remove PII";
             this.BtnRemovePII.UseVisualStyleBackColor = true;
@@ -266,10 +256,10 @@
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(143, 270);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(143, 244);
             this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
-            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(135, 24);
+            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(134, 21);
             this.BtnConvertDocmToDocx.TabIndex = 17;
             this.BtnConvertDocmToDocx.Text = "Convert to Docx";
             this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
@@ -280,7 +270,7 @@
             this.BtnViewCustomDocProps.Location = new System.Drawing.Point(6, 214);
             this.BtnViewCustomDocProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnViewCustomDocProps.Name = "BtnViewCustomDocProps";
-            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(133, 23);
+            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(133, 21);
             this.BtnViewCustomDocProps.TabIndex = 5;
             this.BtnViewCustomDocProps.Text = "List Doc Properties";
             this.BtnViewCustomDocProps.UseVisualStyleBackColor = true;
@@ -288,10 +278,10 @@
             // 
             // BtnSearchAndReplace
             // 
-            this.BtnSearchAndReplace.Location = new System.Drawing.Point(6, 243);
+            this.BtnSearchAndReplace.Location = new System.Drawing.Point(144, 156);
             this.BtnSearchAndReplace.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSearchAndReplace.Name = "BtnSearchAndReplace";
-            this.BtnSearchAndReplace.Size = new System.Drawing.Size(133, 23);
+            this.BtnSearchAndReplace.Size = new System.Drawing.Size(133, 21);
             this.BtnSearchAndReplace.TabIndex = 6;
             this.BtnSearchAndReplace.Text = "Search and Replace";
             this.BtnSearchAndReplace.UseVisualStyleBackColor = true;
@@ -302,7 +292,7 @@
             this.BtnListAuthors.Location = new System.Drawing.Point(144, 20);
             this.BtnListAuthors.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListAuthors.Name = "BtnListAuthors";
-            this.BtnListAuthors.Size = new System.Drawing.Size(134, 23);
+            this.BtnListAuthors.Size = new System.Drawing.Size(134, 21);
             this.BtnListAuthors.TabIndex = 20;
             this.BtnListAuthors.Text = "List Authors";
             this.BtnListAuthors.UseVisualStyleBackColor = true;
@@ -313,7 +303,7 @@
             this.BtnListRevisions.Location = new System.Drawing.Point(144, 46);
             this.BtnListRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListRevisions.Name = "BtnListRevisions";
-            this.BtnListRevisions.Size = new System.Drawing.Size(134, 23);
+            this.BtnListRevisions.Size = new System.Drawing.Size(134, 21);
             this.BtnListRevisions.TabIndex = 5;
             this.BtnListRevisions.Text = "List Revisions";
             this.BtnListRevisions.UseVisualStyleBackColor = true;
@@ -324,7 +314,7 @@
             this.BtnDeleteEndnotes.Location = new System.Drawing.Point(281, 157);
             this.BtnDeleteEndnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteEndnotes.Name = "BtnDeleteEndnotes";
-            this.BtnDeleteEndnotes.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteEndnotes.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteEndnotes.TabIndex = 19;
             this.BtnDeleteEndnotes.Text = "Delete Endnotes";
             this.BtnDeleteEndnotes.UseVisualStyleBackColor = true;
@@ -335,7 +325,7 @@
             this.BtnDeleteFootnotes.Location = new System.Drawing.Point(281, 129);
             this.BtnDeleteFootnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteFootnotes.Name = "BtnDeleteFootnotes";
-            this.BtnDeleteFootnotes.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteFootnotes.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteFootnotes.TabIndex = 5;
             this.BtnDeleteFootnotes.Text = "Delete Footnotes";
             this.BtnDeleteFootnotes.UseVisualStyleBackColor = true;
@@ -346,7 +336,7 @@
             this.BtnListEndnotes.Location = new System.Drawing.Point(6, 185);
             this.BtnListEndnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListEndnotes.Name = "BtnListEndnotes";
-            this.BtnListEndnotes.Size = new System.Drawing.Size(133, 23);
+            this.BtnListEndnotes.Size = new System.Drawing.Size(133, 21);
             this.BtnListEndnotes.TabIndex = 5;
             this.BtnListEndnotes.Text = "List Endnotes";
             this.BtnListEndnotes.UseVisualStyleBackColor = true;
@@ -357,7 +347,7 @@
             this.BtnListFootnotes.Location = new System.Drawing.Point(6, 157);
             this.BtnListFootnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListFootnotes.Name = "BtnListFootnotes";
-            this.BtnListFootnotes.Size = new System.Drawing.Size(133, 23);
+            this.BtnListFootnotes.Size = new System.Drawing.Size(133, 21);
             this.BtnListFootnotes.TabIndex = 18;
             this.BtnListFootnotes.Text = "List Footnotes";
             this.BtnListFootnotes.UseVisualStyleBackColor = true;
@@ -368,7 +358,7 @@
             this.BtnListFonts.Location = new System.Drawing.Point(6, 129);
             this.BtnListFonts.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListFonts.Name = "BtnListFonts";
-            this.BtnListFonts.Size = new System.Drawing.Size(133, 23);
+            this.BtnListFonts.Size = new System.Drawing.Size(133, 21);
             this.BtnListFonts.TabIndex = 17;
             this.BtnListFonts.Text = "List Fonts";
             this.BtnListFonts.UseVisualStyleBackColor = true;
@@ -379,7 +369,7 @@
             this.BtnDeleteListTemplates.Location = new System.Drawing.Point(281, 185);
             this.BtnDeleteListTemplates.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteListTemplates.Name = "BtnDeleteListTemplates";
-            this.BtnDeleteListTemplates.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteListTemplates.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteListTemplates.TabIndex = 14;
             this.BtnDeleteListTemplates.Text = "Delete Orphan ListTemplates";
             this.BtnDeleteListTemplates.UseVisualStyleBackColor = true;
@@ -390,7 +380,7 @@
             this.BtnDeleteBreaks.Location = new System.Drawing.Point(281, 46);
             this.BtnDeleteBreaks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteBreaks.Name = "BtnDeleteBreaks";
-            this.BtnDeleteBreaks.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteBreaks.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteBreaks.TabIndex = 13;
             this.BtnDeleteBreaks.Text = "Delete Page Breaks";
             this.BtnDeleteBreaks.UseVisualStyleBackColor = true;
@@ -401,7 +391,7 @@
             this.BtnDeleteHdrFtr.Location = new System.Drawing.Point(281, 20);
             this.BtnDeleteHdrFtr.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteHdrFtr.Name = "BtnDeleteHdrFtr";
-            this.BtnDeleteHdrFtr.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteHdrFtr.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteHdrFtr.TabIndex = 12;
             this.BtnDeleteHdrFtr.Text = "Delete Headers / Footers";
             this.BtnDeleteHdrFtr.UseVisualStyleBackColor = true;
@@ -412,7 +402,7 @@
             this.BtnDeleteHiddenText.Location = new System.Drawing.Point(281, 101);
             this.BtnDeleteHiddenText.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteHiddenText.Name = "BtnDeleteHiddenText";
-            this.BtnDeleteHiddenText.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteHiddenText.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteHiddenText.TabIndex = 11;
             this.BtnDeleteHiddenText.Text = "Delete Hidden Text";
             this.BtnDeleteHiddenText.UseVisualStyleBackColor = true;
@@ -423,7 +413,7 @@
             this.BtnDeleteComments.Location = new System.Drawing.Point(281, 73);
             this.BtnDeleteComments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnDeleteComments.Name = "BtnDeleteComments";
-            this.BtnDeleteComments.Size = new System.Drawing.Size(153, 23);
+            this.BtnDeleteComments.Size = new System.Drawing.Size(153, 21);
             this.BtnDeleteComments.TabIndex = 10;
             this.BtnDeleteComments.Text = "Delete Comments";
             this.BtnDeleteComments.UseVisualStyleBackColor = true;
@@ -434,7 +424,7 @@
             this.BtnAcceptRevisions.Location = new System.Drawing.Point(144, 73);
             this.BtnAcceptRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnAcceptRevisions.Name = "BtnAcceptRevisions";
-            this.BtnAcceptRevisions.Size = new System.Drawing.Size(134, 23);
+            this.BtnAcceptRevisions.Size = new System.Drawing.Size(134, 21);
             this.BtnAcceptRevisions.TabIndex = 9;
             this.BtnAcceptRevisions.Text = "Accept Revisions";
             this.BtnAcceptRevisions.UseVisualStyleBackColor = true;
@@ -445,7 +435,7 @@
             this.BtnListTemplates.Location = new System.Drawing.Point(6, 101);
             this.BtnListTemplates.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListTemplates.Name = "BtnListTemplates";
-            this.BtnListTemplates.Size = new System.Drawing.Size(133, 23);
+            this.BtnListTemplates.Size = new System.Drawing.Size(133, 21);
             this.BtnListTemplates.TabIndex = 7;
             this.BtnListTemplates.Text = "View ListTemplates";
             this.BtnListTemplates.UseVisualStyleBackColor = true;
@@ -456,7 +446,7 @@
             this.BtnListHyperlinks.Location = new System.Drawing.Point(6, 73);
             this.BtnListHyperlinks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListHyperlinks.Name = "BtnListHyperlinks";
-            this.BtnListHyperlinks.Size = new System.Drawing.Size(133, 23);
+            this.BtnListHyperlinks.Size = new System.Drawing.Size(133, 21);
             this.BtnListHyperlinks.TabIndex = 6;
             this.BtnListHyperlinks.Text = "List Hyperlinks";
             this.BtnListHyperlinks.UseVisualStyleBackColor = true;
@@ -467,7 +457,7 @@
             this.BtnListStyles.Location = new System.Drawing.Point(6, 46);
             this.BtnListStyles.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListStyles.Name = "BtnListStyles";
-            this.BtnListStyles.Size = new System.Drawing.Size(133, 23);
+            this.BtnListStyles.Size = new System.Drawing.Size(133, 21);
             this.BtnListStyles.TabIndex = 5;
             this.BtnListStyles.Text = "List Styles";
             this.BtnListStyles.UseVisualStyleBackColor = true;
@@ -478,7 +468,7 @@
             this.BtnListComments.Location = new System.Drawing.Point(144, 100);
             this.BtnListComments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListComments.Name = "BtnListComments";
-            this.BtnListComments.Size = new System.Drawing.Size(134, 23);
+            this.BtnListComments.Size = new System.Drawing.Size(134, 21);
             this.BtnListComments.TabIndex = 4;
             this.BtnListComments.Text = "List Comments";
             this.BtnListComments.UseVisualStyleBackColor = true;
@@ -578,7 +568,7 @@
             this.BtnComments.Location = new System.Drawing.Point(6, 46);
             this.BtnComments.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtnComments.Name = "BtnComments";
-            this.BtnComments.Size = new System.Drawing.Size(130, 24);
+            this.BtnComments.Size = new System.Drawing.Size(130, 23);
             this.BtnComments.TabIndex = 24;
             this.BtnComments.Text = "List Comments";
             this.BtnComments.UseVisualStyleBackColor = true;
@@ -589,7 +579,7 @@
             this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 157);
             this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
-            this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 21);
+            this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 23);
             this.BtnListSharedStrings.TabIndex = 7;
             this.BtnListSharedStrings.Text = "List Shared Strings";
             this.BtnListSharedStrings.UseVisualStyleBackColor = true;
@@ -600,7 +590,7 @@
             this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
             this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
-            this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 24);
+            this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 23);
             this.BtnListHiddenRowsColumns.TabIndex = 22;
             this.BtnListHiddenRowsColumns.Text = "List Hidden Row/Col";
             this.BtnListHiddenRowsColumns.UseVisualStyleBackColor = true;
@@ -1004,6 +994,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
+            // BtnFixListNumbering
+            // 
+            this.BtnFixListNumbering.Location = new System.Drawing.Point(144, 186);
+            this.BtnFixListNumbering.Name = "BtnFixListNumbering";
+            this.BtnFixListNumbering.Size = new System.Drawing.Size(134, 21);
+            this.BtnFixListNumbering.TabIndex = 25;
+            this.BtnFixListNumbering.Text = "Fix List Templates";
+            this.BtnFixListNumbering.UseVisualStyleBackColor = true;
+            this.BtnFixListNumbering.Click += new System.EventHandler(this.BtnFixListNumbering_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1110,7 +1110,6 @@
         private System.Windows.Forms.Button BtnListBookmarks;
         private System.Windows.Forms.Button BtnListCC;
         private System.Windows.Forms.Button BtnListShapes;
-        private System.Windows.Forms.Button BtnListParagraphStyles;
         private System.Windows.Forms.ToolStripMenuItem batchProcessingToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
@@ -1121,6 +1120,7 @@
         private System.Windows.Forms.Button BtnFixCorruptBookmarks;
         private System.Windows.Forms.Button BtnFixCorruptRevisions;
         private System.Windows.Forms.Button BtnPPTRemovePII;
+        private System.Windows.Forms.Button BtnFixListNumbering;
     }
 }
 
