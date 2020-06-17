@@ -182,6 +182,7 @@ namespace Office_File_Explorer
             BtnFixCorruptRevisions.Enabled = false;
             BtnPPTRemovePII.Enabled = false;
             BtnFixListNumbering.Enabled = false;
+            BtnFixEndnotes.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -273,6 +274,7 @@ namespace Office_File_Explorer
                 BtnFixCorruptBookmarks.Enabled = true;
                 BtnFixCorruptRevisions.Enabled = true;
                 BtnFixListNumbering.Enabled = true;
+                BtnFixEndnotes.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -3503,7 +3505,7 @@ namespace Office_File_Explorer
 
                     if (hasBookmark == false)
                     {
-                        LstDisplay.Items.Add("** Document does not contain any bookmarks **");
+                        LstDisplay.Items.Add(" None");
                     }
                 }
             }
@@ -3679,8 +3681,6 @@ namespace Office_File_Explorer
                             count++;
                             LstDisplay.Items.Add(count + StringResources.shp3D);
                         }
-
-                        DisplayEmptyCount(count, "shapes.");
                     }
                 }
                 else if (fileType == StringResources.excel)
@@ -3743,8 +3743,6 @@ namespace Office_File_Explorer
                                 count++;
                                 LstDisplay.Items.Add(count + StringResources.shp3D);
                             }
-
-                            DisplayEmptyCount(count, "shapes.");
                         }
                     }
                 }
@@ -3821,8 +3819,6 @@ namespace Office_File_Explorer
                                 count++;
                                 LstDisplay.Items.Add(count + StringResources.shp3D);
                             }
-
-                            DisplayEmptyCount(count, "shapes.");
                         }
                     }
                 }
@@ -3830,6 +3826,8 @@ namespace Office_File_Explorer
                 {
                     return;
                 }
+
+                DisplayEmptyCount(count, "shapes.");
             }
             catch (IOException ioe)
             {
@@ -4064,20 +4062,13 @@ namespace Office_File_Explorer
 
         private void BtnFixListNumbering_Click(object sender, EventArgs e)
         {
-            // TODO:
-            // loop each existing abstractnumid get numId and style, keep track of 1 bullet and 1 decimal numId
-            // loop each existing numid in document check numid style, replace with default of that style
-            // delete orphan lists
             try
             {
                 LstDisplay.Items.Clear();
                 Cursor = Cursors.WaitCursor;
+
                 NumberingHelper bulletNumberingValues = new NumberingHelper();
-                NumberingHelper decimalNumberingValues = new NumberingHelper();
-                
-                // temp lists 
                 List<int> bulletNumIdsInUse = new List<int>();
-                List<int> decimalNumIdsInUse = new List<int>();
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -4085,7 +4076,6 @@ namespace Office_File_Explorer
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
                     
                     bool bulletFound = false;
-                    bool decimalFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
                     {
@@ -4098,9 +4088,8 @@ namespace Office_File_Explorer
                                     if (anChild.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Level")
                                     {
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
-                                        DocumentFormat.OpenXml.Wordprocessing.NumberingFormat nf = lvl.NumberingFormat;
 
-                                        if (nf.Val == "bullet")
+                                        if (lvl.NumberingFormat.Val == "bullet")
                                         {
                                             bulletNumIdsInUse.Add(ni.NumberID);
 
@@ -4112,31 +4101,15 @@ namespace Office_File_Explorer
                                                 bulletFound = true;
                                             }
                                         }
-
-                                        if (nf.Val == "decimal" && decimalFound == false)
-                                        {
-                                            decimalNumIdsInUse.Add(ni.NumberID);
-
-                                            if (decimalFound == false)
-                                            {
-                                                decimalNumberingValues.AbsNumId = ni.AbstractNumId.Val;
-                                                decimalNumberingValues.NumFormat = "decimal";
-                                                decimalNumberingValues.NumId = ni.NumberID;
-                                                decimalFound = true;
-                                            }
-                                        }
                                     }
                                 }
                             }
                         }
                     }
 
-                    // loop document
                     MainDocumentPart mainPart = document.MainDocumentPart;
-                    NumberingDefinitionsPart numPart = mainPart.NumberingDefinitionsPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
 
-                    // Loop each paragraph, then loop each numid in use to see if we should reset the numid for bullet or decimal
                     foreach (OpenXmlElement el in mainPart.Document.Descendants<Paragraph>())
                     {
                         if (el.Descendants<NumberingId>().Count() > 0)
@@ -4150,19 +4123,10 @@ namespace Office_File_Explorer
                                         pNumId.Val = bulletNumberingValues.NumId;
                                     }
                                 }
-
-                                foreach (var o in decimalNumIdsInUse)
-                                {
-                                    if (o == pNumId.Val)
-                                    {
-                                        pNumId.Val = decimalNumberingValues.NumId;
-                                    }
-                                }
                             }
                         }
                     }
 
-                    // Loop each header, get the NumId and add it to the array
                     foreach (HeaderPart hdrPart in mainPart.HeaderParts)
                     {
                         foreach (OpenXmlElement el in hdrPart.Header.Elements())
@@ -4176,19 +4140,10 @@ namespace Office_File_Explorer
                                         hNumId.Val = bulletNumberingValues.NumId;
                                     }
                                 }
-
-                                foreach (var o in decimalNumIdsInUse)
-                                {
-                                    if (o == hNumId.Val)
-                                    {
-                                        hNumId.Val = decimalNumberingValues.NumId;
-                                    }
-                                }
                             }
                         }
                     }
 
-                    // Loop each footer, get the NumId and add it to the array
                     foreach (FooterPart ftrPart in mainPart.FooterParts)
                     {
                         foreach (OpenXmlElement el in ftrPart.Footer.Elements())
@@ -4202,22 +4157,13 @@ namespace Office_File_Explorer
                                         fNumId.Val = bulletNumberingValues.NumId;
                                     }
                                 }
-
-                                foreach (var o in decimalNumIdsInUse)
-                                {
-                                    if (o == fNumId.Val)
-                                    {
-                                        fNumId.Val = decimalNumberingValues.NumId;
-                                    }
-                                }
                             }
                         }
                     }
 
-                    // Loop through each style in document and get NumId
                     foreach (OpenXmlElement el in stylePart.Styles.Elements())
                     {
-                        try
+                        if (el.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Style")
                         {
                             string styleEl = el.GetAttribute("styleId", StringResources.wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
@@ -4233,31 +4179,45 @@ namespace Office_File_Explorer
                                             sEl.Val = bulletNumberingValues.NumId;
                                         }
                                     }
-
-                                    foreach (var o in decimalNumIdsInUse)
-                                    {
-                                        if (o == sEl.Val)
-                                        {
-                                            sEl.Val = decimalNumberingValues.NumId;
-                                        }
-                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Not all style elements have a styleID, so just skip these scenarios
-                            LoggingHelper.Log("BtnListTemplates_Click : " + ex.Message);
                         }
                     }
 
                     document.MainDocumentPart.Document.Save();
+                    LstDisplay.Items.Add("** Numbering Fix Completed **");
                 }
             }
             catch (Exception ex)
             {
                 LstDisplay.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnFixListNumbering: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixEndnotes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    EndnotesPart ep = document.MainDocumentPart.EndnotesPart;
+                    ep.Endnotes = WordOpenXml.GenerateFixedEndnotes();
+                    document.MainDocumentPart.Document.Save();
+                    LstDisplay.Items.Add("** Endnotes Fix Completed **");
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnFixEndnotes: " + ex.Message);
             }
             finally
             {

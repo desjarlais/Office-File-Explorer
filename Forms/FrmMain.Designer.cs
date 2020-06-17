@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnFixListNumbering = new System.Windows.Forms.Button();
             this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
             this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
@@ -107,7 +108,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnFixListNumbering = new System.Windows.Forms.Button();
+            this.BtnFixEndnotes = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -119,6 +120,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnFixEndnotes);
             this.groupBox1.Controls.Add(this.BtnFixListNumbering);
             this.groupBox1.Controls.Add(this.BtnFixCorruptRevisions);
             this.groupBox1.Controls.Add(this.BtnFixCorruptBookmarks);
@@ -128,7 +130,6 @@
             this.groupBox1.Controls.Add(this.BtnViewParagraphs);
             this.groupBox1.Controls.Add(this.BtnSetPrintOrientation);
             this.groupBox1.Controls.Add(this.BtnFixCorruptDocument);
-            this.groupBox1.Controls.Add(this.BtnRemovePII);
             this.groupBox1.Controls.Add(this.BtnConvertDocmToDocx);
             this.groupBox1.Controls.Add(this.BtnViewCustomDocProps);
             this.groupBox1.Controls.Add(this.BtnSearchAndReplace);
@@ -157,6 +158,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnFixListNumbering
+            // 
+            this.BtnFixListNumbering.Location = new System.Drawing.Point(144, 186);
+            this.BtnFixListNumbering.Name = "BtnFixListNumbering";
+            this.BtnFixListNumbering.Size = new System.Drawing.Size(134, 21);
+            this.BtnFixListNumbering.TabIndex = 25;
+            this.BtnFixListNumbering.Text = "Fix List Templates";
+            this.BtnFixListNumbering.UseVisualStyleBackColor = true;
+            this.BtnFixListNumbering.Click += new System.EventHandler(this.BtnFixListNumbering_Click);
             // 
             // BtnFixCorruptRevisions
             // 
@@ -222,7 +233,7 @@
             // 
             // BtnSetPrintOrientation
             // 
-            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(143, 270);
+            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(143, 269);
             this.BtnSetPrintOrientation.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSetPrintOrientation.Name = "BtnSetPrintOrientation";
             this.BtnSetPrintOrientation.Size = new System.Drawing.Size(133, 21);
@@ -245,18 +256,18 @@
             // BtnRemovePII
             // 
             this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(144, 215);
+            this.BtnRemovePII.Location = new System.Drawing.Point(6, 224);
             this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(134, 21);
+            this.BtnRemovePII.Size = new System.Drawing.Size(114, 21);
             this.BtnRemovePII.TabIndex = 15;
-            this.BtnRemovePII.Text = "Remove PII";
+            this.BtnRemovePII.Text = "Word - Remove PII";
             this.BtnRemovePII.UseVisualStyleBackColor = true;
             this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(143, 244);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(143, 242);
             this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(134, 21);
@@ -744,6 +755,7 @@
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
             this.groupBox4.Controls.Add(this.BtnListOle);
+            this.groupBox4.Controls.Add(this.BtnRemovePII);
             this.groupBox4.Location = new System.Drawing.Point(833, 83);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
@@ -994,15 +1006,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnFixListNumbering
+            // BtnFixEndnotes
             // 
-            this.BtnFixListNumbering.Location = new System.Drawing.Point(144, 186);
-            this.BtnFixListNumbering.Name = "BtnFixListNumbering";
-            this.BtnFixListNumbering.Size = new System.Drawing.Size(134, 21);
-            this.BtnFixListNumbering.TabIndex = 25;
-            this.BtnFixListNumbering.Text = "Fix List Templates";
-            this.BtnFixListNumbering.UseVisualStyleBackColor = true;
-            this.BtnFixListNumbering.Click += new System.EventHandler(this.BtnFixListNumbering_Click);
+            this.BtnFixEndnotes.Location = new System.Drawing.Point(143, 214);
+            this.BtnFixEndnotes.Name = "BtnFixEndnotes";
+            this.BtnFixEndnotes.Size = new System.Drawing.Size(135, 22);
+            this.BtnFixEndnotes.TabIndex = 26;
+            this.BtnFixEndnotes.Text = "Fix Endnotes";
+            this.BtnFixEndnotes.UseVisualStyleBackColor = true;
+            this.BtnFixEndnotes.Click += new System.EventHandler(this.BtnFixEndnotes_Click);
             // 
             // FrmMain
             // 
@@ -1121,6 +1133,7 @@
         private System.Windows.Forms.Button BtnFixCorruptRevisions;
         private System.Windows.Forms.Button BtnPPTRemovePII;
         private System.Windows.Forms.Button BtnFixListNumbering;
+        private System.Windows.Forms.Button BtnFixEndnotes;
     }
 }
 

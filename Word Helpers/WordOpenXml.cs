@@ -17,7 +17,6 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
@@ -62,52 +61,44 @@ namespace Office_File_Explorer.Word_Helpers
             return fWorked;
         }
 
+        /// <summary>
+        /// given a numId, find the element in the Numbering.xml file with that same numId
+        /// get the abstractnumid and delete the numId element
+        /// then you can delete the abstractnumid
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="numId">orphaned ListTemplate to delete</param>
         public static void RemoveListTemplatesNumId(string filename, string numId)
         {
             using (WordprocessingDocument myDoc = WordprocessingDocument.Open(filename, true))
             {
-                MainDocumentPart mainPart = myDoc.MainDocumentPart;
-                NumberingDefinitionsPart numPart = mainPart.NumberingDefinitionsPart;
-                ArrayList absNumId = new ArrayList();
+                string absNumIdToRemove = "";
 
-                foreach (OpenXmlElement el in numPart.Numbering.Elements())
+                var absNumsInUseList = myDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
+                var numInstancesInUseList = myDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
+
+                // loop each numberinginstance and if the orphaned id matches, delete it and keep track of the abstractnumid
+                foreach (NumberingInstance ni in numInstancesInUseList)
                 {
-                    foreach (AbstractNumId aNumId in el.Descendants<AbstractNumId>())
+                    if (ni.NumberID == numId)
                     {
-                        string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
-                        if (strNumId.Equals(numId))
-                        {
-                            absNumId.Add(aNumId.Val);
-                            el.Remove();
-                        }
+                        absNumIdToRemove = ni.AbstractNumId.Val.ToString();
+                        ni.Remove();
+                        break;
                     }
                 }
 
-                foreach (object obj in absNumId)
+                // now that we have the abstractnum, loop that list and delete that one
+                foreach (AbstractNum an in absNumsInUseList)
                 {
-                    foreach (OpenXmlElement el in numPart.Numbering.Elements())
+                    if (an.AbstractNumberId == Int32.Parse(absNumIdToRemove))
                     {
-                        try
-                        {
-                            if (el.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.AbstractNum")
-                            {
-                                string x = el.GetAttribute("abstractNumId", StringResources.wordMainAttributeNamespace).Value.ToString();
-                                string y = obj.ToString();
-
-                                if (x == y)
-                                {
-                                    el.Remove();
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LoggingHelper.Log("RemoveListTemplatesNumId" + ex.Message);
-                        }
+                        an.Remove();
+                        break;
                     }
                 }
 
-                mainPart.Document.Save();
+                myDoc.MainDocumentPart.Document.Save();
             }
         }
 
@@ -150,7 +141,7 @@ namespace Office_File_Explorer.Word_Helpers
         }
 
         /// <summary>
-        /// 
+        /// get a list of all authors in each story of the document
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
@@ -238,8 +229,12 @@ namespace Office_File_Explorer.Word_Helpers
             return distinctAuthors;
         }
 
-        // Given a document name and an author name, accept all revisions by the specified author. 
-        // Pass an empty string for the author to accept all revisions.
+        /// <summary>
+        /// Given a document name and an author name, accept all revisions by the specified author. 
+        /// Pass an empty string for the author to accept all revisions.
+        /// </summary>
+        /// <param name="docName"></param>
+        /// <param name="authorName"></param>
         public static void AcceptAllRevisions(string docName, string authorName)
         {
             using (WordprocessingDocument document = WordprocessingDocument.Open(docName, true))
@@ -339,7 +334,11 @@ namespace Office_File_Explorer.Word_Helpers
             }
         }
 
-        // Delete headers and footers from a document.
+        /// <summary>
+        /// Delete headers and footers from a document.
+        /// </summary>
+        /// <param name="docName"></param>
+        /// <returns></returns>
         public static bool RemoveHeadersFooters(string docName)
         {
             fWorked = false;
@@ -413,7 +412,11 @@ namespace Office_File_Explorer.Word_Helpers
             return fWorked;
         }
 
-        // Delete headers and footers from a document.
+        /// <summary>
+        /// delete the footnotes in a file
+        /// </summary>
+        /// <param name="docName"></param>
+        /// <returns></returns>
         public static bool RemoveFootnotes(string docName)
         {
             fWorked = false;
@@ -444,7 +447,11 @@ namespace Office_File_Explorer.Word_Helpers
             return fWorked;
         }
 
-        // Delete endnotes from the document
+        /// <summary>
+        /// Delete endnotes from the document
+        /// </summary>
+        /// <param name="docName"></param>
+        /// <returns></returns>
         public static bool RemoveEndnotes(string docName)
         {
             fWorked = false;
@@ -466,12 +473,10 @@ namespace Office_File_Explorer.Word_Helpers
                     var en = mainPart.EndnotesPart.Endnotes.Descendants<Endnote>().ToList();
                     foreach (var e in en)
                     {
+                        
                         // remove all endnotes
                         e.Parent.RemoveChild(e);
                     }
-
-                    // now that they are all removed, add the default separator and continuationSeparator endnotes
-                    GenerateEndnotePartContent(mainPart.EndnotesPart);
 
                     mainPart.Document.Save();
                     fWorked = true;
@@ -480,86 +485,6 @@ namespace Office_File_Explorer.Word_Helpers
 
             return fWorked;
         }
-
-        private static void GenerateEndnotePartContent(EndnotesPart part)
-        {
-            Endnotes endnotes1 = new Endnotes() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "w14 w15 w16se w16cid w16 w16cex wp14" } };
-            endnotes1.AddNamespaceDeclaration("wpc", "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas");
-            endnotes1.AddNamespaceDeclaration("cx", "http://schemas.microsoft.com/office/drawing/2014/chartex");
-            endnotes1.AddNamespaceDeclaration("cx1", "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex");
-            endnotes1.AddNamespaceDeclaration("cx2", "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex");
-            endnotes1.AddNamespaceDeclaration("cx3", "http://schemas.microsoft.com/office/drawing/2016/5/9/chartex");
-            endnotes1.AddNamespaceDeclaration("cx4", "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex");
-            endnotes1.AddNamespaceDeclaration("cx5", "http://schemas.microsoft.com/office/drawing/2016/5/11/chartex");
-            endnotes1.AddNamespaceDeclaration("cx6", "http://schemas.microsoft.com/office/drawing/2016/5/12/chartex");
-            endnotes1.AddNamespaceDeclaration("cx7", "http://schemas.microsoft.com/office/drawing/2016/5/13/chartex");
-            endnotes1.AddNamespaceDeclaration("cx8", "http://schemas.microsoft.com/office/drawing/2016/5/14/chartex");
-            endnotes1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
-            endnotes1.AddNamespaceDeclaration("aink", "http://schemas.microsoft.com/office/drawing/2016/ink");
-            endnotes1.AddNamespaceDeclaration("am3d", "http://schemas.microsoft.com/office/drawing/2017/model3d");
-            endnotes1.AddNamespaceDeclaration("o", "urn:schemas-microsoft-com:office:office");
-            endnotes1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
-            endnotes1.AddNamespaceDeclaration("m", "http://schemas.openxmlformats.org/officeDocument/2006/math");
-            endnotes1.AddNamespaceDeclaration("v", "urn:schemas-microsoft-com:vml");
-            endnotes1.AddNamespaceDeclaration("wp14", "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing");
-            endnotes1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
-            endnotes1.AddNamespaceDeclaration("w10", "urn:schemas-microsoft-com:office:word");
-            endnotes1.AddNamespaceDeclaration("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main");
-            endnotes1.AddNamespaceDeclaration("w14", "http://schemas.microsoft.com/office/word/2010/wordml");
-            endnotes1.AddNamespaceDeclaration("w15", "http://schemas.microsoft.com/office/word/2012/wordml");
-            endnotes1.AddNamespaceDeclaration("w16cex", "http://schemas.microsoft.com/office/word/2018/wordml/cex");
-            endnotes1.AddNamespaceDeclaration("w16cid", "http://schemas.microsoft.com/office/word/2016/wordml/cid");
-            endnotes1.AddNamespaceDeclaration("w16", "http://schemas.microsoft.com/office/word/2018/wordml");
-            endnotes1.AddNamespaceDeclaration("w16se", "http://schemas.microsoft.com/office/word/2015/wordml/symex");
-            endnotes1.AddNamespaceDeclaration("wpg", "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup");
-            endnotes1.AddNamespaceDeclaration("wpi", "http://schemas.microsoft.com/office/word/2010/wordprocessingInk");
-            endnotes1.AddNamespaceDeclaration("wne", "http://schemas.microsoft.com/office/word/2006/wordml");
-            endnotes1.AddNamespaceDeclaration("wps", "http://schemas.microsoft.com/office/word/2010/wordprocessingShape");
-
-            Endnote endnote1 = new Endnote() { Type = FootnoteEndnoteValues.Separator, Id = -1 };
-
-            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00E87A81", RsidParagraphProperties = "00330DF3", RsidRunAdditionDefault = "00E87A81", ParagraphId = "46E56C20", TextId = "77777777" };
-
-            ParagraphProperties paragraphProperties1 = new ParagraphProperties();
-            SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
-
-            paragraphProperties1.Append(spacingBetweenLines1);
-
-            Run run1 = new Run();
-            SeparatorMark separatorMark1 = new SeparatorMark();
-
-            run1.Append(separatorMark1);
-
-            paragraph1.Append(paragraphProperties1);
-            paragraph1.Append(run1);
-
-            endnote1.Append(paragraph1);
-
-            Endnote endnote2 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationSeparator, Id = 0 };
-
-            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00E87A81", RsidParagraphProperties = "00330DF3", RsidRunAdditionDefault = "00E87A81", ParagraphId = "2DF1C342", TextId = "77777777" };
-
-            ParagraphProperties paragraphProperties2 = new ParagraphProperties();
-            SpacingBetweenLines spacingBetweenLines2 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
-
-            paragraphProperties2.Append(spacingBetweenLines2);
-
-            Run run2 = new Run();
-            ContinuationSeparatorMark continuationSeparatorMark1 = new ContinuationSeparatorMark();
-
-            run2.Append(continuationSeparatorMark1);
-
-            paragraph2.Append(paragraphProperties2);
-            paragraph2.Append(run2);
-
-            endnote2.Append(paragraph2);
-
-            endnotes1.Append(endnote1);
-            endnotes1.Append(endnote2);
-
-            part.Endnotes = endnotes1;
-        }
-
 
         /// <summary>
         /// Set the font for a text run.
@@ -896,247 +821,217 @@ namespace Office_File_Explorer.Word_Helpers
             return isFixed;
         }
 
-        // Creates an NumberingInstance instance and adds its children.
-        public static NumberingInstance GenerateNumberingInstance(int absNumId, int numId)
+        // Creates an Endnotes instance and adds its children.
+        public static Endnotes GenerateFixedEndnotes()
         {
-            NumberingInstance numberingInstance1 = new NumberingInstance() { NumberID = numId };
-            AbstractNumId abstractNumId1 = new AbstractNumId() { Val = absNumId };
+            Endnotes endnotes1 = new Endnotes() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "w14 w15 w16se w16cid w16 w16cex wp14" } };
+            endnotes1.AddNamespaceDeclaration("wpc", "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas");
+            endnotes1.AddNamespaceDeclaration("cx", "http://schemas.microsoft.com/office/drawing/2014/chartex");
+            endnotes1.AddNamespaceDeclaration("cx1", "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex");
+            endnotes1.AddNamespaceDeclaration("cx2", "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex");
+            endnotes1.AddNamespaceDeclaration("cx3", "http://schemas.microsoft.com/office/drawing/2016/5/9/chartex");
+            endnotes1.AddNamespaceDeclaration("cx4", "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex");
+            endnotes1.AddNamespaceDeclaration("cx5", "http://schemas.microsoft.com/office/drawing/2016/5/11/chartex");
+            endnotes1.AddNamespaceDeclaration("cx6", "http://schemas.microsoft.com/office/drawing/2016/5/12/chartex");
+            endnotes1.AddNamespaceDeclaration("cx7", "http://schemas.microsoft.com/office/drawing/2016/5/13/chartex");
+            endnotes1.AddNamespaceDeclaration("cx8", "http://schemas.microsoft.com/office/drawing/2016/5/14/chartex");
+            endnotes1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+            endnotes1.AddNamespaceDeclaration("aink", "http://schemas.microsoft.com/office/drawing/2016/ink");
+            endnotes1.AddNamespaceDeclaration("am3d", "http://schemas.microsoft.com/office/drawing/2017/model3d");
+            endnotes1.AddNamespaceDeclaration("o", "urn:schemas-microsoft-com:office:office");
+            endnotes1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
+            endnotes1.AddNamespaceDeclaration("m", "http://schemas.openxmlformats.org/officeDocument/2006/math");
+            endnotes1.AddNamespaceDeclaration("v", "urn:schemas-microsoft-com:vml");
+            endnotes1.AddNamespaceDeclaration("wp14", "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing");
+            endnotes1.AddNamespaceDeclaration("wp", "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing");
+            endnotes1.AddNamespaceDeclaration("w10", "urn:schemas-microsoft-com:office:word");
+            endnotes1.AddNamespaceDeclaration("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main");
+            endnotes1.AddNamespaceDeclaration("w14", "http://schemas.microsoft.com/office/word/2010/wordml");
+            endnotes1.AddNamespaceDeclaration("w15", "http://schemas.microsoft.com/office/word/2012/wordml");
+            endnotes1.AddNamespaceDeclaration("w16cex", "http://schemas.microsoft.com/office/word/2018/wordml/cex");
+            endnotes1.AddNamespaceDeclaration("w16cid", "http://schemas.microsoft.com/office/word/2016/wordml/cid");
+            endnotes1.AddNamespaceDeclaration("w16", "http://schemas.microsoft.com/office/word/2018/wordml");
+            endnotes1.AddNamespaceDeclaration("w16se", "http://schemas.microsoft.com/office/word/2015/wordml/symex");
+            endnotes1.AddNamespaceDeclaration("wpg", "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup");
+            endnotes1.AddNamespaceDeclaration("wpi", "http://schemas.microsoft.com/office/word/2010/wordprocessingInk");
+            endnotes1.AddNamespaceDeclaration("wne", "http://schemas.microsoft.com/office/word/2006/wordml");
+            endnotes1.AddNamespaceDeclaration("wps", "http://schemas.microsoft.com/office/word/2010/wordprocessingShape");
 
-            numberingInstance1.Append(abstractNumId1);
-            return numberingInstance1;
+            Endnote endnote1 = new Endnote() { Type = FootnoteEndnoteValues.Separator, Id = -1 };
+
+            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "35D1D9A3", TextId = "77777777" };
+
+            Run run1 = new Run();
+            SeparatorMark separatorMark1 = new SeparatorMark();
+
+            run1.Append(separatorMark1);
+
+            paragraph1.Append(run1);
+
+            endnote1.Append(paragraph1);
+
+            Endnote endnote2 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationSeparator, Id = 0 };
+
+            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidParagraphProperties = "00370E10", RsidRunAdditionDefault = "00964C92", ParagraphId = "1597DCB6", TextId = "77777777" };
+
+            Run run2 = new Run();
+            ContinuationSeparatorMark continuationSeparatorMark1 = new ContinuationSeparatorMark();
+
+            run2.Append(continuationSeparatorMark1);
+
+            paragraph2.Append(run2);
+            Paragraph paragraph3 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "7DFAE2E4", TextId = "77777777" };
+
+            endnote2.Append(paragraph2);
+            endnote2.Append(paragraph3);
+
+            Endnote endnote3 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationNotice, Id = 1 };
+            Paragraph paragraph4 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "3DD5254E", TextId = "77777777" };
+            Paragraph paragraph5 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "3504F003", TextId = "77777777" };
+
+            endnote3.Append(paragraph4);
+            endnote3.Append(paragraph5);
+
+            Endnote endnote4 = new Endnote() { Id = 2 };
+
+            Paragraph paragraph6 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "5B7E182F", TextId = "77777777" };
+
+            ParagraphProperties paragraphProperties1 = new ParagraphProperties();
+            ParagraphStyleId paragraphStyleId1 = new ParagraphStyleId() { Val = "EndnoteText" };
+
+            paragraphProperties1.Append(paragraphStyleId1);
+
+            paragraph6.Append(paragraphProperties1);
+
+            Paragraph paragraph7 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "0F72BD23", TextId = "77777777" };
+
+            ParagraphProperties paragraphProperties2 = new ParagraphProperties();
+            ParagraphStyleId paragraphStyleId2 = new ParagraphStyleId() { Val = "EndnoteText" };
+
+            paragraphProperties2.Append(paragraphStyleId2);
+
+            paragraph7.Append(paragraphProperties2);
+
+            Paragraph paragraph8 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "3FCE9712", TextId = "5B0FD889" };
+
+            ParagraphProperties paragraphProperties3 = new ParagraphProperties();
+            ParagraphStyleId paragraphStyleId3 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
+
+            paragraphProperties3.Append(paragraphStyleId3);
+
+            Run run3 = new Run() { RsidRunProperties = "0099263B" };
+
+            RunProperties runProperties1 = new RunProperties();
+            RunStyle runStyle1 = new RunStyle() { Val = "EndnoteReference" };
+
+            runProperties1.Append(runStyle1);
+            EndnoteReferenceMark endnoteReferenceMark1 = new EndnoteReferenceMark();
+
+            run3.Append(runProperties1);
+            run3.Append(endnoteReferenceMark1);
+
+            Run run4 = new Run() { RsidRunProperties = "0099263B" };
+            Text text1 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text1.Text = " Endnote text goes here in Segoe UI 9 pt in black with 0 pt before and 9 pt after";
+
+            run4.Append(text1);
+
+            Run run5 = new Run();
+            Text text2 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text2.Text = " starting at the 0.75 inch left margin";
+
+            run5.Append(text2);
+
+            Run run6 = new Run() { RsidRunProperties = "0099263B" };
+            Text text3 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text3.Text = ".  ";
+
+            run6.Append(text3);
+
+            Run run7 = new Run();
+            Text text4 = new Text();
+            text4.Text = "Use Style Button “Report: Notes Endnotes.”";
+
+            run7.Append(text4);
+
+            paragraph8.Append(paragraphProperties3);
+            paragraph8.Append(run3);
+            paragraph8.Append(run4);
+            paragraph8.Append(run5);
+            paragraph8.Append(run6);
+            paragraph8.Append(run7);
+
+            Paragraph paragraph9 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "73865F95", TextId = "285296E7" };
+
+            ParagraphProperties paragraphProperties4 = new ParagraphProperties();
+            ParagraphStyleId paragraphStyleId4 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
+
+            paragraphProperties4.Append(paragraphStyleId4);
+
+            Run run8 = new Run() { RsidRunProperties = "0039415E" };
+            Text text5 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text5.Text = "Generally, reports use footnotes and ";
+
+            run8.Append(text5);
+
+            Run run9 = new Run();
+            Text text6 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text6.Text = "data ";
+
+            run9.Append(text6);
+
+            Run run10 = new Run() { RsidRunProperties = "0039415E" };
+            Text text7 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text7.Text = "briefs use endnotes.  If appropriate, a team may create a report with only endnotes. ";
+
+            run10.Append(text7);
+
+            Run run11 = new Run();
+            Text text8 = new Text() { Space = SpaceProcessingModeValues.Preserve };
+            text8.Text = " ";
+
+            run11.Append(text8);
+
+            Run run12 = new Run() { RsidRunProperties = "0039415E" };
+            Text text9 = new Text();
+            text9.Text = "Use your best judgment.";
+
+            run12.Append(text9);
+
+            paragraph9.Append(paragraphProperties4);
+            paragraph9.Append(run8);
+            paragraph9.Append(run9);
+            paragraph9.Append(run10);
+            paragraph9.Append(run11);
+            paragraph9.Append(run12);
+
+            Paragraph paragraph10 = new Paragraph() { RsidParagraphMarkRevision = "0099263B", RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "050DD35D", TextId = "77777777" };
+
+            ParagraphProperties paragraphProperties5 = new ParagraphProperties();
+            ParagraphStyleId paragraphStyleId5 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
+
+            paragraphProperties5.Append(paragraphStyleId5);
+
+            Run run13 = new Run();
+            Text text10 = new Text();
+            text10.Text = "If the document only uses Endnotes, make sure it uses numbers.";
+
+            run13.Append(text10);
+
+            paragraph10.Append(paragraphProperties5);
+            paragraph10.Append(run13);
+
+            endnote4.Append(paragraph6);
+            endnote4.Append(paragraph7);
+            endnote4.Append(paragraph8);
+            endnote4.Append(paragraph9);
+            endnote4.Append(paragraph10);
+
+            endnotes1.Append(endnote1);
+            endnotes1.Append(endnote2);
+            endnotes1.Append(endnote3);
+            endnotes1.Append(endnote4);
+            return endnotes1;
         }
-
-
-        // Creates an AbstractNum instance and adds its children.
-        public static AbstractNum GenerateAbstractNum(int absNumId)
-        {
-            AbstractNum abstractNum1 = new AbstractNum() { AbstractNumberId = absNumId };
-            abstractNum1.SetAttribute(new OpenXmlAttribute("w15", "restartNumberingAfterBreak", "http://schemas.microsoft.com/office/word/2012/wordml", "0"));
-            Nsid nsid1 = new Nsid() { Val = "46CD5BB6" };
-            MultiLevelType multiLevelType1 = new MultiLevelType() { Val = MultiLevelValues.HybridMultilevel };
-            TemplateCode templateCode1 = new TemplateCode() { Val = "397CA92C" };
-
-            Level level1 = new Level() { LevelIndex = 0, TemplateCode = "04090001" };
-            StartNumberingValue startNumberingValue1 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat1 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText1 = new LevelText() { Val = "·" };
-            LevelJustification levelJustification1 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties1 = new PreviousParagraphProperties();
-            Indentation indentation1 = new Indentation() { Left = "720", Hanging = "360" };
-
-            previousParagraphProperties1.Append(indentation1);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties1 = new NumberingSymbolRunProperties();
-            RunFonts runFonts1 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Symbol", HighAnsi = "Symbol" };
-
-            numberingSymbolRunProperties1.Append(runFonts1);
-
-            level1.Append(startNumberingValue1);
-            level1.Append(numberingFormat1);
-            level1.Append(levelText1);
-            level1.Append(levelJustification1);
-            level1.Append(previousParagraphProperties1);
-            level1.Append(numberingSymbolRunProperties1);
-
-            Level level2 = new Level() { LevelIndex = 1, TemplateCode = "04090003", Tentative = true };
-            StartNumberingValue startNumberingValue2 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat2 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText2 = new LevelText() { Val = "o" };
-            LevelJustification levelJustification2 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties2 = new PreviousParagraphProperties();
-            Indentation indentation2 = new Indentation() { Left = "1440", Hanging = "360" };
-
-            previousParagraphProperties2.Append(indentation2);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties2 = new NumberingSymbolRunProperties();
-            RunFonts runFonts2 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Courier New", HighAnsi = "Courier New", ComplexScript = "Courier New" };
-
-            numberingSymbolRunProperties2.Append(runFonts2);
-
-            level2.Append(startNumberingValue2);
-            level2.Append(numberingFormat2);
-            level2.Append(levelText2);
-            level2.Append(levelJustification2);
-            level2.Append(previousParagraphProperties2);
-            level2.Append(numberingSymbolRunProperties2);
-
-            Level level3 = new Level() { LevelIndex = 2, TemplateCode = "04090005", Tentative = true };
-            StartNumberingValue startNumberingValue3 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat3 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText3 = new LevelText() { Val = "§" };
-            LevelJustification levelJustification3 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties3 = new PreviousParagraphProperties();
-            Indentation indentation3 = new Indentation() { Left = "2160", Hanging = "360" };
-
-            previousParagraphProperties3.Append(indentation3);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties3 = new NumberingSymbolRunProperties();
-            RunFonts runFonts3 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Wingdings", HighAnsi = "Wingdings" };
-
-            numberingSymbolRunProperties3.Append(runFonts3);
-
-            level3.Append(startNumberingValue3);
-            level3.Append(numberingFormat3);
-            level3.Append(levelText3);
-            level3.Append(levelJustification3);
-            level3.Append(previousParagraphProperties3);
-            level3.Append(numberingSymbolRunProperties3);
-
-            Level level4 = new Level() { LevelIndex = 3, TemplateCode = "04090001", Tentative = true };
-            StartNumberingValue startNumberingValue4 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat4 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText4 = new LevelText() { Val = "·" };
-            LevelJustification levelJustification4 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties4 = new PreviousParagraphProperties();
-            Indentation indentation4 = new Indentation() { Left = "2880", Hanging = "360" };
-
-            previousParagraphProperties4.Append(indentation4);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties4 = new NumberingSymbolRunProperties();
-            RunFonts runFonts4 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Symbol", HighAnsi = "Symbol" };
-
-            numberingSymbolRunProperties4.Append(runFonts4);
-
-            level4.Append(startNumberingValue4);
-            level4.Append(numberingFormat4);
-            level4.Append(levelText4);
-            level4.Append(levelJustification4);
-            level4.Append(previousParagraphProperties4);
-            level4.Append(numberingSymbolRunProperties4);
-
-            Level level5 = new Level() { LevelIndex = 4, TemplateCode = "04090003", Tentative = true };
-            StartNumberingValue startNumberingValue5 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat5 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText5 = new LevelText() { Val = "o" };
-            LevelJustification levelJustification5 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties5 = new PreviousParagraphProperties();
-            Indentation indentation5 = new Indentation() { Left = "3600", Hanging = "360" };
-
-            previousParagraphProperties5.Append(indentation5);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties5 = new NumberingSymbolRunProperties();
-            RunFonts runFonts5 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Courier New", HighAnsi = "Courier New", ComplexScript = "Courier New" };
-
-            numberingSymbolRunProperties5.Append(runFonts5);
-
-            level5.Append(startNumberingValue5);
-            level5.Append(numberingFormat5);
-            level5.Append(levelText5);
-            level5.Append(levelJustification5);
-            level5.Append(previousParagraphProperties5);
-            level5.Append(numberingSymbolRunProperties5);
-
-            Level level6 = new Level() { LevelIndex = 5, TemplateCode = "04090005", Tentative = true };
-            StartNumberingValue startNumberingValue6 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat6 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText6 = new LevelText() { Val = "§" };
-            LevelJustification levelJustification6 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties6 = new PreviousParagraphProperties();
-            Indentation indentation6 = new Indentation() { Left = "4320", Hanging = "360" };
-
-            previousParagraphProperties6.Append(indentation6);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties6 = new NumberingSymbolRunProperties();
-            RunFonts runFonts6 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Wingdings", HighAnsi = "Wingdings" };
-
-            numberingSymbolRunProperties6.Append(runFonts6);
-
-            level6.Append(startNumberingValue6);
-            level6.Append(numberingFormat6);
-            level6.Append(levelText6);
-            level6.Append(levelJustification6);
-            level6.Append(previousParagraphProperties6);
-            level6.Append(numberingSymbolRunProperties6);
-
-            Level level7 = new Level() { LevelIndex = 6, TemplateCode = "04090001", Tentative = true };
-            StartNumberingValue startNumberingValue7 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat7 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText7 = new LevelText() { Val = "·" };
-            LevelJustification levelJustification7 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties7 = new PreviousParagraphProperties();
-            Indentation indentation7 = new Indentation() { Left = "5040", Hanging = "360" };
-
-            previousParagraphProperties7.Append(indentation7);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties7 = new NumberingSymbolRunProperties();
-            RunFonts runFonts7 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Symbol", HighAnsi = "Symbol" };
-
-            numberingSymbolRunProperties7.Append(runFonts7);
-
-            level7.Append(startNumberingValue7);
-            level7.Append(numberingFormat7);
-            level7.Append(levelText7);
-            level7.Append(levelJustification7);
-            level7.Append(previousParagraphProperties7);
-            level7.Append(numberingSymbolRunProperties7);
-
-            Level level8 = new Level() { LevelIndex = 7, TemplateCode = "04090003", Tentative = true };
-            StartNumberingValue startNumberingValue8 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat8 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText8 = new LevelText() { Val = "o" };
-            LevelJustification levelJustification8 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties8 = new PreviousParagraphProperties();
-            Indentation indentation8 = new Indentation() { Left = "5760", Hanging = "360" };
-
-            previousParagraphProperties8.Append(indentation8);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties8 = new NumberingSymbolRunProperties();
-            RunFonts runFonts8 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Courier New", HighAnsi = "Courier New", ComplexScript = "Courier New" };
-
-            numberingSymbolRunProperties8.Append(runFonts8);
-
-            level8.Append(startNumberingValue8);
-            level8.Append(numberingFormat8);
-            level8.Append(levelText8);
-            level8.Append(levelJustification8);
-            level8.Append(previousParagraphProperties8);
-            level8.Append(numberingSymbolRunProperties8);
-
-            Level level9 = new Level() { LevelIndex = 8, TemplateCode = "04090005", Tentative = true };
-            StartNumberingValue startNumberingValue9 = new StartNumberingValue() { Val = 1 };
-            NumberingFormat numberingFormat9 = new NumberingFormat() { Val = NumberFormatValues.Bullet };
-            LevelText levelText9 = new LevelText() { Val = "§" };
-            LevelJustification levelJustification9 = new LevelJustification() { Val = LevelJustificationValues.Left };
-
-            PreviousParagraphProperties previousParagraphProperties9 = new PreviousParagraphProperties();
-            Indentation indentation9 = new Indentation() { Left = "6480", Hanging = "360" };
-
-            previousParagraphProperties9.Append(indentation9);
-
-            NumberingSymbolRunProperties numberingSymbolRunProperties9 = new NumberingSymbolRunProperties();
-            RunFonts runFonts9 = new RunFonts() { Hint = FontTypeHintValues.Default, Ascii = "Wingdings", HighAnsi = "Wingdings" };
-
-            numberingSymbolRunProperties9.Append(runFonts9);
-
-            level9.Append(startNumberingValue9);
-            level9.Append(numberingFormat9);
-            level9.Append(levelText9);
-            level9.Append(levelJustification9);
-            level9.Append(previousParagraphProperties9);
-            level9.Append(numberingSymbolRunProperties9);
-
-            abstractNum1.Append(nsid1);
-            abstractNum1.Append(multiLevelType1);
-            abstractNum1.Append(templateCode1);
-            abstractNum1.Append(level1);
-            abstractNum1.Append(level2);
-            abstractNum1.Append(level3);
-            abstractNum1.Append(level4);
-            abstractNum1.Append(level5);
-            abstractNum1.Append(level6);
-            abstractNum1.Append(level7);
-            abstractNum1.Append(level8);
-            abstractNum1.Append(level9);
-            return abstractNum1;
-        }
-
     }
 }
