@@ -859,67 +859,52 @@ namespace Office_File_Explorer.Word_Helpers
 
             Endnote endnote1 = new Endnote() { Type = FootnoteEndnoteValues.Separator, Id = -1 };
 
-            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "35D1D9A3", TextId = "77777777" };
+            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00DD63F8", RsidParagraphProperties = "00DC5D64", RsidRunAdditionDefault = "00DD63F8", ParagraphId = "348418BD", TextId = "77777777" };
+
+            ParagraphProperties paragraphProperties1 = new ParagraphProperties();
+            SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
+
+            paragraphProperties1.Append(spacingBetweenLines1);
 
             Run run1 = new Run();
             SeparatorMark separatorMark1 = new SeparatorMark();
 
             run1.Append(separatorMark1);
 
+            paragraph1.Append(paragraphProperties1);
             paragraph1.Append(run1);
 
             endnote1.Append(paragraph1);
 
             Endnote endnote2 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationSeparator, Id = 0 };
 
-            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidParagraphProperties = "00370E10", RsidRunAdditionDefault = "00964C92", ParagraphId = "1597DCB6", TextId = "77777777" };
+            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00DD63F8", RsidParagraphProperties = "00DC5D64", RsidRunAdditionDefault = "00DD63F8", ParagraphId = "3FCC6B82", TextId = "77777777" };
+
+            ParagraphProperties paragraphProperties2 = new ParagraphProperties();
+            SpacingBetweenLines spacingBetweenLines2 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
+
+            paragraphProperties2.Append(spacingBetweenLines2);
 
             Run run2 = new Run();
             ContinuationSeparatorMark continuationSeparatorMark1 = new ContinuationSeparatorMark();
 
             run2.Append(continuationSeparatorMark1);
 
+            paragraph2.Append(paragraphProperties2);
             paragraph2.Append(run2);
-            Paragraph paragraph3 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "7DFAE2E4", TextId = "77777777" };
 
             endnote2.Append(paragraph2);
-            endnote2.Append(paragraph3);
 
-            Endnote endnote3 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationNotice, Id = 1 };
-            Paragraph paragraph4 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "3DD5254E", TextId = "77777777" };
-            Paragraph paragraph5 = new Paragraph() { RsidParagraphAddition = "00964C92", RsidRunAdditionDefault = "00964C92", ParagraphId = "3504F003", TextId = "77777777" };
+            Endnote endnote3 = new Endnote() { Id = 1 };
 
-            endnote3.Append(paragraph4);
-            endnote3.Append(paragraph5);
-
-            Endnote endnote4 = new Endnote() { Id = 2 };
-
-            Paragraph paragraph6 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "5B7E182F", TextId = "77777777" };
-
-            ParagraphProperties paragraphProperties1 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId1 = new ParagraphStyleId() { Val = "EndnoteText" };
-
-            paragraphProperties1.Append(paragraphStyleId1);
-
-            paragraph6.Append(paragraphProperties1);
-
-            Paragraph paragraph7 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "0F72BD23", TextId = "77777777" };
-
-            ParagraphProperties paragraphProperties2 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId2 = new ParagraphStyleId() { Val = "EndnoteText" };
-
-            paragraphProperties2.Append(paragraphStyleId2);
-
-            paragraph7.Append(paragraphProperties2);
-
-            Paragraph paragraph8 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "3FCE9712", TextId = "5B0FD889" };
+            Paragraph paragraph3 = new Paragraph() { RsidParagraphAddition = "00DC5D64", RsidRunAdditionDefault = "00DC5D64", ParagraphId = "38BF7542", TextId = "5B51EE9C" };
 
             ParagraphProperties paragraphProperties3 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId3 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
+            ParagraphStyleId paragraphStyleId1 = new ParagraphStyleId() { Val = "EndnoteText" };
 
-            paragraphProperties3.Append(paragraphStyleId3);
+            paragraphProperties3.Append(paragraphStyleId1);
 
-            Run run3 = new Run() { RsidRunProperties = "0099263B" };
+            Run run3 = new Run();
 
             RunProperties runProperties1 = new RunProperties();
             RunStyle runStyle1 = new RunStyle() { Val = "EndnoteReference" };
@@ -930,107 +915,21 @@ namespace Office_File_Explorer.Word_Helpers
             run3.Append(runProperties1);
             run3.Append(endnoteReferenceMark1);
 
-            Run run4 = new Run() { RsidRunProperties = "0099263B" };
+            Run run4 = new Run();
             Text text1 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text1.Text = " Endnote text goes here in Segoe UI 9 pt in black with 0 pt before and 9 pt after";
+            text1.Text = " Endnote text goes here.";
 
             run4.Append(text1);
 
-            Run run5 = new Run();
-            Text text2 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text2.Text = " starting at the 0.75 inch left margin";
+            paragraph3.Append(paragraphProperties3);
+            paragraph3.Append(run3);
+            paragraph3.Append(run4);
 
-            run5.Append(text2);
-
-            Run run6 = new Run() { RsidRunProperties = "0099263B" };
-            Text text3 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text3.Text = ".  ";
-
-            run6.Append(text3);
-
-            Run run7 = new Run();
-            Text text4 = new Text();
-            text4.Text = "Use Style Button “Report: Notes Endnotes.”";
-
-            run7.Append(text4);
-
-            paragraph8.Append(paragraphProperties3);
-            paragraph8.Append(run3);
-            paragraph8.Append(run4);
-            paragraph8.Append(run5);
-            paragraph8.Append(run6);
-            paragraph8.Append(run7);
-
-            Paragraph paragraph9 = new Paragraph() { RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "73865F95", TextId = "285296E7" };
-
-            ParagraphProperties paragraphProperties4 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId4 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
-
-            paragraphProperties4.Append(paragraphStyleId4);
-
-            Run run8 = new Run() { RsidRunProperties = "0039415E" };
-            Text text5 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text5.Text = "Generally, reports use footnotes and ";
-
-            run8.Append(text5);
-
-            Run run9 = new Run();
-            Text text6 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text6.Text = "data ";
-
-            run9.Append(text6);
-
-            Run run10 = new Run() { RsidRunProperties = "0039415E" };
-            Text text7 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text7.Text = "briefs use endnotes.  If appropriate, a team may create a report with only endnotes. ";
-
-            run10.Append(text7);
-
-            Run run11 = new Run();
-            Text text8 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text8.Text = " ";
-
-            run11.Append(text8);
-
-            Run run12 = new Run() { RsidRunProperties = "0039415E" };
-            Text text9 = new Text();
-            text9.Text = "Use your best judgment.";
-
-            run12.Append(text9);
-
-            paragraph9.Append(paragraphProperties4);
-            paragraph9.Append(run8);
-            paragraph9.Append(run9);
-            paragraph9.Append(run10);
-            paragraph9.Append(run11);
-            paragraph9.Append(run12);
-
-            Paragraph paragraph10 = new Paragraph() { RsidParagraphMarkRevision = "0099263B", RsidParagraphAddition = "000C010E", RsidParagraphProperties = "00AF2970", RsidRunAdditionDefault = "000C010E", ParagraphId = "050DD35D", TextId = "77777777" };
-
-            ParagraphProperties paragraphProperties5 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId5 = new ParagraphStyleId() { Val = "ReportNotesEndnotes" };
-
-            paragraphProperties5.Append(paragraphStyleId5);
-
-            Run run13 = new Run();
-            Text text10 = new Text();
-            text10.Text = "If the document only uses Endnotes, make sure it uses numbers.";
-
-            run13.Append(text10);
-
-            paragraph10.Append(paragraphProperties5);
-            paragraph10.Append(run13);
-
-            endnote4.Append(paragraph6);
-            endnote4.Append(paragraph7);
-            endnote4.Append(paragraph8);
-            endnote4.Append(paragraph9);
-            endnote4.Append(paragraph10);
+            endnote3.Append(paragraph3);
 
             endnotes1.Append(endnote1);
             endnotes1.Append(endnote2);
             endnotes1.Append(endnote3);
-            endnotes1.Append(endnote4);
             return endnotes1;
         }
     }
