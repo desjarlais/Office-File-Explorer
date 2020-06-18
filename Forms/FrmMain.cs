@@ -177,12 +177,9 @@ namespace Office_File_Explorer
             BtnListBookmarks.Enabled = false;
             BtnListCC.Enabled = false;
             BtnListShapes.Enabled = false;
-            BtnNotesPageSize.Enabled = false;
-            BtnFixCorruptBookmarks.Enabled = false;
-            BtnFixCorruptRevisions.Enabled = false;
             BtnPPTRemovePII.Enabled = false;
-            BtnFixListNumbering.Enabled = false;
-            BtnFixEndnotes.Enabled = false;
+            BtnFixDocument.Enabled = false;
+            BtnFixPresentation.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -271,10 +268,7 @@ namespace Office_File_Explorer
                 BtnListFieldCodes.Enabled = true;
                 BtnListBookmarks.Enabled = true;
                 BtnListCC.Enabled = true;
-                BtnFixCorruptBookmarks.Enabled = true;
-                BtnFixCorruptRevisions.Enabled = true;
-                BtnFixListNumbering.Enabled = true;
-                BtnFixEndnotes.Enabled = true;
+                BtnFixDocument.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -312,8 +306,8 @@ namespace Office_File_Explorer
                 BtnPPTListHyperlinks.Enabled = true;
                 BtnViewPPTComments.Enabled = true;
                 BtnListSlideText.Enabled = true;
-                BtnNotesPageSize.Enabled = true;
                 BtnPPTRemovePII.Enabled = true;
+                BtnFixPresentation.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Pptm)
                 {
@@ -3912,7 +3906,7 @@ namespace Office_File_Explorer
             }
         }
 
-        private void BtnNotesPageSize_Click(object sender, EventArgs e)
+        public void FixNotesPageSize()
         {
             try
             {
@@ -3924,7 +3918,7 @@ namespace Office_File_Explorer
                     {
                         MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    
+
                     DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
                 }
             }
@@ -3951,21 +3945,29 @@ namespace Office_File_Explorer
             Process.Start(StringResources.helpLocation);
         }
 
-        private void BtnFixCorruptBookmarks_Click(object sender, EventArgs e)
+        private void BtnPPTRemovePII_Click(object sender, EventArgs e)
         {
-            LstDisplay.Items.Clear();
-
-            if (WordOpenXml.RemoveMissingBookmarkTags(TxtFileName.Text) == true || WordOpenXml.RemovePlainTextCcFromBookmark(TxtFileName.Text) == true)
+            try
             {
-                LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
+                Cursor = Cursors.WaitCursor;
+                using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+                {
+                    document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
+                    document.PresentationPart.Presentation.Save();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LstDisplay.Items.Add("** No Corrupt Bookmarks Found **");
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
-        private void BtnFixCorruptRevisions_Click(object sender, EventArgs e)
+        public void FixRevisions()
         {
             try
             {
@@ -3993,7 +3995,7 @@ namespace Office_File_Explorer
                                     {
                                         // create a DeletedText object so we can replace it with the Text tag
                                         DeletedText dt = new DeletedText();
-                                        
+
                                         // check for attributes
                                         if (oxe.HasAttributes)
                                         {
@@ -4005,7 +4007,7 @@ namespace Office_File_Explorer
 
                                         // set the text value
                                         dt.Text = oxe.InnerText;
-                                        
+
                                         // replace the Text with new DeletedText
                                         r.ReplaceChild(dt, oxe);
                                         isFixed = true;
@@ -4038,29 +4040,21 @@ namespace Office_File_Explorer
             }
         }
 
-        private void BtnPPTRemovePII_Click(object sender, EventArgs e)
+        public void FixBookmarks()
         {
-            try
+            LstDisplay.Items.Clear();
+
+            if (WordOpenXml.RemoveMissingBookmarkTags(TxtFileName.Text) == true || WordOpenXml.RemovePlainTextCcFromBookmark(TxtFileName.Text) == true)
             {
-                Cursor = Cursors.WaitCursor;
-                using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
-                {
-                    document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
-                    document.PresentationPart.Presentation.Save();
-                }
+                LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
             }
-            catch (Exception ex)
+            else
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
-                LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
+                LstDisplay.Items.Add("** No Corrupt Bookmarks Found **");
             }
         }
 
-        private void BtnFixListNumbering_Click(object sender, EventArgs e)
+        public void FixListNumbering()
         {
             try
             {
@@ -4072,9 +4066,15 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
+                    if (document.MainDocumentPart.NumberingDefinitionsPart == null)
+                    {
+                        LstDisplay.Items.Add("** No List Templates Found **");
+                        return;
+                    }
+
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
-                    
+
                     bool bulletFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
@@ -4199,7 +4199,7 @@ namespace Office_File_Explorer
             }
         }
 
-        private void BtnFixEndnotes_Click(object sender, EventArgs e)
+        public void FixEndnotes()
         {
             try
             {
@@ -4208,10 +4208,38 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    EndnotesPart ep = document.MainDocumentPart.EndnotesPart;
-                    ep.Endnotes = WordOpenXml.GenerateFixedEndnotes();
-                    document.MainDocumentPart.Document.Save();
-                    LstDisplay.Items.Add("** Endnotes Fix Completed **");
+                    if (document.MainDocumentPart.EndnotesPart != null)
+                    {
+                        EndnotesPart ep = document.MainDocumentPart.EndnotesPart;
+                        Endnotes ens = ep.Endnotes;
+                        foreach (var en in ens)
+                        {
+                            var paraList = en.Descendants<Paragraph>().ToList();
+                            foreach (var p in paraList)
+                            {
+                                var rList = p.Descendants<Run>().ToList();
+                                if (rList.Count > 1000)
+                                {
+                                    int count = 0;
+                                    foreach (var r in rList)
+                                    {
+                                        if (count > 0)
+                                        {
+                                            r.Remove();
+                                        }
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        document.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Endnotes Fix Completed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Endnotes Found **");
+                    }
                 }
             }
             catch (Exception ex)
@@ -4222,6 +4250,61 @@ namespace Office_File_Explorer
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixDocument_Click(object sender, EventArgs e)
+        {
+            using (var f = new FrmFixDocument("Word"))
+            {
+                var result = f.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string val = f.OptionSelected;
+                    
+                    switch (val)
+                    {
+                        case "Bookmark":
+                            FixBookmarks();
+                            break;
+                        case "Endnote":
+                            FixEndnotes();
+                            break;
+                        case "LT":
+                            FixListNumbering();
+                            break;
+                        case "Revision":
+                            FixRevisions();
+                            break;
+                        default:
+                            LstDisplay.Items.Add("No Option Selected");
+                            LoggingHelper.Log("BtnFixDocument - No Option Selected");
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void BtnFixPresentation_Click(object sender, EventArgs e)
+        {
+            using (var f = new FrmFixDocument("PowerPoint"))
+            {
+                var result = f.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string val = f.OptionSelected;
+
+                    switch (val)
+                    {
+                        case "Notes":
+                            FixNotesPageSize();
+                            break;
+                        default:
+                            LstDisplay.Items.Add("No Option Selected");
+                            LoggingHelper.Log("BtnFixPresentation - No Option Selected");
+                            break;
+                    }
+                }
             }
         }
     }

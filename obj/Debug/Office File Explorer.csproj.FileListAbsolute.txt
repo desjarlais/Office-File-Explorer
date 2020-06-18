@@ -121,3 +121,4 @@ C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explore
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFixDocument.resources

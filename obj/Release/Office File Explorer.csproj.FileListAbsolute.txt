@@ -74,3 +74,4 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CopyCompl
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.pdb
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csprojAssemblyReference.cache
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFixDocument.resources

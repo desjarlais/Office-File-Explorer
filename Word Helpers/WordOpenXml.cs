@@ -21,6 +21,12 @@ using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
+using Wp = DocumentFormat.OpenXml.Drawing.Wordprocessing;
+using A = DocumentFormat.OpenXml.Drawing;
+using Wps = DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
+using Wp14 = DocumentFormat.OpenXml.Office2010.Word.Drawing;
+using V = DocumentFormat.OpenXml.Vml;
+using Wvml = DocumentFormat.OpenXml.Vml.Wordprocessing;
 
 using Office_File_Explorer.App_Helpers;
 
@@ -461,23 +467,15 @@ namespace Office_File_Explorer.Word_Helpers
                 if (wdDoc.MainDocumentPart.GetPartsCountOfType<EndnotesPart>() > 0)
                 {
                     MainDocumentPart mainPart = wdDoc.MainDocumentPart;
-
-                    var enr = mainPart.Document.Descendants<EndnoteReference>().ToList();
+                    
+                    var enr = mainPart.Document.Descendants<EndnoteReference>().ToArray();
                     foreach (var e in enr)
                     {
-                        e.Parent.RemoveChild(e);
+                        e.Remove();
                     }
 
-                    mainPart.Document.Save();
-
-                    var en = mainPart.EndnotesPart.Endnotes.Descendants<Endnote>().ToList();
-                    foreach (var e in en)
-                    {
-                        
-                        // remove all endnotes
-                        e.Parent.RemoveChild(e);
-                    }
-
+                    EndnotesPart ep = mainPart.EndnotesPart;
+                    ep.Endnotes = WordOpenXml.CreateDefaultEndnotes();
                     mainPart.Document.Save();
                     fWorked = true;
                 }
@@ -822,7 +820,7 @@ namespace Office_File_Explorer.Word_Helpers
         }
 
         // Creates an Endnotes instance and adds its children.
-        public static Endnotes GenerateFixedEndnotes()
+        public static Endnotes CreateDefaultEndnotes()
         {
             Endnotes endnotes1 = new Endnotes() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "w14 w15 w16se w16cid w16 w16cex wp14" } };
             endnotes1.AddNamespaceDeclaration("wpc", "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas");
@@ -859,7 +857,7 @@ namespace Office_File_Explorer.Word_Helpers
 
             Endnote endnote1 = new Endnote() { Type = FootnoteEndnoteValues.Separator, Id = -1 };
 
-            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00DD63F8", RsidParagraphProperties = "00DC5D64", RsidRunAdditionDefault = "00DD63F8", ParagraphId = "348418BD", TextId = "77777777" };
+            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00822C7D", RsidParagraphProperties = "00A30061", RsidRunAdditionDefault = "00822C7D", ParagraphId = "34CB4C4C", TextId = "77777777" };
 
             ParagraphProperties paragraphProperties1 = new ParagraphProperties();
             SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
@@ -878,7 +876,7 @@ namespace Office_File_Explorer.Word_Helpers
 
             Endnote endnote2 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationSeparator, Id = 0 };
 
-            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00DD63F8", RsidParagraphProperties = "00DC5D64", RsidRunAdditionDefault = "00DD63F8", ParagraphId = "3FCC6B82", TextId = "77777777" };
+            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00822C7D", RsidParagraphProperties = "00A30061", RsidRunAdditionDefault = "00822C7D", ParagraphId = "4BBA76AE", TextId = "77777777" };
 
             ParagraphProperties paragraphProperties2 = new ParagraphProperties();
             SpacingBetweenLines spacingBetweenLines2 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
@@ -895,42 +893,10 @@ namespace Office_File_Explorer.Word_Helpers
 
             endnote2.Append(paragraph2);
 
-            Endnote endnote3 = new Endnote() { Id = 1 };
-
-            Paragraph paragraph3 = new Paragraph() { RsidParagraphAddition = "00DC5D64", RsidRunAdditionDefault = "00DC5D64", ParagraphId = "38BF7542", TextId = "5B51EE9C" };
-
-            ParagraphProperties paragraphProperties3 = new ParagraphProperties();
-            ParagraphStyleId paragraphStyleId1 = new ParagraphStyleId() { Val = "EndnoteText" };
-
-            paragraphProperties3.Append(paragraphStyleId1);
-
-            Run run3 = new Run();
-
-            RunProperties runProperties1 = new RunProperties();
-            RunStyle runStyle1 = new RunStyle() { Val = "EndnoteReference" };
-
-            runProperties1.Append(runStyle1);
-            EndnoteReferenceMark endnoteReferenceMark1 = new EndnoteReferenceMark();
-
-            run3.Append(runProperties1);
-            run3.Append(endnoteReferenceMark1);
-
-            Run run4 = new Run();
-            Text text1 = new Text() { Space = SpaceProcessingModeValues.Preserve };
-            text1.Text = " Endnote text goes here.";
-
-            run4.Append(text1);
-
-            paragraph3.Append(paragraphProperties3);
-            paragraph3.Append(run3);
-            paragraph3.Append(run4);
-
-            endnote3.Append(paragraph3);
-
             endnotes1.Append(endnote1);
             endnotes1.Append(endnote2);
-            endnotes1.Append(endnote3);
             return endnotes1;
         }
+
     }
 }

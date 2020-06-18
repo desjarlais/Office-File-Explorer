@@ -112,5 +112,10 @@ namespace Office_File_Explorer.Forms
             }
         }
         #endregion
+
+        private void OkButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

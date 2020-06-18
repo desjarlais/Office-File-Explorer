@@ -126,6 +126,12 @@
     <Compile Include="Forms\FrmErrorLog.Designer.cs">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmFixDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmFixDocument.Designer.cs">
+      <DependentUpon>FrmFixDocument.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmErrorLog.resx">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmFixDocument.resx">
+      <DependentUpon>FrmFixDocument.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
