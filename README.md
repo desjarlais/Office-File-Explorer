@@ -14,6 +14,8 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Fix corrupt documents
 * Fix corrupt bookmarks
 * Fix corrupt revisions
+* Fix endnotes
+* Fix ListTemplates / Numbering
 * Remove PII
 
 ### Excel
