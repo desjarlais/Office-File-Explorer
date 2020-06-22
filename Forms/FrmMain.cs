@@ -4054,6 +4054,9 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void FixListNumbering()
         {
             try
@@ -4072,6 +4075,7 @@ namespace Office_File_Explorer
                         return;
                     }
 
+                    // get the list of numId's and AbstractNum's in numbering.xml
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
 
@@ -4081,8 +4085,10 @@ namespace Office_File_Explorer
                     {
                         foreach (NumberingInstance ni in numInstancesInUseList)
                         {
+                            // if the abstractnum and numId match, they are the same listtemplate
                             if (ni.AbstractNumId.Val == an.AbstractNumberId.Value)
                             {
+                                // since we have the list template, find out if it is a bullet
                                 foreach (OpenXmlElement anChild in an)
                                 {
                                     if (anChild.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Level")
@@ -4095,6 +4101,8 @@ namespace Office_File_Explorer
 
                                             if (bulletFound == false)
                                             {
+                                                // now that found a bullet, populate the numberingvalues
+                                                // this will be used later to apply throughout the document
                                                 bulletNumberingValues.AbsNumId = ni.AbstractNumId.Val;
                                                 bulletNumberingValues.NumFormat = "bullet";
                                                 bulletNumberingValues.NumId = ni.NumberID;
@@ -4107,6 +4115,7 @@ namespace Office_File_Explorer
                         }
                     }
 
+                    // now that we have a bullet numid to use, we can apply it to each paragraph
                     MainDocumentPart mainPart = document.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
 
@@ -4199,6 +4208,13 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// there are times when endnotes get inflated with duplicate content
+        /// if there are more than 1000 runs of content in a single endnote
+        /// this will keep the first endnote paragraph and delete the rest
+        /// TODO: would be nice to delete duplicates only as an option
+        /// TODO: not sure what could be considered an excessive amount of runs
+        /// </summary>
         public void FixEndnotes()
         {
             try
@@ -4210,10 +4226,12 @@ namespace Office_File_Explorer
                 {
                     if (document.MainDocumentPart.EndnotesPart != null)
                     {
-                        EndnotesPart ep = document.MainDocumentPart.EndnotesPart;
-                        Endnotes ens = ep.Endnotes;
+                        Endnotes ens = document.MainDocumentPart.EndnotesPart.Endnotes;
                         foreach (var en in ens)
                         {
+                            // get the paragraph list from the endnote, if it has more than 1000 runs of content
+                            // delete it...need to find a way to check for dupes
+                            // for now just deleting all but the first paragraph
                             var paraList = en.Descendants<Paragraph>().ToList();
                             foreach (var p in paraList)
                             {
@@ -4253,6 +4271,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Show the fix doc form for Word
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnFixDocument_Click(object sender, EventArgs e)
         {
             using (var f = new FrmFixDocument("Word"))
@@ -4270,7 +4293,7 @@ namespace Office_File_Explorer
                         case "Endnote":
                             FixEndnotes();
                             break;
-                        case "LT":
+                        case "ListTemplates":
                             FixListNumbering();
                             break;
                         case "Revision":
@@ -4285,6 +4308,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// show the fix doc form for PPT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnFixPresentation_Click(object sender, EventArgs e)
         {
             using (var f = new FrmFixDocument("PowerPoint"))

@@ -133,7 +133,7 @@
             // 
             this.RdoNotes.AutoSize = true;
             this.RdoNotes.Enabled = false;
-            this.RdoNotes.Location = new System.Drawing.Point(19, 19);
+            this.RdoNotes.Location = new System.Drawing.Point(6, 19);
             this.RdoNotes.Name = "RdoNotes";
             this.RdoNotes.Size = new System.Drawing.Size(120, 17);
             this.RdoNotes.TabIndex = 0;

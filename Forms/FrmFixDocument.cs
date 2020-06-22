@@ -5,16 +5,16 @@ namespace Office_File_Explorer.Forms
 {
     public partial class FrmFixDocument : Form
     {
-        public string officeApp;
+        public string OfficeApp;
 
         public string OptionSelected { get; set; }
 
         public FrmFixDocument(string app)
         {
             InitializeComponent();
-            officeApp = app;
+            OfficeApp = app;
 
-            if (officeApp == "Word")
+            if (OfficeApp == "Word")
             {
                 EnableWordUI();
                 RdoBK.Checked = true;
@@ -71,7 +71,7 @@ namespace Office_File_Explorer.Forms
             }
             else if (RdoLT.Checked)
             {
-                OptionSelected = "LT";
+                OptionSelected = "ListTemplates";
             }
             else if (RdoRev.Checked)
             {
