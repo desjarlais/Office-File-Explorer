@@ -84,6 +84,7 @@ namespace Office_File_Explorer
         // global lists
         private static List<string> _pParts = new List<string>();
         private static List<string> _unsortedItems = new List<string>();
+        private static List<string> _sortedItems = new List<string>();
 
         // corrupt doc buffer
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
@@ -343,7 +344,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
@@ -414,7 +415,7 @@ namespace Office_File_Explorer
             Cursor = Cursors.WaitCursor;
             try
             {
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 XNamespace w = StringResources.wordMainAttributeNamespace;
                 XDocument xDoc = null;
                 XDocument styleDoc = null;
@@ -561,7 +562,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     int count = 0;
@@ -614,7 +615,7 @@ namespace Office_File_Explorer
         private void BtnListTemplates_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            LstDisplay.Items.Clear();
+            PreButtonClickWork();
             numIdList.Clear();
             aNumIdList.Clear();
             oNumIdList.Clear();
@@ -813,7 +814,7 @@ namespace Office_File_Explorer
 
         private void BtnListOle_Click(object sender, EventArgs e)
         {
-            LstDisplay.Items.Clear();
+            PreButtonClickWork();
             try
             {
                 if (fileType == StringResources.word)
@@ -1045,6 +1046,8 @@ namespace Office_File_Explorer
         private void BtnAcceptRevisions_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
+
             try
             {
                 WordprocessingDocument document;
@@ -1091,6 +1094,7 @@ namespace Office_File_Explorer
         private void BtnDeleteComments_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
             try
             {
                 WordOpenXml.RemoveComments(TxtFileName.Text);
@@ -1111,6 +1115,7 @@ namespace Office_File_Explorer
         private void BtnDeleteHiddenText_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
             try
             {
                 if (WordOpenXml.DeleteHiddenText(TxtFileName.Text))
@@ -1137,6 +1142,7 @@ namespace Office_File_Explorer
         private void BtnDeleteHdrFtr_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
             try
             {
                 if (WordOpenXml.RemoveHeadersFooters(TxtFileName.Text))
@@ -1165,7 +1171,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-
+                PreButtonClickWork();
                 BtnListTemplates.PerformClick();
                 foreach (object orphanLT in oNumIdList)
                 {
@@ -1185,6 +1191,7 @@ namespace Office_File_Explorer
 
         private void BtnDeleteBreaks_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             if (WordOpenXml.RemoveBreaks(TxtFileName.Text))
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **");
@@ -1197,6 +1204,7 @@ namespace Office_File_Explorer
 
         private void BtnRemovePII_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             if (!File.Exists(TxtFileName.Text))
             {
                 DisplayInformation(InformationOutput.InvalidFile, TxtFileName.Text);
@@ -1242,7 +1250,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-
+                PreButtonClickWork();
                 if (GetFileFormat() == OxmlFileFormat.Docx)
                 {
                     using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
@@ -1293,7 +1301,7 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.WaitCursor;
                 int count = 0;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 foreach (Worksheet sht in ExcelOpenXml.GetWorkSheets(TxtFileName.Text, false))
                 {
@@ -1332,7 +1340,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 int count = 0;
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
@@ -1359,7 +1367,7 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    LstDisplay.Items.Clear();
+                    PreButtonClickWork();
                     FootnotesPart footnotePart = doc.MainDocumentPart.FootnotesPart;
                     if (footnotePart != null)
                     {
@@ -1396,7 +1404,7 @@ namespace Office_File_Explorer
             {
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    LstDisplay.Items.Clear();
+                    PreButtonClickWork();
                     EndnotesPart endnotePart = doc.MainDocumentPart.EndnotesPart;
                     if (endnotePart != null)
                     {
@@ -1428,6 +1436,7 @@ namespace Office_File_Explorer
 
         private void BtnDeleteFootnotes_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             try
             {
                 if (WordOpenXml.RemoveFootnotes(TxtFileName.Text))
@@ -1449,6 +1458,7 @@ namespace Office_File_Explorer
 
         private void BtnDeleteEndnotes_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             try
             {
                 if (WordOpenXml.RemoveEndnotes(TxtFileName.Text))
@@ -1473,7 +1483,7 @@ namespace Office_File_Explorer
             try
             {
                 int revCount = 0;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 Cursor = Cursors.WaitCursor;
 
                 List<string> authorList = new List<string>();
@@ -1647,9 +1657,9 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    LstDisplay.Items.Clear();
                     int count = 0;
 
                     // check the peoplepart and list those authors
@@ -1708,8 +1718,8 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
 
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
@@ -2087,7 +2097,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 // Open the presentation file as read-only.
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
@@ -2114,7 +2124,7 @@ namespace Office_File_Explorer
         {
             try
             {
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 // Open the presentation as read-only.
                 using (PresentationDocument presentationDocument = PresentationDocument.Open(TxtFileName.Text, false))
@@ -2142,6 +2152,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                PreButtonClickWork();
                 Forms.FrmSearchAndReplace sFrm = new Forms.FrmSearchAndReplace()
                 {
                     Owner = this
@@ -2193,6 +2204,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
@@ -2228,7 +2240,7 @@ namespace Office_File_Explorer
 
         private void BtnDeleteExternalLinks_Click(object sender, EventArgs e)
         {
-            LstDisplay.Items.Clear();
+            PreButtonClickWork();
             if (ExcelOpenXml.RemoveExternalLinks(TxtFileName.Text))
             {
                 LstDisplay.Items.Add("** External References Deleted **");
@@ -2244,7 +2256,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 int nameCount = 0;
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
@@ -2286,7 +2298,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
@@ -2374,8 +2386,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 int sharedStringCount = 0;
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
@@ -2417,6 +2428,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                PreButtonClickWork();
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
                     WorkbookPart wbPart = excelDoc.WorkbookPart;
@@ -2459,6 +2471,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                PreButtonClickWork();
                 bool hasComments = false;
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
@@ -2510,6 +2523,7 @@ namespace Office_File_Explorer
 
         private void BtnChangeTheme_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             OpenFileDialog fDialog = new OpenFileDialog
             {
                 Title = "Select Office Theme File.",
@@ -2560,6 +2574,8 @@ namespace Office_File_Explorer
         {
             try
             {
+                PreButtonClickWork();
+
                 // Open the presentation as read-only.
                 using (PresentationDocument presentationDocument = PresentationDocument.Open(TxtFileName.Text, false))
                 {
@@ -2596,6 +2612,7 @@ namespace Office_File_Explorer
 
         private void BtnListWSInfo_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             GetSheetInfo(TxtFileName.Text);
         }
 
@@ -2627,6 +2644,7 @@ namespace Office_File_Explorer
 
         private void BtnListCellValuesSAX_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             List<string> list;
 
             if (Properties.Settings.Default.ListCellValuesSax == "true")
@@ -2647,6 +2665,7 @@ namespace Office_File_Explorer
 
         private void BtnConvertDocmToDocx_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             ConvertToNonMacro(StringResources.word);
         }
 
@@ -2677,7 +2696,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 int sCount = PowerPointOpenXml.CountSlides(TxtFileName.Text);
                 if (sCount > 0)
@@ -2712,6 +2731,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
 
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
@@ -3095,7 +3115,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
@@ -3154,7 +3174,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
 
                 if (fileType == StringResources.word)
                 {
@@ -3229,6 +3249,7 @@ namespace Office_File_Explorer
 
         private void BtnSetCustomProps_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             FrmCustomProperties cFrm = new FrmCustomProperties(TxtFileName.Text, fileType)
             {
                 Owner = this
@@ -3238,6 +3259,7 @@ namespace Office_File_Explorer
 
         private void BtnSetPrintOrientation_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             FrmPrintOrientation pFrm = new FrmPrintOrientation(TxtFileName.Text)
             {
                 Owner = this
@@ -3253,6 +3275,7 @@ namespace Office_File_Explorer
         private void BtnViewParagraphs_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
             FrmParagraphs paraFrm = new FrmParagraphs(TxtFileName.Text)
             {
                 Owner = this
@@ -3263,17 +3286,19 @@ namespace Office_File_Explorer
 
         private void BtnConvertXlsm2Xlsx_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             ConvertToNonMacro(StringResources.excel);
         }
 
         private void BtnConvertPptmToPptx_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             ConvertToNonMacro(StringResources.powerpoint);
         }
 
         private void BtnListPackageParts_Click(object sender, EventArgs e)
         {
-            LstDisplay.Items.Clear();
+            PreButtonClickWork();
 
             foreach (var o in _pParts)
             {
@@ -3307,11 +3332,12 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<Run> rList = package.MainDocumentPart.Document.Descendants<Run>();
                     IEnumerable<Paragraph> pList = package.MainDocumentPart.Document.Descendants<Paragraph>();
-                    LstDisplay.Items.Clear();
+
                     List<string> fieldCharList = new List<string>();
                     List<string> fieldCodeList = new List<string>();
                     
@@ -3405,12 +3431,12 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
                 bool hasBookmark = false;
 
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     IEnumerable<BookmarkStart> bkList = package.MainDocumentPart.Document.Descendants<BookmarkStart>();
-                    LstDisplay.Items.Clear();
                     LstDisplay.Items.Add("** Document Bookmarks **");
 
                     if (bkList.Count() > 0)
@@ -3515,6 +3541,14 @@ namespace Office_File_Explorer
             }
         }
 
+        public void PreButtonClickWork()
+        {
+            LstDisplay.Items.Clear();
+            LstDisplay.Sorted = false;
+            CkSortListbox.Enabled = true;
+            CkSortListbox.Checked = false;
+        }
+
         private void BtnListCC_Click(object sender, EventArgs e)
         {
             try
@@ -3522,7 +3556,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 using (WordprocessingDocument package = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    LstDisplay.Items.Clear();
+                    PreButtonClickWork();
                     int count = 0;
 
                     foreach (var cc in package.ContentControls())
@@ -3615,7 +3649,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                LstDisplay.Items.Clear();
+                PreButtonClickWork();
                 int count = 0;
 
                 if (fileType == StringResources.word)
@@ -3951,6 +3985,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                 {
                     document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
@@ -4279,6 +4314,8 @@ namespace Office_File_Explorer
         /// <param name="e"></param>
         private void BtnFixDocument_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
+
             using (var f = new FrmFixDocument("Word"))
             {
                 var result = f.ShowDialog();
@@ -4316,6 +4353,7 @@ namespace Office_File_Explorer
         /// <param name="e"></param>
         private void BtnFixPresentation_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             using (var f = new FrmFixDocument("PowerPoint"))
             {
                 var result = f.ShowDialog();
@@ -4339,30 +4377,10 @@ namespace Office_File_Explorer
 
         private void CkSortListbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (CkSortListbox.Checked)
+            if (CkSortListbox.Checked == true)
             {
-                // clear previous unsorted list and populate the unsorted list to be brought back later
-                _unsortedItems.Clear();
-
-                foreach (var o in LstDisplay.Items)
-                {
-                    _unsortedItems.Add(o.ToString());
-                }
-
-                // now that we have the unsorted list saved, sort the listbox
                 LstDisplay.Sorted = true;
-            }
-            else
-            {
-                // set the list to be unsorted
-                LstDisplay.Sorted = false;
-                LstDisplay.Items.Clear();
-
-                // add back the values from the unsorted list
-                foreach (var o in _unsortedItems)
-                {
-                    LstDisplay.Items.Add(o);
-                }
+                CkSortListbox.Enabled = false;
             }
         }
     }

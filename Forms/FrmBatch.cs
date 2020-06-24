@@ -50,6 +50,7 @@ namespace Office_File_Explorer.Forms
             BtnFixNotesPageSize.Enabled = false;
             BtnChangeTheme.Enabled = false;
             BtnChangeCustomProps.Enabled = false;
+            BtnPPTResetPII.Enabled = false;
             BtnRemovePII.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
             BtnFixCorruptRevisions.Enabled = false;
@@ -79,14 +80,16 @@ namespace Office_File_Explorer.Forms
             {
                 BtnFixCorruptBookmarks.Enabled = true;
                 BtnFixCorruptRevisions.Enabled = true;
-                
-                BtnRemovePII.Enabled = false;
+                BtnRemovePII.Enabled = true;
+
                 BtnFixNotesPageSize.Enabled = false;
+                BtnPPTResetPII.Enabled = false;
             }
 
             if (rdoPowerPoint.Checked == true)
             {
                 BtnRemovePII.Enabled = true;
+                BtnPPTResetPII.Enabled = true;
                 BtnFixNotesPageSize.Enabled = true;
 
                 BtnFixCorruptBookmarks.Enabled = false;
@@ -99,6 +102,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixCorruptBookmarks.Enabled = false;
                 BtnFixCorruptRevisions.Enabled = false;
                 BtnRemovePII.Enabled = false;
+                BtnPPTResetPII.Enabled = false;
             }
         }
 

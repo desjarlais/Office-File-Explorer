@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using DocumentFormat.OpenXml.Drawing.Pictures;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -156,6 +157,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     {
                         SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
                         ShapeTree st = slidePart.NotesSlidePart.NotesSlide.CommonSlideData.ShapeTree;
+                        List<RunProperties> rpList = slidePart.NotesSlidePart.NotesSlide.Descendants<RunProperties>().ToList();
                         
                         foreach (var s in st)
                         {
@@ -196,6 +198,25 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     }
                                 }
                             }
+                            else if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Picture")
+                            {
+                                DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
+                                Transform2D t2d = pic.ShapeProperties.Transform2D;
+
+                                // there are times when pictures get moved with the rest of the slide objects, need to reset those back
+                                if (t2d != null)
+                                {
+                                    t2d.Offset.X = 811531L;
+                                    t2d.Offset.Y = 4537710L;
+                                    t2d.Extents.Cx = 5360669L;
+                                    t2d.Extents.Cy = 3463290L;
+                                }
+                            }
+                        }
+
+                        foreach (RunProperties r in rpList)
+                        {
+                            r.FontSize = 1200;
                         }
                     }
                 }
