@@ -30,12 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnFixDocument = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
             this.BtnListFieldCodes = new System.Windows.Forms.Button();
             this.BtnViewParagraphs = new System.Windows.Forms.Button();
             this.BtnSetPrintOrientation = new System.Windows.Forms.Button();
             this.BtnFixCorruptDocument = new System.Windows.Forms.Button();
+            this.BtnRemovePII = new System.Windows.Forms.Button();
             this.BtnConvertDocmToDocx = new System.Windows.Forms.Button();
             this.BtnViewCustomDocProps = new System.Windows.Forms.Button();
             this.BtnSearchAndReplace = new System.Windows.Forms.Button();
@@ -56,7 +58,6 @@
             this.BtnListHyperlinks = new System.Windows.Forms.Button();
             this.BtnListStyles = new System.Windows.Forms.Button();
             this.BtnListComments = new System.Windows.Forms.Button();
-            this.BtnRemovePII = new System.Windows.Forms.Button();
             this.BtnListOle = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
@@ -72,6 +73,7 @@
             this.BtnListLinks = new System.Windows.Forms.Button();
             this.BtnListFormulas = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnFixPresentation = new System.Windows.Forms.Button();
             this.BtnPPTRemovePII = new System.Windows.Forms.Button();
             this.BtnConvertPptmToPptx = new System.Windows.Forms.Button();
             this.BtnListSlideText = new System.Windows.Forms.Button();
@@ -79,7 +81,6 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnFixDocument = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
@@ -105,7 +106,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnFixPresentation = new System.Windows.Forms.Button();
+            this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -153,6 +154,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnFixDocument
+            // 
+            this.BtnFixDocument.Location = new System.Drawing.Point(281, 241);
+            this.BtnFixDocument.Name = "BtnFixDocument";
+            this.BtnFixDocument.Size = new System.Drawing.Size(154, 21);
+            this.BtnFixDocument.TabIndex = 27;
+            this.BtnFixDocument.Text = "Fix Document";
+            this.BtnFixDocument.UseVisualStyleBackColor = true;
+            this.BtnFixDocument.Click += new System.EventHandler(this.BtnFixDocument_Click);
             // 
             // BtnListCC
             // 
@@ -216,6 +227,18 @@
             this.BtnFixCorruptDocument.Text = "Fix Corrupt Document";
             this.BtnFixCorruptDocument.UseVisualStyleBackColor = true;
             this.BtnFixCorruptDocument.Click += new System.EventHandler(this.BtnFixCorruptDocument_Click);
+            // 
+            // BtnRemovePII
+            // 
+            this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnRemovePII.Location = new System.Drawing.Point(143, 184);
+            this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.BtnRemovePII.Name = "BtnRemovePII";
+            this.BtnRemovePII.Size = new System.Drawing.Size(133, 21);
+            this.BtnRemovePII.TabIndex = 15;
+            this.BtnRemovePII.Text = "Remove PII";
+            this.BtnRemovePII.UseVisualStyleBackColor = true;
+            this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
             // 
             // BtnConvertDocmToDocx
             // 
@@ -437,18 +460,6 @@
             this.BtnListComments.UseVisualStyleBackColor = true;
             this.BtnListComments.Click += new System.EventHandler(this.BtnListComments_Click);
             // 
-            // BtnRemovePII
-            // 
-            this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(143, 184);
-            this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(133, 21);
-            this.BtnRemovePII.TabIndex = 15;
-            this.BtnRemovePII.Text = "Remove PII";
-            this.BtnRemovePII.UseVisualStyleBackColor = true;
-            this.BtnRemovePII.Click += new System.EventHandler(this.BtnRemovePII_Click);
-            // 
             // BtnListOle
             // 
             this.BtnListOle.Location = new System.Drawing.Point(6, 79);
@@ -634,6 +645,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
             // 
+            // BtnFixPresentation
+            // 
+            this.BtnFixPresentation.Location = new System.Drawing.Point(5, 185);
+            this.BtnFixPresentation.Name = "BtnFixPresentation";
+            this.BtnFixPresentation.Size = new System.Drawing.Size(113, 21);
+            this.BtnFixPresentation.TabIndex = 28;
+            this.BtnFixPresentation.Text = "Fix Presentation";
+            this.BtnFixPresentation.UseVisualStyleBackColor = true;
+            this.BtnFixPresentation.Click += new System.EventHandler(this.BtnFixPresentation_Click);
+            // 
             // BtnPPTRemovePII
             // 
             this.BtnPPTRemovePII.Location = new System.Drawing.Point(4, 158);
@@ -716,16 +737,6 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
-            // 
-            // BtnFixDocument
-            // 
-            this.BtnFixDocument.Location = new System.Drawing.Point(281, 241);
-            this.BtnFixDocument.Name = "BtnFixDocument";
-            this.BtnFixDocument.Size = new System.Drawing.Size(154, 21);
-            this.BtnFixDocument.TabIndex = 27;
-            this.BtnFixDocument.Text = "Fix Document";
-            this.BtnFixDocument.UseVisualStyleBackColor = true;
-            this.BtnFixDocument.Click += new System.EventHandler(this.BtnFixDocument_Click);
             // 
             // BtnListShapes
             // 
@@ -938,6 +949,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.CkSortListbox);
             this.groupBox6.Controls.Add(this.BtnCopyLine);
             this.groupBox6.Controls.Add(this.BtnCopyAll);
             this.groupBox6.Controls.Add(this.LstDisplay);
@@ -968,15 +980,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnFixPresentation
+            // CkSortListbox
             // 
-            this.BtnFixPresentation.Location = new System.Drawing.Point(5, 185);
-            this.BtnFixPresentation.Name = "BtnFixPresentation";
-            this.BtnFixPresentation.Size = new System.Drawing.Size(113, 21);
-            this.BtnFixPresentation.TabIndex = 28;
-            this.BtnFixPresentation.Text = "Fix Presentation";
-            this.BtnFixPresentation.UseVisualStyleBackColor = true;
-            this.BtnFixPresentation.Click += new System.EventHandler(this.BtnFixPresentation_Click);
+            this.CkSortListbox.AutoSize = true;
+            this.CkSortListbox.Location = new System.Drawing.Point(6, 436);
+            this.CkSortListbox.Name = "CkSortListbox";
+            this.CkSortListbox.Size = new System.Drawing.Size(81, 17);
+            this.CkSortListbox.TabIndex = 11;
+            this.CkSortListbox.Text = "Sort Listbox";
+            this.CkSortListbox.UseVisualStyleBackColor = true;
+            this.CkSortListbox.CheckedChanged += new System.EventHandler(this.CkSortListbox_CheckedChanged);
             // 
             // FrmMain
             // 
@@ -984,7 +997,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(970, 690);
+            this.ClientSize = new System.Drawing.Size(970, 869);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -1009,6 +1022,7 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1093,6 +1107,7 @@
         private System.Windows.Forms.Button BtnPPTRemovePII;
         private System.Windows.Forms.Button BtnFixDocument;
         private System.Windows.Forms.Button BtnFixPresentation;
+        private System.Windows.Forms.CheckBox CkSortListbox;
     }
 }
 

@@ -81,8 +81,9 @@ namespace Office_File_Explorer
         // fix corrupt doc globals
         private static List<string> _nodes = new List<string>();
 
-        // global packageparts
+        // global lists
         private static List<string> _pParts = new List<string>();
+        private static List<string> _unsortedItems = new List<string>();
 
         // corrupt doc buffer
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
@@ -4332,6 +4333,35 @@ namespace Office_File_Explorer
                             LoggingHelper.Log("BtnFixPresentation - No Option Selected");
                             break;
                     }
+                }
+            }
+        }
+
+        private void CkSortListbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CkSortListbox.Checked)
+            {
+                // clear previous unsorted list and populate the unsorted list to be brought back later
+                _unsortedItems.Clear();
+
+                foreach (var o in LstDisplay.Items)
+                {
+                    _unsortedItems.Add(o.ToString());
+                }
+
+                // now that we have the unsorted list saved, sort the listbox
+                LstDisplay.Sorted = true;
+            }
+            else
+            {
+                // set the list to be unsorted
+                LstDisplay.Sorted = false;
+                LstDisplay.Items.Clear();
+
+                // add back the values from the unsorted list
+                foreach (var o in _unsortedItems)
+                {
+                    LstDisplay.Items.Add(o);
                 }
             }
         }
