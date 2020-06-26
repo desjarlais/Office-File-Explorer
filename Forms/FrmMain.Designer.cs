@@ -81,6 +81,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnConvertToNonStrictFormat = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
@@ -104,9 +105,9 @@
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -247,7 +248,7 @@
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
             this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(133, 21);
             this.BtnConvertDocmToDocx.TabIndex = 17;
-            this.BtnConvertDocmToDocx.Text = "Convert to Docx";
+            this.BtnConvertDocmToDocx.Text = "Convert Docm->Docx";
             this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
             this.BtnConvertDocmToDocx.Click += new System.EventHandler(this.BtnConvertDocmToDocx_Click);
             // 
@@ -473,6 +474,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnConvertToNonStrictFormat);
             this.groupBox2.Controls.Add(this.BtnConvertXlsmToXlsx);
             this.groupBox2.Controls.Add(this.BtnListConnections);
             this.groupBox2.Controls.Add(this.BtnListWSInfo);
@@ -501,7 +503,7 @@
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
             this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 24);
             this.BtnConvertXlsmToXlsx.TabIndex = 22;
-            this.BtnConvertXlsmToXlsx.Text = "Convert -> Xlsx";
+            this.BtnConvertXlsmToXlsx.Text = "Convert Xlsm->Xlsx";
             this.BtnConvertXlsmToXlsx.UseVisualStyleBackColor = true;
             this.BtnConvertXlsmToXlsx.Click += new System.EventHandler(this.BtnConvertXlsm2Xlsx_Click);
             // 
@@ -672,7 +674,7 @@
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
             this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(113, 21);
             this.BtnConvertPptmToPptx.TabIndex = 22;
-            this.BtnConvertPptmToPptx.Text = "Convert -> Pptx";
+            this.BtnConvertPptmToPptx.Text = "Convert Pptm->Pptx";
             this.BtnConvertPptmToPptx.UseVisualStyleBackColor = true;
             this.BtnConvertPptmToPptx.Click += new System.EventHandler(this.BtnConvertPptmToPptx_Click);
             // 
@@ -737,6 +739,16 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
+            // 
+            // BtnConvertToNonStrictFormat
+            // 
+            this.BtnConvertToNonStrictFormat.Location = new System.Drawing.Point(138, 75);
+            this.BtnConvertToNonStrictFormat.Name = "BtnConvertToNonStrictFormat";
+            this.BtnConvertToNonStrictFormat.Size = new System.Drawing.Size(107, 23);
+            this.BtnConvertToNonStrictFormat.TabIndex = 29;
+            this.BtnConvertToNonStrictFormat.Text = "Convert to Xlsx";
+            this.BtnConvertToNonStrictFormat.UseVisualStyleBackColor = true;
+            this.BtnConvertToNonStrictFormat.Click += new System.EventHandler(this.BtnConvertToNonStrictFormat_Click);
             // 
             // BtnListShapes
             // 
@@ -960,6 +972,17 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Output";
             // 
+            // CkSortListbox
+            // 
+            this.CkSortListbox.AutoSize = true;
+            this.CkSortListbox.Location = new System.Drawing.Point(6, 436);
+            this.CkSortListbox.Name = "CkSortListbox";
+            this.CkSortListbox.Size = new System.Drawing.Size(81, 17);
+            this.CkSortListbox.TabIndex = 11;
+            this.CkSortListbox.Text = "Sort Listbox";
+            this.CkSortListbox.UseVisualStyleBackColor = true;
+            this.CkSortListbox.CheckedChanged += new System.EventHandler(this.CkSortListbox_CheckedChanged);
+            // 
             // BtnCopyLine
             // 
             this.BtnCopyLine.Location = new System.Drawing.Point(717, 432);
@@ -979,17 +1002,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // CkSortListbox
-            // 
-            this.CkSortListbox.AutoSize = true;
-            this.CkSortListbox.Location = new System.Drawing.Point(6, 436);
-            this.CkSortListbox.Name = "CkSortListbox";
-            this.CkSortListbox.Size = new System.Drawing.Size(81, 17);
-            this.CkSortListbox.TabIndex = 11;
-            this.CkSortListbox.Text = "Sort Listbox";
-            this.CkSortListbox.UseVisualStyleBackColor = true;
-            this.CkSortListbox.CheckedChanged += new System.EventHandler(this.CkSortListbox_CheckedChanged);
             // 
             // FrmMain
             // 
@@ -1108,6 +1120,7 @@
         private System.Windows.Forms.Button BtnFixDocument;
         private System.Windows.Forms.Button BtnFixPresentation;
         private System.Windows.Forms.CheckBox CkSortListbox;
+        private System.Windows.Forms.Button BtnConvertToNonStrictFormat;
     }
 }
 

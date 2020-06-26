@@ -5,7 +5,9 @@ using Office_File_Explorer.App_Helpers;
 using Office_File_Explorer.Word_Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -463,6 +465,108 @@ namespace Office_File_Explorer.Forms
             {
                 lstOutput.Items.Add(StringResources.errorText + ex.Message);
                 LoggingHelper.Log("BtnPPTResetPII: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnConvertStrict_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
+                foreach (string f in files)
+                {
+                    // check if the excelcnv.exe exists
+                    string excelcnvPath;
+
+                    if (File.Exists(StringResources.sameBitnessO365))
+                    {
+                        excelcnvPath = StringResources.sameBitnessO365;
+                    }
+                    else if (File.Exists(StringResources.x86OfficeO365))
+                    {
+                        excelcnvPath = StringResources.x86OfficeO365;
+                    }
+                    else if (File.Exists(StringResources.sameBitnessMSI2016))
+                    {
+                        excelcnvPath = StringResources.sameBitnessMSI2016;
+                    }
+                    else if (File.Exists(StringResources.x86OfficeMSI2016))
+                    {
+                        excelcnvPath = StringResources.x86OfficeMSI2016;
+                    }
+                    else if (File.Exists(StringResources.sameBitnessMSI2013))
+                    {
+                        excelcnvPath = StringResources.sameBitnessMSI2013;
+                    }
+                    else if (File.Exists(StringResources.x86OfficeMSI2013))
+                    {
+                        excelcnvPath = StringResources.x86OfficeMSI2013;
+                    }
+                    else
+                    {
+                        excelcnvPath = StringResources.emptyString;
+                    }
+
+                    // check if the file is strict
+                    bool isStrict = false;
+
+                    using (Package package = Package.Open(f, FileMode.Open, FileAccess.Read))
+                    {
+                        foreach (PackagePart part in package.GetParts())
+                        {
+                            if (part.Uri.ToString() == "/xl/workbook.xml")
+                            {
+                                try
+                                {
+                                    string docText = null;
+                                    using (StreamReader sr = new StreamReader(part.GetStream()))
+                                    {
+                                        docText = sr.ReadToEnd();
+                                    }
+
+                                    if (docText.Contains(@"conformance=""strict"""))
+                                    {
+                                        isStrict = true;
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    LoggingHelper.Log(ex.Message);
+                                }
+                            }
+                        }
+                    }
+
+                    if (isStrict == true && excelcnvPath != StringResources.emptyString)
+                    {
+                        // setup destination file path
+                        string strOriginalFile = f;
+                        string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
+                        string strFileExtension = Path.GetExtension(strOriginalFile);
+                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + "(Fixed)" + strFileExtension;
+
+                        // run the command to convert the file "excelcnv.exe -nme -oice "strict-file-path" "converted-file-path""
+                        string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
+                        var proc = Process.Start(excelcnvPath, cParams);
+                        proc.Close();
+                        lstOutput.Items.Add("** File Converted Successfully **");
+                        lstOutput.Items.Add("File Location: " + strOutputFileName);
+                    }
+                    else
+                    {
+                        lstOutput.Items.Add("** File Is Not Strict Open Xml Format **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnConvertStrict: " + ex.Message);
             }
             finally
             {

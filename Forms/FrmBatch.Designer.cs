@@ -41,13 +41,14 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnPPTResetPII = new System.Windows.Forms.Button();
             this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
             this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
             this.BtnRemovePII = new System.Windows.Forms.Button();
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnPPTResetPII = new System.Windows.Forms.Button();
+            this.BtnConvertStrict = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -160,6 +161,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnConvertStrict);
             this.groupBox3.Controls.Add(this.BtnPPTResetPII);
             this.groupBox3.Controls.Add(this.BtnFixCorruptRevisions);
             this.groupBox3.Controls.Add(this.BtnFixCorruptBookmarks);
@@ -173,6 +175,16 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnPPTResetPII
+            // 
+            this.BtnPPTResetPII.Location = new System.Drawing.Point(7, 48);
+            this.BtnPPTResetPII.Name = "BtnPPTResetPII";
+            this.BtnPPTResetPII.Size = new System.Drawing.Size(120, 23);
+            this.BtnPPTResetPII.TabIndex = 11;
+            this.BtnPPTResetPII.Text = "Reset PII On Save";
+            this.BtnPPTResetPII.UseVisualStyleBackColor = true;
+            this.BtnPPTResetPII.Click += new System.EventHandler(this.BtnPPTResetPII_Click);
             // 
             // BtnFixCorruptRevisions
             // 
@@ -236,15 +248,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
-            // BtnPPTResetPII
+            // BtnConvertStrict
             // 
-            this.BtnPPTResetPII.Location = new System.Drawing.Point(7, 48);
-            this.BtnPPTResetPII.Name = "BtnPPTResetPII";
-            this.BtnPPTResetPII.Size = new System.Drawing.Size(120, 23);
-            this.BtnPPTResetPII.TabIndex = 11;
-            this.BtnPPTResetPII.Text = "Reset PII On Save";
-            this.BtnPPTResetPII.UseVisualStyleBackColor = true;
-            this.BtnPPTResetPII.Click += new System.EventHandler(this.BtnPPTResetPII_Click);
+            this.BtnConvertStrict.Location = new System.Drawing.Point(606, 48);
+            this.BtnConvertStrict.Name = "BtnConvertStrict";
+            this.BtnConvertStrict.Size = new System.Drawing.Size(158, 23);
+            this.BtnConvertStrict.TabIndex = 12;
+            this.BtnConvertStrict.Text = "Convert Strict To Non-Strict";
+            this.BtnConvertStrict.UseVisualStyleBackColor = true;
+            this.BtnConvertStrict.Click += new System.EventHandler(this.BtnConvertStrict_Click);
             // 
             // FrmBatch
             // 
@@ -292,5 +304,6 @@
         private System.Windows.Forms.Button BtnFixCorruptBookmarks;
         private System.Windows.Forms.Button BtnFixCorruptRevisions;
         private System.Windows.Forms.Button BtnPPTResetPII;
+        private System.Windows.Forms.Button BtnConvertStrict;
     }
 }

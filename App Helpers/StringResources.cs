@@ -51,6 +51,14 @@
         public const string propsRemovePI = "removePersonalInformation";
         public const string propsRemoveDateTime = "removeDateAndTime";
 
+        // excelcnv paths
+        public const string sameBitnessO365 = @"C:\Program Files\Microsoft Office\root\Office16\excelcnv.exe";
+        public const string x86OfficeO365 = @"C:\Program Files (x86)\Microsoft Office\root\Office16\excelcnv.exe";
+        public const string sameBitnessMSI2016 = @"C:\Program Files\Microsoft Office\Office16\excelcnv.exe";
+        public const string x86OfficeMSI2016 = @"C:\Program Files (x86)\Microsoft Office\Office16\excelcnv.exe";
+        public const string sameBitnessMSI2013 = @"C:\Program Files\Microsoft Office\Office15\excelcnv.exe";
+        public const string x86OfficeMSI2013 = @"C:\Program Files (x86)\Microsoft Office\Office15\excelcnv.exe";
+
         // schema base urls
         public const string schemaOxml2006 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
         public const string schemaMsft2007 = "http://schemas.microsoft.com/office/2007/relationships/";
