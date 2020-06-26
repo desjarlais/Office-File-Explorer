@@ -56,6 +56,7 @@ namespace Office_File_Explorer.Forms
             BtnRemovePII.Enabled = false;
             BtnFixCorruptBookmarks.Enabled = false;
             BtnFixCorruptRevisions.Enabled = false;
+            BtnConvertStrict.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -86,6 +87,7 @@ namespace Office_File_Explorer.Forms
 
                 BtnFixNotesPageSize.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
+                BtnConvertStrict.Enabled = false;
             }
 
             if (rdoPowerPoint.Checked == true)
@@ -96,6 +98,7 @@ namespace Office_File_Explorer.Forms
 
                 BtnFixCorruptBookmarks.Enabled = false;
                 BtnFixCorruptRevisions.Enabled = false;
+                BtnConvertStrict.Enabled = false;
             }
 
             if (rdoExcel.Checked == true)
