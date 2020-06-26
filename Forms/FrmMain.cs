@@ -4460,6 +4460,8 @@ namespace Office_File_Explorer
                     }
                 }
 
+                // if the file is strict and the converter is on the machine
+                // run the command to convert it to non-strict
                 if (isStrict == true && excelcnvPath != StringResources.emptyString)
                 {
                     // setup destination file path

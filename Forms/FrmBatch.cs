@@ -100,6 +100,8 @@ namespace Office_File_Explorer.Forms
 
             if (rdoExcel.Checked == true)
             {
+                BtnConvertStrict.Enabled = true;
+
                 BtnFixNotesPageSize.Enabled = false;
                 BtnFixCorruptBookmarks.Enabled = false;
                 BtnFixCorruptRevisions.Enabled = false;
@@ -554,12 +556,12 @@ namespace Office_File_Explorer.Forms
                         string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
                         var proc = Process.Start(excelcnvPath, cParams);
                         proc.Close();
-                        lstOutput.Items.Add("** File Converted Successfully **");
-                        lstOutput.Items.Add("File Location: " + strOutputFileName);
+                        lstOutput.Items.Add(f + " : Converted Successfully");
+                        lstOutput.Items.Add("   File Location: " + strOutputFileName);
                     }
                     else
                     {
-                        lstOutput.Items.Add("** File Is Not Strict Open Xml Format **");
+                        lstOutput.Items.Add(f + " : Is Not Strict Open Xml Format");
                     }
                 }
             }
