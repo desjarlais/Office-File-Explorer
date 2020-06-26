@@ -4445,11 +4445,10 @@ namespace Office_File_Explorer
                                 using (StreamReader sr = new StreamReader(part.GetStream()))
                                 {
                                     docText = sr.ReadToEnd();
-                                }
-
-                                if (docText.Contains(@"conformance=""strict"""))
-                                {
-                                    isStrict = true;
+                                    if (docText.Contains(@"conformance=""strict"""))
+                                    {
+                                        isStrict = true;
+                                    }
                                 }
                             }
                             catch (Exception ex)

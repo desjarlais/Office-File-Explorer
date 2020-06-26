@@ -529,11 +529,10 @@ namespace Office_File_Explorer.Forms
                                     using (StreamReader sr = new StreamReader(part.GetStream()))
                                     {
                                         docText = sr.ReadToEnd();
-                                    }
-
-                                    if (docText.Contains(@"conformance=""strict"""))
-                                    {
-                                        isStrict = true;
+                                        if (docText.Contains(@"conformance=""strict"""))
+                                        {
+                                            isStrict = true;
+                                        }
                                     }
                                 }
                                 catch (Exception ex)
@@ -552,7 +551,7 @@ namespace Office_File_Explorer.Forms
                         string strFileExtension = Path.GetExtension(strOriginalFile);
                         string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + "(Fixed)" + strFileExtension;
 
-                        // run the command to convert the file "excelcnv.exe -nme -oice "strict-file-path" "converted-file-path""
+                        // run the command to convert the file "excelcnv.exe -nme -oice "file-path" "converted-file-path""
                         string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
                         var proc = Process.Start(excelcnvPath, cParams);
                         proc.Close();
