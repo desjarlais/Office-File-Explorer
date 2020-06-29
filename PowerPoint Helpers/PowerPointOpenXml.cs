@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using DocumentFormat.OpenXml.Drawing.Pictures;
+using System.Windows.Forms;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -52,6 +52,213 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
             // Return the list of strings.
             return ret;
+        }
+
+        /// <summary>
+        /// Use custom placeholder values from another file
+        /// </summary>
+        /// <param name="pDoc">oxml doc to change</param>
+        public static void UseCustomNotesPageSize(string filename)
+        {
+            using (PresentationDocument document = PresentationDocument.Open(filename, true))
+            {
+                NoteSlideHelper nsh = GetNotesPageSizesFromFile();
+
+                // Get the presentation part of document
+                PresentationPart presentationPart = document.PresentationPart;
+
+                if (presentationPart != null)
+                {
+                    Presentation p = presentationPart.Presentation;
+
+                    // Step 1 : Resize the presentation notesz prop
+                    // if the notes size is already the default, no need to make any changes
+                    if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
+                    {
+                        // setup default size
+                        NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+
+                        // first reset the notes size values        
+                        p.NotesSize = defaultNotesSize;
+
+                        // now save up the part
+                        p.Save();
+                    }
+
+                    // Step 2 : loop the shapes in the notes master and reset their sizes
+                    // need to find a way to flag a file if the notes master and/or notes slides become corrupt
+                    // hiding behind a setting checkbox for now
+                    if (Properties.Settings.Default.ResetNotesMaster == "true")
+                    {
+                        // we need to reset sizes in the notes master for each shape
+                        ShapeTree mSt = presentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
+
+                        foreach (var mShp in mSt)
+                        {
+                            if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                            {
+                                PShape ps = (PShape)mShp;
+                                NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
+                                Transform2D t2d = ps.ShapeProperties.Transform2D;
+
+                                if (nvdpr.Name == "Header Placeholder 1")
+                                {
+                                    t2d.Offset.X = nsh.t2dHeader.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dHeader.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dHeader.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dHeader.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Date Placeholder 2")
+                                {
+                                    t2d.Offset.X = nsh.t2dDate.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dDate.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dDate.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dDate.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Slide Image Placeholder 3")
+                                {
+                                    t2d.Offset.X = nsh.t2dSlideImage.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dSlideImage.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dSlideImage.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dSlideImage.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Notes Placeholder 4")
+                                {
+                                    t2d.Offset.X = nsh.t2dNotes.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dNotes.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dNotes.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dNotes.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Footer Placeholder 5")
+                                {
+                                    t2d.Offset.X = nsh.t2dFooter.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dFooter.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dFooter.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dFooter.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Slide Number Placeholder 6")
+                                {
+                                    t2d.Offset.X = nsh.t2dSlideNumber.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dSlideNumber.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dSlideNumber.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dSlideNumber.ExtentsCy;
+                                }
+
+                                if (nvdpr.Name == "Picture")
+                                {
+                                    t2d.Offset.X = nsh.t2dPicture.OffsetX;
+                                    t2d.Offset.Y = nsh.t2dPicture.OffsetY;
+                                    t2d.Extents.Cx = nsh.t2dPicture.ExtentsCx;
+                                    t2d.Extents.Cy = nsh.t2dPicture.ExtentsCy;
+                                }
+                            }
+                        }
+
+                        // Step 3 : we need to delete the size values for each notes slide
+                        foreach (var slideId in p.SlideIdList.Elements<SlideId>())
+                        {
+                            SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
+                            ShapeTree st = slidePart.NotesSlidePart.NotesSlide.CommonSlideData.ShapeTree;
+                            List<RunProperties> rpList = slidePart.NotesSlidePart.NotesSlide.Descendants<RunProperties>().ToList();
+
+                            foreach (var s in st)
+                            {
+                                // we only want to make changes to the shapes
+                                if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                                {
+                                    PShape ps = (PShape)s;
+                                    NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
+                                    Transform2D t2d = ps.ShapeProperties.Transform2D;
+                                    
+                                    if (t2d == null)
+                                    {
+                                        A.Transform2D t2dn = new Transform2D();
+                                        A.Offset offset1 = new A.Offset() { X = 0L, Y = 0L };
+                                        A.Extents extents1 = new A.Extents() { Cx = 0L, Cy = 0L };
+                                        t2d = t2dn;
+                                        t2d.Offset = offset1;
+                                        t2d.Extents = extents1;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Header Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dHeader.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dHeader.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dHeader.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dHeader.ExtentsCy;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Date Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dDate.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dDate.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dDate.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dDate.ExtentsCy;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Slide Image Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dSlideImage.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dSlideImage.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dSlideImage.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dSlideImage.ExtentsCy;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Notes Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dNotes.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dNotes.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dNotes.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dNotes.ExtentsCy;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Footer Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dFooter.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dFooter.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dFooter.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dFooter.ExtentsCy;
+                                    }
+
+                                    if (nvdpr.Name.ToString().Contains("Slide Number Placeholder"))
+                                    {
+                                        t2d.Offset.X = nsh.t2dSlideNumber.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dSlideNumber.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dSlideNumber.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dSlideNumber.ExtentsCy;
+                                    }
+                                }
+                                else if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Picture")
+                                {
+                                    DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
+                                    Transform2D t2d = pic.ShapeProperties.Transform2D;
+
+                                    // there are times when pictures get moved with the rest of the slide objects, need to reset those back
+                                    if (t2d != null)
+                                    {
+                                        t2d.Offset.X = nsh.t2dPicture.OffsetX;
+                                        t2d.Offset.Y = nsh.t2dPicture.OffsetY;
+                                        t2d.Extents.Cx = nsh.t2dPicture.ExtentsCx;
+                                        t2d.Extents.Cy = nsh.t2dPicture.ExtentsCy;
+                                    }
+                                }
+                            }
+
+                            foreach (RunProperties r in rpList)
+                            {
+                                r.FontSize = 1200;
+                            }
+                        }
+                    }
+
+                    p.Save();
+                }
+            }
         }
 
         /// <summary>
@@ -206,10 +413,10 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 // there are times when pictures get moved with the rest of the slide objects, need to reset those back
                                 if (t2d != null)
                                 {
-                                    t2d.Offset.X = 811531L;
-                                    t2d.Offset.Y = 4537710L;
-                                    t2d.Extents.Cx = 5360669L;
-                                    t2d.Extents.Cy = 3463290L;
+                                    t2d.Offset.X = 217831L;
+                                    t2d.Offset.Y = 4470109L;
+                                    t2d.Extents.Cx = 3249763L;
+                                    t2d.Extents.Cy = 2795946L;
                                 }
                             }
                         }
@@ -221,6 +428,95 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     }
                 }
             }
+        }
+
+        public static NoteSlideHelper GetNotesPageSizesFromFile()
+        {
+            NoteSlideHelper nsh = new NoteSlideHelper();
+
+            OpenFileDialog fDialog = new OpenFileDialog
+            {
+                Title = "Select PowerPoint File.",
+                Filter = "PowerPoint | *.pptx",
+                RestoreDirectory = true,
+                InitialDirectory = @"%userprofile%"
+            };
+
+            if (fDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (PresentationDocument document = PresentationDocument.Open(fDialog.FileName, false))
+                {
+                    ShapeTree mSt = document.PresentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
+
+                    foreach (var mShp in mSt)
+                    {
+                        if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                        {
+                            PShape ps = (PShape)mShp;
+                            NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
+                            Transform2D t2d = ps.ShapeProperties.Transform2D;
+
+                            if (nvdpr.Name == "Header Placeholder 1")
+                            {
+                                nsh.t2dHeader.OffsetX = t2d.Offset.X;
+                                nsh.t2dHeader.OffsetY = t2d.Offset.Y;
+                                nsh.t2dHeader.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dHeader.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Date Placeholder 2")
+                            {
+                                nsh.t2dDate.OffsetX = t2d.Offset.X;
+                                nsh.t2dDate.OffsetY = t2d.Offset.Y;
+                                nsh.t2dDate.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dDate.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Slide Image Placeholder 3")
+                            {
+                                nsh.t2dSlideImage.OffsetX = t2d.Offset.X;
+                                nsh.t2dSlideImage.OffsetY = t2d.Offset.Y;
+                                nsh.t2dSlideImage.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dSlideImage.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Notes Placeholder 4")
+                            {
+                                nsh.t2dNotes.OffsetX = t2d.Offset.X;
+                                nsh.t2dNotes.OffsetY = t2d.Offset.Y;
+                                nsh.t2dNotes.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dNotes.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Footer Placeholder 5")
+                            {
+                                nsh.t2dFooter.OffsetX = t2d.Offset.X;
+                                nsh.t2dFooter.OffsetY = t2d.Offset.Y;
+                                nsh.t2dFooter.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dFooter.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Slide Number Placeholder 6")
+                            {
+                                nsh.t2dSlideNumber.OffsetX = t2d.Offset.X;
+                                nsh.t2dSlideNumber.OffsetY = t2d.Offset.Y;
+                                nsh.t2dSlideNumber.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dSlideNumber.ExtentsCy = t2d.Extents.Cy;
+                            }
+
+                            if (nvdpr.Name == "Picture")
+                            {
+                                nsh.t2dPicture.OffsetX = t2d.Offset.X;
+                                nsh.t2dPicture.OffsetY = t2d.Offset.Y;
+                                nsh.t2dPicture.ExtentsCx = t2d.Extents.Cx;
+                                nsh.t2dPicture.ExtentsCy = t2d.Extents.Cy;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return nsh;
         }
 
         // Get a list of the titles of all the slides in the presentation.

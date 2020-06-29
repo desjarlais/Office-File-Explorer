@@ -38,8 +38,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ckResetNotesMaster = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.rdoSax = new System.Windows.Forms.RadioButton();
             this.rdoDom = new System.Windows.Forms.RadioButton();
+            this.rdoSax = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -141,6 +141,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Excel List Cell Value Options";
             // 
+            // rdoDom
+            // 
+            this.rdoDom.AutoSize = true;
+            this.rdoDom.Location = new System.Drawing.Point(6, 39);
+            this.rdoDom.Name = "rdoDom";
+            this.rdoDom.Size = new System.Drawing.Size(76, 17);
+            this.rdoDom.TabIndex = 1;
+            this.rdoDom.Text = "DOM Style";
+            this.rdoDom.UseVisualStyleBackColor = true;
+            // 
             // rdoSax
             // 
             this.rdoSax.AutoSize = true;
@@ -152,16 +162,6 @@
             this.rdoSax.TabStop = true;
             this.rdoSax.Text = "SAX Style";
             this.rdoSax.UseVisualStyleBackColor = true;
-            // 
-            // rdoDom
-            // 
-            this.rdoDom.AutoSize = true;
-            this.rdoDom.Location = new System.Drawing.Point(6, 39);
-            this.rdoDom.Name = "rdoDom";
-            this.rdoDom.Size = new System.Drawing.Size(76, 17);
-            this.rdoDom.TabIndex = 1;
-            this.rdoDom.Text = "DOM Style";
-            this.rdoDom.UseVisualStyleBackColor = true;
             // 
             // FrmSettings
             // 

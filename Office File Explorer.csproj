@@ -162,6 +162,7 @@
     <Compile Include="Forms\FrmSettings.Designer.cs">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="PowerPoint Helpers\NoteSlideHelper.cs" />
     <Compile Include="PowerPoint Helpers\PowerPointOpenXml.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

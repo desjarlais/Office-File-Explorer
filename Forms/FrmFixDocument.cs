@@ -81,6 +81,10 @@ namespace Office_File_Explorer.Forms
             {
                 OptionSelected = "Notes";
             }
+            else if (rdoFixNotesPageWithFile.Checked)
+            {
+                OptionSelected = "NotesWithFile";
+            }
             
             DialogResult = DialogResult.OK;
             Close();

@@ -4368,6 +4368,9 @@ namespace Office_File_Explorer
                         case "Notes":
                             FixNotesPageSize();
                             break;
+                        case "NotesWithFile":
+                            PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
+                            break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");
                             LoggingHelper.Log("BtnFixPresentation - No Option Selected");
@@ -4398,7 +4401,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 PreButtonClickWork();
 
-                // check if the excelcnv.exe exists
+                // check if the excelcnv.exe exists, without it, no conversion can happen
                 string excelcnvPath;
 
                 if (File.Exists(StringResources.sameBitnessO365))
@@ -4430,7 +4433,7 @@ namespace Office_File_Explorer
                     excelcnvPath = StringResources.emptyString;
                 }
 
-                // check if the file is strict
+                // check if the file is strict, no changes are made to the file yet
                 bool isStrict = false;
 
                 using (Package package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))

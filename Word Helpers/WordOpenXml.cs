@@ -657,7 +657,7 @@ namespace Office_File_Explorer.Word_Helpers
 
                     foreach (BookmarkStart bks in bkStartList)
                     {
-                        foreach (object o in bkStartTagIds)
+                        foreach (object o in bkEndTagIds)
                         {
                             if (o.ToString() == bks.Id.ToString())
                             {
@@ -670,13 +670,17 @@ namespace Office_File_Explorer.Word_Helpers
                             bks.Remove();
                             isFixed = true;
                         }
+                        else
+                        {
+                            startTagFound = false;
+                        }
                     }
 
                     bool endTagFound = false;
 
                     foreach (BookmarkEnd bke in bkEndList)
                     {
-                        foreach (object o in bkEndTagIds)
+                        foreach (object o in bkStartTagIds)
                         {
                             if (o.ToString() == bke.Id.ToString())
                             {
@@ -688,6 +692,10 @@ namespace Office_File_Explorer.Word_Helpers
                         {
                             bke.Remove();
                             isFixed = true;
+                        }
+                        else
+                        {
+                            endTagFound = false;
                         }
                     }
 
