@@ -37,8 +37,8 @@
             this.BtnOk = new System.Windows.Forms.Button();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
-            this.rdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -122,7 +122,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.rdoFixNotesPageWithFile);
+            this.groupBox2.Controls.Add(this.RdoFixNotesPageWithFile);
             this.groupBox2.Controls.Add(this.RdoNotes);
             this.groupBox2.Location = new System.Drawing.Point(213, 15);
             this.groupBox2.Name = "groupBox2";
@@ -130,6 +130,18 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PowerPoint Document Fixes";
+            // 
+            // RdoFixNotesPageWithFile
+            // 
+            this.RdoFixNotesPageWithFile.AutoSize = true;
+            this.RdoFixNotesPageWithFile.Enabled = false;
+            this.RdoFixNotesPageWithFile.Location = new System.Drawing.Point(6, 42);
+            this.RdoFixNotesPageWithFile.Name = "RdoFixNotesPageWithFile";
+            this.RdoFixNotesPageWithFile.Size = new System.Drawing.Size(141, 17);
+            this.RdoFixNotesPageWithFile.TabIndex = 5;
+            this.RdoFixNotesPageWithFile.TabStop = true;
+            this.RdoFixNotesPageWithFile.Text = "Fix Notes Page With File";
+            this.RdoFixNotesPageWithFile.UseVisualStyleBackColor = true;
             // 
             // RdoNotes
             // 
@@ -141,17 +153,6 @@
             this.RdoNotes.TabIndex = 0;
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
-            // 
-            // rdoFixNotesPageWithFile
-            // 
-            this.rdoFixNotesPageWithFile.AutoSize = true;
-            this.rdoFixNotesPageWithFile.Location = new System.Drawing.Point(6, 42);
-            this.rdoFixNotesPageWithFile.Name = "rdoFixNotesPageWithFile";
-            this.rdoFixNotesPageWithFile.Size = new System.Drawing.Size(141, 17);
-            this.rdoFixNotesPageWithFile.TabIndex = 5;
-            this.rdoFixNotesPageWithFile.TabStop = true;
-            this.rdoFixNotesPageWithFile.Text = "Fix Notes Page With File";
-            this.rdoFixNotesPageWithFile.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 
@@ -185,6 +186,6 @@
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton RdoNotes;
-        private System.Windows.Forms.RadioButton rdoFixNotesPageWithFile;
+        private System.Windows.Forms.RadioButton RdoFixNotesPageWithFile;
     }
 }

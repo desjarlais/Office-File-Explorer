@@ -36,6 +36,7 @@ namespace Office_File_Explorer.Forms
             RdoRev.Checked = false;
             RdoEndnotes.Checked = false;
             RdoNotes.Checked = false;
+            RdoFixNotesPageWithFile.Checked = false;
         }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace Office_File_Explorer.Forms
         {
             ResetCheckboxes();
             RdoNotes.Enabled = true;
+            RdoFixNotesPageWithFile.Enabled = true;
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -81,7 +83,7 @@ namespace Office_File_Explorer.Forms
             {
                 OptionSelected = "Notes";
             }
-            else if (rdoFixNotesPageWithFile.Checked)
+            else if (RdoFixNotesPageWithFile.Checked)
             {
                 OptionSelected = "NotesWithFile";
             }
