@@ -4103,10 +4103,10 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 Cursor = Cursors.WaitCursor;
 
-                NumberingHelper bulletOrderedNumberingValues = new NumberingHelper();
-                NumberingHelper bulletUnorderedNumberingValues = new NumberingHelper();
-                List<int> bulletOrderedNumIdsInUse = new List<int>();
-                List<int> bulletUnorderedNumIdsInUse = new List<int>();
+                NumberingHelper bulletMultiLevelNumberingValues = new NumberingHelper();
+                NumberingHelper bulletSingleLevelNumberingValues = new NumberingHelper();
+                List<int> bulletMultiLevelNumIdsInUse = new List<int>();
+                List<int> bulletSingleLevelNumIdsInUse = new List<int>();
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -4120,8 +4120,8 @@ namespace Office_File_Explorer
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
 
-                    bool bulletOrderedFound = false;
-                    bool bulletUnorderedFound = false;
+                    bool bulletSingleLevelFound = false;
+                    bool bulletMultiLevelFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
                     {
@@ -4131,7 +4131,7 @@ namespace Office_File_Explorer
                             if (ni.AbstractNumId.Val == an.AbstractNumberId.Value)
                             {
                                 // get the level count
-                                var lvlNumberingList = an.Descendants<Level>().ToList();
+                                var lvlNumberingList = an.Descendants<DocumentFormat.OpenXml.Wordprocessing.Level>().ToList();
 
                                 // since we have the list template, find out if it is a bullet
                                 foreach (OpenXmlElement anChild in an)
@@ -4139,31 +4139,31 @@ namespace Office_File_Explorer
                                     if (anChild.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Level")
                                     {
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
-
+                                        
                                         if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1)
                                         {
                                             // if level is > 1, this is an ordered list
-                                            bulletOrderedNumIdsInUse.Add(ni.NumberID);
+                                            bulletMultiLevelNumIdsInUse.Add(ni.NumberID);
 
-                                            if (bulletOrderedFound == false)
+                                            if (bulletMultiLevelFound == false)
                                             {
-                                                bulletOrderedNumberingValues.AbsNumId = ni.AbstractNumId.Val;
-                                                bulletOrderedNumberingValues.NumFormat = "bulletOrdered";
-                                                bulletOrderedNumberingValues.NumId = ni.NumberID;
-                                                bulletOrderedFound = true;
+                                                bulletMultiLevelNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                bulletMultiLevelNumberingValues.NumFormat = "bulletMultiLevel";
+                                                bulletMultiLevelNumberingValues.NumId = ni.NumberID;
+                                                bulletMultiLevelFound = true;
                                             }
                                         }
                                         else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1)
                                         {
                                             // if level = 1, this is an unordered list
-                                            bulletUnorderedNumIdsInUse.Add(ni.NumberID);
+                                            bulletSingleLevelNumIdsInUse.Add(ni.NumberID);
 
-                                            if (bulletUnorderedFound == false)
+                                            if (bulletSingleLevelFound == false)
                                             {
-                                                bulletUnorderedNumberingValues.AbsNumId = ni.AbstractNumId.Val;
-                                                bulletUnorderedNumberingValues.NumFormat = "bulletUnordered";
-                                                bulletUnorderedNumberingValues.NumId = ni.NumberID;
-                                                bulletUnorderedFound = true;
+                                                bulletSingleLevelNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                bulletSingleLevelNumberingValues.NumFormat = "bulletSingle";
+                                                bulletSingleLevelNumberingValues.NumId = ni.NumberID;
+                                                bulletSingleLevelFound = true;
                                             }
                                         }
                                     }
@@ -4182,19 +4182,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId pNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletOrderedNumIdsInUse)
+                                foreach (var o in bulletMultiLevelNumIdsInUse)
                                 {
                                     if (o == pNumId.Val)
                                     {
-                                        pNumId.Val = bulletOrderedNumberingValues.NumId;
+                                        pNumId.Val = bulletMultiLevelNumberingValues.NumId;
                                     }
                                 }
 
-                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                foreach (var o in bulletSingleLevelNumIdsInUse)
                                 {
                                     if (o == pNumId.Val)
                                     {
-                                        pNumId.Val = bulletUnorderedNumberingValues.NumId;
+                                        pNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4207,19 +4207,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId hNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletOrderedNumIdsInUse)
+                                foreach (var o in bulletMultiLevelNumIdsInUse)
                                 {
                                     if (o == hNumId.Val)
                                     {
-                                        hNumId.Val = bulletOrderedNumberingValues.NumId;
+                                        hNumId.Val = bulletMultiLevelNumberingValues.NumId;
                                     }
                                 }
 
-                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                foreach (var o in bulletSingleLevelNumIdsInUse)
                                 {
                                     if (o == hNumId.Val)
                                     {
-                                        hNumId.Val = bulletUnorderedNumberingValues.NumId;
+                                        hNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4232,19 +4232,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId fNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletOrderedNumIdsInUse)
+                                foreach (var o in bulletMultiLevelNumIdsInUse)
                                 {
                                     if (o == fNumId.Val)
                                     {
-                                        fNumId.Val = bulletOrderedNumberingValues.NumId;
+                                        fNumId.Val = bulletMultiLevelNumberingValues.NumId;
                                     }
                                 }
 
-                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                foreach (var o in bulletSingleLevelNumIdsInUse)
                                 {
                                     if (o == fNumId.Val)
                                     {
-                                        fNumId.Val = bulletUnorderedNumberingValues.NumId;
+                                        fNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4262,19 +4262,19 @@ namespace Office_File_Explorer
                             {
                                 foreach (NumberingId sEl in el.Descendants<NumberingId>())
                                 {
-                                    foreach (var o in bulletOrderedNumIdsInUse)
+                                    foreach (var o in bulletMultiLevelNumIdsInUse)
                                     {
                                         if (o == sEl.Val)
                                         {
-                                            sEl.Val = bulletOrderedNumberingValues.NumId;
+                                            sEl.Val = bulletMultiLevelNumberingValues.NumId;
                                         }
                                     }
 
-                                    foreach (var o in bulletUnorderedNumIdsInUse)
+                                    foreach (var o in bulletSingleLevelNumIdsInUse)
                                     {
                                         if (o == sEl.Val)
                                         {
-                                            sEl.Val = bulletUnorderedNumberingValues.NumId;
+                                            sEl.Val = bulletSingleLevelNumberingValues.NumId;
                                         }
                                     }
                                 }
