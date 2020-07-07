@@ -78,7 +78,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         // setup default size
                         NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
 
-                        // first reset the notes size values        
+                        // first reset the notes size values
                         p.NotesSize = defaultNotesSize;
 
                         // now save up the part
@@ -245,6 +245,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Offset.Y = nsh.t2dPicture.OffsetY;
                                         t2d.Extents.Cx = nsh.t2dPicture.ExtentsCx;
                                         t2d.Extents.Cy = nsh.t2dPicture.ExtentsCy;
+                                    }
+                                    else
+                                    {
+                                        t2d.Offset.X = 217831L;
+                                        t2d.Offset.Y = 4470109L;
+                                        t2d.Extents.Cx = 3249763L;
+                                        t2d.Extents.Cy = 2795946L;
                                     }
                                 }
                             }

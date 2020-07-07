@@ -4082,6 +4082,7 @@ namespace Office_File_Explorer
         {
             LstDisplay.Items.Clear();
 
+            // there are currently two different bookmark corruptions, check for both
             if (WordOpenXml.RemoveMissingBookmarkTags(TxtFileName.Text) == true || WordOpenXml.RemovePlainTextCcFromBookmark(TxtFileName.Text) == true)
             {
                 LstDisplay.Items.Add("** Fixed Corrupt Bookmarks **");
@@ -4102,8 +4103,10 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 Cursor = Cursors.WaitCursor;
 
-                NumberingHelper bulletNumberingValues = new NumberingHelper();
-                List<int> bulletNumIdsInUse = new List<int>();
+                NumberingHelper bulletOrderedNumberingValues = new NumberingHelper();
+                NumberingHelper bulletUnorderedNumberingValues = new NumberingHelper();
+                List<int> bulletOrderedNumIdsInUse = new List<int>();
+                List<int> bulletUnorderedNumIdsInUse = new List<int>();
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -4117,7 +4120,8 @@ namespace Office_File_Explorer
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
 
-                    bool bulletFound = false;
+                    bool bulletOrderedFound = false;
+                    bool bulletUnorderedFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
                     {
@@ -4126,6 +4130,9 @@ namespace Office_File_Explorer
                             // if the abstractnum and numId match, they are the same listtemplate
                             if (ni.AbstractNumId.Val == an.AbstractNumberId.Value)
                             {
+                                // get the level count
+                                var lvlNumberingList = an.Descendants<Level>().ToList();
+
                                 // since we have the list template, find out if it is a bullet
                                 foreach (OpenXmlElement anChild in an)
                                 {
@@ -4133,18 +4140,30 @@ namespace Office_File_Explorer
                                     {
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
 
-                                        if (lvl.NumberingFormat.Val == "bullet")
+                                        if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1)
                                         {
-                                            bulletNumIdsInUse.Add(ni.NumberID);
+                                            // if level is > 1, this is an ordered list
+                                            bulletOrderedNumIdsInUse.Add(ni.NumberID);
 
-                                            if (bulletFound == false)
+                                            if (bulletOrderedFound == false)
                                             {
-                                                // now that found a bullet, populate the numberingvalues
-                                                // this will be used later to apply throughout the document
-                                                bulletNumberingValues.AbsNumId = ni.AbstractNumId.Val;
-                                                bulletNumberingValues.NumFormat = "bullet";
-                                                bulletNumberingValues.NumId = ni.NumberID;
-                                                bulletFound = true;
+                                                bulletOrderedNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                bulletOrderedNumberingValues.NumFormat = "bulletOrdered";
+                                                bulletOrderedNumberingValues.NumId = ni.NumberID;
+                                                bulletOrderedFound = true;
+                                            }
+                                        }
+                                        else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1)
+                                        {
+                                            // if level = 1, this is an unordered list
+                                            bulletUnorderedNumIdsInUse.Add(ni.NumberID);
+
+                                            if (bulletUnorderedFound == false)
+                                            {
+                                                bulletUnorderedNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                bulletUnorderedNumberingValues.NumFormat = "bulletUnordered";
+                                                bulletUnorderedNumberingValues.NumId = ni.NumberID;
+                                                bulletUnorderedFound = true;
                                             }
                                         }
                                     }
@@ -4163,11 +4182,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId pNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletNumIdsInUse)
+                                foreach (var o in bulletOrderedNumIdsInUse)
                                 {
                                     if (o == pNumId.Val)
                                     {
-                                        pNumId.Val = bulletNumberingValues.NumId;
+                                        pNumId.Val = bulletOrderedNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                {
+                                    if (o == pNumId.Val)
+                                    {
+                                        pNumId.Val = bulletUnorderedNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4180,11 +4207,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId hNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletNumIdsInUse)
+                                foreach (var o in bulletOrderedNumIdsInUse)
                                 {
                                     if (o == hNumId.Val)
                                     {
-                                        hNumId.Val = bulletNumberingValues.NumId;
+                                        hNumId.Val = bulletOrderedNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                {
+                                    if (o == hNumId.Val)
+                                    {
+                                        hNumId.Val = bulletUnorderedNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4197,11 +4232,19 @@ namespace Office_File_Explorer
                         {
                             foreach (NumberingId fNumId in el.Descendants<NumberingId>())
                             {
-                                foreach (var o in bulletNumIdsInUse)
+                                foreach (var o in bulletOrderedNumIdsInUse)
                                 {
                                     if (o == fNumId.Val)
                                     {
-                                        fNumId.Val = bulletNumberingValues.NumId;
+                                        fNumId.Val = bulletOrderedNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in bulletUnorderedNumIdsInUse)
+                                {
+                                    if (o == fNumId.Val)
+                                    {
+                                        fNumId.Val = bulletUnorderedNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4219,11 +4262,19 @@ namespace Office_File_Explorer
                             {
                                 foreach (NumberingId sEl in el.Descendants<NumberingId>())
                                 {
-                                    foreach (var o in bulletNumIdsInUse)
+                                    foreach (var o in bulletOrderedNumIdsInUse)
                                     {
                                         if (o == sEl.Val)
                                         {
-                                            sEl.Val = bulletNumberingValues.NumId;
+                                            sEl.Val = bulletOrderedNumberingValues.NumId;
+                                        }
+                                    }
+
+                                    foreach (var o in bulletUnorderedNumIdsInUse)
+                                    {
+                                        if (o == sEl.Val)
+                                        {
+                                            sEl.Val = bulletUnorderedNumberingValues.NumId;
                                         }
                                     }
                                 }
@@ -4268,7 +4319,7 @@ namespace Office_File_Explorer
                         foreach (var en in ens)
                         {
                             // get the paragraph list from the endnote, if it has more than 1000 runs of content
-                            // delete it...need to find a way to check for dupes
+                            // delete it..need to find a way to check for dupes
                             // for now just deleting all but the first paragraph
                             var paraList = en.Descendants<Paragraph>().ToList();
                             foreach (var p in paraList)

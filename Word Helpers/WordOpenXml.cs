@@ -659,12 +659,14 @@ namespace Office_File_Explorer.Word_Helpers
                     {
                         foreach (object o in bkEndTagIds)
                         {
+                            // if the end tag matches and we can ignore doing anything
                             if (o.ToString() == bks.Id.ToString())
                             {
                                 startTagFound = true;
                             }
                         }
 
+                        // if we get here and no match was found, it is orphaned and we can delete
                         if (startTagFound == false)
                         {
                             bks.Remove();
@@ -672,6 +674,7 @@ namespace Office_File_Explorer.Word_Helpers
                         }
                         else
                         {
+                            // reset the value for the next start tag check
                             startTagFound = false;
                         }
                     }
