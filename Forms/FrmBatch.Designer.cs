@@ -41,6 +41,7 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnConvertStrict = new System.Windows.Forms.Button();
             this.BtnPPTResetPII = new System.Windows.Forms.Button();
             this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
             this.BtnFixCorruptBookmarks = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnConvertStrict = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -176,6 +176,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
             // 
+            // BtnConvertStrict
+            // 
+            this.BtnConvertStrict.Location = new System.Drawing.Point(606, 48);
+            this.BtnConvertStrict.Name = "BtnConvertStrict";
+            this.BtnConvertStrict.Size = new System.Drawing.Size(158, 23);
+            this.BtnConvertStrict.TabIndex = 12;
+            this.BtnConvertStrict.Text = "Convert Strict To Non-Strict";
+            this.BtnConvertStrict.UseVisualStyleBackColor = true;
+            this.BtnConvertStrict.Click += new System.EventHandler(this.BtnConvertStrict_Click);
+            // 
             // BtnPPTResetPII
             // 
             this.BtnPPTResetPII.Location = new System.Drawing.Point(7, 48);
@@ -247,16 +257,6 @@
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
-            // 
-            // BtnConvertStrict
-            // 
-            this.BtnConvertStrict.Location = new System.Drawing.Point(606, 48);
-            this.BtnConvertStrict.Name = "BtnConvertStrict";
-            this.BtnConvertStrict.Size = new System.Drawing.Size(158, 23);
-            this.BtnConvertStrict.TabIndex = 12;
-            this.BtnConvertStrict.Text = "Convert Strict To Non-Strict";
-            this.BtnConvertStrict.UseVisualStyleBackColor = true;
-            this.BtnConvertStrict.Click += new System.EventHandler(this.BtnConvertStrict_Click);
             // 
             // FrmBatch
             // 

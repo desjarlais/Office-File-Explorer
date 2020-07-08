@@ -3948,7 +3948,7 @@ namespace Office_File_Explorer
             try
             {
                 Cursor = Cursors.WaitCursor;
-                PowerPoint_Helpers.PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
+                PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
                 if (Properties.Settings.Default.ResetNotesMaster == "false")
                 {
                     MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -3959,13 +3959,13 @@ namespace Office_File_Explorer
             catch (NullReferenceException nre)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
-                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log("FixNotesPageSizeCustom Error");
                 LoggingHelper.Log(nre.Message);
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log("FixNotesPageSizeCustom Error");
                 LoggingHelper.Log(ex.Message);
             }
             finally
@@ -3981,7 +3981,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                 {
-                    PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
+                    PowerPointOpenXml.ChangeNotesPageSize(document);
                     if (Properties.Settings.Default.ResetNotesMaster == "false")
                     {
                         MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4173,7 +4173,7 @@ namespace Office_File_Explorer
                                         
                                         if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1)
                                         {
-                                            // if level is > 1, this is an ordered list
+                                            // if level is > 1, this is a multi level list
                                             bulletMultiLevelNumIdsInUse.Add(ni.NumberID);
 
                                             if (bulletMultiLevelFound == false)
@@ -4186,7 +4186,7 @@ namespace Office_File_Explorer
                                         }
                                         else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1)
                                         {
-                                            // if level = 1, this is an unordered list
+                                            // if level = 1, this is a single level list
                                             bulletSingleLevelNumIdsInUse.Add(ni.NumberID);
 
                                             if (bulletSingleLevelFound == false)
