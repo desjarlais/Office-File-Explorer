@@ -73,17 +73,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
                     // Step 1 : Resize the presentation notesz prop
                     // if the notes size is already the default, no need to make any changes
-                    if (p.NotesSize.Cx != 6858000 || p.NotesSize.Cy != 9144000)
-                    {
-                        // setup default size
-                        NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
+                    NotesSize defaultNotesSize = new NotesSize() { Cx = nsh.pNotesSz.Cx, Cy = nsh.pNotesSz.Cy };
 
-                        // first reset the notes size values
-                        p.NotesSize = defaultNotesSize;
+                    // first reset the notes size values
+                    p.NotesSize = defaultNotesSize;
 
-                        // now save up the part
-                        p.Save();
-                    }
+                    // now save up the part
+                    p.Save();
 
                     // Step 2 : loop the shapes in the notes master and reset their sizes
                     // need to find a way to flag a file if the notes master and/or notes slides become corrupt
@@ -101,7 +97,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
 
-                                if (nvdpr.Name == "Header Placeholder 1")
+                                if (nvdpr.Name.ToString().Contains("Header Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dHeader.OffsetX;
                                     t2d.Offset.Y = nsh.t2dHeader.OffsetY;
@@ -109,7 +105,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dHeader.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Date Placeholder 2")
+                                if (nvdpr.Name.ToString().Contains("Date Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dDate.OffsetX;
                                     t2d.Offset.Y = nsh.t2dDate.OffsetY;
@@ -117,7 +113,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dDate.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Slide Image Placeholder 3")
+                                if (nvdpr.Name.ToString().Contains("Slide Image Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dSlideImage.OffsetX;
                                     t2d.Offset.Y = nsh.t2dSlideImage.OffsetY;
@@ -125,7 +121,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dSlideImage.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Notes Placeholder 4")
+                                if (nvdpr.Name.ToString().Contains("Notes Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dNotes.OffsetX;
                                     t2d.Offset.Y = nsh.t2dNotes.OffsetY;
@@ -133,7 +129,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dNotes.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Footer Placeholder 5")
+                                if (nvdpr.Name.ToString().Contains("Footer Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dFooter.OffsetX;
                                     t2d.Offset.Y = nsh.t2dFooter.OffsetY;
@@ -141,7 +137,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dFooter.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Slide Number Placeholder 6")
+                                if (nvdpr.Name.ToString().Contains("Slide Number Placeholder"))
                                 {
                                     t2d.Offset.X = nsh.t2dSlideNumber.OffsetX;
                                     t2d.Offset.Y = nsh.t2dSlideNumber.OffsetY;
@@ -239,7 +235,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     Transform2D t2d = pic.ShapeProperties.Transform2D;
 
                                     // there are times when pictures get moved with the rest of the slide objects, need to reset those back
-                                    if (t2d != null)
+                                    if (t2d == null)
                                     {
                                         t2d.Offset.X = nsh.t2dPicture.OffsetX;
                                         t2d.Offset.Y = nsh.t2dPicture.OffsetY;
@@ -453,6 +449,9 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             {
                 using (PresentationDocument document = PresentationDocument.Open(fDialog.FileName, false))
                 {
+                    nsh.pNotesSz.Cx = document.PresentationPart.Presentation.NotesSize.Cx;
+                    nsh.pNotesSz.Cy = document.PresentationPart.Presentation.NotesSize.Cy;
+
                     ShapeTree mSt = document.PresentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
 
                     foreach (var mShp in mSt)

@@ -11,6 +11,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         public T2dPicture t2dPicture;
         public T2dFooter t2dFooter;
         public T2dNotes t2dNotes;
+        public PresNotesSz pNotesSz;
+    }
+
+    public struct PresNotesSz
+    {
+        public Int64 Cx;
+        public Int64 Cy;
     }
 
     public struct T2dHeader

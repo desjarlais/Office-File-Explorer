@@ -3943,7 +3943,38 @@ namespace Office_File_Explorer
             }
         }
 
-        public void FixNotesPageSize()
+        public void FixNotesPageSizeCustom()
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                PowerPoint_Helpers.PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
+                if (Properties.Settings.Default.ResetNotesMaster == "false")
+                {
+                    MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
+            }
+            catch (NullReferenceException nre)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
+                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log(nre.Message);
+            }
+            catch (Exception ex)
+            {
+                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log(ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public void FixNotesPageSizeDefault()
         {
             try
             {
@@ -3962,13 +3993,13 @@ namespace Office_File_Explorer
             catch (NullReferenceException nre)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
-                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log("FixNotesPageSizeDefault Error");
                 LoggingHelper.Log(nre.Message);
             }
             catch (Exception ex)
             {
                 DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnNotesPageSize_Click Error");
+                LoggingHelper.Log("FixNotesPageSizeDefault Error");
                 LoggingHelper.Log(ex.Message);
             }
             finally
@@ -4417,10 +4448,10 @@ namespace Office_File_Explorer
                     switch (val)
                     {
                         case "Notes":
-                            FixNotesPageSize();
+                            FixNotesPageSizeDefault();
                             break;
                         case "NotesWithFile":
-                            PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
+                            FixNotesPageSizeCustom();
                             break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");
