@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3695616">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3697152">
       <assemblyIdentity name="Office File Explorer" version="1.0.2.41" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ic3LkE5/f+OZLfEjoEKmXdba4PSsarC+LMzPVHy92xQ=</dsig:DigestValue>
+        <dsig:DigestValue>RrNyvfYw18+voZ92yCV2OE16hOAMxNqHgj6iyaLZCjE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -100,6 +100,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>ByXt+WhSpmAEQKc0+j8/UuMFt+PqUvVjy6/SJSw9ras=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\ASX_Copy_blue_16x.png" size="245">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7JSxkDbbcKnUKUlT9vagTrWtwZvnhftmcB567eITZyA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\BatchFile_16x.png" size="344">

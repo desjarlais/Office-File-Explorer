@@ -63,6 +63,16 @@ namespace Office_File_Explorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ASX_Copy_blue_16x {
+            get {
+                object obj = ResourceManager.GetObject("ASX_Copy_blue_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BatchFile_16x {
             get {
                 object obj = ResourceManager.GetObject("BatchFile_16x", resourceCulture);
@@ -196,6 +206,16 @@ namespace Office_File_Explorer.Properties {
         internal static System.Drawing.Bitmap filewindow {
             get {
                 object obj = ResourceManager.GetObject("filewindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FontDialogControl_16x {
+            get {
+                object obj = ResourceManager.GetObject("FontDialogControl_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

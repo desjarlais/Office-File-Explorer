@@ -184,6 +184,11 @@
     <Compile Include="PowerPoint Helpers\PowerPointOpenXml.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Word Helpers\InvalidXmlTags.cs" />
     <Compile Include="Word Helpers\NumberingHelper.cs" />
     <Compile Include="Word Helpers\ValidXmlTags.cs" />
@@ -233,14 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -368,12 +368,14 @@
     <Content Include="1 %2847%29.ico" />
     <Content Include="CommentedCode.txt" />
     <Content Include="Instructions.txt" />
+    <Content Include="Resources\ASX_Copy_blue_16x.png" />
     <Content Include="Resources\BatchFile_16x.png" />
     <Content Include="Resources\CopyToClipboard_16x.png" />
     <Content Include="Resources\Dialog_16x.png" />
     <Content Include="Resources\ErrorSummary_16x.png" />
     <None Include="Resources\Exit_16x1.png" />
     <Content Include="Resources\FeedbackBubble_16x.png" />
+    <None Include="Resources\FontDialogControl_16x.png" />
     <Content Include="Resources\OpenFile_16x.png" />
     <Content Include="Resources\SendEmail_16x.png" />
     <Content Include="Resources\Settings_16x.png" />

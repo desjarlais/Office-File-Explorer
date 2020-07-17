@@ -99,6 +99,9 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fontViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,9 +111,6 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clipboardViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fontViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -877,7 +877,7 @@
             // 
             this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -885,7 +885,7 @@
             // 
             this.batchProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
             this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
             this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
@@ -893,7 +893,7 @@
             // 
             this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
@@ -901,22 +901,47 @@
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clipboardViewerToolStripMenuItem,
+            this.fontViewerToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // clipboardViewerToolStripMenuItem
+            // 
+            this.clipboardViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ASX_Copy_blue_16x;
+            this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
+            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
+            this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
+            // 
+            // fontViewerToolStripMenuItem
+            // 
+            this.fontViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FontDialogControl_16x;
+            this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
+            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.fontViewerToolStripMenuItem.Text = "Font Viewer";
+            this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1006,29 +1031,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clipboardViewerToolStripMenuItem,
-            this.fontViewerToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
-            this.toolsToolStripMenuItem.Text = "&Tools";
-            // 
-            // clipboardViewerToolStripMenuItem
-            // 
-            this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
-            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
-            this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
-            // 
-            // fontViewerToolStripMenuItem
-            // 
-            this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
-            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fontViewerToolStripMenuItem.Text = "Font Viewer";
-            this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
