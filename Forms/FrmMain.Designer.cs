@@ -60,6 +60,7 @@
             this.BtnListComments = new System.Windows.Forms.Button();
             this.BtnListOle = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnConvertToNonStrictFormat = new System.Windows.Forms.Button();
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
             this.BtnListConnections = new System.Windows.Forms.Button();
             this.BtnListWSInfo = new System.Windows.Forms.Button();
@@ -81,7 +82,6 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnConvertToNonStrictFormat = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
@@ -108,6 +108,9 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fontViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -496,6 +499,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
             // 
+            // BtnConvertToNonStrictFormat
+            // 
+            this.BtnConvertToNonStrictFormat.Location = new System.Drawing.Point(138, 75);
+            this.BtnConvertToNonStrictFormat.Name = "BtnConvertToNonStrictFormat";
+            this.BtnConvertToNonStrictFormat.Size = new System.Drawing.Size(107, 23);
+            this.BtnConvertToNonStrictFormat.TabIndex = 29;
+            this.BtnConvertToNonStrictFormat.Text = "Convert to Xlsx";
+            this.BtnConvertToNonStrictFormat.UseVisualStyleBackColor = true;
+            this.BtnConvertToNonStrictFormat.Click += new System.EventHandler(this.BtnConvertToNonStrictFormat_Click);
+            // 
             // BtnConvertXlsmToXlsx
             // 
             this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(138, 46);
@@ -740,16 +753,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
-            // BtnConvertToNonStrictFormat
-            // 
-            this.BtnConvertToNonStrictFormat.Location = new System.Drawing.Point(138, 75);
-            this.BtnConvertToNonStrictFormat.Name = "BtnConvertToNonStrictFormat";
-            this.BtnConvertToNonStrictFormat.Size = new System.Drawing.Size(107, 23);
-            this.BtnConvertToNonStrictFormat.TabIndex = 29;
-            this.BtnConvertToNonStrictFormat.Text = "Convert to Xlsx";
-            this.BtnConvertToNonStrictFormat.UseVisualStyleBackColor = true;
-            this.BtnConvertToNonStrictFormat.Click += new System.EventHandler(this.BtnConvertToNonStrictFormat_Click);
-            // 
             // BtnListShapes
             // 
             this.BtnListShapes.Location = new System.Drawing.Point(6, 108);
@@ -848,6 +851,7 @@
             this.mnuMainApp.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mnuMainApp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.mnuMainApp.Location = new System.Drawing.Point(0, 0);
             this.mnuMainApp.Name = "mnuMainApp";
@@ -873,7 +877,7 @@
             // 
             this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -881,7 +885,7 @@
             // 
             this.batchProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
             this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
             this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
@@ -889,7 +893,7 @@
             // 
             this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
@@ -897,20 +901,20 @@
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1002,6 +1006,29 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clipboardViewerToolStripMenuItem,
+            this.fontViewerToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // clipboardViewerToolStripMenuItem
+            // 
+            this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
+            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
+            this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
+            // 
+            // fontViewerToolStripMenuItem
+            // 
+            this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
+            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fontViewerToolStripMenuItem.Text = "Font Viewer";
+            this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -1121,6 +1148,9 @@
         private System.Windows.Forms.Button BtnFixPresentation;
         private System.Windows.Forms.CheckBox CkSortListbox;
         private System.Windows.Forms.Button BtnConvertToNonStrictFormat;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clipboardViewerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fontViewerToolStripMenuItem;
     }
 }
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -64,6 +65,11 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             {
                 NoteSlideHelper nsh = GetNotesPageSizesFromFile();
 
+                if (nsh.pNotesSz.Cx == 0)
+                {
+                    return;
+                }
+
                 // Get the presentation part of document
                 PresentationPart presentationPart = document.PresentationPart;
 
@@ -72,7 +78,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     Presentation p = presentationPart.Presentation;
 
                     // Step 1 : Resize the presentation notesz prop
-                    // if the notes size is already the default, no need to make any changes
                     NotesSize defaultNotesSize = new NotesSize() { Cx = nsh.pNotesSz.Cx, Cy = nsh.pNotesSz.Cy };
 
                     // first reset the notes size values
@@ -82,8 +87,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     p.Save();
 
                     // Step 2 : loop the shapes in the notes master and reset their sizes
-                    // need to find a way to flag a file if the notes master and/or notes slides become corrupt
-                    // hiding behind a setting checkbox for now
                     if (Properties.Settings.Default.ResetNotesMaster == "true")
                     {
                         // we need to reset sizes in the notes master for each shape
@@ -155,7 +158,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                             }
                         }
 
-                        // Step 3 : we need to delete the size values for each notes slide
+                        // Step 3 : we need to delete the size values for placeholders on each notes slide
                         foreach (var slideId in p.SlideIdList.Elements<SlideId>())
                         {
                             SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
@@ -289,7 +292,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     // setup default size
                     NotesSize defaultNotesSize = new NotesSize() { Cx = 6858000L, Cy = 9144000L };
 
-                    // first reset the notes size values        
+                    // first reset the notes size values
                     p.NotesSize = defaultNotesSize;
 
                     // now save up the part
@@ -312,6 +315,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                             NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                             Transform2D t2d = ps.ShapeProperties.Transform2D;
 
+                            // use default values
                             if (nvdpr.Name == "Header Placeholder 1")
                             {
                                 t2d.Offset.X = 0L;
@@ -362,7 +366,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         }
                     }
 
-                    // Step 3 : we need to delete the size values for each notes slide
+                    // Step 3 : we need to delete the size values for placeholders on each notes slide
                     foreach (var slideId in p.SlideIdList.Elements<SlideId>())
                     {
                         SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;

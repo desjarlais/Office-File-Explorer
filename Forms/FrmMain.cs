@@ -4125,7 +4125,11 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// 
+        /// when listtemplate count is too large, they need to be removed
+        /// this function will try to find 1 single and 1 multi-level bullet
+        /// then go through the document and apply one of those to each bullet used
+        /// this will reduce the number of listtemplates down to two for bullets
+        /// which should get the document under the threshold for listtemplates
         /// </summary>
         public void FixListNumbering()
         {
@@ -4136,8 +4140,10 @@ namespace Office_File_Explorer
 
                 NumberingHelper bulletMultiLevelNumberingValues = new NumberingHelper();
                 NumberingHelper bulletSingleLevelNumberingValues = new NumberingHelper();
+                NumberingHelper lowerLetterMultiLevelNumberingValues = new NumberingHelper();
                 List<int> bulletMultiLevelNumIdsInUse = new List<int>();
                 List<int> bulletSingleLevelNumIdsInUse = new List<int>();
+                List<int> lowerLetterMultiLevelNumIdsInUse = new List<int>();
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -4153,6 +4159,7 @@ namespace Office_File_Explorer
 
                     bool bulletSingleLevelFound = false;
                     bool bulletMultiLevelFound = false;
+                    bool lowerLetterMultiLevelFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
                     {
@@ -4171,6 +4178,7 @@ namespace Office_File_Explorer
                                     {
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
                                         
+                                        // try to catch each different "type" of numberingformat
                                         if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1)
                                         {
                                             // if level is > 1, this is a multi level list
@@ -4182,6 +4190,19 @@ namespace Office_File_Explorer
                                                 bulletMultiLevelNumberingValues.NumFormat = "bulletMultiLevel";
                                                 bulletMultiLevelNumberingValues.NumId = ni.NumberID;
                                                 bulletMultiLevelFound = true;
+                                            }
+                                        }
+                                        else if (lvl.NumberingFormat.Val == "lowerLetter")
+                                        {
+                                            // if level is > 1, this is a multi level list
+                                            lowerLetterMultiLevelNumIdsInUse.Add(ni.NumberID);
+
+                                            if (lowerLetterMultiLevelFound == false)
+                                            {
+                                                lowerLetterMultiLevelNumberingValues.AbsNumId = ni.AbstractNumId.Val;
+                                                lowerLetterMultiLevelNumberingValues.NumFormat = "lowerLetterMultiLevel";
+                                                lowerLetterMultiLevelNumberingValues.NumId = ni.NumberID;
+                                                lowerLetterMultiLevelFound = true;
                                             }
                                         }
                                         else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1)
@@ -4203,7 +4224,7 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    // now that we have a bullet numid to use, we can apply it to each paragraph
+                    // now that we have bullet numids to use, we can apply it to each paragraph
                     MainDocumentPart mainPart = document.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
 
@@ -4226,6 +4247,14 @@ namespace Office_File_Explorer
                                     if (o == pNumId.Val)
                                     {
                                         pNumId.Val = bulletSingleLevelNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
+                                {
+                                    if (o == pNumId.Val)
+                                    {
+                                        pNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4253,6 +4282,14 @@ namespace Office_File_Explorer
                                         hNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
+
+                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
+                                {
+                                    if (o == hNumId.Val)
+                                    {
+                                        hNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
+                                    }
+                                }
                             }
                         }
                     }
@@ -4276,6 +4313,14 @@ namespace Office_File_Explorer
                                     if (o == fNumId.Val)
                                     {
                                         fNumId.Val = bulletSingleLevelNumberingValues.NumId;
+                                    }
+                                }
+
+                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
+                                {
+                                    if (o == fNumId.Val)
+                                    {
+                                        fNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4306,6 +4351,14 @@ namespace Office_File_Explorer
                                         if (o == sEl.Val)
                                         {
                                             sEl.Val = bulletSingleLevelNumberingValues.NumId;
+                                        }
+                                    }
+
+                                    foreach (var o in lowerLetterMultiLevelNumIdsInUse)
+                                    {
+                                        if (o == sEl.Val)
+                                        {
+                                            sEl.Val = lowerLetterMultiLevelNumberingValues.NumId;
                                         }
                                     }
                                 }
@@ -4568,12 +4621,30 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LoggingHelper.Log(ex.Message);
+                LoggingHelper.Log("BtnConvertToNonStrictFormat_Click Error = " + ex.Message);
             }
             finally
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void FontViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmFontViewer fFrm = new Forms.FrmFontViewer()
+            {
+                Owner = this
+            };
+            fFrm.ShowDialog();
+        }
+
+        private void ClipboardViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmClipboardViewer cFrm = new Forms.FrmClipboardViewer()
+            {
+                Owner = this
+            };
+            cFrm.ShowDialog();
         }
     }
 }

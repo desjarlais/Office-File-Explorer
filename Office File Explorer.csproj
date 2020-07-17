@@ -114,6 +114,12 @@
     <Compile Include="Forms\FrmBatch.Designer.cs">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmClipboardViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmClipboardViewer.Designer.cs">
+      <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmCustomProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,18 @@
     </Compile>
     <Compile Include="Forms\FrmFixDocument.Designer.cs">
       <DependentUpon>FrmFixDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmFontDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmFontDetails.Designer.cs">
+      <DependentUpon>FrmFontDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmFontViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmFontViewer.Designer.cs">
+      <DependentUpon>FrmFontViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
@@ -180,6 +198,9 @@
     <EmbeddedResource Include="Forms\FrmBatch.resx">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmClipboardViewer.resx">
+      <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmCustomProperties.resx">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +209,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmFixDocument.resx">
       <DependentUpon>FrmFixDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmFontDetails.resx">
+      <DependentUpon>FrmFontDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmFontViewer.resx">
+      <DependentUpon>FrmFontViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

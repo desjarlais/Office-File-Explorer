@@ -122,3 +122,6 @@ C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explore
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFixDocument.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmClipboardViewer.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontDetails.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontViewer.resources
