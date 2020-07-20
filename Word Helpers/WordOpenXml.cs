@@ -1,7 +1,6 @@
 ﻿/****************************** Module Header ******************************\
 Module Name:  WordOpenXml.cs
 Project:      Office File Explorer
-Copyright (c) Microsoft Corporation.
 
 Word Open Xml Helper Functions
 
@@ -21,12 +20,6 @@ using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
-using Wp = DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using A = DocumentFormat.OpenXml.Drawing;
-using Wps = DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
-using Wp14 = DocumentFormat.OpenXml.Office2010.Word.Drawing;
-using V = DocumentFormat.OpenXml.Vml;
-using Wvml = DocumentFormat.OpenXml.Vml.Wordprocessing;
 
 using Office_File_Explorer.App_Helpers;
 

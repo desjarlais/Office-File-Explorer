@@ -1,7 +1,6 @@
 ﻿/****************************** Module Header ******************************\
 Module Name:  FrmAuthors.cs
 Project:      Office File Explorer
-Copyright (c) Microsoft Corporation.
 
 List of Authors Form
 

@@ -1,7 +1,6 @@
 ﻿/****************************** Module Header ******************************\
 Module Name:  WordExtensionClass.cs
 Project:      Office File Explorer
-Copyright (c) Microsoft Corporation.
 
 Word Specific funtion helper class
 

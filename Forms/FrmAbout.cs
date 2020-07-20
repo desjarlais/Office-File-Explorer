@@ -1,7 +1,6 @@
 ﻿/****************************** Module Header ******************************\
 Module Name:  FrmAbout.cs
 Project:      Office File Explorer
-Copyright (c) Microsoft Corporation.
 
 About Dialog
 

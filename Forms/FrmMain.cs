@@ -1,7 +1,6 @@
 ﻿/****************************** Module Header ******************************\
 Module Name:  FrmMain.cs
 Project:      Office File Explorer
-Copyright (c) Microsoft Corporation.
 
 Main window for OFE.
 
@@ -4141,6 +4140,7 @@ namespace Office_File_Explorer
                 NumberingHelper bulletMultiLevelNumberingValues = new NumberingHelper();
                 NumberingHelper bulletSingleLevelNumberingValues = new NumberingHelper();
                 NumberingHelper lowerLetterMultiLevelNumberingValues = new NumberingHelper();
+
                 List<int> bulletMultiLevelNumIdsInUse = new List<int>();
                 List<int> bulletSingleLevelNumIdsInUse = new List<int>();
                 List<int> lowerLetterMultiLevelNumIdsInUse = new List<int>();
@@ -4194,7 +4194,7 @@ namespace Office_File_Explorer
                                         }
                                         else if (lvl.NumberingFormat.Val == "lowerLetter")
                                         {
-                                            // if level is > 1, this is a multi level list
+                                            // check for lowerLetter type and store it
                                             lowerLetterMultiLevelNumIdsInUse.Add(ni.NumberID);
 
                                             if (lowerLetterMultiLevelFound == false)
