@@ -4631,7 +4631,7 @@ namespace Office_File_Explorer
 
         private void FontViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmFontViewer fFrm = new Forms.FrmFontViewer()
+            FrmFontViewer fFrm = new FrmFontViewer()
             {
                 Owner = this
             };
@@ -4640,11 +4640,20 @@ namespace Office_File_Explorer
 
         private void ClipboardViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmClipboardViewer cFrm = new Forms.FrmClipboardViewer()
+            FrmClipboardViewer cFrm = new FrmClipboardViewer()
             {
                 Owner = this
             };
             cFrm.ShowDialog();
+        }
+
+        private void PrinterSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmPrinterSettings pFrm = new FrmPrinterSettings()
+            {
+                Owner = this
+            };
+            pFrm.ShowDialog();
         }
     }
 }

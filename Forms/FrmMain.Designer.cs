@@ -102,6 +102,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clipboardViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printerSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -922,7 +923,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clipboardViewerToolStripMenuItem,
-            this.fontViewerToolStripMenuItem});
+            this.fontViewerToolStripMenuItem,
+            this.printerSettingsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -942,6 +944,14 @@
             this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.fontViewerToolStripMenuItem.Text = "Font Viewer";
             this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
+            // 
+            // printerSettingsToolStripMenuItem
+            // 
+            this.printerSettingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.PrintSetup_16x;
+            this.printerSettingsToolStripMenuItem.Name = "printerSettingsToolStripMenuItem";
+            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.printerSettingsToolStripMenuItem.Text = "Printer Settings";
+            this.printerSettingsToolStripMenuItem.Click += new System.EventHandler(this.PrinterSettingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1153,6 +1163,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clipboardViewerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontViewerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printerSettingsToolStripMenuItem;
     }
 }
 

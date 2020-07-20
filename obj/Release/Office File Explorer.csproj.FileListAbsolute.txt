@@ -78,3 +78,4 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFixDocu
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmClipboardViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFontDetails.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFontViewer.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmPrinterSettings.resources
