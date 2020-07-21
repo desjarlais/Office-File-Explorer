@@ -34,15 +34,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cbParagraphs = new System.Windows.Forms.ComboBox();
             this.lblParaCount = new System.Windows.Forms.Label();
-            this.PBoxFont = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.LblStyleName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.LblFontSize = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.LblFontColor = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.PBoxFont)).BeginInit();
+            this.BtnShowViewer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -58,7 +56,7 @@
             // 
             this.richTextBox1.Location = new System.Drawing.Point(12, 130);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(748, 149);
+            this.richTextBox1.Size = new System.Drawing.Size(748, 251);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
@@ -89,24 +87,6 @@
             this.lblParaCount.Size = new System.Drawing.Size(99, 13);
             this.lblParaCount.TabIndex = 5;
             this.lblParaCount.Text = "Paragraph Count = ";
-            // 
-            // PBoxFont
-            // 
-            this.PBoxFont.Location = new System.Drawing.Point(12, 298);
-            this.PBoxFont.Name = "PBoxFont";
-            this.PBoxFont.Size = new System.Drawing.Size(748, 235);
-            this.PBoxFont.TabIndex = 6;
-            this.PBoxFont.TabStop = false;
-            this.PBoxFont.Paint += new System.Windows.Forms.PaintEventHandler(this.PBoxFont_Paint_1);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 282);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Text Rendering:";
             // 
             // label4
             // 
@@ -162,19 +142,28 @@
             this.LblFontColor.TabIndex = 13;
             this.LblFontColor.Text = "<Font Color>";
             // 
+            // BtnShowViewer
+            // 
+            this.BtnShowViewer.Location = new System.Drawing.Point(661, 387);
+            this.BtnShowViewer.Name = "BtnShowViewer";
+            this.BtnShowViewer.Size = new System.Drawing.Size(99, 23);
+            this.BtnShowViewer.TabIndex = 14;
+            this.BtnShowViewer.Text = "Show in Viewer";
+            this.BtnShowViewer.UseVisualStyleBackColor = true;
+            this.BtnShowViewer.Click += new System.EventHandler(this.BtnShowViewer_Click);
+            // 
             // FrmParagraphs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 545);
+            this.ClientSize = new System.Drawing.Size(765, 416);
+            this.Controls.Add(this.BtnShowViewer);
             this.Controls.Add(this.LblFontColor);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.LblFontSize);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.LblStyleName);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.PBoxFont);
             this.Controls.Add(this.lblParaCount);
             this.Controls.Add(this.cbParagraphs);
             this.Controls.Add(this.label2);
@@ -187,7 +176,6 @@
             this.Name = "FrmParagraphs";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Paragraphs";
-            ((System.ComponentModel.ISupportInitialize)(this.PBoxFont)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,13 +187,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbParagraphs;
         private System.Windows.Forms.Label lblParaCount;
-        private System.Windows.Forms.PictureBox PBoxFont;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label LblStyleName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label LblFontSize;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label LblFontColor;
+        private System.Windows.Forms.Button BtnShowViewer;
     }
 }

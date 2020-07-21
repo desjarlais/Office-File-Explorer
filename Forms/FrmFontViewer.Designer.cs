@@ -46,6 +46,8 @@
             this.txbInput = new System.Windows.Forms.TextBox();
             this.pBoxFont = new System.Windows.Forms.PictureBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudFontSize)).BeginInit();
@@ -54,6 +56,7 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.BtnFontDetails);
@@ -64,9 +67,9 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.CboFonts);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(12, 3);
+            this.panel1.Location = new System.Drawing.Point(12, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(259, 152);
+            this.panel1.Size = new System.Drawing.Size(271, 157);
             this.panel1.TabIndex = 0;
             // 
             // panel2
@@ -74,7 +77,7 @@
             this.panel2.Controls.Add(this.RdoDrawText);
             this.panel2.Controls.Add(this.RdoRenderText);
             this.panel2.Controls.Add(this.RdoDrawString);
-            this.panel2.Location = new System.Drawing.Point(136, 67);
+            this.panel2.Location = new System.Drawing.Point(136, 59);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(120, 82);
             this.panel2.TabIndex = 9;
@@ -84,9 +87,9 @@
             this.RdoDrawText.AutoSize = true;
             this.RdoDrawText.Location = new System.Drawing.Point(8, 59);
             this.RdoDrawText.Name = "RdoDrawText";
-            this.RdoDrawText.Size = new System.Drawing.Size(91, 17);
+            this.RdoDrawText.Size = new System.Drawing.Size(71, 17);
             this.RdoDrawText.TabIndex = 2;
-            this.RdoDrawText.Text = "RdoDrawText";
+            this.RdoDrawText.Text = "DrawText";
             this.RdoDrawText.UseVisualStyleBackColor = true;
             this.RdoDrawText.CheckedChanged += new System.EventHandler(this.RdoDrawText_CheckedChanged);
             // 
@@ -117,7 +120,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(133, 51);
+            this.label5.Location = new System.Drawing.Point(133, 43);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 13);
             this.label5.TabIndex = 8;
@@ -205,7 +208,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 6);
+            this.label1.Location = new System.Drawing.Point(12, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 0;
@@ -213,28 +216,48 @@
             // 
             // txbInput
             // 
-            this.txbInput.Location = new System.Drawing.Point(277, 3);
+            this.txbInput.Location = new System.Drawing.Point(289, 27);
             this.txbInput.Multiline = true;
             this.txbInput.Name = "txbInput";
-            this.txbInput.Size = new System.Drawing.Size(758, 152);
+            this.txbInput.Size = new System.Drawing.Size(746, 157);
             this.txbInput.TabIndex = 1;
-            this.txbInput.Text = "This is a sample sentence.  Enter your own text here.";
             this.txbInput.TextChanged += new System.EventHandler(this.TxbInput_TextChanged);
             // 
             // pBoxFont
             // 
-            this.pBoxFont.Location = new System.Drawing.Point(12, 161);
+            this.pBoxFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pBoxFont.Location = new System.Drawing.Point(12, 208);
             this.pBoxFont.Name = "pBoxFont";
-            this.pBoxFont.Size = new System.Drawing.Size(1024, 274);
+            this.pBoxFont.Size = new System.Drawing.Size(1023, 281);
             this.pBoxFont.TabIndex = 2;
             this.pBoxFont.TabStop = false;
             this.pBoxFont.Paint += new System.Windows.Forms.PaintEventHandler(this.PBoxFont_Paint);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 188);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Display:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(86, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Font Information:";
             // 
             // FrmFontViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1050, 447);
+            this.ClientSize = new System.Drawing.Size(1050, 501);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pBoxFont);
             this.Controls.Add(this.txbInput);
             this.Controls.Add(this.panel1);
@@ -275,5 +298,7 @@
         private System.Windows.Forms.TextBox txbInput;
         private System.Windows.Forms.PictureBox pBoxFont;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label6;
     }
 }

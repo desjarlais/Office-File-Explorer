@@ -4631,7 +4631,7 @@ namespace Office_File_Explorer
 
         private void FontViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmFontViewer fFrm = new FrmFontViewer()
+            FrmFontViewer fFrm = new FrmFontViewer("This is a sample sentence.  Enter your own text here.")
             {
                 Owner = this
             };

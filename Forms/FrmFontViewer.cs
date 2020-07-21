@@ -13,7 +13,7 @@ namespace Office_File_Explorer.Forms
         InstalledFontCollection installedFontCollection = new InstalledFontCollection();
         Color textColor;
 
-        public FrmFontViewer()
+        public FrmFontViewer(string inputText)
         {
             InitializeComponent();
 
@@ -29,6 +29,7 @@ namespace Office_File_Explorer.Forms
             // select the first item
             CboFonts.SelectedIndex = 0;
             textColor = Color.Black;
+            txbInput.Text = inputText;
         }
 
         private void BtnColorDlg_Click(object sender, EventArgs e)
@@ -185,9 +186,9 @@ namespace Office_File_Explorer.Forms
         }
     }
 
-    internal class FontNativeMethods
+    internal class NativeMethods
     {
-        private FontNativeMethods() { }
+        private NativeMethods() { }
 
         struct Rect
         {
