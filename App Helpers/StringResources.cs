@@ -15,6 +15,7 @@
         public const string noOle = "** This document does not contain OLE objects **";
         public const string noShapes = "** Document does not contain any shapes **";
         public const string noComments = "** Document does not contain any comments **";
+        public const string sampleSentence = "This is a sample sentence.  Enter your own text here.";
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
         public const string invalidTag = "Invalid Tag: ";

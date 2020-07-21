@@ -77,7 +77,7 @@
             this.panel2.Controls.Add(this.RdoDrawText);
             this.panel2.Controls.Add(this.RdoRenderText);
             this.panel2.Controls.Add(this.RdoDrawString);
-            this.panel2.Location = new System.Drawing.Point(136, 59);
+            this.panel2.Location = new System.Drawing.Point(140, 70);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(120, 82);
             this.panel2.TabIndex = 9;
@@ -120,7 +120,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(133, 43);
+            this.label5.Location = new System.Drawing.Point(137, 54);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 13);
             this.label5.TabIndex = 8;
@@ -128,7 +128,7 @@
             // 
             // BtnFontDetails
             // 
-            this.BtnFontDetails.Location = new System.Drawing.Point(15, 126);
+            this.BtnFontDetails.Location = new System.Drawing.Point(15, 121);
             this.BtnFontDetails.Name = "BtnFontDetails";
             this.BtnFontDetails.Size = new System.Drawing.Size(105, 23);
             this.BtnFontDetails.TabIndex = 7;
@@ -138,7 +138,7 @@
             // 
             // BtnColorDlg
             // 
-            this.BtnColorDlg.Location = new System.Drawing.Point(15, 97);
+            this.BtnColorDlg.Location = new System.Drawing.Point(15, 88);
             this.BtnColorDlg.Name = "BtnColorDlg";
             this.BtnColorDlg.Size = new System.Drawing.Size(105, 23);
             this.BtnColorDlg.TabIndex = 6;
@@ -148,7 +148,7 @@
             // 
             // NudFontSize
             // 
-            this.NudFontSize.Location = new System.Drawing.Point(72, 65);
+            this.NudFontSize.Location = new System.Drawing.Point(72, 59);
             this.NudFontSize.Maximum = new decimal(new int[] {
             72,
             0,
@@ -172,7 +172,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 67);
+            this.label4.Location = new System.Drawing.Point(12, 63);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 4;
@@ -181,7 +181,7 @@
             // LblColor
             // 
             this.LblColor.AutoSize = true;
-            this.LblColor.Location = new System.Drawing.Point(76, 42);
+            this.LblColor.Location = new System.Drawing.Point(86, 34);
             this.LblColor.Name = "LblColor";
             this.LblColor.Size = new System.Drawing.Size(34, 13);
             this.LblColor.TabIndex = 3;
@@ -190,7 +190,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 42);
+            this.label2.Location = new System.Drawing.Point(12, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 2;

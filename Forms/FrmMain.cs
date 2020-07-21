@@ -4139,11 +4139,9 @@ namespace Office_File_Explorer
 
                 NumberingHelper bulletMultiLevelNumberingValues = new NumberingHelper();
                 NumberingHelper bulletSingleLevelNumberingValues = new NumberingHelper();
-                NumberingHelper lowerLetterMultiLevelNumberingValues = new NumberingHelper();
 
                 List<int> bulletMultiLevelNumIdsInUse = new List<int>();
                 List<int> bulletSingleLevelNumIdsInUse = new List<int>();
-                List<int> lowerLetterMultiLevelNumIdsInUse = new List<int>();
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -4159,7 +4157,6 @@ namespace Office_File_Explorer
 
                     bool bulletSingleLevelFound = false;
                     bool bulletMultiLevelFound = false;
-                    bool lowerLetterMultiLevelFound = false;
 
                     foreach (AbstractNum an in absNumsInUseList)
                     {
@@ -4179,7 +4176,7 @@ namespace Office_File_Explorer
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
                                         
                                         // try to catch each different "type" of numberingformat
-                                        if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1)
+                                        if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1 && lvl.LevelIndex == 0)
                                         {
                                             // if level is > 1, this is a multi level list
                                             bulletMultiLevelNumIdsInUse.Add(ni.NumberID);
@@ -4192,20 +4189,7 @@ namespace Office_File_Explorer
                                                 bulletMultiLevelFound = true;
                                             }
                                         }
-                                        else if (lvl.NumberingFormat.Val == "lowerLetter")
-                                        {
-                                            // check for lowerLetter type and store it
-                                            lowerLetterMultiLevelNumIdsInUse.Add(ni.NumberID);
-
-                                            if (lowerLetterMultiLevelFound == false)
-                                            {
-                                                lowerLetterMultiLevelNumberingValues.AbsNumId = ni.AbstractNumId.Val;
-                                                lowerLetterMultiLevelNumberingValues.NumFormat = "lowerLetterMultiLevel";
-                                                lowerLetterMultiLevelNumberingValues.NumId = ni.NumberID;
-                                                lowerLetterMultiLevelFound = true;
-                                            }
-                                        }
-                                        else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1)
+                                        else if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count == 1 && lvl.LevelIndex == 0)
                                         {
                                             // if level = 1, this is a single level list
                                             bulletSingleLevelNumIdsInUse.Add(ni.NumberID);
@@ -4249,14 +4233,6 @@ namespace Office_File_Explorer
                                         pNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
-
-                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
-                                {
-                                    if (o == pNumId.Val)
-                                    {
-                                        pNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
-                                    }
-                                }
                             }
                         }
                     }
@@ -4282,14 +4258,6 @@ namespace Office_File_Explorer
                                         hNumId.Val = bulletSingleLevelNumberingValues.NumId;
                                     }
                                 }
-
-                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
-                                {
-                                    if (o == hNumId.Val)
-                                    {
-                                        hNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
-                                    }
-                                }
                             }
                         }
                     }
@@ -4313,14 +4281,6 @@ namespace Office_File_Explorer
                                     if (o == fNumId.Val)
                                     {
                                         fNumId.Val = bulletSingleLevelNumberingValues.NumId;
-                                    }
-                                }
-
-                                foreach (var o in lowerLetterMultiLevelNumIdsInUse)
-                                {
-                                    if (o == fNumId.Val)
-                                    {
-                                        fNumId.Val = lowerLetterMultiLevelNumberingValues.NumId;
                                     }
                                 }
                             }
@@ -4351,14 +4311,6 @@ namespace Office_File_Explorer
                                         if (o == sEl.Val)
                                         {
                                             sEl.Val = bulletSingleLevelNumberingValues.NumId;
-                                        }
-                                    }
-
-                                    foreach (var o in lowerLetterMultiLevelNumIdsInUse)
-                                    {
-                                        if (o == sEl.Val)
-                                        {
-                                            sEl.Val = lowerLetterMultiLevelNumberingValues.NumId;
                                         }
                                     }
                                 }
@@ -4631,7 +4583,7 @@ namespace Office_File_Explorer
 
         private void FontViewerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmFontViewer fFrm = new FrmFontViewer("This is a sample sentence.  Enter your own text here.")
+            FrmFontViewer fFrm = new FrmFontViewer(StringResources.sampleSentence)
             {
                 Owner = this
             };
