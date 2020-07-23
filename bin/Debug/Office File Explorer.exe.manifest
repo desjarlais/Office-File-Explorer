@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UoZWMOgI/BdUViC0JTa/9qeLK6FKNVFpS1re9TXLhos=</dsig:DigestValue>
+        <dsig:DigestValue>H43XW54rlUpZucXNE/dg4PZ9h6oaWh20BQeOI3oVZkk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>MkDPg3tixwwj/EFv9l31uCdVgSLv7NfPzluKLH1bvsw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="CommentedCode.txt" size="391">
+  <file name="CommentedCode.txt" size="831">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>pkF4BmWcuXWOq8XYOkYdsdTGjY+h9OAA4Z794BBpoTA=</dsig:DigestValue>
+      <dsig:DigestValue>cjQDyxGHloihRnVVMbqB3HB87qN28rkJpUN0AlUkSsU=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Instructions.txt" size="617">

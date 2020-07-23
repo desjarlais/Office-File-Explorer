@@ -219,6 +219,7 @@
             this.txbInput.Location = new System.Drawing.Point(289, 27);
             this.txbInput.Multiline = true;
             this.txbInput.Name = "txbInput";
+            this.txbInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txbInput.Size = new System.Drawing.Size(746, 157);
             this.txbInput.TabIndex = 1;
             this.txbInput.TextChanged += new System.EventHandler(this.TxbInput_TextChanged);
@@ -229,6 +230,7 @@
             this.pBoxFont.Location = new System.Drawing.Point(12, 208);
             this.pBoxFont.Name = "pBoxFont";
             this.pBoxFont.Size = new System.Drawing.Size(1023, 281);
+            this.pBoxFont.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pBoxFont.TabIndex = 2;
             this.pBoxFont.TabStop = false;
             this.pBoxFont.Paint += new System.Windows.Forms.PaintEventHandler(this.PBoxFont_Paint);

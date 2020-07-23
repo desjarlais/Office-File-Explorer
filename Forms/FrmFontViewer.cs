@@ -32,24 +32,6 @@ namespace Office_File_Explorer.Forms
             txbInput.Text = inputText;
         }
 
-        private void BtnColorDlg_Click(object sender, EventArgs e)
-        {
-            DialogResult result = colorDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                textColor = colorDialog1.Color;
-                if (textColor.IsKnownColor)
-                {
-                    LblColor.Text = textColor.Name;
-                }
-                else
-                {
-                    LblColor.Text = "Unknown: Hex = " + textColor.Name.ToUpper();
-                }
-                UpdateDisplay();
-            }
-        }
-
         private void UpdateDisplay()
         {
             if (CboFonts.SelectedItem.ToString() == "")
@@ -76,8 +58,6 @@ namespace Office_File_Explorer.Forms
                 {
                     PointF pointF = new PointF(10, 10);
                     SolidBrush solidBrush = new SolidBrush(textColor);
-
-                    // display font with sample text
                     e.Graphics.DrawString(txbInput.Text, font, solidBrush, pBoxFont.ClientRectangle);
                 }
                 else

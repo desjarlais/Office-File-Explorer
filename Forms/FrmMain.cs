@@ -4175,7 +4175,8 @@ namespace Office_File_Explorer
                                     {
                                         DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
                                         
-                                        // try to catch each different "type" of numberingformat
+                                        // try to catch different "types" of numberingformat
+                                        // for now, I'm only checking for a single and multi-level bullets
                                         if (lvl.NumberingFormat.Val == "bullet" && lvlNumberingList.Count > 1 && lvl.LevelIndex == 0)
                                         {
                                             // if level is > 1, this is a multi level list

@@ -1,10 +1,28 @@
 ﻿## This file is for sample and commented code storage in case I need to use later ##
 
 // this sample will loop through each oxml package and add to the global list
-//using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
-//{
-//    foreach (PackagePart pckg in _package.GetParts())
-//    {
-//        _pParts.Add(pckg.Uri.ToString());
-//    }
-//}
+using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+{
+    foreach (PackagePart pckg in _package.GetParts())
+    {
+        _pParts.Add(pckg.Uri.ToString());
+    }
+}
+
+private void BtnColorDlg_Click(object sender, EventArgs e)
+{
+    DialogResult result = colorDialog1.ShowDialog();
+    if (result == DialogResult.OK)
+    {
+        textColor = colorDialog1.Color;
+        if (textColor.IsKnownColor)
+        {
+            LblColor.Text = textColor.Name;
+        }
+        else
+        {
+            LblColor.Text = "Unknown: Hex = " + textColor.Name.ToUpper();
+        }
+        UpdateDisplay();
+    }
+}
