@@ -238,7 +238,7 @@ namespace Office_File_Explorer.App_Helpers
                     }
                 }
             }
-            else if (app == "Powerpoint")
+            else if (app == "PowerPoint")
             {
                 using (PresentationDocument presDoc = PresentationDocument.Open(document, true))
                 {

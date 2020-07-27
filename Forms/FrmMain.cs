@@ -3542,6 +3542,12 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// the main goal here is to setup the sort option
+        /// before each button is pressed, enable and uncheck the option
+        /// then when we check the button, it gets disabled until a new button is pressed
+        /// eventually i'll try to hook it up so it can be toggled
+        /// </summary>
         public void PreButtonClickWork()
         {
             LstDisplay.Items.Clear();
@@ -4468,6 +4474,12 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// sort the list and then disable the button
+        /// it can be re-enabled on the next button press in the UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CkSortListbox_CheckedChanged(object sender, EventArgs e)
         {
             if (CkSortListbox.Checked == true)
