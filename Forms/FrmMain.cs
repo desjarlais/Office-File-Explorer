@@ -53,6 +53,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Path = System.IO.Path;
 using System.IO.Compression;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace Office_File_Explorer
 {
@@ -182,6 +183,8 @@ namespace Office_File_Explorer
             BtnFixDocument.Enabled = false;
             BtnFixPresentation.Enabled = false;
             BtnConvertToNonStrictFormat.Enabled = false;
+            BtnListTransitions.Enabled = false;
+            BtnMoveSlide.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -311,6 +314,8 @@ namespace Office_File_Explorer
                 BtnListSlideText.Enabled = true;
                 BtnPPTRemovePII.Enabled = true;
                 BtnFixPresentation.Enabled = true;
+                BtnListTransitions.Enabled = true;
+                BtnMoveSlide.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Pptm)
                 {
@@ -4619,6 +4624,61 @@ namespace Office_File_Explorer
                 Owner = this
             };
             pFrm.ShowDialog();
+        }
+
+        private void BtnListTransitions_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
+
+            try
+            {
+                using (PresentationDocument ppt = PresentationDocument.Open(TxtFileName.Text, false))
+                {
+                    int slideCount = 0;
+
+                    foreach (string s in PowerPointOpenXml.GetSlideTransitions(ppt))
+                    {
+                        slideCount++;
+                        LstDisplay.Items.Add(slideCount + StringResources.period + s);
+                    }
+
+                    DisplayEmptyCount(slideCount, "slides");
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListTransitions Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnMoveSlide_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
+            try
+            {
+                using (PresentationDocument ppt = PresentationDocument.Open(TxtFileName.Text, true))
+                {
+                    FrmMoveSlide mvFrm = new FrmMoveSlide(ppt)
+                    {
+                        Owner = this
+                    };
+                    mvFrm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnMoveSlide Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }

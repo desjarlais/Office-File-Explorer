@@ -15,6 +15,7 @@ using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.CompilerServices;
+using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -569,6 +570,56 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             return null;
         }
 
+        // Get a list of the transitions of all the slides in the presentation.
+        public static IList<string> GetSlideTransitions(PresentationDocument presentationDocument)
+        {
+            if (presentationDocument == null)
+            {
+                throw new ArgumentNullException("presentationDocument");
+            }
+
+            // Get a PresentationPart object from the PresentationDocument object.
+            PresentationPart presentationPart = presentationDocument.PresentationPart;
+
+            if (presentationPart != null && presentationPart.Presentation != null)
+            {
+                // Get a Presentation object from the PresentationPart object.
+                Presentation presentation = presentationPart.Presentation;
+
+                if (presentation.SlideIdList != null)
+                {
+                    List<string> transitionsList = new List<string>();
+
+                    // Get the transition of each slide in the slide order.
+                    foreach (var slideId in presentation.SlideIdList.Elements<SlideId>())
+                    {
+                        SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
+                        string transition = "";
+
+                        if (slidePart.Slide.Transition != null)
+                        {
+                            foreach (var t in slidePart.Slide.Transition)
+                            {
+                                transition = t.LocalName;
+                            }
+                        }
+                        else
+                        {
+                            transition = "none";
+                        }
+                        
+                        // An empty title can also be added.
+                        transitionsList.Add(transition);
+                    }
+
+                    return transitionsList;
+                }
+
+            }
+
+            return null;
+        }
+
         // Get the title string of the slide.
         public static string GetSlideTitle(SlidePart slidePart)
         {
@@ -707,15 +758,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             return slidesCount;
         }
 
-        // Move a slide to a different position in the slide order in the presentation.
-        public static void MoveSlide(string presentationFile, int from, int to)
-        {
-            using (PresentationDocument presentationDocument = PresentationDocument.Open(presentationFile, true))
-            {
-                MoveSlide(presentationDocument, from, to);
-            }
-        }
-
         /// <summary>
         /// Move a slide to a different position in the slide order in the presentation.
         /// </summary>
@@ -733,12 +775,12 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             int slidesCount = CountSlides(presentationDocument);
 
             // Verify that both from and to positions are within range and different from one another.
-            if (from < 0 || from >= slidesCount)
+            if (from < 0 || from > slidesCount)
             {
                 throw new ArgumentOutOfRangeException("from");
             }
 
-            if (to < 0 || from >= slidesCount || to == from)
+            if (to < 0 || from > slidesCount || to == from)
             {
                 throw new ArgumentOutOfRangeException("to");
             }
@@ -746,12 +788,12 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             // Get the presentation part from the presentation document.
             PresentationPart presentationPart = presentationDocument.PresentationPart;
 
-            // The slide count is not zero, so the presentation must contain slides.            
+            // The slide count is not zero, so the presentation must contain slides.
             Presentation presentation = presentationPart.Presentation;
             SlideIdList slideIdList = presentation.SlideIdList;
 
             // Get the slide ID of the source slide.
-            SlideId sourceSlide = slideIdList.ChildElements[from] as SlideId;
+            SlideId sourceSlide = slideIdList.ChildElements[from - 1] as SlideId;
 
             SlideId targetSlide = null;
 
@@ -762,7 +804,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             }
             if (from < to)
             {
-                targetSlide = slideIdList.ChildElements[to] as SlideId;
+                targetSlide = slideIdList.ChildElements[to - 1] as SlideId;
             }
             else
             {

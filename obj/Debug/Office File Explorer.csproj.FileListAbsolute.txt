@@ -126,3 +126,4 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmClipboard
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontDetails.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmPrinterSettings.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmMoveSlide.resources

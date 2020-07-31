@@ -74,6 +74,7 @@
             this.BtnListLinks = new System.Windows.Forms.Button();
             this.BtnListFormulas = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnListTransitions = new System.Windows.Forms.Button();
             this.BtnFixPresentation = new System.Windows.Forms.Button();
             this.BtnPPTRemovePII = new System.Windows.Forms.Button();
             this.BtnConvertPptmToPptx = new System.Windows.Forms.Button();
@@ -112,6 +113,7 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnMoveSlide = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -645,6 +647,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnMoveSlide);
+            this.groupBox3.Controls.Add(this.BtnListTransitions);
             this.groupBox3.Controls.Add(this.BtnFixPresentation);
             this.groupBox3.Controls.Add(this.BtnPPTRemovePII);
             this.groupBox3.Controls.Add(this.BtnConvertPptmToPptx);
@@ -661,9 +665,19 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
             // 
+            // BtnListTransitions
+            // 
+            this.BtnListTransitions.Location = new System.Drawing.Point(7, 128);
+            this.BtnListTransitions.Name = "BtnListTransitions";
+            this.BtnListTransitions.Size = new System.Drawing.Size(113, 21);
+            this.BtnListTransitions.TabIndex = 29;
+            this.BtnListTransitions.Text = "List Slide Transitions";
+            this.BtnListTransitions.UseVisualStyleBackColor = true;
+            this.BtnListTransitions.Click += new System.EventHandler(this.BtnListTransitions_Click);
+            // 
             // BtnFixPresentation
             // 
-            this.BtnFixPresentation.Location = new System.Drawing.Point(5, 185);
+            this.BtnFixPresentation.Location = new System.Drawing.Point(6, 238);
             this.BtnFixPresentation.Name = "BtnFixPresentation";
             this.BtnFixPresentation.Size = new System.Drawing.Size(113, 21);
             this.BtnFixPresentation.TabIndex = 28;
@@ -673,7 +687,7 @@
             // 
             // BtnPPTRemovePII
             // 
-            this.BtnPPTRemovePII.Location = new System.Drawing.Point(4, 158);
+            this.BtnPPTRemovePII.Location = new System.Drawing.Point(5, 211);
             this.BtnPPTRemovePII.Name = "BtnPPTRemovePII";
             this.BtnPPTRemovePII.Size = new System.Drawing.Size(113, 21);
             this.BtnPPTRemovePII.TabIndex = 25;
@@ -683,7 +697,7 @@
             // 
             // BtnConvertPptmToPptx
             // 
-            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(4, 131);
+            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(5, 184);
             this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
             this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(113, 21);
@@ -933,7 +947,7 @@
             // 
             this.clipboardViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ASX_Copy_blue_16x;
             this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
-            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
             this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
             // 
@@ -941,7 +955,7 @@
             // 
             this.fontViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FontDialogControl_16x;
             this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
-            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.fontViewerToolStripMenuItem.Text = "Font Viewer";
             this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
@@ -949,7 +963,7 @@
             // 
             this.printerSettingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.PrintSetup_16x;
             this.printerSettingsToolStripMenuItem.Name = "printerSettingsToolStripMenuItem";
-            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.printerSettingsToolStripMenuItem.Text = "Printer Settings";
             this.printerSettingsToolStripMenuItem.Click += new System.EventHandler(this.PrinterSettingsToolStripMenuItem_Click);
             // 
@@ -1041,6 +1055,16 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
+            // 
+            // BtnMoveSlide
+            // 
+            this.BtnMoveSlide.Location = new System.Drawing.Point(6, 155);
+            this.BtnMoveSlide.Name = "BtnMoveSlide";
+            this.BtnMoveSlide.Size = new System.Drawing.Size(113, 21);
+            this.BtnMoveSlide.TabIndex = 30;
+            this.BtnMoveSlide.Text = "Move Slide";
+            this.BtnMoveSlide.UseVisualStyleBackColor = true;
+            this.BtnMoveSlide.Click += new System.EventHandler(this.BtnMoveSlide_Click);
             // 
             // FrmMain
             // 
@@ -1164,6 +1188,8 @@
         private System.Windows.Forms.ToolStripMenuItem clipboardViewerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontViewerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printerSettingsToolStripMenuItem;
+        private System.Windows.Forms.Button BtnListTransitions;
+        private System.Windows.Forms.Button BtnMoveSlide;
     }
 }
 
