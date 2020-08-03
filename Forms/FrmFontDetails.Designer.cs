@@ -59,6 +59,8 @@
             this.Controls.Add(this.pBoxAlias);
             this.Controls.Add(this.LstFontInfo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmFontDetails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Font Details";

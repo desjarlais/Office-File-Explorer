@@ -25,11 +25,16 @@ namespace Office_File_Explorer.Forms
 
             if (_SlideCount > 1)
             {
+                // for ui-only, use non zero based values
                 for (int i = 0; i < _SlideCount; i++)
                 {
                     cboFrom.Items.Add(i + 1);
                     cboTo.Items.Add(i + 1);
                 }
+
+                // since we have items to list, pre-select the first one
+                cboFrom.SelectedIndex = 0;
+                cboTo.SelectedIndex = 0;
             }
             else
             {
