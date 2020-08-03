@@ -771,20 +771,6 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 throw new ArgumentNullException("presentationDocument");
             }
 
-            // Call the CountSlides method to get the number of slides in the presentation.
-            int slidesCount = CountSlides(presentationDocument);
-
-            // Verify that both from and to positions are within range and different from one another.
-            if (from < 0 || from > slidesCount)
-            {
-                throw new ArgumentOutOfRangeException("from");
-            }
-
-            if (to < 0 || from > slidesCount || to == from)
-            {
-                throw new ArgumentOutOfRangeException("to");
-            }
-
             // Get the presentation part from the presentation document.
             PresentationPart presentationPart = presentationDocument.PresentationPart;
 
@@ -793,29 +779,21 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             SlideIdList slideIdList = presentation.SlideIdList;
 
             // Get the slide ID of the source slide.
-            SlideId sourceSlide = slideIdList.ChildElements[from - 1] as SlideId;
-
-            SlideId targetSlide = null;
-
-            // Identify the position of the target slide after which to move the source slide.
-            if (to == 0)
-            {
-                targetSlide = null;
-            }
-            if (from < to)
-            {
-                targetSlide = slideIdList.ChildElements[to - 1] as SlideId;
-            }
-            else
-            {
-                targetSlide = slideIdList.ChildElements[to - 1] as SlideId;
-            }
+            SlideId sourceSlide = slideIdList.ChildElements[from] as SlideId;
+            SlideId targetSlide = slideIdList.ChildElements[to] as SlideId;
 
             // Remove the source slide from its current position.
             sourceSlide.Remove();
 
             // Insert the source slide at its new position after the target slide.
-            slideIdList.InsertAfter(sourceSlide, targetSlide);
+            if (from < to)
+            {
+                slideIdList.InsertAfter(sourceSlide, targetSlide);
+            }
+            else
+            {
+                slideIdList.InsertBefore(sourceSlide, targetSlide);
+            }
 
             // Save the modified presentation.
             presentation.Save();

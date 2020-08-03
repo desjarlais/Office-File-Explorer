@@ -42,7 +42,7 @@ namespace Office_File_Explorer.Forms
         {
             try
             {
-                PowerPoint_Helpers.PowerPointOpenXml.MoveSlide(_pDoc, (Int32)cboFrom.SelectedItem, (Int32)cboTo.SelectedItem);
+                PowerPoint_Helpers.PowerPointOpenXml.MoveSlide(_pDoc, cboFrom.SelectedIndex, cboTo.SelectedIndex);
                 Close();
             }
             catch(Exception ex)
