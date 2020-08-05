@@ -1,4 +1,19 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿/****************************** Module Header ******************************\
+Module Name:  PowerPointOpenXml.cs
+Project:      Office File Explorer
+
+PowerPoint Open Xml Helper Functions
+
+This source is subject to the following license.
+See https://github.com/desjarlais/Office-File-Explorer/blob/master/LICENSE
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Drawing;
@@ -14,8 +29,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Windows.Forms;
-using System.Runtime.CompilerServices;
-using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -762,8 +775,8 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         /// Move a slide to a different position in the slide order in the presentation.
         /// </summary>
         /// <param name="presentationDocument"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
+        /// <param name="from">slide index # of the source slide</param>
+        /// <param name="to">slide index # of the target slide</param>
         public static void MoveSlide(PresentationDocument presentationDocument, int from, int to)
         {
             if (presentationDocument == null)
@@ -786,6 +799,8 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             sourceSlide.Remove();
 
             // Insert the source slide at its new position after the target slide.
+            // if the slide being moved is before the target position, use InsertAfter
+            // otherwise, we want to use InsertBefore
             if (from < to)
             {
                 slideIdList.InsertAfter(sourceSlide, targetSlide);
@@ -852,8 +867,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             int slidesCount = 0;
 
-            using (PresentationDocument doc =
-                PresentationDocument.Open(fileName, false))
+            using (PresentationDocument doc = PresentationDocument.Open(fileName, false))
             {
                 // Get the presentation part of the document.
                 PresentationPart presentationPart = doc.PresentationPart;

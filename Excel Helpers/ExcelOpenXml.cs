@@ -1,4 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/****************************** Module Header ******************************\
+Module Name:  ExcelOpenXml.cs
+Project:      Office File Explorer
+
+Excel Open Xml Helper Functions
+
+This source is subject to the following license.
+See https://github.com/desjarlais/Office-File-Explorer/blob/master/LICENSE
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+using System.Collections.Generic;
 using System.Linq;
 
 using DocumentFormat.OpenXml.Spreadsheet;

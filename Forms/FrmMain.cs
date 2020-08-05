@@ -53,7 +53,6 @@ using System.Xml;
 using System.Xml.Linq;
 using Path = System.IO.Path;
 using System.IO.Compression;
-using DocumentFormat.OpenXml.Presentation;
 
 namespace Office_File_Explorer
 {
@@ -94,7 +93,16 @@ namespace Office_File_Explorer
         public FrmMain()
         {
             InitializeComponent();
+
+            // log setup
+            LoggingHelper.Clear();
+            LoggingHelper.Log(" ## System Information ##");
+            LoggingHelper.LogSystemInformation();
+            LoggingHelper.Log("");
+            LoggingHelper.Log(" ## App Logging ##");
             LoggingHelper.Log("App Start");
+            
+            // init search replace strings
             _FindText = StringResources.emptyString;
             _ReplaceText = StringResources.emptyString;
 
@@ -3329,6 +3337,7 @@ namespace Office_File_Explorer
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.ErrorLog.Clear();
             Properties.Settings.Default.Save();
             Application.Exit();
         }
@@ -3551,7 +3560,7 @@ namespace Office_File_Explorer
         /// the main goal here is to setup the sort option
         /// before each button is pressed, enable and uncheck the option
         /// then when we check the button, it gets disabled until a new button is pressed
-        /// eventually i'll try to hook it up so it can be toggled
+        /// eventually i'll try to hook it up so it can be toggled correctly
         /// </summary>
         public void PreButtonClickWork()
         {
@@ -4135,11 +4144,10 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// when listtemplate count is too large, they need to be removed
-        /// this function will try to find 1 single and 1 multi-level bullet
+        /// When the ListTemplate count is too large, Word no longer displays bullets,
+        /// this function will try to find 1 single and 1 multi-level bullet,
         /// then go through the document and apply one of those to each bullet used
-        /// this will reduce the number of listtemplates down to two for bullets
-        /// which should get the document under the threshold for listtemplates
+        /// which should get the document under the count limitation in the document
         /// </summary>
         public void FixListNumbering()
         {

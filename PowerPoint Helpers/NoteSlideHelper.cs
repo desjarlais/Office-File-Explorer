@@ -1,4 +1,19 @@
-﻿using System;
+﻿/****************************** Module Header ******************************\
+Module Name:  NoteSlideHelper.cs
+Project:      Office File Explorer
+
+Note Slide Helper for storing placeholder values from file
+
+This source is subject to the following license.
+See https://github.com/desjarlais/Office-File-Explorer/blob/master/LICENSE
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+using System;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {

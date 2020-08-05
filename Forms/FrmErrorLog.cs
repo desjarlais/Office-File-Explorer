@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Office_File_Explorer.App_Helpers;
+using System;
 using System.Text;
 using System.Windows.Forms;
 
@@ -21,8 +22,7 @@ namespace Office_File_Explorer.Forms
 
         private void BtnClearLog_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ErrorLog.Clear();
-            Properties.Settings.Default.Save();
+            LoggingHelper.Clear();
             LstErrorLog.Items.Clear();
         }
 
