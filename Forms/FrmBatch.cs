@@ -729,30 +729,5 @@ namespace Office_File_Explorer.Forms
                 Cursor = Cursors.Default;
             }
         }
-
-        public void AddCustomDocPropsToList(CustomFilePropertiesPart cfp)
-        {
-            if (cfp == null)
-            {
-                return;
-            }
-
-            int count = 0;
-
-            foreach (var v in CfpList(cfp))
-            {
-                count++;
-            }
-        }
-
-        public List<string> CfpList(CustomFilePropertiesPart part)
-        {
-            List<string> val = new List<string>();
-            foreach (CustomDocumentProperty cdp in part.RootElement)
-            {
-                val.Add(cdp.Name + StringResources.colonBuffer + cdp.InnerText);
-            }
-            return val;
-        }
     }
 }

@@ -4692,6 +4692,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Form to allow deleting custom doc props
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDeleteCustomProps_Click(object sender, EventArgs e)
         {
             try
@@ -4712,6 +4717,8 @@ namespace Office_File_Explorer
                             if (f.PartModified)
                             {
                                 document.MainDocumentPart.Document.Save();
+                                AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                                
                             }
                         }
                     }
@@ -4729,6 +4736,7 @@ namespace Office_File_Explorer
                             if (f.PartModified)
                             {
                                 document.WorkbookPart.Workbook.Save();
+                                AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                             }
                         }
                     }
@@ -4746,6 +4754,7 @@ namespace Office_File_Explorer
                             if (f.PartModified)
                             {
                                 document.PresentationPart.Presentation.Save();
+                                AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                             }
                         }
                     }
