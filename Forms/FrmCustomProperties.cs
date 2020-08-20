@@ -53,7 +53,7 @@ namespace Office_File_Explorer.Forms
 
                 switch (CbType.SelectedItem)
                 {
-                    case "YesNo":       
+                    case "YesNo":
                         if (rdoNo.Checked)
                         {
                             value = false;
@@ -92,7 +92,7 @@ namespace Office_File_Explorer.Forms
                         }
                         
                         break;
-                    case "Number":                       
+                    case "Number":
                         if (Int32.TryParse(TxtBoxNumber.Text, out num))
                         {
                             if (isBatch == true)

@@ -631,18 +631,40 @@ namespace Office_File_Explorer.Forms
                 }
                 else if (fType == StringResources.excel)
                 {
+                    using (var fm = new FrmBatchDeleteCustomProps())
+                    {
+                        fm.ShowDialog();
+                        propNameToDelete = fm.PropName;
+                    }
+
                     foreach (string f in files)
                     {
                         using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
                         {
-                            AddCustomDocPropsToList(document.CustomFilePropertiesPart);
-                            using (var fm = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                            if (propNameToDelete == "Cancel")
                             {
-                                var result = fm.ShowDialog();
-                                if (fm.PartModified)
+                                return;
+                            }
+                            else
+                            {
+                                if (document.CustomFilePropertiesPart != null)
                                 {
-                                    lstOutput.Items.Add(f + " : Custom Prop Deleted");
-                                    document.WorkbookPart.Workbook.Save();
+                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                    {
+                                        if (propNameToDelete == cdp.Name)
+                                        {
+                                            cdp.Remove();
+                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                        }
+                                        else
+                                        {
+                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
                                 }
                             }
                         }
@@ -650,18 +672,40 @@ namespace Office_File_Explorer.Forms
                 }
                 else if (fType == StringResources.powerpoint)
                 {
+                    using (var fm = new FrmBatchDeleteCustomProps())
+                    {
+                        fm.ShowDialog();
+                        propNameToDelete = fm.PropName;
+                    }
+
                     foreach (string f in files)
                     {
                         using (PresentationDocument document = PresentationDocument.Open(f, true))
                         {
-                            AddCustomDocPropsToList(document.CustomFilePropertiesPart);
-                            using (var fm = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                            if (propNameToDelete == "Cancel")
                             {
-                                var result = fm.ShowDialog();
-                                if (fm.PartModified)
+                                return;
+                            }
+                            else
+                            {
+                                if (document.CustomFilePropertiesPart != null)
                                 {
-                                    lstOutput.Items.Add(f + " : Custom Prop Deleted");
-                                    document.PresentationPart.Presentation.Save();
+                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                    {
+                                        if (propNameToDelete == cdp.Name)
+                                        {
+                                            cdp.Remove();
+                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                        }
+                                        else
+                                        {
+                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
                                 }
                             }
                         }

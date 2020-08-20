@@ -79,3 +79,6 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmClipboa
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFontDetails.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFontViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmPrinterSettings.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmBatchDeleteCustomProps.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmDeleteCustomProps.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmMoveSlide.resources
