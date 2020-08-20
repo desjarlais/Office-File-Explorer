@@ -74,6 +74,7 @@
             this.BtnListLinks = new System.Windows.Forms.Button();
             this.BtnListFormulas = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnMoveSlide = new System.Windows.Forms.Button();
             this.BtnListTransitions = new System.Windows.Forms.Button();
             this.BtnFixPresentation = new System.Windows.Forms.Button();
             this.BtnPPTRemovePII = new System.Windows.Forms.Button();
@@ -113,7 +114,7 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnMoveSlide = new System.Windows.Forms.Button();
+            this.BtnDeleteCustomProps = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -469,10 +470,10 @@
             // 
             // BtnListOle
             // 
-            this.BtnListOle.Location = new System.Drawing.Point(6, 79);
+            this.BtnListOle.Location = new System.Drawing.Point(4, 80);
             this.BtnListOle.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListOle.Name = "BtnListOle";
-            this.BtnListOle.Size = new System.Drawing.Size(114, 23);
+            this.BtnListOle.Size = new System.Drawing.Size(119, 23);
             this.BtnListOle.TabIndex = 8;
             this.BtnListOle.Text = "List Ole Objects";
             this.BtnListOle.UseVisualStyleBackColor = true;
@@ -660,16 +661,26 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox3.Size = new System.Drawing.Size(119, 308);
+            this.groupBox3.Size = new System.Drawing.Size(135, 308);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
             // 
+            // BtnMoveSlide
+            // 
+            this.BtnMoveSlide.Location = new System.Drawing.Point(6, 155);
+            this.BtnMoveSlide.Name = "BtnMoveSlide";
+            this.BtnMoveSlide.Size = new System.Drawing.Size(118, 21);
+            this.BtnMoveSlide.TabIndex = 30;
+            this.BtnMoveSlide.Text = "Move Slide";
+            this.BtnMoveSlide.UseVisualStyleBackColor = true;
+            this.BtnMoveSlide.Click += new System.EventHandler(this.BtnMoveSlide_Click);
+            // 
             // BtnListTransitions
             // 
-            this.BtnListTransitions.Location = new System.Drawing.Point(7, 128);
+            this.BtnListTransitions.Location = new System.Drawing.Point(6, 128);
             this.BtnListTransitions.Name = "BtnListTransitions";
-            this.BtnListTransitions.Size = new System.Drawing.Size(113, 21);
+            this.BtnListTransitions.Size = new System.Drawing.Size(118, 21);
             this.BtnListTransitions.TabIndex = 29;
             this.BtnListTransitions.Text = "List Slide Transitions";
             this.BtnListTransitions.UseVisualStyleBackColor = true;
@@ -677,9 +688,9 @@
             // 
             // BtnFixPresentation
             // 
-            this.BtnFixPresentation.Location = new System.Drawing.Point(6, 238);
+            this.BtnFixPresentation.Location = new System.Drawing.Point(6, 234);
             this.BtnFixPresentation.Name = "BtnFixPresentation";
-            this.BtnFixPresentation.Size = new System.Drawing.Size(113, 21);
+            this.BtnFixPresentation.Size = new System.Drawing.Size(118, 21);
             this.BtnFixPresentation.TabIndex = 28;
             this.BtnFixPresentation.Text = "Fix Presentation";
             this.BtnFixPresentation.UseVisualStyleBackColor = true;
@@ -687,20 +698,20 @@
             // 
             // BtnPPTRemovePII
             // 
-            this.BtnPPTRemovePII.Location = new System.Drawing.Point(5, 211);
+            this.BtnPPTRemovePII.Location = new System.Drawing.Point(6, 207);
             this.BtnPPTRemovePII.Name = "BtnPPTRemovePII";
-            this.BtnPPTRemovePII.Size = new System.Drawing.Size(113, 21);
+            this.BtnPPTRemovePII.Size = new System.Drawing.Size(118, 21);
             this.BtnPPTRemovePII.TabIndex = 25;
-            this.BtnPPTRemovePII.Text = "Remove PII";
+            this.BtnPPTRemovePII.Text = "Remove PII On Save";
             this.BtnPPTRemovePII.UseVisualStyleBackColor = true;
             this.BtnPPTRemovePII.Click += new System.EventHandler(this.BtnPPTRemovePII_Click);
             // 
             // BtnConvertPptmToPptx
             // 
-            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(5, 184);
+            this.BtnConvertPptmToPptx.Location = new System.Drawing.Point(6, 181);
             this.BtnConvertPptmToPptx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertPptmToPptx.Name = "BtnConvertPptmToPptx";
-            this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(113, 21);
+            this.BtnConvertPptmToPptx.Size = new System.Drawing.Size(118, 21);
             this.BtnConvertPptmToPptx.TabIndex = 22;
             this.BtnConvertPptmToPptx.Text = "Convert Pptm->Pptx";
             this.BtnConvertPptmToPptx.UseVisualStyleBackColor = true;
@@ -711,7 +722,7 @@
             this.BtnListSlideText.Location = new System.Drawing.Point(6, 103);
             this.BtnListSlideText.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSlideText.Name = "BtnListSlideText";
-            this.BtnListSlideText.Size = new System.Drawing.Size(113, 21);
+            this.BtnListSlideText.Size = new System.Drawing.Size(118, 21);
             this.BtnListSlideText.TabIndex = 21;
             this.BtnListSlideText.Text = "List Slide Text";
             this.BtnListSlideText.UseVisualStyleBackColor = true;
@@ -722,7 +733,7 @@
             this.BtnViewPPTComments.Location = new System.Drawing.Point(6, 75);
             this.BtnViewPPTComments.Margin = new System.Windows.Forms.Padding(2);
             this.BtnViewPPTComments.Name = "BtnViewPPTComments";
-            this.BtnViewPPTComments.Size = new System.Drawing.Size(113, 21);
+            this.BtnViewPPTComments.Size = new System.Drawing.Size(118, 21);
             this.BtnViewPPTComments.TabIndex = 23;
             this.BtnViewPPTComments.Text = "List Comments";
             this.BtnViewPPTComments.UseVisualStyleBackColor = true;
@@ -733,7 +744,7 @@
             this.BtnPPTGetAllSlideTitles.Location = new System.Drawing.Point(6, 48);
             this.BtnPPTGetAllSlideTitles.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnPPTGetAllSlideTitles.Name = "BtnPPTGetAllSlideTitles";
-            this.BtnPPTGetAllSlideTitles.Size = new System.Drawing.Size(113, 21);
+            this.BtnPPTGetAllSlideTitles.Size = new System.Drawing.Size(118, 21);
             this.BtnPPTGetAllSlideTitles.TabIndex = 22;
             this.BtnPPTGetAllSlideTitles.Text = "List Slide Titles";
             this.BtnPPTGetAllSlideTitles.UseVisualStyleBackColor = true;
@@ -744,7 +755,7 @@
             this.BtnPPTListHyperlinks.Location = new System.Drawing.Point(6, 20);
             this.BtnPPTListHyperlinks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnPPTListHyperlinks.Name = "BtnPPTListHyperlinks";
-            this.BtnPPTListHyperlinks.Size = new System.Drawing.Size(113, 21);
+            this.BtnPPTListHyperlinks.Size = new System.Drawing.Size(118, 21);
             this.BtnPPTListHyperlinks.TabIndex = 21;
             this.BtnPPTListHyperlinks.Text = "List Hyperlinks";
             this.BtnPPTListHyperlinks.UseVisualStyleBackColor = true;
@@ -752,6 +763,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnDeleteCustomProps);
             this.groupBox4.Controls.Add(this.BtnListShapes);
             this.groupBox4.Controls.Add(this.BtnListPackageParts);
             this.groupBox4.Controls.Add(this.BtnListCustomProps);
@@ -759,20 +771,20 @@
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
             this.groupBox4.Controls.Add(this.BtnValidateFile);
             this.groupBox4.Controls.Add(this.BtnListOle);
-            this.groupBox4.Location = new System.Drawing.Point(833, 83);
+            this.groupBox4.Location = new System.Drawing.Point(849, 83);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox4.Size = new System.Drawing.Size(128, 308);
+            this.groupBox4.Size = new System.Drawing.Size(133, 308);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
             // BtnListShapes
             // 
-            this.BtnListShapes.Location = new System.Drawing.Point(6, 108);
+            this.BtnListShapes.Location = new System.Drawing.Point(4, 109);
             this.BtnListShapes.Name = "BtnListShapes";
-            this.BtnListShapes.Size = new System.Drawing.Size(114, 23);
+            this.BtnListShapes.Size = new System.Drawing.Size(119, 23);
             this.BtnListShapes.TabIndex = 9;
             this.BtnListShapes.Text = "List Shapes";
             this.BtnListShapes.UseVisualStyleBackColor = true;
@@ -780,9 +792,9 @@
             // 
             // BtnListPackageParts
             // 
-            this.BtnListPackageParts.Location = new System.Drawing.Point(6, 137);
+            this.BtnListPackageParts.Location = new System.Drawing.Point(4, 139);
             this.BtnListPackageParts.Name = "BtnListPackageParts";
-            this.BtnListPackageParts.Size = new System.Drawing.Size(114, 23);
+            this.BtnListPackageParts.Size = new System.Drawing.Size(119, 23);
             this.BtnListPackageParts.TabIndex = 8;
             this.BtnListPackageParts.Text = "List Package Parts";
             this.BtnListPackageParts.UseVisualStyleBackColor = true;
@@ -790,10 +802,10 @@
             // 
             // BtnListCustomProps
             // 
-            this.BtnListCustomProps.Location = new System.Drawing.Point(6, 166);
+            this.BtnListCustomProps.Location = new System.Drawing.Point(4, 168);
             this.BtnListCustomProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListCustomProps.Name = "BtnListCustomProps";
-            this.BtnListCustomProps.Size = new System.Drawing.Size(114, 23);
+            this.BtnListCustomProps.Size = new System.Drawing.Size(119, 23);
             this.BtnListCustomProps.TabIndex = 21;
             this.BtnListCustomProps.Text = "List Custom Props";
             this.BtnListCustomProps.UseVisualStyleBackColor = true;
@@ -801,10 +813,10 @@
             // 
             // BtnSetCustomProps
             // 
-            this.BtnSetCustomProps.Location = new System.Drawing.Point(6, 195);
+            this.BtnSetCustomProps.Location = new System.Drawing.Point(4, 197);
             this.BtnSetCustomProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSetCustomProps.Name = "BtnSetCustomProps";
-            this.BtnSetCustomProps.Size = new System.Drawing.Size(114, 23);
+            this.BtnSetCustomProps.Size = new System.Drawing.Size(119, 23);
             this.BtnSetCustomProps.TabIndex = 8;
             this.BtnSetCustomProps.Text = "Add Custom Props";
             this.BtnSetCustomProps.UseVisualStyleBackColor = true;
@@ -812,10 +824,10 @@
             // 
             // BtnChangeTheme
             // 
-            this.BtnChangeTheme.Location = new System.Drawing.Point(6, 49);
+            this.BtnChangeTheme.Location = new System.Drawing.Point(4, 50);
             this.BtnChangeTheme.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtnChangeTheme.Name = "BtnChangeTheme";
-            this.BtnChangeTheme.Size = new System.Drawing.Size(114, 23);
+            this.BtnChangeTheme.Size = new System.Drawing.Size(119, 23);
             this.BtnChangeTheme.TabIndex = 7;
             this.BtnChangeTheme.Text = "Change Theme";
             this.BtnChangeTheme.UseVisualStyleBackColor = true;
@@ -823,10 +835,10 @@
             // 
             // BtnValidateFile
             // 
-            this.BtnValidateFile.Location = new System.Drawing.Point(6, 20);
+            this.BtnValidateFile.Location = new System.Drawing.Point(4, 21);
             this.BtnValidateFile.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnValidateFile.Name = "BtnValidateFile";
-            this.BtnValidateFile.Size = new System.Drawing.Size(114, 23);
+            this.BtnValidateFile.Size = new System.Drawing.Size(119, 23);
             this.BtnValidateFile.TabIndex = 16;
             this.BtnValidateFile.Text = "Validate File";
             this.BtnValidateFile.UseVisualStyleBackColor = true;
@@ -839,7 +851,7 @@
             this.LstDisplay.Location = new System.Drawing.Point(6, 19);
             this.LstDisplay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.LstDisplay.Name = "LstDisplay";
-            this.LstDisplay.Size = new System.Drawing.Size(936, 407);
+            this.LstDisplay.Size = new System.Drawing.Size(954, 407);
             this.LstDisplay.TabIndex = 0;
             // 
             // TxtFileName
@@ -871,7 +883,7 @@
             this.mnuMainApp.Location = new System.Drawing.Point(0, 0);
             this.mnuMainApp.Name = "mnuMainApp";
             this.mnuMainApp.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.mnuMainApp.Size = new System.Drawing.Size(970, 24);
+            this.mnuMainApp.Size = new System.Drawing.Size(1003, 24);
             this.mnuMainApp.TabIndex = 8;
             this.mnuMainApp.Text = "menuStrip1";
             // 
@@ -1020,7 +1032,7 @@
             this.groupBox6.Controls.Add(this.LstDisplay);
             this.groupBox6.Location = new System.Drawing.Point(12, 396);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(949, 468);
+            this.groupBox6.Size = new System.Drawing.Size(970, 468);
             this.groupBox6.TabIndex = 10;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Output";
@@ -1038,7 +1050,7 @@
             // 
             // BtnCopyLine
             // 
-            this.BtnCopyLine.Location = new System.Drawing.Point(717, 432);
+            this.BtnCopyLine.Location = new System.Drawing.Point(735, 430);
             this.BtnCopyLine.Name = "BtnCopyLine";
             this.BtnCopyLine.Size = new System.Drawing.Size(115, 23);
             this.BtnCopyLine.TabIndex = 2;
@@ -1048,7 +1060,7 @@
             // 
             // BtnCopyAll
             // 
-            this.BtnCopyAll.Location = new System.Drawing.Point(837, 432);
+            this.BtnCopyAll.Location = new System.Drawing.Point(856, 430);
             this.BtnCopyAll.Name = "BtnCopyAll";
             this.BtnCopyAll.Size = new System.Drawing.Size(104, 23);
             this.BtnCopyAll.TabIndex = 1;
@@ -1056,15 +1068,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnMoveSlide
+            // BtnDeleteCustomProps
             // 
-            this.BtnMoveSlide.Location = new System.Drawing.Point(6, 155);
-            this.BtnMoveSlide.Name = "BtnMoveSlide";
-            this.BtnMoveSlide.Size = new System.Drawing.Size(113, 21);
-            this.BtnMoveSlide.TabIndex = 30;
-            this.BtnMoveSlide.Text = "Move Slide";
-            this.BtnMoveSlide.UseVisualStyleBackColor = true;
-            this.BtnMoveSlide.Click += new System.EventHandler(this.BtnMoveSlide_Click);
+            this.BtnDeleteCustomProps.Location = new System.Drawing.Point(5, 226);
+            this.BtnDeleteCustomProps.Name = "BtnDeleteCustomProps";
+            this.BtnDeleteCustomProps.Size = new System.Drawing.Size(118, 23);
+            this.BtnDeleteCustomProps.TabIndex = 11;
+            this.BtnDeleteCustomProps.Text = "Delete Custom Props";
+            this.BtnDeleteCustomProps.UseVisualStyleBackColor = true;
+            this.BtnDeleteCustomProps.Click += new System.EventHandler(this.BtnDeleteCustomProps_Click);
             // 
             // FrmMain
             // 
@@ -1072,7 +1084,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(970, 869);
+            this.ClientSize = new System.Drawing.Size(1003, 869);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -1190,6 +1202,7 @@
         private System.Windows.Forms.ToolStripMenuItem printerSettingsToolStripMenuItem;
         private System.Windows.Forms.Button BtnListTransitions;
         private System.Windows.Forms.Button BtnMoveSlide;
+        private System.Windows.Forms.Button BtnDeleteCustomProps;
     }
 }
 

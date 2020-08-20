@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Office_File_Explorer.App_Helpers;
@@ -57,6 +58,7 @@ namespace Office_File_Explorer.Forms
             BtnFixCorruptBookmarks.Enabled = false;
             BtnFixCorruptRevisions.Enabled = false;
             BtnConvertStrict.Enabled = false;
+            BtnDeleteProps.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -72,6 +74,7 @@ namespace Office_File_Explorer.Forms
             BtnChangeTheme.Enabled = true;
             BtnChangeCustomProps.Enabled = true;
             BtnRemovePII.Enabled = true;
+            BtnDeleteProps.Enabled = true;
 
             // enable the radio buttons
             rdoExcel.Enabled = true;
@@ -576,6 +579,136 @@ namespace Office_File_Explorer.Forms
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void BtnDeleteProps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string propNameToDelete = "";
+                lstOutput.Items.Clear();
+
+                if (fType == StringResources.word)
+                {
+                    using (var fm = new FrmBatchDeleteCustomProps())
+                    {
+                        fm.ShowDialog();
+                        propNameToDelete = fm.PropName;
+                    }
+                    
+                    foreach (string f in files)
+                    {
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            if (propNameToDelete == "Cancel")
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                if (document.CustomFilePropertiesPart != null)
+                                {
+                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                    {
+                                        if (propNameToDelete == cdp.Name)
+                                        {
+                                            cdp.Remove();
+                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                        }
+                                        else
+                                        {
+                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (fType == StringResources.excel)
+                {
+                    foreach (string f in files)
+                    {
+                        using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
+                        {
+                            AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                            using (var fm = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                            {
+                                var result = fm.ShowDialog();
+                                if (fm.PartModified)
+                                {
+                                    lstOutput.Items.Add(f + " : Custom Prop Deleted");
+                                    document.WorkbookPart.Workbook.Save();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (fType == StringResources.powerpoint)
+                {
+                    foreach (string f in files)
+                    {
+                        using (PresentationDocument document = PresentationDocument.Open(f, true))
+                        {
+                            AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                            using (var fm = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                            {
+                                var result = fm.ShowDialog();
+                                if (fm.PartModified)
+                                {
+                                    lstOutput.Items.Add(f + " : Custom Prop Deleted");
+                                    document.PresentationPart.Presentation.Save();
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public void AddCustomDocPropsToList(CustomFilePropertiesPart cfp)
+        {
+            if (cfp == null)
+            {
+                return;
+            }
+
+            int count = 0;
+
+            foreach (var v in CfpList(cfp))
+            {
+                count++;
+            }
+        }
+
+        public List<string> CfpList(CustomFilePropertiesPart part)
+        {
+            List<string> val = new List<string>();
+            foreach (CustomDocumentProperty cdp in part.RootElement)
+            {
+                val.Add(cdp.Name + StringResources.colonBuffer + cdp.InnerText);
+            }
+            return val;
         }
     }
 }

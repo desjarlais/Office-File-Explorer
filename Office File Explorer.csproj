@@ -115,6 +115,12 @@
     <Compile Include="Forms\FrmBatch.Designer.cs">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmBatchDeleteCustomProps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmBatchDeleteCustomProps.Designer.cs">
+      <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmClipboardViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,12 @@
     </Compile>
     <Compile Include="Forms\FrmCustomProperties.Designer.cs">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDeleteCustomProps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDeleteCustomProps.Designer.cs">
+      <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmErrorLog.cs">
       <SubType>Form</SubType>
@@ -216,11 +228,17 @@
     <EmbeddedResource Include="Forms\FrmBatch.resx">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmBatchDeleteCustomProps.resx">
+      <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmClipboardViewer.resx">
       <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmCustomProperties.resx">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDeleteCustomProps.resx">
+      <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmErrorLog.resx">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>

@@ -30,6 +30,7 @@ using A = DocumentFormat.OpenXml.Drawing;
 using Column = DocumentFormat.OpenXml.Spreadsheet.Column;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
+using Path = System.IO.Path;
 
 // this app references
 using Office_File_Explorer.App_Helpers;
@@ -51,7 +52,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using Path = System.IO.Path;
 using System.IO.Compression;
 
 namespace Office_File_Explorer
@@ -193,13 +193,14 @@ namespace Office_File_Explorer
             BtnConvertToNonStrictFormat.Enabled = false;
             BtnListTransitions.Enabled = false;
             BtnMoveSlide.Enabled = false;
+            BtnDeleteCustomProps.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
 
         public OxmlFileFormat GetFileFormat()
         {
-            string fileExt = System.IO.Path.GetExtension(TxtFileName.Text);
+            string fileExt = Path.GetExtension(TxtFileName.Text);
             fileExt = fileExt.ToLower();
 
             if (fileExt == ".docx")
@@ -351,6 +352,7 @@ namespace Office_File_Explorer
             BtnSetCustomProps.Enabled = true;
             BtnListPackageParts.Enabled = true;
             BtnListShapes.Enabled = true;
+            BtnDeleteCustomProps.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -3279,6 +3281,7 @@ namespace Office_File_Explorer
                 Owner = this
             };
             pFrm.ShowDialog();
+
         }
 
         private void copyOutputToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4682,6 +4685,85 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnMoveSlide Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnDeleteCustomProps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
+
+                if (fileType == StringResources.word)
+                {
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                    {
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                        LstDisplay.Items.Clear();
+
+                        using (var f = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                        {
+                            var result = f.ShowDialog();
+                            if (f.PartModified)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                            }
+                        }
+                    }
+                }
+                else if (fileType == StringResources.excel)
+                {
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                    {
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                        LstDisplay.Items.Clear();
+
+                        using (var f = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                        {
+                            var result = f.ShowDialog();
+                            if (f.PartModified)
+                            {
+                                document.WorkbookPart.Workbook.Save();
+                            }
+                        }
+                    }
+                }
+                else if (fileType == StringResources.powerpoint)
+                {
+                    using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
+                    {
+                        AddCustomDocPropsToList(document.CustomFilePropertiesPart);
+                        LstDisplay.Items.Clear();
+
+                        using (var f = new FrmDeleteCustomProps(document.CustomFilePropertiesPart))
+                        {
+                            var result = f.ShowDialog();
+                            if (f.PartModified)
+                            {
+                                document.PresentationPart.Presentation.Save();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
+                LstDisplay.Items.Add(StringResources.noCustomDocProps);
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("BtnListCustomProps Error: " + ex.Message);
+                LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
             }
             finally
             {

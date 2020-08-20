@@ -49,6 +49,7 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteProps = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -161,6 +162,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnDeleteProps);
             this.groupBox3.Controls.Add(this.BtnConvertStrict);
             this.groupBox3.Controls.Add(this.BtnPPTResetPII);
             this.groupBox3.Controls.Add(this.BtnFixCorruptRevisions);
@@ -188,11 +190,11 @@
             // 
             // BtnPPTResetPII
             // 
-            this.BtnPPTResetPII.Location = new System.Drawing.Point(7, 48);
+            this.BtnPPTResetPII.Location = new System.Drawing.Point(470, 47);
             this.BtnPPTResetPII.Name = "BtnPPTResetPII";
-            this.BtnPPTResetPII.Size = new System.Drawing.Size(120, 23);
+            this.BtnPPTResetPII.Size = new System.Drawing.Size(130, 23);
             this.BtnPPTResetPII.TabIndex = 11;
-            this.BtnPPTResetPII.Text = "Reset PII On Save";
+            this.BtnPPTResetPII.Text = "Remove PII On Save";
             this.BtnPPTResetPII.UseVisualStyleBackColor = true;
             this.BtnPPTResetPII.Click += new System.EventHandler(this.BtnPPTResetPII_Click);
             // 
@@ -258,6 +260,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
+            // BtnDeleteProps
+            // 
+            this.BtnDeleteProps.Location = new System.Drawing.Point(7, 50);
+            this.BtnDeleteProps.Name = "BtnDeleteProps";
+            this.BtnDeleteProps.Size = new System.Drawing.Size(120, 23);
+            this.BtnDeleteProps.TabIndex = 13;
+            this.BtnDeleteProps.Text = "Delete Custom Props";
+            this.BtnDeleteProps.UseVisualStyleBackColor = true;
+            this.BtnDeleteProps.Click += new System.EventHandler(this.BtnDeleteProps_Click);
+            // 
             // FrmBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,5 +317,6 @@
         private System.Windows.Forms.Button BtnFixCorruptRevisions;
         private System.Windows.Forms.Button BtnPPTResetPII;
         private System.Windows.Forms.Button BtnConvertStrict;
+        private System.Windows.Forms.Button BtnDeleteProps;
     }
 }

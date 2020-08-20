@@ -127,3 +127,5 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontDetai
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmPrinterSettings.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmMoveSlide.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmDeleteCustomProps.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatchDeleteCustomProps.resources
