@@ -608,17 +608,21 @@ namespace Office_File_Explorer.Forms
                             {
                                 if (document.CustomFilePropertiesPart != null)
                                 {
+                                    bool customPropFound = false;
+
                                     foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
                                     {
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
                                             lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                            customPropFound = true;
                                         }
-                                        else
-                                        {
-                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
-                                        }
+                                    }
+
+                                    if (customPropFound == false)
+                                    {
+                                        lstOutput.Items.Add(f + " : Property Does Not Exist");
                                     }
                                 }
                                 else
