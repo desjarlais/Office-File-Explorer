@@ -84,6 +84,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteCustomProps = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
             this.BtnListCustomProps = new System.Windows.Forms.Button();
@@ -114,7 +115,6 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnDeleteCustomProps = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -158,7 +158,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(440, 308);
+            this.groupBox1.Size = new System.Drawing.Size(440, 314);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
@@ -498,7 +498,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox2.Size = new System.Drawing.Size(250, 308);
+            this.groupBox2.Size = new System.Drawing.Size(250, 313);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
@@ -661,7 +661,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox3.Size = new System.Drawing.Size(135, 308);
+            this.groupBox3.Size = new System.Drawing.Size(135, 313);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PowerPoint";
@@ -775,10 +775,20 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox4.Size = new System.Drawing.Size(133, 308);
+            this.groupBox4.Size = new System.Drawing.Size(133, 313);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
+            // 
+            // BtnDeleteCustomProps
+            // 
+            this.BtnDeleteCustomProps.Location = new System.Drawing.Point(5, 226);
+            this.BtnDeleteCustomProps.Name = "BtnDeleteCustomProps";
+            this.BtnDeleteCustomProps.Size = new System.Drawing.Size(118, 23);
+            this.BtnDeleteCustomProps.TabIndex = 11;
+            this.BtnDeleteCustomProps.Text = "Delete Custom Props";
+            this.BtnDeleteCustomProps.UseVisualStyleBackColor = true;
+            this.BtnDeleteCustomProps.Click += new System.EventHandler(this.BtnDeleteCustomProps_Click);
             // 
             // BtnListShapes
             // 
@@ -1067,16 +1077,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // BtnDeleteCustomProps
-            // 
-            this.BtnDeleteCustomProps.Location = new System.Drawing.Point(5, 226);
-            this.BtnDeleteCustomProps.Name = "BtnDeleteCustomProps";
-            this.BtnDeleteCustomProps.Size = new System.Drawing.Size(118, 23);
-            this.BtnDeleteCustomProps.TabIndex = 11;
-            this.BtnDeleteCustomProps.Text = "Delete Custom Props";
-            this.BtnDeleteCustomProps.UseVisualStyleBackColor = true;
-            this.BtnDeleteCustomProps.Click += new System.EventHandler(this.BtnDeleteCustomProps_Click);
             // 
             // FrmMain
             // 

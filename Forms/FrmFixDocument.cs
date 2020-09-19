@@ -83,6 +83,10 @@ namespace Office_File_Explorer.Forms
             {
                 OptionSelected = "Notes";
             }
+            else if (RdoTblGrid.Checked)
+            {
+                OptionSelected = "TblGrid";
+            }
             else if (RdoFixNotesPageWithFile.Checked)
             {
                 OptionSelected = "NotesWithFile";

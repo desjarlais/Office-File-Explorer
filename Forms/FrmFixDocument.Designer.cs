@@ -39,12 +39,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
+            this.RdoTblGrid = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.RdoTblGrid);
             this.groupBox1.Controls.Add(this.RdoLT);
             this.groupBox1.Controls.Add(this.RdoEndnotes);
             this.groupBox1.Controls.Add(this.RdoRev);
@@ -154,6 +156,17 @@
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
             // 
+            // RdoTblGrid
+            // 
+            this.RdoTblGrid.AutoSize = true;
+            this.RdoTblGrid.Location = new System.Drawing.Point(6, 110);
+            this.RdoTblGrid.Name = "RdoTblGrid";
+            this.RdoTblGrid.Size = new System.Drawing.Size(118, 17);
+            this.RdoTblGrid.TabIndex = 5;
+            this.RdoTblGrid.TabStop = true;
+            this.RdoTblGrid.Text = "Fix Table Properties";
+            this.RdoTblGrid.UseVisualStyleBackColor = true;
+            // 
             // FrmFixDocument
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,5 +200,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton RdoNotes;
         private System.Windows.Forms.RadioButton RdoFixNotesPageWithFile;
+        private System.Windows.Forms.RadioButton RdoTblGrid;
     }
 }

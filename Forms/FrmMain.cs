@@ -4147,6 +4147,65 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void FixTblGrid()
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    bool tblGridRemoved = false;
+                    
+                    // get the list of tables in the document
+                    var tbls = document.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().ToList();
+                    
+                    foreach (DocumentFormat.OpenXml.Wordprocessing.Table tbl in tbls)
+                    {
+                        bool tRowFound = false;
+
+                        // check the element order, if tblGrid is after table row remove it
+                        foreach (OpenXmlElement oxe in tbl.Elements())
+                        {
+                            if (oxe.GetType().Name == "TableRow")
+                            {
+                                tRowFound = true;
+                            }
+
+                            if (tRowFound == true && oxe.GetType().Name == "TableGrid")
+                            {
+                                oxe.Remove();
+                                tblGridRemoved = true;
+                            }
+                        }
+                    }
+
+                    if (tblGridRemoved == true)
+                    {
+                        document.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Table Fix Completed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Table Found **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("FixTbleGrid: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        /// <summary>
         /// When the ListTemplate count is too large, Word no longer displays bullets,
         /// this function will try to find 1 single and 1 multi-level bullet,
         /// then go through the document and apply one of those to each bullet used
@@ -4448,6 +4507,9 @@ namespace Office_File_Explorer
                             break;
                         case "Revision":
                             FixRevisions();
+                            break;
+                        case "TblGrid":
+                            FixTblGrid();
                             break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");

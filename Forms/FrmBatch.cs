@@ -59,6 +59,7 @@ namespace Office_File_Explorer.Forms
             BtnFixCorruptRevisions.Enabled = false;
             BtnConvertStrict.Enabled = false;
             BtnDeleteProps.Enabled = false;
+            BtnFixTableProps.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -86,6 +87,7 @@ namespace Office_File_Explorer.Forms
             {
                 BtnFixCorruptBookmarks.Enabled = true;
                 BtnFixCorruptRevisions.Enabled = true;
+                BtnFixTableProps.Enabled = true;
                 BtnRemovePII.Enabled = true;
 
                 BtnFixNotesPageSize.Enabled = false;
@@ -101,6 +103,7 @@ namespace Office_File_Explorer.Forms
 
                 BtnFixCorruptBookmarks.Enabled = false;
                 BtnFixCorruptRevisions.Enabled = false;
+                BtnFixTableProps.Enabled = false;
                 BtnConvertStrict.Enabled = false;
             }
 
@@ -111,6 +114,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixNotesPageSize.Enabled = false;
                 BtnFixCorruptBookmarks.Enabled = false;
                 BtnFixCorruptRevisions.Enabled = false;
+                BtnFixTableProps.Enabled = false;
                 BtnRemovePII.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
             }
@@ -727,6 +731,62 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixTableProps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
+                foreach (string f in files)
+                {
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    {
+                        bool tblGridRemoved = false;
+                        var tbls = document.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().ToList();
+
+                        foreach (DocumentFormat.OpenXml.Wordprocessing.Table tbl in tbls)
+                        {
+                            bool tRowFound = false;
+
+                            // check the element order, if tblGrid is after table row remove it
+                            foreach (OpenXmlElement oxe in tbl.Elements())
+                            {
+                                if (oxe.GetType().Name == "TableRow")
+                                {
+                                    tRowFound = true;
+                                }
+
+                                if (tRowFound == true && oxe.GetType().Name == "TableGrid")
+                                {
+                                    oxe.Remove();
+                                    tblGridRemoved = true;
+                                }
+                            }
+                        }
+
+                        if (tblGridRemoved == true)
+                        {
+                            document.MainDocumentPart.Document.Save();
+                            lstOutput.Items.Add(f + ": Table Fix Completed");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + ": No Corrupt Table Found");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                LoggingHelper.Log("BtnFixTableProps: " + ex.Message);
             }
             finally
             {

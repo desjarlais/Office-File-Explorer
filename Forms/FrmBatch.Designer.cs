@@ -41,6 +41,8 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnFixTableProps = new System.Windows.Forms.Button();
+            this.BtnDeleteProps = new System.Windows.Forms.Button();
             this.BtnConvertStrict = new System.Windows.Forms.Button();
             this.BtnPPTResetPII = new System.Windows.Forms.Button();
             this.BtnFixCorruptRevisions = new System.Windows.Forms.Button();
@@ -49,7 +51,6 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnDeleteProps = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -162,6 +163,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnFixTableProps);
             this.groupBox3.Controls.Add(this.BtnDeleteProps);
             this.groupBox3.Controls.Add(this.BtnConvertStrict);
             this.groupBox3.Controls.Add(this.BtnPPTResetPII);
@@ -177,6 +179,26 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnFixTableProps
+            // 
+            this.BtnFixTableProps.Location = new System.Drawing.Point(133, 50);
+            this.BtnFixTableProps.Name = "BtnFixTableProps";
+            this.BtnFixTableProps.Size = new System.Drawing.Size(98, 23);
+            this.BtnFixTableProps.TabIndex = 9;
+            this.BtnFixTableProps.Text = "Fix Table Props";
+            this.BtnFixTableProps.UseVisualStyleBackColor = true;
+            this.BtnFixTableProps.Click += new System.EventHandler(this.BtnFixTableProps_Click);
+            // 
+            // BtnDeleteProps
+            // 
+            this.BtnDeleteProps.Location = new System.Drawing.Point(7, 50);
+            this.BtnDeleteProps.Name = "BtnDeleteProps";
+            this.BtnDeleteProps.Size = new System.Drawing.Size(120, 23);
+            this.BtnDeleteProps.TabIndex = 13;
+            this.BtnDeleteProps.Text = "Delete Custom Props";
+            this.BtnDeleteProps.UseVisualStyleBackColor = true;
+            this.BtnDeleteProps.Click += new System.EventHandler(this.BtnDeleteProps_Click);
             // 
             // BtnConvertStrict
             // 
@@ -260,16 +282,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
-            // BtnDeleteProps
-            // 
-            this.BtnDeleteProps.Location = new System.Drawing.Point(7, 50);
-            this.BtnDeleteProps.Name = "BtnDeleteProps";
-            this.BtnDeleteProps.Size = new System.Drawing.Size(120, 23);
-            this.BtnDeleteProps.TabIndex = 13;
-            this.BtnDeleteProps.Text = "Delete Custom Props";
-            this.BtnDeleteProps.UseVisualStyleBackColor = true;
-            this.BtnDeleteProps.Click += new System.EventHandler(this.BtnDeleteProps_Click);
-            // 
             // FrmBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,5 +330,6 @@
         private System.Windows.Forms.Button BtnPPTResetPII;
         private System.Windows.Forms.Button BtnConvertStrict;
         private System.Windows.Forms.Button BtnDeleteProps;
+        private System.Windows.Forms.Button BtnFixTableProps;
     }
 }
