@@ -4164,7 +4164,7 @@ namespace Office_File_Explorer
                     OpenXmlElement tgClone = null;
 
                     // get the list of tables in the document
-                    var tbls = document.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().ToList();
+                    List<O.Wordprocessing.Table> tbls = document.MainDocumentPart.Document.Descendants<O.Wordprocessing.Table>().ToList();
                     
                     foreach (O.Wordprocessing.Table tbl in tbls)
                     {
