@@ -4148,7 +4148,7 @@ namespace Office_File_Explorer
 
         /// <summary>
         /// this fix is for a known issue where files contain a table
-        /// with a tblGrid element before the table row, that is not valid per the schema
+        /// with a tblGrid element before the first table row, that is not valid per the schema
         /// </summary>
         public void FixTblGrid()
         {
@@ -4170,7 +4170,7 @@ namespace Office_File_Explorer
                     {
                         // you can have only one tblGrid per table, including nested tables
                         // it needs to be before any row elements so sequence is
-                        // 1. check if the tblGrid element is before any trow
+                        // 1. check if the tblGrid element is before any table row
                         // 2. check for multiple tblGrid elements
                         bool tRowFound = false;
                         bool tGridBeforeRowFound = false;
@@ -4185,7 +4185,7 @@ namespace Office_File_Explorer
                             }
 
                             // when we get to a tablegrid, we have a few things to check
-                            // 1. have we found a table row
+                            // 1. have we found a table row previously
                             // 2. only one table grid can exist in the table, if there are multiple, delete the extras
                             if (oxe.GetType().Name == "TableGrid")
                             {
@@ -4210,7 +4210,7 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        // if we had a table grid before a row, move it before the first row
+                        // if we had a table grid before a row, move it before the first row in this table
                         if (tGridBeforeRowFound == true)
                         {
                             tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
@@ -4218,6 +4218,7 @@ namespace Office_File_Explorer
                         }
                     }
 
+                    // save the file if we modified the table
                     if (tblModified == true)
                     {
                         document.MainDocumentPart.Document.Save();
