@@ -4147,7 +4147,8 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// 
+        /// this fix is for a known issue where files contain a table
+        /// with a tblGrid element before the table row, that is not valid per the schema
         /// </summary>
         public void FixTblGrid()
         {
@@ -4158,32 +4159,66 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    bool tblGridRemoved = false;
-                    
+                    // "global" document variables
+                    bool tblModified = false;
+                    OpenXmlElement tgClone = null;
+
                     // get the list of tables in the document
                     var tbls = document.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().ToList();
                     
-                    foreach (DocumentFormat.OpenXml.Wordprocessing.Table tbl in tbls)
+                    foreach (O.Wordprocessing.Table tbl in tbls)
                     {
+                        // you can have only one tblGrid per table, including nested tables
+                        // it needs to be before any row elements so sequence is
+                        // 1. check if the tblGrid element is before any trow
+                        // 2. check for multiple tblGrid elements
                         bool tRowFound = false;
+                        bool tGridBeforeRowFound = false;
+                        int tGridCount = 0;
 
-                        // check the element order, if tblGrid is after table row remove it
                         foreach (OpenXmlElement oxe in tbl.Elements())
                         {
+                            // flag if we found a trow, once we find 1, the rest do not matter
                             if (oxe.GetType().Name == "TableRow")
                             {
                                 tRowFound = true;
                             }
 
-                            if (tRowFound == true && oxe.GetType().Name == "TableGrid")
+                            // when we get to a tablegrid, we have a few things to check
+                            // 1. have we found a table row
+                            // 2. only one table grid can exist in the table, if there are multiple, delete the extras
+                            if (oxe.GetType().Name == "TableGrid")
                             {
-                                oxe.Remove();
-                                tblGridRemoved = true;
+                                // increment the tg counter
+                                tGridCount++;
+
+                                // if we have a table row and no table grid has been found yet, we need to save out this table grid
+                                // then move it in front of the table row later
+                                if (tRowFound == true && tGridCount == 1)
+                                {
+                                    tGridBeforeRowFound = true;
+                                    tgClone = oxe.CloneNode(true);
+                                    oxe.Remove();
+                                }
+
+                                // if we have multiple table grids, delete the extras
+                                if (tGridCount > 1)
+                                {
+                                    oxe.Remove();
+                                    tblModified = true;
+                                }
                             }
+                        }
+
+                        // if we had a table grid before a row, move it before the first row
+                        if (tGridBeforeRowFound == true)
+                        {
+                            tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
+                            tblModified = true;
                         }
                     }
 
-                    if (tblGridRemoved == true)
+                    if (tblModified == true)
                     {
                         document.MainDocumentPart.Document.Save();
                         LstDisplay.Items.Add("** Table Fix Completed **");
