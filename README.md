@@ -16,6 +16,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Fix corrupt revisions
 * Fix endnotes
 * Fix ListTemplates / Numbering
+* Fix table properties
 * Remove PII
 
 ### Excel
@@ -41,6 +42,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Reset note page size to default value (PowerPoint)
 * Fix corrupt bookmarks (Word)
 * Fix corrupt revisions (Word)
+* Fix table properties (Word)
 * Remove Personally Identifiable Information (Word)
 * Remove PII (PowerPoint)
 
