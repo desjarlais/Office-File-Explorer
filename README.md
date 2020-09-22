@@ -23,6 +23,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * List function to display (links, comments, worksheets, hidden rows & columns, shared strings, cell values, connections, defined names)
 * Delete content (comments, links)
 * Convert Macro enabled file (.xlsm) to non-macro enabled (.xlsx) 
+* Convert Strict xlsx format to non-Strict xlsx format
 
 ### PowerPoint
 * List function to display (hyperlinks, slide titles, slide text, comments)
