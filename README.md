@@ -15,7 +15,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Fix corrupt bookmarks
 * Fix corrupt revisions
 * Fix corrupt endnotes
-* Fix orphan / unused ListTemplates / Numbering
+* Fix orphan / unused ListTemplates (Numbering)
 * Fix corrupt table properties
 * Remove PII
 
