@@ -28,8 +28,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 ### PowerPoint
 * List function to display (hyperlinks, slide titles, slide text, comments)
 * Convert Macro enabled file (.pptm) to non-macro enabled (.pptx)
-* Reset note page size to default value 
-*   (if the button doesn't fix the issue, go to File | Settings and enable the notes master checkbox)
+* Reset note page size to default value (if the button doesn't fix the issue, go to File | Settings and enable the notes master checkbox)
 * Remove PII
 
 ### Shared
