@@ -47,6 +47,7 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Fix corrupt table properties (Word)
 * Remove Personally Identifiable Information (Word)
 * Remove PII (PowerPoint)
+* Convert Strict xlsx format to non-Strict xlsx format (Excel)
 
 # App UI
 
