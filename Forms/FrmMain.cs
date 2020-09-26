@@ -194,6 +194,7 @@ namespace Office_File_Explorer
             BtnListTransitions.Enabled = false;
             BtnMoveSlide.Enabled = false;
             BtnDeleteCustomProps.Enabled = false;
+            BtnViewCustomXml.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -353,6 +354,7 @@ namespace Office_File_Explorer
             BtnListPackageParts.Enabled = true;
             BtnListShapes.Enabled = true;
             BtnDeleteCustomProps.Enabled = true;
+            BtnViewCustomXml.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -1358,6 +1360,7 @@ namespace Office_File_Explorer
             {
                 PreButtonClickWork();
                 int count = 0;
+
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
@@ -4210,7 +4213,7 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        // if we had a table grid before a row, move it before the first row in this table
+                        // if we had a table grid before a row was found, move it before the first row in the table
                         if (tGridBeforeRowFound == true)
                         {
                             tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
@@ -4871,6 +4874,34 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add("BtnListCustomProps Error: " + ex.Message);
                 LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnViewCustomXml_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
+
+                using (var f = new FrmCustomXmlViewer(TxtFileName.Text, fileType))
+                {
+                    var result = f.ShowDialog();
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnViewCustomXml Error: " + ioe.Message);
+                LstDisplay.Items.Add("No Custom Xml.");
+            }
+            catch (Exception ex)
+            {
+                LstDisplay.Items.Add("BtnViewCustomXmls Error: " + ex.Message);
+                LoggingHelper.Log("BtnViewCustomXml Error: " + ex.Message);
             }
             finally
             {

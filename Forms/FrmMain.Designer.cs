@@ -115,6 +115,7 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnViewCustomXml = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -763,6 +764,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnViewCustomXml);
             this.groupBox4.Controls.Add(this.BtnDeleteCustomProps);
             this.groupBox4.Controls.Add(this.BtnListShapes);
             this.groupBox4.Controls.Add(this.BtnListPackageParts);
@@ -1078,6 +1080,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
+            // BtnViewCustomXml
+            // 
+            this.BtnViewCustomXml.Location = new System.Drawing.Point(5, 255);
+            this.BtnViewCustomXml.Name = "BtnViewCustomXml";
+            this.BtnViewCustomXml.Size = new System.Drawing.Size(118, 23);
+            this.BtnViewCustomXml.TabIndex = 11;
+            this.BtnViewCustomXml.Text = "View Custom Xml";
+            this.BtnViewCustomXml.UseVisualStyleBackColor = true;
+            this.BtnViewCustomXml.Click += new System.EventHandler(this.BtnViewCustomXml_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1203,6 +1215,7 @@
         private System.Windows.Forms.Button BtnListTransitions;
         private System.Windows.Forms.Button BtnMoveSlide;
         private System.Windows.Forms.Button BtnDeleteCustomProps;
+        private System.Windows.Forms.Button BtnViewCustomXml;
     }
 }
 
