@@ -14,14 +14,16 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Fix corrupt documents
 * Fix corrupt bookmarks
 * Fix corrupt revisions
-* Fix endnotes
-* Fix ListTemplates / Numbering
+* Fix corrupt endnotes
+* Fix orphan / unused ListTemplates (Numbering)
+* Fix corrupt table properties
 * Remove PII
 
 ### Excel
 * List function to display (links, comments, worksheets, hidden rows & columns, shared strings, cell values, connections, defined names)
 * Delete content (comments, links)
 * Convert Macro enabled file (.xlsm) to non-macro enabled (.xlsx) 
+* Convert Strict xlsx format to non-Strict xlsx format
 
 ### PowerPoint
 * List function to display (hyperlinks, slide titles, slide text, comments)
@@ -41,8 +43,10 @@ Keep in mind if you use this on a production document and choose to use somethin
 * Reset note page size to default value (PowerPoint)
 * Fix corrupt bookmarks (Word)
 * Fix corrupt revisions (Word)
+* Fix corrupt table properties (Word)
 * Remove Personally Identifiable Information (Word)
 * Remove PII (PowerPoint)
+* Convert Strict xlsx format to non-Strict xlsx format (Excel)
 
 # App UI
 
