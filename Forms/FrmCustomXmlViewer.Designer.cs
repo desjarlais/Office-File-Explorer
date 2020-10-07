@@ -33,6 +33,7 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.BtnDeleteXmlNode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstCustomXmlFiles
@@ -56,9 +57,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Custom Xml Files";
+            this.label1.Text = "Files";
             // 
             // label2
             // 
@@ -69,11 +70,22 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Xml Viewer";
             // 
+            // BtnDeleteXmlNode
+            // 
+            this.BtnDeleteXmlNode.Location = new System.Drawing.Point(680, 558);
+            this.BtnDeleteXmlNode.Name = "BtnDeleteXmlNode";
+            this.BtnDeleteXmlNode.Size = new System.Drawing.Size(108, 23);
+            this.BtnDeleteXmlNode.TabIndex = 4;
+            this.BtnDeleteXmlNode.Text = "Delete Xml Node";
+            this.BtnDeleteXmlNode.UseVisualStyleBackColor = true;
+            this.BtnDeleteXmlNode.Click += new System.EventHandler(this.BtnDeleteXmlNode_Click);
+            // 
             // FrmCustomXmlViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(803, 561);
+            this.ClientSize = new System.Drawing.Size(803, 588);
+            this.Controls.Add(this.BtnDeleteXmlNode);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.treeView1);
@@ -96,5 +108,6 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button BtnDeleteXmlNode;
     }
 }

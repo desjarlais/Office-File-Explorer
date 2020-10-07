@@ -51,6 +51,7 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteRequestStatus = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,6 +164,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnDeleteRequestStatus);
             this.groupBox3.Controls.Add(this.BtnFixTableProps);
             this.groupBox3.Controls.Add(this.BtnDeleteProps);
             this.groupBox3.Controls.Add(this.BtnConvertStrict);
@@ -282,6 +284,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
+            // BtnDeleteRequestStatus
+            // 
+            this.BtnDeleteRequestStatus.Location = new System.Drawing.Point(236, 50);
+            this.BtnDeleteRequestStatus.Name = "BtnDeleteRequestStatus";
+            this.BtnDeleteRequestStatus.Size = new System.Drawing.Size(123, 23);
+            this.BtnDeleteRequestStatus.TabIndex = 9;
+            this.BtnDeleteRequestStatus.Text = "Delete RequestStatus";
+            this.BtnDeleteRequestStatus.UseVisualStyleBackColor = true;
+            this.BtnDeleteRequestStatus.Click += new System.EventHandler(this.BtnDeleteRequestStatus_Click);
+            // 
             // FrmBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,5 +343,6 @@
         private System.Windows.Forms.Button BtnConvertStrict;
         private System.Windows.Forms.Button BtnDeleteProps;
         private System.Windows.Forms.Button BtnFixTableProps;
+        private System.Windows.Forms.Button BtnDeleteRequestStatus;
     }
 }

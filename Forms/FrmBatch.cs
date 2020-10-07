@@ -16,6 +16,7 @@ using System.IO;
 using System.IO.Packaging;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
@@ -27,6 +28,7 @@ namespace Office_File_Explorer.Forms
         public List<string> files = new List<string>();
         public string fileType = "";
         public string fType = "";
+        public bool nodeDeleted = false;
 
         public FrmBatch()
         {
@@ -68,6 +70,7 @@ namespace Office_File_Explorer.Forms
             BtnConvertStrict.Enabled = false;
             BtnDeleteProps.Enabled = false;
             BtnFixTableProps.Enabled = false;
+            BtnDeleteRequestStatus.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -84,6 +87,7 @@ namespace Office_File_Explorer.Forms
             BtnChangeCustomProps.Enabled = true;
             BtnRemovePII.Enabled = true;
             BtnDeleteProps.Enabled = true;
+            BtnDeleteRequestStatus.Enabled = true;
 
             // enable the radio buttons
             rdoExcel.Enabled = true;
@@ -835,6 +839,152 @@ namespace Office_File_Explorer.Forms
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnDeleteRequestStatus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<CustomXmlPart> cxpList;
+                lstOutput.Items.Clear();
+
+                if (fType == StringResources.word)
+                {
+                    foreach (string f in files)
+                    {
+                        nodeDeleted = false;
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
+
+                            foreach (CustomXmlPart cxp in cxpList)
+                            {
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.Load(cxp.GetStream());
+                                DeleteRequestStatusNode(xDoc.DocumentElement);
+                            }
+
+                            if (nodeDeleted == true)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                                lstOutput.Items.Add(f + " : Request Status Removed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : Request Status Not Found");
+                            }
+                        }
+                    }
+                }
+                else if (fType == StringResources.excel)
+                {
+                    foreach (string f in files)
+                    {
+                        nodeDeleted = false;
+                        using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
+                        {
+                            cxpList = document.WorkbookPart.CustomXmlParts.ToList();
+
+                            foreach (CustomXmlPart cxp in cxpList)
+                            {
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.Load(cxp.GetStream());
+                                DeleteRequestStatusNode(xDoc.DocumentElement);
+                            }
+
+                            if (nodeDeleted == true)
+                            {
+                                document.WorkbookPart.Workbook.Save();
+                                lstOutput.Items.Add(f + " : Request Status Removed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : Request Status Not Found");
+                            }
+                        }
+                    }
+                }
+                else if (fType == StringResources.powerpoint)
+                {
+                    foreach (string f in files)
+                    {
+                        nodeDeleted = false;
+                        using (PresentationDocument document = PresentationDocument.Open(f, true))
+                        {
+                            cxpList = document.PresentationPart.CustomXmlParts.ToList();
+                            
+                            foreach (CustomXmlPart cxp in cxpList)
+                            {
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.Load(cxp.GetStream());
+                                DeleteRequestStatusNode(xDoc.DocumentElement);
+
+                                if (nodeDeleted == true)
+                                {
+                                    using (MemoryStream xmlMS = new MemoryStream())
+                                    {
+                                        xDoc.Save(xmlMS);
+                                        xmlMS.Position = 0;
+                                        cxp.FeedData(xmlMS);
+                                    }
+                                }
+                            }
+
+                            if (nodeDeleted == true)
+                            {
+                                document.PresentationPart.Presentation.Save();
+                                lstOutput.Items.Add(f + " : Request Status Removed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : Request Status Not Found");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnDeleteRequestStatus Error: " + ioe.Message);
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnDeleteRequestStatus Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void DeleteRequestStatusNode(XmlNode xmlNode)
+        {
+            XmlNode xNode;
+            XmlNodeList xNodeList;
+            
+            // The current node has children
+            if (xmlNode.HasChildNodes)
+            {
+                // Loop through the child nodes
+                xNodeList = xmlNode.ChildNodes;
+                for (int x = 0; x <= xNodeList.Count - 1; x++)
+                {
+                    if (xmlNode.Name == "RequestStatus")
+                    {
+                        xNodeList[x].RemoveAll();
+                        nodeDeleted = true;
+                    }
+                    else
+                    {
+                        xNode = xmlNode.ChildNodes[x];
+                        DeleteRequestStatusNode(xNode);
+                    }
+                }
             }
         }
     }

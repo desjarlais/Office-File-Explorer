@@ -1,7 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using Office_File_Explorer.App_Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
@@ -11,6 +10,7 @@ namespace Office_File_Explorer.Forms
     public partial class FrmCustomXmlViewer : Form
     {
         List<CustomXmlPart> cxpList;
+        List<string> nodeNames;
         string fType, fName;
 
         public FrmCustomXmlViewer(string fileName, string fileType)
@@ -18,6 +18,8 @@ namespace Office_File_Explorer.Forms
             InitializeComponent();
             fType = fileType;
             fName = fileName;
+
+            nodeNames = new List<string>();
 
             if (fType == StringResources.word)
             {
@@ -74,6 +76,7 @@ namespace Office_File_Explorer.Forms
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
                             treeView1.Nodes.Clear();
+                            nodeNames.Clear();
                             XmlDocument xDoc = new XmlDocument();
                             xDoc.Load(c.GetStream());
                             PopulateBaseNodes(xDoc);
@@ -92,6 +95,7 @@ namespace Office_File_Explorer.Forms
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
                             treeView1.Nodes.Clear();
+                            nodeNames.Clear();
                             XmlDocument xDoc = new XmlDocument();
                             xDoc.Load(c.GetStream());
                             PopulateBaseNodes(xDoc);
@@ -110,6 +114,7 @@ namespace Office_File_Explorer.Forms
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
                             treeView1.Nodes.Clear();
+                            nodeNames.Clear();
                             XmlDocument xDoc = new XmlDocument();
                             xDoc.Load(c.GetStream());
                             PopulateBaseNodes(xDoc);
@@ -143,6 +148,14 @@ namespace Office_File_Explorer.Forms
             treeView1.Nodes[0].EnsureVisible();
         }
 
+        private void BtnDeleteXmlNode_Click(object sender, System.EventArgs e)
+        {
+            using (var f = new FrmDeleteXmlNode(nodeNames))
+            {
+                var result = f.ShowDialog();
+            }
+        }
+
         /// <summary>
         /// This function is called recursively until all nodes are loaded
         /// </summary>
@@ -162,6 +175,12 @@ namespace Office_File_Explorer.Forms
                 for (int x = 0; x <= xNodeList.Count - 1; x++)
                 {
                     xNode = xmlNode.ChildNodes[x];
+                    
+                    if (xNode.Name != null)
+                    {
+                        nodeNames.Add(xNode.Name);
+                    }
+                    
                     treeNode.Nodes.Add(new TreeNode(xNode.Name));
                     tNode = treeNode.Nodes[x];
                     AddTreeNode(xNode, tNode);

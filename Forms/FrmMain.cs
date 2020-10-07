@@ -3911,11 +3911,7 @@ namespace Office_File_Explorer
 
         private void batchProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmBatch bFrm = new FrmBatch()
-            {
-                Owner = this
-            };
-            bFrm.ShowDialog();
+            
         }
 
         private void BtnCopyLine_Click(object sender, EventArgs e)
@@ -4907,6 +4903,15 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void BatchFileProcessingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmBatch bFrm = new FrmBatch()
+            {
+                Owner = this
+            };
+            bFrm.ShowDialog();
         }
     }
 }

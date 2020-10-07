@@ -84,6 +84,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnViewCustomXml = new System.Windows.Forms.Button();
             this.BtnDeleteCustomProps = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
             this.BtnListPackageParts = new System.Windows.Forms.Button();
@@ -97,7 +98,6 @@
             this.mnuMainApp = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.batchProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -115,7 +115,7 @@
             this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnViewCustomXml = new System.Windows.Forms.Button();
+            this.batchFileProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -782,6 +782,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
+            // BtnViewCustomXml
+            // 
+            this.BtnViewCustomXml.Location = new System.Drawing.Point(5, 255);
+            this.BtnViewCustomXml.Name = "BtnViewCustomXml";
+            this.BtnViewCustomXml.Size = new System.Drawing.Size(118, 23);
+            this.BtnViewCustomXml.TabIndex = 11;
+            this.BtnViewCustomXml.Text = "View Custom Xml";
+            this.BtnViewCustomXml.UseVisualStyleBackColor = true;
+            this.BtnViewCustomXml.Click += new System.EventHandler(this.BtnViewCustomXml_Click);
+            // 
             // BtnDeleteCustomProps
             // 
             this.BtnDeleteCustomProps.Location = new System.Drawing.Point(5, 226);
@@ -903,7 +913,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.batchProcessingToolStripMenuItem,
             this.copyOutputToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.toolStripSeparator1,
@@ -916,23 +925,15 @@
             // 
             this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // batchProcessingToolStripMenuItem
-            // 
-            this.batchProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
-            this.batchProcessingToolStripMenuItem.Name = "batchProcessingToolStripMenuItem";
-            this.batchProcessingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.batchProcessingToolStripMenuItem.Text = "&Batch Processing";
-            this.batchProcessingToolStripMenuItem.Click += new System.EventHandler(this.batchProcessingToolStripMenuItem_Click);
             // 
             // copyOutputToolStripMenuItem
             // 
             this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.copyOutputToolStripMenuItem_Click);
             // 
@@ -940,26 +941,27 @@
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.batchFileProcessingToolStripMenuItem,
             this.clipboardViewerToolStripMenuItem,
             this.fontViewerToolStripMenuItem,
             this.printerSettingsToolStripMenuItem});
@@ -971,7 +973,7 @@
             // 
             this.clipboardViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ASX_Copy_blue_16x;
             this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
-            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
             this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
             // 
@@ -979,7 +981,7 @@
             // 
             this.fontViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FontDialogControl_16x;
             this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
-            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.fontViewerToolStripMenuItem.Text = "Font Viewer";
             this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
@@ -987,7 +989,7 @@
             // 
             this.printerSettingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.PrintSetup_16x;
             this.printerSettingsToolStripMenuItem.Name = "printerSettingsToolStripMenuItem";
-            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.printerSettingsToolStripMenuItem.Text = "Printer Settings";
             this.printerSettingsToolStripMenuItem.Click += new System.EventHandler(this.PrinterSettingsToolStripMenuItem_Click);
             // 
@@ -1080,15 +1082,13 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnViewCustomXml
+            // batchFileProcessingToolStripMenuItem
             // 
-            this.BtnViewCustomXml.Location = new System.Drawing.Point(5, 255);
-            this.BtnViewCustomXml.Name = "BtnViewCustomXml";
-            this.BtnViewCustomXml.Size = new System.Drawing.Size(118, 23);
-            this.BtnViewCustomXml.TabIndex = 11;
-            this.BtnViewCustomXml.Text = "View Custom Xml";
-            this.BtnViewCustomXml.UseVisualStyleBackColor = true;
-            this.BtnViewCustomXml.Click += new System.EventHandler(this.BtnViewCustomXml_Click);
+            this.batchFileProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
+            this.batchFileProcessingToolStripMenuItem.Name = "batchFileProcessingToolStripMenuItem";
+            this.batchFileProcessingToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
+            this.batchFileProcessingToolStripMenuItem.Text = "Batch File Processing";
+            this.batchFileProcessingToolStripMenuItem.Click += new System.EventHandler(this.BatchFileProcessingToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -1197,7 +1197,6 @@
         private System.Windows.Forms.Button BtnListBookmarks;
         private System.Windows.Forms.Button BtnListCC;
         private System.Windows.Forms.Button BtnListShapes;
-        private System.Windows.Forms.ToolStripMenuItem batchProcessingToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button BtnCopyLine;
@@ -1216,6 +1215,7 @@
         private System.Windows.Forms.Button BtnMoveSlide;
         private System.Windows.Forms.Button BtnDeleteCustomProps;
         private System.Windows.Forms.Button BtnViewCustomXml;
+        private System.Windows.Forms.ToolStripMenuItem batchFileProcessingToolStripMenuItem;
     }
 }
 
