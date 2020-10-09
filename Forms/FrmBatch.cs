@@ -17,6 +17,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.XPath;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
@@ -862,7 +863,6 @@ namespace Office_File_Explorer.Forms
                             {
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
-                                DeleteRequestStatusNode(xDoc.DocumentElement);
                             }
 
                             if (nodeDeleted == true)
@@ -890,7 +890,6 @@ namespace Office_File_Explorer.Forms
                             {
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
-                                DeleteRequestStatusNode(xDoc.DocumentElement);
                             }
 
                             if (nodeDeleted == true)
@@ -918,16 +917,25 @@ namespace Office_File_Explorer.Forms
                             {
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
-                                DeleteRequestStatusNode(xDoc.DocumentElement);
+                                
+                                XPathNavigator navigator = xDoc.CreateNavigator();
 
-                                if (nodeDeleted == true)
+                                if (xDoc.DocumentElement.NamespaceURI == @"http://schemas.microsoft.com/office/2006/metadata/properties")
                                 {
+                                    navigator.MoveToChild("properties", "http://schemas.microsoft.com/office/2006/metadata/properties");
+                                    navigator.MoveToChild("documentManagement", "http://schemas.microsoft.com/office/2006/metadata/properties");
+                                    navigator.MoveToChild("RequestStatus", "http://schemas.microsoft.com/office/2006/metadata/properties");
+                                    
+                                    navigator.DeleteSelf();
+                                    
                                     using (MemoryStream xmlMS = new MemoryStream())
                                     {
                                         xDoc.Save(xmlMS);
                                         xmlMS.Position = 0;
                                         cxp.FeedData(xmlMS);
                                     }
+
+                                    nodeDeleted = true;
                                 }
                             }
 
@@ -959,32 +967,6 @@ namespace Office_File_Explorer.Forms
             finally
             {
                 Cursor = Cursors.Default;
-            }
-        }
-
-        private void DeleteRequestStatusNode(XmlNode xmlNode)
-        {
-            XmlNode xNode;
-            XmlNodeList xNodeList;
-            
-            // The current node has children
-            if (xmlNode.HasChildNodes)
-            {
-                // Loop through the child nodes
-                xNodeList = xmlNode.ChildNodes;
-                for (int x = 0; x <= xNodeList.Count - 1; x++)
-                {
-                    if (xmlNode.Name == "RequestStatus")
-                    {
-                        xNodeList[x].RemoveAll();
-                        nodeDeleted = true;
-                    }
-                    else
-                    {
-                        xNode = xmlNode.ChildNodes[x];
-                        DeleteRequestStatusNode(xNode);
-                    }
-                }
             }
         }
     }

@@ -3163,11 +3163,15 @@ namespace Office_File_Explorer
                                 LstDisplay.Items.Add("    " + s);
                             }
 
-                            if (c.ConnectionFile != null && c.OlapProperties.RowDrillCount != null)
+                            if (c.ConnectionFile != null)
                             {
                                 LstDisplay.Items.Add(StringResources.emptyString);
                                 LstDisplay.Items.Add("    Connection File= " + c.ConnectionFile);
-                                LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                                
+                                if (c.OlapProperties != null)
+                                {
+                                    LstDisplay.Items.Add("    Row Drill Count= " + c.OlapProperties.RowDrillCount);
+                                }
                             }
                         }
                         else
