@@ -863,6 +863,26 @@ namespace Office_File_Explorer.Forms
                             {
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
+
+                                XPathNavigator navigator = xDoc.CreateNavigator();
+
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                {
+                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
+                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+
+                                    navigator.DeleteSelf();
+
+                                    using (MemoryStream xmlMS = new MemoryStream())
+                                    {
+                                        xDoc.Save(xmlMS);
+                                        xmlMS.Position = 0;
+                                        cxp.FeedData(xmlMS);
+                                    }
+
+                                    nodeDeleted = true;
+                                }
                             }
 
                             if (nodeDeleted == true)
@@ -890,6 +910,26 @@ namespace Office_File_Explorer.Forms
                             {
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
+
+                                XPathNavigator navigator = xDoc.CreateNavigator();
+
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                {
+                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
+                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+
+                                    navigator.DeleteSelf();
+
+                                    using (MemoryStream xmlMS = new MemoryStream())
+                                    {
+                                        xDoc.Save(xmlMS);
+                                        xmlMS.Position = 0;
+                                        cxp.FeedData(xmlMS);
+                                    }
+
+                                    nodeDeleted = true;
+                                }
                             }
 
                             if (nodeDeleted == true)
@@ -920,12 +960,12 @@ namespace Office_File_Explorer.Forms
                                 
                                 XPathNavigator navigator = xDoc.CreateNavigator();
 
-                                if (xDoc.DocumentElement.NamespaceURI == @"http://schemas.microsoft.com/office/2006/metadata/properties")
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                 {
-                                    navigator.MoveToChild("properties", "http://schemas.microsoft.com/office/2006/metadata/properties");
-                                    navigator.MoveToChild("documentManagement", "http://schemas.microsoft.com/office/2006/metadata/properties");
-                                    navigator.MoveToChild("RequestStatus", "http://schemas.microsoft.com/office/2006/metadata/properties");
-                                    
+                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
+                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+
                                     navigator.DeleteSelf();
                                     
                                     using (MemoryStream xmlMS = new MemoryStream())

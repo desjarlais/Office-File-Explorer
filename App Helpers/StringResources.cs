@@ -34,6 +34,7 @@
         public const string nonEmptyId = "Target Id cannot be empty.";
         public const string duplicateId = "OOXML part Id <1> already exists.";
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
+        public const string requestStatusNS = "d264e665-9d0b-48fb-b78a-227e1d3d858d";
         public const string shpChart = "Chart";
         public const string shpOfficeDrawing = ". Office Drawing";
         public const string shpVml = "Vml Shape";
@@ -64,6 +65,7 @@
         public const string schemaOxml2006 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
         public const string schemaMsft2007 = "http://schemas.microsoft.com/office/2007/relationships/";
         public const string schemaMsft2006 = "http://schemas.microsoft.com/office/2006/relationships/";
+        public const string schemaMetadataProperties = "http://schemas.microsoft.com/office/2006/metadata/properties";
 
         // Office package relationship ids
         public const string CustomUIPartRelType = schemaMsft2006 + "ui/extensibility";
