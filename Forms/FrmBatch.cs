@@ -780,7 +780,7 @@ namespace Office_File_Explorer.Forms
 
                             foreach (OpenXmlElement oxe in tbl.Elements())
                             {
-                                // flag if we found a trow, once we find 1, the rest do not matter
+                                // flag if we found a table row, once we find 1, the rest do not matter
                                 if (oxe.GetType().Name == "TableRow")
                                 {
                                     tRowFound = true;
@@ -843,6 +843,12 @@ namespace Office_File_Explorer.Forms
             }
         }
 
+        /// <summary>
+        /// custom fix for specific SharePoint scenario where the RequestStatus property needs to be removed
+        /// the idea here is to just find the <RequestStatus></RequestStatus> xml tag and delete it from the file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDeleteRequestStatus_Click(object sender, EventArgs e)
         {
             try
@@ -866,14 +872,16 @@ namespace Office_File_Explorer.Forms
 
                                 XPathNavigator navigator = xDoc.CreateNavigator();
 
+                                // we only check the metadata custom xml file for requeststatus xml
                                 if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                 {
+                                    // move to the node and delete it
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-
                                     navigator.DeleteSelf();
 
+                                    // re-write the part
                                     using (MemoryStream xmlMS = new MemoryStream())
                                     {
                                         xDoc.Save(xmlMS);
@@ -881,6 +889,7 @@ namespace Office_File_Explorer.Forms
                                         cxp.FeedData(xmlMS);
                                     }
 
+                                    // flag the part so we can save the file
                                     nodeDeleted = true;
                                 }
                             }
@@ -918,7 +927,6 @@ namespace Office_File_Explorer.Forms
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-
                                     navigator.DeleteSelf();
 
                                     using (MemoryStream xmlMS = new MemoryStream())
@@ -965,7 +973,6 @@ namespace Office_File_Explorer.Forms
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-
                                     navigator.DeleteSelf();
                                     
                                     using (MemoryStream xmlMS = new MemoryStream())
