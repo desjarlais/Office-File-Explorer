@@ -33,7 +33,6 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.BtnDeleteXmlNode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstCustomXmlFiles
@@ -51,6 +50,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(650, 524);
             this.treeView1.TabIndex = 1;
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseClick);
             // 
             // label1
             // 
@@ -70,22 +70,11 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Xml Viewer";
             // 
-            // BtnDeleteXmlNode
-            // 
-            this.BtnDeleteXmlNode.Location = new System.Drawing.Point(680, 558);
-            this.BtnDeleteXmlNode.Name = "BtnDeleteXmlNode";
-            this.BtnDeleteXmlNode.Size = new System.Drawing.Size(108, 23);
-            this.BtnDeleteXmlNode.TabIndex = 4;
-            this.BtnDeleteXmlNode.Text = "Delete Xml Node";
-            this.BtnDeleteXmlNode.UseVisualStyleBackColor = true;
-            this.BtnDeleteXmlNode.Click += new System.EventHandler(this.BtnDeleteXmlNode_Click);
-            // 
             // FrmCustomXmlViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(803, 588);
-            this.Controls.Add(this.BtnDeleteXmlNode);
+            this.ClientSize = new System.Drawing.Size(798, 561);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.treeView1);
@@ -108,6 +97,5 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button BtnDeleteXmlNode;
     }
 }

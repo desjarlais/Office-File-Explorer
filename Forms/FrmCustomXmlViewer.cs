@@ -148,11 +148,12 @@ namespace Office_File_Explorer.Forms
             treeView1.Nodes[0].EnsureVisible();
         }
 
-        private void BtnDeleteXmlNode_Click(object sender, System.EventArgs e)
+        private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            using (var f = new FrmDeleteXmlNode(nodeNames))
+            TreeNode tn = treeView1.SelectedNode;
+            if (tn != null)
             {
-                var result = f.ShowDialog();
+                MessageBox.Show(tn.FullPath);
             }
         }
 
@@ -178,7 +179,7 @@ namespace Office_File_Explorer.Forms
                     
                     if (xNode.Name != null)
                     {
-                        nodeNames.Add(xNode.Name);
+                        nodeNames.Add(xmlNode.Name);
                     }
                     
                     treeNode.Nodes.Add(new TreeNode(xNode.Name));

@@ -145,12 +145,6 @@
     <Compile Include="Forms\FrmDeleteCustomProps.Designer.cs">
       <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmDeleteXmlNode.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmDeleteXmlNode.Designer.cs">
-      <DependentUpon>FrmDeleteXmlNode.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FrmErrorLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,9 +248,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDeleteCustomProps.resx">
       <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmDeleteXmlNode.resx">
-      <DependentUpon>FrmDeleteXmlNode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmErrorLog.resx">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
