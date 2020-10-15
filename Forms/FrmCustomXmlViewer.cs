@@ -150,10 +150,13 @@ namespace Office_File_Explorer.Forms
 
         private void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeNode tn = treeView1.SelectedNode;
-            if (tn != null)
+            if (e != null)
             {
-                MessageBox.Show(tn.FullPath);
+                toolStripStatusNodePath.Text = "Node Path = " + e.Node.FullPath;
+            }
+            else
+            {
+                toolStripStatusNodePath.Text = "Node Path = ";
             }
         }
 
