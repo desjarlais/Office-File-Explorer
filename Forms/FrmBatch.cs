@@ -879,18 +879,23 @@ namespace Office_File_Explorer.Forms
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-                                    navigator.DeleteSelf();
 
-                                    // re-write the part
-                                    using (MemoryStream xmlMS = new MemoryStream())
+                                    // check if we actually moved to the RequestStatus node
+                                    // if we didn't move there, no changes should happen, it doesn't exist
+                                    if (navigator.Name == "RequestStatus")
                                     {
-                                        xDoc.Save(xmlMS);
-                                        xmlMS.Position = 0;
-                                        cxp.FeedData(xmlMS);
-                                    }
+                                        navigator.DeleteSelf();
 
-                                    // flag the part so we can save the file
-                                    nodeDeleted = true;
+                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        {
+                                            xDoc.Save(xmlMS);
+                                            xmlMS.Position = 0;
+                                            cxp.FeedData(xmlMS);
+                                        }
+
+                                        // flag the part so we can save the file
+                                        nodeDeleted = true;
+                                    }
                                 }
                             }
 
@@ -927,16 +932,20 @@ namespace Office_File_Explorer.Forms
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-                                    navigator.DeleteSelf();
-
-                                    using (MemoryStream xmlMS = new MemoryStream())
+                                    
+                                    if (navigator.Name == "RequestStatus")
                                     {
-                                        xDoc.Save(xmlMS);
-                                        xmlMS.Position = 0;
-                                        cxp.FeedData(xmlMS);
-                                    }
+                                        navigator.DeleteSelf();
 
-                                    nodeDeleted = true;
+                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        {
+                                            xDoc.Save(xmlMS);
+                                            xmlMS.Position = 0;
+                                            cxp.FeedData(xmlMS);
+                                        }
+
+                                        nodeDeleted = true;
+                                    }
                                 }
                             }
 
@@ -973,16 +982,20 @@ namespace Office_File_Explorer.Forms
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", StringResources.emptyString);
                                     navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
-                                    navigator.DeleteSelf();
-                                    
-                                    using (MemoryStream xmlMS = new MemoryStream())
-                                    {
-                                        xDoc.Save(xmlMS);
-                                        xmlMS.Position = 0;
-                                        cxp.FeedData(xmlMS);
-                                    }
 
-                                    nodeDeleted = true;
+                                    if (navigator.Name == "RequestStatus")
+                                    {
+                                        navigator.DeleteSelf();
+
+                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        {
+                                            xDoc.Save(xmlMS);
+                                            xmlMS.Position = 0;
+                                            cxp.FeedData(xmlMS);
+                                        }
+
+                                        nodeDeleted = true;
+                                    }
                                 }
                             }
 
@@ -1006,10 +1019,12 @@ namespace Office_File_Explorer.Forms
             catch (IOException ioe)
             {
                 LoggingHelper.Log("BtnDeleteRequestStatus Error: " + ioe.Message);
+                lstOutput.Items.Add("Error - " + ioe.Message);
             }
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnDeleteRequestStatus Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
             }
             finally
             {

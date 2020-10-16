@@ -41,6 +41,7 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteRequestStatus = new System.Windows.Forms.Button();
             this.BtnFixTableProps = new System.Windows.Forms.Button();
             this.BtnDeleteProps = new System.Windows.Forms.Button();
             this.BtnConvertStrict = new System.Windows.Forms.Button();
@@ -51,7 +52,6 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.BtnDeleteRequestStatus = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -182,6 +182,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
             // 
+            // BtnDeleteRequestStatus
+            // 
+            this.BtnDeleteRequestStatus.Location = new System.Drawing.Point(236, 50);
+            this.BtnDeleteRequestStatus.Name = "BtnDeleteRequestStatus";
+            this.BtnDeleteRequestStatus.Size = new System.Drawing.Size(123, 23);
+            this.BtnDeleteRequestStatus.TabIndex = 9;
+            this.BtnDeleteRequestStatus.Text = "Delete RequestStatus";
+            this.BtnDeleteRequestStatus.UseVisualStyleBackColor = true;
+            this.BtnDeleteRequestStatus.Click += new System.EventHandler(this.BtnDeleteRequestStatus_Click);
+            // 
             // BtnFixTableProps
             // 
             this.BtnFixTableProps.Location = new System.Drawing.Point(133, 50);
@@ -204,7 +214,7 @@
             // 
             // BtnConvertStrict
             // 
-            this.BtnConvertStrict.Location = new System.Drawing.Point(606, 48);
+            this.BtnConvertStrict.Location = new System.Drawing.Point(501, 51);
             this.BtnConvertStrict.Name = "BtnConvertStrict";
             this.BtnConvertStrict.Size = new System.Drawing.Size(158, 23);
             this.BtnConvertStrict.TabIndex = 12;
@@ -214,7 +224,7 @@
             // 
             // BtnPPTResetPII
             // 
-            this.BtnPPTResetPII.Location = new System.Drawing.Point(470, 47);
+            this.BtnPPTResetPII.Location = new System.Drawing.Point(365, 19);
             this.BtnPPTResetPII.Name = "BtnPPTResetPII";
             this.BtnPPTResetPII.Size = new System.Drawing.Size(130, 23);
             this.BtnPPTResetPII.TabIndex = 11;
@@ -224,7 +234,7 @@
             // 
             // BtnFixCorruptRevisions
             // 
-            this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(606, 19);
+            this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(501, 19);
             this.BtnFixCorruptRevisions.Name = "BtnFixCorruptRevisions";
             this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(158, 23);
             this.BtnFixCorruptRevisions.TabIndex = 9;
@@ -234,7 +244,7 @@
             // 
             // BtnFixCorruptBookmarks
             // 
-            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(470, 19);
+            this.BtnFixCorruptBookmarks.Location = new System.Drawing.Point(364, 51);
             this.BtnFixCorruptBookmarks.Margin = new System.Windows.Forms.Padding(2);
             this.BtnFixCorruptBookmarks.Name = "BtnFixCorruptBookmarks";
             this.BtnFixCorruptBookmarks.Size = new System.Drawing.Size(131, 23);
@@ -245,7 +255,7 @@
             // 
             // BtnRemovePII
             // 
-            this.BtnRemovePII.Location = new System.Drawing.Point(364, 19);
+            this.BtnRemovePII.Location = new System.Drawing.Point(663, 19);
             this.BtnRemovePII.Name = "BtnRemovePII";
             this.BtnRemovePII.Size = new System.Drawing.Size(101, 23);
             this.BtnRemovePII.TabIndex = 10;
@@ -283,16 +293,6 @@
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
-            // 
-            // BtnDeleteRequestStatus
-            // 
-            this.BtnDeleteRequestStatus.Location = new System.Drawing.Point(236, 50);
-            this.BtnDeleteRequestStatus.Name = "BtnDeleteRequestStatus";
-            this.BtnDeleteRequestStatus.Size = new System.Drawing.Size(123, 23);
-            this.BtnDeleteRequestStatus.TabIndex = 9;
-            this.BtnDeleteRequestStatus.Text = "Delete RequestStatus";
-            this.BtnDeleteRequestStatus.UseVisualStyleBackColor = true;
-            this.BtnDeleteRequestStatus.Click += new System.EventHandler(this.BtnDeleteRequestStatus_Click);
             // 
             // FrmBatch
             // 
