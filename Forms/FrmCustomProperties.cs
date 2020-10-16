@@ -9,9 +9,9 @@ namespace Office_File_Explorer.Forms
 {
     public partial class FrmCustomProperties : Form
     {
-        string fName, fType;
+        static string fName, fType;
         List<string> bFiles;
-        bool isBatch;
+        static bool isBatch;
 
         // single file constructor
         public FrmCustomProperties(string filePath, string fileType)

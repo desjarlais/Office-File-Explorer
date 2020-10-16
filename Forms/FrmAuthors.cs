@@ -13,9 +13,6 @@ EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
-using DocumentFormat.OpenXml.Office2013.Word;
-using DocumentFormat.OpenXml.Packaging;
-
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -26,7 +23,7 @@ namespace Office_File_Explorer.Forms
     {
         string author = "";
 
-        public FrmAuthors(string filename, List<string> authors)
+        public FrmAuthors(List<string> authors)
         {
             InitializeComponent();
 

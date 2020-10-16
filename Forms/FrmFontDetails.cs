@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Office_File_Explorer.Forms
 {
     public partial class FrmFontDetails : Form
     {
-        string fName;
+        static string fName;
 
         public FrmFontDetails(string fontName, int fSize)
         {

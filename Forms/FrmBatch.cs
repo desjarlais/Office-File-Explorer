@@ -884,8 +884,10 @@ namespace Office_File_Explorer.Forms
                                     // if we didn't move there, no changes should happen, it doesn't exist
                                     if (navigator.Name == "RequestStatus")
                                     {
+                                        // delete the node
                                         navigator.DeleteSelf();
 
+                                        // re-write the part
                                         using (MemoryStream xmlMS = new MemoryStream())
                                         {
                                             xDoc.Save(xmlMS);

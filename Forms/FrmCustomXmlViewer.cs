@@ -9,9 +9,9 @@ namespace Office_File_Explorer.Forms
 {
     public partial class FrmCustomXmlViewer : Form
     {
-        List<CustomXmlPart> cxpList;
-        List<string> nodeNames;
-        string fType, fName;
+        static List<CustomXmlPart> cxpList;
+        static List<string> nodeNames;
+        static string fType, fName;
 
         public FrmCustomXmlViewer(string fileName, string fileType)
         {
@@ -138,8 +138,7 @@ namespace Office_File_Explorer.Forms
             treeView1.BeginUpdate();
 
             treeView1.Nodes.Add(new TreeNode(docXml.DocumentElement.Name));
-            TreeNode tNode = new TreeNode();
-            tNode = (TreeNode)treeView1.Nodes[0];
+            TreeNode tNode = (TreeNode)treeView1.Nodes[0];
             AddTreeNode(docXml.DocumentElement, tNode);
 
             treeView1.EndUpdate();

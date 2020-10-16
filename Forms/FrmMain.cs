@@ -545,8 +545,8 @@ namespace Office_File_Explorer
                         from para in paragraphs
                         select new
                         {
-                            ParagraphNode = para.ParagraphNode,
-                            StyleName = para.StyleName,
+                            para.ParagraphNode,
+                            para.StyleName,
                             Text = ParagraphText(para.ParagraphNode)
                         };
 
@@ -1078,7 +1078,7 @@ namespace Office_File_Explorer
 
                     authors = WordOpenXml.GetAllAuthors(document.MainDocumentPart.Document);
 
-                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authors)
+                    FrmAuthors aFrm = new FrmAuthors(authors)
                     {
                         Owner = this
                     };
@@ -1522,7 +1522,7 @@ namespace Office_File_Explorer
                     // get the list of authors
                     _fromAuthor = StringResources.emptyString;
 
-                    FrmAuthors aFrm = new Forms.FrmAuthors(TxtFileName.Text, authorList)
+                    FrmAuthors aFrm = new FrmAuthors(authorList)
                     {
                         Owner = this
                     };
@@ -1962,14 +1962,14 @@ namespace Office_File_Explorer
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAbout frm = new FrmAbout();
             frm.ShowDialog(this);
             frm.Dispose();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -3291,7 +3291,7 @@ namespace Office_File_Explorer
 
         }
 
-        private void copyOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyOutputToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CopyAllItems();
         }
@@ -3330,13 +3330,13 @@ namespace Office_File_Explorer
             }
         }
         
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmSettings form = new FrmSettings();
             form.Show();
         }
 
-        private void errorLogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ErrorLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmErrorLog errFrm = new FrmErrorLog()
             {
@@ -3345,7 +3345,7 @@ namespace Office_File_Explorer
             errFrm.ShowDialog();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ErrorLog.Clear();
             Properties.Settings.Default.Save();
@@ -3913,11 +3913,6 @@ namespace Office_File_Explorer
                    .StringConcatenate(element => (string)element);
         }
 
-        private void batchProcessingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void BtnCopyLine_Click(object sender, EventArgs e)
         {
             try
@@ -4033,7 +4028,7 @@ namespace Office_File_Explorer
             }
         }
 
-        private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FeedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(StringResources.helpLocation);
         }

@@ -1,5 +1,4 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-
 using System;
 using System.Windows.Forms;
 
@@ -7,7 +6,7 @@ namespace Office_File_Explorer.Forms
 {
     public partial class FrmPrintOrientation : Form
     {
-        string fName;
+        static string fName;
 
         public FrmPrintOrientation(string fileName)
         {
