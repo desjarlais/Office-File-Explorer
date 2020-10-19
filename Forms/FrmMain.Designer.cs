@@ -113,7 +113,6 @@
             this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.CkSortListbox = new System.Windows.Forms.CheckBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -1048,27 +1047,15 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.CkSortListbox);
             this.groupBox6.Controls.Add(this.BtnCopyLine);
             this.groupBox6.Controls.Add(this.BtnCopyAll);
             this.groupBox6.Controls.Add(this.LstDisplay);
             this.groupBox6.Location = new System.Drawing.Point(12, 396);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(970, 468);
+            this.groupBox6.Size = new System.Drawing.Size(970, 461);
             this.groupBox6.TabIndex = 10;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Output";
-            // 
-            // CkSortListbox
-            // 
-            this.CkSortListbox.AutoSize = true;
-            this.CkSortListbox.Location = new System.Drawing.Point(6, 436);
-            this.CkSortListbox.Name = "CkSortListbox";
-            this.CkSortListbox.Size = new System.Drawing.Size(81, 17);
-            this.CkSortListbox.TabIndex = 11;
-            this.CkSortListbox.Text = "Sort Listbox";
-            this.CkSortListbox.UseVisualStyleBackColor = true;
-            this.CkSortListbox.CheckedChanged += new System.EventHandler(this.CkSortListbox_CheckedChanged);
             // 
             // BtnCopyLine
             // 
@@ -1096,7 +1083,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1003, 869);
+            this.ClientSize = new System.Drawing.Size(1003, 865);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -1121,7 +1108,6 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1205,7 +1191,6 @@
         private System.Windows.Forms.Button BtnPPTRemovePII;
         private System.Windows.Forms.Button BtnFixDocument;
         private System.Windows.Forms.Button BtnFixPresentation;
-        private System.Windows.Forms.CheckBox CkSortListbox;
         private System.Windows.Forms.Button BtnConvertToNonStrictFormat;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clipboardViewerToolStripMenuItem;

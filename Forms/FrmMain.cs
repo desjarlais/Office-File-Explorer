@@ -2036,7 +2036,7 @@ namespace Office_File_Explorer
         {
             _pParts.Clear();
 
-            using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open))
+            using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open, FileAccess.Read))
             {
                 using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read))
                 {
@@ -3328,6 +3328,11 @@ namespace Office_File_Explorer
             {
                 LstDisplay.Items.Add(o);
             }
+
+            // this is the only button that sort makes sense
+            // setting to sort here instead of using the check box
+            // the prebuttonclickwork function should set the list back to unsorted
+            LstDisplay.Sorted = true;
         }
         
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3567,17 +3572,12 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// the main goal here is to setup the sort option
-        /// before each button is pressed, enable and uncheck the option
-        /// then when we check the button, it gets disabled until a new button is pressed
-        /// eventually i'll try to hook it up so it can be toggled correctly
+        /// clear and unsort the list
         /// </summary>
         public void PreButtonClickWork()
         {
             LstDisplay.Items.Clear();
             LstDisplay.Sorted = false;
-            CkSortListbox.Enabled = true;
-            CkSortListbox.Checked = false;
         }
 
         private void BtnListCC_Click(object sender, EventArgs e)
@@ -4583,21 +4583,6 @@ namespace Office_File_Explorer
                             break;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// sort the list and then disable the button
-        /// it can be re-enabled on the next button press in the UI
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CkSortListbox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (CkSortListbox.Checked == true)
-            {
-                LstDisplay.Sorted = true;
-                CkSortListbox.Enabled = false;
             }
         }
 
