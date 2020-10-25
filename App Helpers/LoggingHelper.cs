@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Management;
-using System.Text;
 
 namespace Office_File_Explorer.App_Helpers
 {

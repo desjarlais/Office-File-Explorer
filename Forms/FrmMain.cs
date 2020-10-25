@@ -82,13 +82,11 @@ namespace Office_File_Explorer
 
         // global lists
         private static List<string> _pParts = new List<string>();
-        private static List<string> _unsortedItems = new List<string>();
-        private static List<string> _sortedItems = new List<string>();
 
         // corrupt doc buffer
         private static StringBuilder _sbNodeBuffer = new StringBuilder();
 
-        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile };
+        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogInformation };
 
         public FrmMain()
         {
@@ -374,7 +372,7 @@ namespace Office_File_Explorer
                     else
                     {
                         int count = 0;
-                        foreach (DocumentFormat.OpenXml.Wordprocessing.Comment cm in commentsPart.Comments)
+                        foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
                         {
                             count++;
                             LstDisplay.Items.Add(count + StringResources.period + cm.InnerText);
@@ -382,15 +380,13 @@ namespace Office_File_Explorer
                     }
                 }
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException nre)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noComments);
+                LogInformation(InformationOutput.LogInformation, "Word - BtnListComments_Click Error", nre.Message);
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("Word - BtnListComments_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "Word - BtnListComments_Click Error", ex.Message);
             }
             finally
             {
@@ -403,7 +399,7 @@ namespace Office_File_Explorer
         /// </summary>
         /// <param name="typeOfOutput">This variable specifies the type of output to display</param>
         /// <param name="output">This is the actual data from the document we want to display</param>
-        public void DisplayInformation(InformationOutput display, string output)
+        public void LogInformation(InformationOutput display, string output, string ex)
         {
             switch (display)
             {
@@ -411,17 +407,19 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add(output);
                     break;
-
                 case InformationOutput.Append:
                     LstDisplay.Items.Add(StringResources.emptyString);
                     LstDisplay.Items.Add(output);
                     break;
-
                 case InformationOutput.InvalidFile:
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add("Invalid File. Please select a valid document.");
                     break;
-
+                case InformationOutput.LogInformation:
+                    LstDisplay.Items.Add(output);
+                    LoggingHelper.Log(output);
+                    LoggingHelper.Log(ex);
+                    break;
                 default:
                     LstDisplay.Items.Add(output);
                     break;
@@ -476,7 +474,7 @@ namespace Office_File_Explorer
                     }
                     catch (NullReferenceException)
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "** Missing StylesWithEffects part **");
+                        LogInformation(InformationOutput.ClearAndAdd, "** Missing StylesWithEffects part **", "");
                         return;
                     }
                 }
@@ -514,30 +512,20 @@ namespace Office_File_Explorer
                         }
                     }
 
-                    string defaultStyle =
-                    (string)(
+                    string defaultStyle = (string)(
                         from style in styleDoc.Root.Elements(w + "style")
-                        where (string)style.Attribute(w + "type") == "paragraph" &&
-                              (string)style.Attribute(w + "default") == "1"
+                        where (string)style.Attribute(w + "type") == "paragraph" && (string)style.Attribute(w + "default") == "1"
                         select style
                     ).First().Attribute(w + "styleId");
 
                     // Find all paragraphs in the document.  
                     var paragraphs =
-                        from para in xDoc
-                                     .Root
-                                     .Element(w + "body")
-                                     .Descendants(w + "p")
-                        let styleNode = para
-                                        .Elements(w + "pPr")
-                                        .Elements(w + "pStyle")
-                                        .FirstOrDefault()
+                        from para in xDoc.Root.Element(w + "body").Descendants(w + "p")
+                        let styleNode = para.Elements(w + "pPr").Elements(w + "pStyle").FirstOrDefault()
                         select new
                         {
                             ParagraphNode = para,
-                            StyleName = styleNode != null ?
-                                (string)styleNode.Attribute(w + "val") :
-                                defaultStyle
+                            StyleName = styleNode != null ? (string)styleNode.Attribute(w + "val") : defaultStyle
                         };
 
                     // Retrieve the text of each paragraph.  
@@ -561,14 +549,11 @@ namespace Office_File_Explorer
             }
             catch (IOException ioe)
             {
-                LoggingHelper.Log("BtnListStyles Error: " + ioe.Message);
-                LstDisplay.Items.Add("Error listing paragraphs.");
+                LogInformation(InformationOutput.LogInformation, "BtnListStyles Error: Error listing paragraphs.", ioe.Message);
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListStyles_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListStyles Error: Error listing paragraphs.", ex.Message);
             }
             finally
             {
@@ -585,7 +570,7 @@ namespace Office_File_Explorer
                 {
                     int count = 0;
                     
-                    IEnumerable<DocumentFormat.OpenXml.Wordprocessing.Hyperlink> hLinks = myDoc.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Hyperlink>();
+                    IEnumerable<O.Wordprocessing.Hyperlink> hLinks = myDoc.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Hyperlink>();
                     
                     // handle if no links are found
                     if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0 && hLinks.Count() == 0)
@@ -624,9 +609,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListHyperlinks_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListHyperlinks_Click Error", ex.Message);
             }
         }
 
@@ -764,9 +747,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListTemplates_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListTemplates_Click Error", ex.Message);
             }
             finally
             {
@@ -796,8 +777,7 @@ namespace Office_File_Explorer
                 // Word is limited to 2047 total active lists in a document
                 if (count == 2047)
                 {
-                    LstDisplay.Items.Add("## You have too many lists in this file. Word will only display up to 2047 lists. ##");
-                    LoggingHelper.Log("You have too many lists in this file. Word will only display up to 2047 lists.");
+                    LogInformation(InformationOutput.LogInformation, "## You have too many lists in this file. Word will only display up to 2047 lists. ##", "Active List Limit Reached");
                 }
             }
         }
@@ -844,7 +824,7 @@ namespace Office_File_Explorer
 
                         if (wdOlePkgPart == 0 && wdOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
+                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, "");
                         }
                     }
                 }
@@ -863,7 +843,7 @@ namespace Office_File_Explorer
 
                         if (xlOlePkgPart == 0 && xlOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
+                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, "");
                         }
                     }
                 }
@@ -882,20 +862,18 @@ namespace Office_File_Explorer
 
                         if (pptOlePkgPart == 0 && pptOleObjCount == 0)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
+                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, "");
                         }
                     }
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, StringResources.noOle);
+                    LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, "");
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListOle_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListOle_Click Error", ex.Message);
             }
         }
 
@@ -1090,18 +1068,16 @@ namespace Office_File_Explorer
 
                 if (_fromAuthor == "* No Authors *" || _fromAuthor == "")
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** No Revisions To Accept **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** No Revisions To Accept **", "");
                     return;
                 }
 
                 WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Revisions Accepted **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Revisions Accepted **", "");
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnAcceptRevisions_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnAcceptRevisions_Click Error", ex.Message);
             }
             finally
             {
@@ -1116,13 +1092,11 @@ namespace Office_File_Explorer
             try
             {
                 WordOpenXml.RemoveComments(TxtFileName.Text);
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Comments Removed **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Comments Removed **", "");
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnDeleteComments_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnDeleteComments_Click Error", ex.Message);
             }
             finally
             {
@@ -1138,18 +1112,16 @@ namespace Office_File_Explorer
             {
                 if (WordOpenXml.DeleteHiddenText(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Hidden text deleted **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Hidden text deleted **", "");
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain hiddent text **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain hiddent text **", "");
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnDeleteHiddenText_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnDeleteHiddenText_Click Error", ex.Message);
             }
             finally
             {
@@ -1165,18 +1137,16 @@ namespace Office_File_Explorer
             {
                 if (WordOpenXml.RemoveHeadersFooters(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Headers/Footer removed **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Headers/Footer removed **", "");
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain a header or footer **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain a header or footer **", "");
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnDeleteHdrFtr_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnDeleteHdrFtr_Click Error", ex.Message);
             }
             finally
             {
@@ -1195,11 +1165,11 @@ namespace Office_File_Explorer
                 {
                     WordOpenXml.RemoveListTemplatesNumId(TxtFileName.Text, orphanLT.ToString());
                 }
-                DisplayInformation(InformationOutput.ClearAndAdd, "** List Templates removed **");
+                LogInformation(InformationOutput.ClearAndAdd, "** List Templates removed **", "");
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
+                LogInformation(InformationOutput.InvalidFile, "BtnDeleteListTemplates_Click Error: ", ex.Message);
             }
             finally
             {
@@ -1212,11 +1182,11 @@ namespace Office_File_Explorer
             PreButtonClickWork();
             if (WordOpenXml.RemoveBreaks(TxtFileName.Text))
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Page and Section breaks have been removed **", "");
             }
             else
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain any page breaks **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain any page breaks **", "");
             }
         }
 
@@ -1225,7 +1195,7 @@ namespace Office_File_Explorer
             PreButtonClickWork();
             if (!File.Exists(TxtFileName.Text))
             {
-                DisplayInformation(InformationOutput.InvalidFile, TxtFileName.Text);
+                LogInformation(InformationOutput.InvalidFile, TxtFileName.Text, "");
             }
             else
             {
@@ -1234,11 +1204,11 @@ namespace Office_File_Explorer
                     if (WordExtensionClass.HasPersonalInfo(document) == true)
                     {
                         WordExtensionClass.RemovePersonalInfo(document);
-                        DisplayInformation(InformationOutput.ClearAndAdd, "PII Removed from file.");
+                        LogInformation(InformationOutput.ClearAndAdd, "PII Removed from file.", "");
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "Document does not contain PII.");
+                        LogInformation(InformationOutput.ClearAndAdd, "Document does not contain PII.", "");
                     }
                 }
             }
@@ -1298,9 +1268,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnValidateFile_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnValidateFile_Click Error", ex.Message);
             }
             finally
             {
@@ -1344,9 +1312,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnListFormulas_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListFormulas_Click Error", ex.Message);
             }
             finally
             {
@@ -1374,9 +1340,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListFonts_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListFonts_Click Error", ex.Message);
             }
         }
 
@@ -1396,7 +1360,7 @@ namespace Office_File_Explorer
                             if (fn.InnerText != StringResources.emptyString)
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + StringResources.period + fn.InnerText);
+                                LogInformation(InformationOutput.TextOnly, count + StringResources.period + fn.InnerText, "");
                             }
                         }
 
@@ -1405,15 +1369,13 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, StringResources.noFootnotes);
+                        LogInformation(InformationOutput.TextOnly, StringResources.noFootnotes, "");
                     }
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnListFootnotes_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListFootnotes_Click Error", ex.Message);
             }
         }
 
@@ -1433,7 +1395,7 @@ namespace Office_File_Explorer
                             if (en.InnerText != StringResources.emptyString)
                             {
                                 count++;
-                                DisplayInformation(InformationOutput.TextOnly, count + StringResources.period + en.InnerText);
+                                LogInformation(InformationOutput.TextOnly, count + StringResources.period + en.InnerText, "");
                             }
                         }
 
@@ -1441,15 +1403,13 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.TextOnly, StringResources.noEndnotes);
+                        LogInformation(InformationOutput.TextOnly, StringResources.noEndnotes, "");
                     }
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnListEndnotes_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListEndnotes_Click Error", ex.Message);
             }
         }
 
@@ -1460,18 +1420,16 @@ namespace Office_File_Explorer
             {
                 if (WordOpenXml.RemoveFootnotes(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Footnotes removed from document **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Footnotes removed from document **", "");
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain footnotes **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain footnotes **", "");
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnDeleteFootnotes_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnDeleteFootnotes_Click Error", ex.Message);
             }
         }
 
@@ -1482,18 +1440,16 @@ namespace Office_File_Explorer
             {
                 if (WordOpenXml.RemoveEndnotes(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Endnotes removed from document **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Endnotes removed from document **", "");
                 }
                 else
                 {
-                    DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain endnotes **");
+                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain endnotes **", "");
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
-                LoggingHelper.Log("BtnDeleteEndnotes_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnDeleteEndnotes_Click Error", ex.Message);
             }
         }
 
@@ -1602,11 +1558,11 @@ namespace Office_File_Explorer
                             {
                                 if (_fromAuthor == "* No Authors *")
                                 {
-                                    DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                                    LogInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **", "");
                                 }
                                 else
                                 {
-                                    DisplayInformation(InformationOutput.ClearAndAdd, "** This author has no changes **");
+                                    LogInformation(InformationOutput.ClearAndAdd, "** This author has no changes **", "");
                                 }
 
                                 return;
@@ -1614,7 +1570,7 @@ namespace Office_File_Explorer
                         }
                         else
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **");
+                            LogInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **", "");
                             return;
                         }
 
@@ -1661,9 +1617,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListRevisions_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListRevisions_Click Error", ex.Message);
             }
             finally
             {
@@ -1717,15 +1671,13 @@ namespace Office_File_Explorer
                     // if the count is 0 at this point, no authors exist
                     if (count == 0)
                     {
-                        DisplayInformation(InformationOutput.TextOnly, "** There are no authors in this document **");
+                        LogInformation(InformationOutput.TextOnly, "** There are no authors in this document **", "");
                     }
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnListAuthors_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListAuthors_Click Error", ex.Message);
             }
             finally
             {
@@ -1855,22 +1807,18 @@ namespace Office_File_Explorer
                         }
                         else
                         {
-                            DisplayInformation(InformationOutput.TextOnly, "** There are no custom properties in this document **");
+                            LogInformation(InformationOutput.TextOnly, "** There are no custom properties in this document **", "");
                         }
                     }
                     catch (Exception ex)
                     {
-                        DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                        LoggingHelper.Log("BtnViewCustomDocProps (doc settings) Error");
-                        LoggingHelper.Log(ex.Message);
+                        LogInformation(InformationOutput.LogInformation, "BtnViewCustomDocProps (doc settings) Error", ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnViewCustomDocProps_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnViewCustomDocProps_Click Error", ex.Message);
             }
             finally
             {
@@ -1903,18 +1851,21 @@ namespace Office_File_Explorer
 
         public void GetExtendedFileProps(ExtendedFilePropertiesPart exFilePropPart)
         {
-            XmlDocument xmlProps = new XmlDocument();
-            xmlProps.Load(exFilePropPart.GetStream());
-            XmlNodeList exProps = xmlProps.GetElementsByTagName("Properties");
-
             LstDisplay.Items.Add("---- Extended File Properties ----");
             try
             {
-                foreach (XmlNode xNode in exProps)
+                if (exFilePropPart != null)
                 {
-                    foreach (XmlElement xElement in xNode)
+                    XmlDocument xmlProps = new XmlDocument();
+                    xmlProps.Load(exFilePropPart.GetStream());
+                    XmlNodeList exProps = xmlProps.GetElementsByTagName("Properties");
+
+                    foreach (XmlNode xNode in exProps)
                     {
-                        DisplayElementDetails(xElement);
+                        foreach (XmlElement xElement in xNode)
+                        {
+                            DisplayElementDetails(xElement);
+                        }
                     }
                 }
             }
@@ -1935,23 +1886,18 @@ namespace Office_File_Explorer
                     case "0":
                         LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "None");
                         break;
-
                     case "1":
                         LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Password Protected");
                         break;
-
                     case "2":
                         LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Recommended");
                         break;
-
                     case "4":
                         LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Enforced");
                         break;
-
                     case "8":
                         LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Locked For Annotation");
                         break;
-
                     default:
                         break;
                 }
@@ -1991,7 +1937,7 @@ namespace Office_File_Explorer
                     TxtFileName.Text = fDialog.FileName.ToString();
                     if (!File.Exists(TxtFileName.Text))
                     {
-                        DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
+                        LogInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist, "");
                         return;
                     }
                     else
@@ -2133,9 +2079,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnPPTListHyperlinks_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnPPTListHyperlinks_Click Error", ex.Message);
             }
         }
 
@@ -2161,9 +2105,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("BtnGetAllSlideTitles_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnGetAllSlideTitles_Click Error", ex.Message);
             }
         }
 
@@ -2172,7 +2114,7 @@ namespace Office_File_Explorer
             try
             {
                 PreButtonClickWork();
-                Forms.FrmSearchAndReplace sFrm = new Forms.FrmSearchAndReplace()
+                FrmSearchAndReplace sFrm = new Forms.FrmSearchAndReplace()
                 {
                     Owner = this
                 };
@@ -2191,9 +2133,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnSearchAndReplace_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnSearchAndReplace_Click Error", ex.Message);
             }
         }
 
@@ -2302,9 +2242,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnListDefinedNames_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListDefinedNames_Click Error", ex.Message);
             }
             finally
             {
@@ -2377,9 +2315,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnListHiddenRowsColumns_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListHiddenRowsColumns_Click Error", ex.Message);
             }
             finally
             {
@@ -2433,7 +2369,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, "** Document does not contain any shared strings **");
+                LogInformation(InformationOutput.TextOnly, "** Document does not contain any shared strings **", "");
                 LoggingHelper.Log("BtnListSharedStrings_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -2478,7 +2414,7 @@ namespace Office_File_Explorer
             {
                 LoggingHelper.Log("Excel - BtnComments_Click Error:");
                 LoggingHelper.Log(ex.Message);
-                DisplayInformation(InformationOutput.TextOnly, "** No Comments **");
+                LogInformation(InformationOutput.TextOnly, "** No Comments **", "");
             }
             finally
             {
@@ -2530,9 +2466,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
-                LoggingHelper.Log("BtnListFormulas_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogInformation, "BtnListFormulas_Click Error", ex.Message);
             }
             finally
             {
@@ -2556,7 +2490,7 @@ namespace Office_File_Explorer
                 string sThemeFilePath = fDialog.FileName.ToString();
                 if (!File.Exists(TxtFileName.Text))
                 {
-                    DisplayInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist);
+                    LogInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist, "");
                     return;
                 }
                 else
@@ -2565,21 +2499,21 @@ namespace Office_File_Explorer
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
+                        LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, "");
                     }
                     else if (fileType == StringResources.excel)
                     {
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
+                        LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, "");
                     }
                     else if (fileType == StringResources.powerpoint)
                     {
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
-                        DisplayInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded);
+                        LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, "");
                     }
                     else
                     {
-                        DisplayInformation(InformationOutput.ClearAndAdd, "File Not Valid.");
+                        LogInformation(InformationOutput.ClearAndAdd, "ChangeTheme Error:", "File Not Valid.");
                     }
                 }
             }
@@ -2607,7 +2541,7 @@ namespace Office_File_Explorer
                         SlideCommentsPart sCPart = sPart.SlideCommentsPart;
                         if (sCPart == null)
                         {
-                            DisplayInformation(InformationOutput.ClearAndAdd, "** File does not have any comments **");
+                            LogInformation(InformationOutput.ClearAndAdd, "** File does not have any comments **", "");
                             return;
                         }
 
@@ -2623,9 +2557,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.InvalidFile, ex.Message);
-                LoggingHelper.Log("PPT - BtnListComments_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.InvalidFile, "PPT - BtnListComments_Click Error", ex.Message);
             }
         }
 
@@ -3183,7 +3115,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.TextOnly, ex.Message);
+                LogInformation(InformationOutput.TextOnly, ex.Message, "");
                 LoggingHelper.Log("List Connections Failed = " + ex.Message);
             }
             finally
@@ -3926,7 +3858,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LogInformation(InformationOutput.ClearAndAdd, ex.Message, "");
                 LoggingHelper.Log("BtnCopyLineOutput Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -3957,7 +3889,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LogInformation(InformationOutput.ClearAndAdd, ex.Message, "");
                 LoggingHelper.Log("BtnCopyOutput Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -3974,17 +3906,17 @@ namespace Office_File_Explorer
                     MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
-                DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
+                LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset, "");
             }
             catch (NullReferenceException nre)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **", "");
                 LoggingHelper.Log("FixNotesPageSizeCustom Error");
                 LoggingHelper.Log(nre.Message);
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LogInformation(InformationOutput.ClearAndAdd, ex.Message, "");
                 LoggingHelper.Log("FixNotesPageSizeCustom Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -4007,18 +3939,18 @@ namespace Office_File_Explorer
                         MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
-                    DisplayInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset);
+                    LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset, "");
                 }
             }
             catch (NullReferenceException nre)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **");
+                LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **", "");
                 LoggingHelper.Log("FixNotesPageSizeDefault Error");
                 LoggingHelper.Log(nre.Message);
             }
             catch (Exception ex)
             {
-                DisplayInformation(InformationOutput.ClearAndAdd, ex.Message);
+                LogInformation(InformationOutput.ClearAndAdd, ex.Message, "");
                 LoggingHelper.Log("FixNotesPageSizeDefault Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -4288,7 +4220,7 @@ namespace Office_File_Explorer
                                 {
                                     if (anChild.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Level")
                                     {
-                                        DocumentFormat.OpenXml.Wordprocessing.Level lvl = (DocumentFormat.OpenXml.Wordprocessing.Level)anChild;
+                                        Level lvl = (Level)anChild;
                                         
                                         // try to catch different "types" of numberingformat
                                         // for now, I'm only checking for a single and multi-level bullets

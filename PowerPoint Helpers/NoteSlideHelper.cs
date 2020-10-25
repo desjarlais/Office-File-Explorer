@@ -31,63 +31,63 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
     public struct PresNotesSz
     {
-        public Int64 Cx;
-        public Int64 Cy;
+        public long Cx;
+        public long Cy;
     }
 
     public struct T2dHeader
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dDate
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dSlideNumber
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dPicture
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dFooter
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dNotes
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 
     public struct T2dSlideImage
     {
-        public Int64 OffsetX;
-        public Int64 OffsetY;
-        public Int64 ExtentsCx;
-        public Int64 ExtentsCy;
+        public long OffsetX;
+        public long OffsetY;
+        public long ExtentsCx;
+        public long ExtentsCy;
     }
 }

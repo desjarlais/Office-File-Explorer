@@ -844,7 +844,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         ShapeStyle style = shape.ShapeStyle;
 
                         // Get the fill reference.
-                        Drawing.FillReference fillRef = style.FillReference;
+                        FillReference fillRef = style.FillReference;
 
                         // Set the fill color to SchemeColor Accent 6;
                         fillRef.SchemeColor = new Drawing.SchemeColor();

@@ -140,7 +140,7 @@ namespace Office_File_Explorer.Forms
                     else
                     {
                         // string
-                        if (dataobject is string)
+                        if (dataobject is string @string)
                         {
                             if (Format == "System.String")
                             {
@@ -153,15 +153,15 @@ namespace Office_File_Explorer.Forms
                             else
                             {
                                 // display other type of string text
-                                SetDataText((string)dataobject);
+                                SetDataText(@string);
                             }
                         }
                         else
                         {
                             // bitmap
-                            if (dataobject is Bitmap && DisplayPictures)
+                            if (dataobject is Bitmap bitmap && DisplayPictures)
                             {
-                                pbClipData.Image = (Bitmap)dataobject;
+                                pbClipData.Image = bitmap;
                                 pbClipData.Visible = true;
                             }
                             else

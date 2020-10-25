@@ -75,11 +75,7 @@ namespace Office_File_Explorer.Forms
                     {
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
-                            treeView1.Nodes.Clear();
-                            nodeNames.Clear();
-                            XmlDocument xDoc = new XmlDocument();
-                            xDoc.Load(c.GetStream());
-                            PopulateBaseNodes(xDoc);
+                            DisplayBaseNodes(c);
                         }
                     }
                 }
@@ -94,11 +90,7 @@ namespace Office_File_Explorer.Forms
                     {
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
-                            treeView1.Nodes.Clear();
-                            nodeNames.Clear();
-                            XmlDocument xDoc = new XmlDocument();
-                            xDoc.Load(c.GetStream());
-                            PopulateBaseNodes(xDoc);
+                            DisplayBaseNodes(c);
                         }
                     }
                 }
@@ -113,11 +105,7 @@ namespace Office_File_Explorer.Forms
                     {
                         if (c.Uri.ToString() == lstCustomXmlFiles.SelectedItem.ToString())
                         {
-                            treeView1.Nodes.Clear();
-                            nodeNames.Clear();
-                            XmlDocument xDoc = new XmlDocument();
-                            xDoc.Load(c.GetStream());
-                            PopulateBaseNodes(xDoc);
+                            DisplayBaseNodes(c);
                         }
                     }
                 }
@@ -126,6 +114,19 @@ namespace Office_File_Explorer.Forms
             {
                 return;
             }
+        }
+
+        /// <summary>
+        /// update the treeview with the customxmlpart nodes
+        /// </summary>
+        /// <param name="c"></param>
+        public void DisplayBaseNodes(CustomXmlPart c)
+        {
+            treeView1.Nodes.Clear();
+            nodeNames.Clear();
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(c.GetStream());
+            PopulateBaseNodes(xDoc);
         }
 
         /// <summary>

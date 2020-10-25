@@ -40,6 +40,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdoDom = new System.Windows.Forms.RadioButton();
             this.rdoSax = new System.Windows.Forms.RadioButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -89,7 +90,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(527, 119);
+            this.BtnCancel.Location = new System.Drawing.Point(347, 225);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(63, 23);
             this.BtnCancel.TabIndex = 2;
@@ -99,7 +100,7 @@
             // 
             // BtnOK
             // 
-            this.BtnOK.Location = new System.Drawing.Point(460, 119);
+            this.BtnOK.Location = new System.Drawing.Point(282, 225);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(60, 23);
             this.BtnOK.TabIndex = 3;
@@ -134,9 +135,9 @@
             // 
             this.groupBox3.Controls.Add(this.rdoDom);
             this.groupBox3.Controls.Add(this.rdoSax);
-            this.groupBox3.Location = new System.Drawing.Point(415, 13);
+            this.groupBox3.Location = new System.Drawing.Point(250, 119);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(175, 100);
+            this.groupBox3.Size = new System.Drawing.Size(160, 100);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Excel List Cell Value Options";
@@ -163,12 +164,22 @@
             this.rdoSax.Text = "SAX Style";
             this.rdoSax.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(12, 119);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(232, 100);
+            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Office Settings";
+            // 
             // FrmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 155);
+            this.ClientSize = new System.Drawing.Size(418, 256);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.groupBox1);
@@ -203,5 +214,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton rdoDom;
         private System.Windows.Forms.RadioButton rdoSax;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }

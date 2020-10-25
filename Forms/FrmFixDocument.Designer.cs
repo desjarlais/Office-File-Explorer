@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFixDocument));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RdoTblGrid = new System.Windows.Forms.RadioButton();
             this.RdoLT = new System.Windows.Forms.RadioButton();
             this.RdoEndnotes = new System.Windows.Forms.RadioButton();
             this.RdoRev = new System.Windows.Forms.RadioButton();
@@ -39,7 +40,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
-            this.RdoTblGrid = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +58,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
             // 
+            // RdoTblGrid
+            // 
+            this.RdoTblGrid.AutoSize = true;
+            this.RdoTblGrid.Location = new System.Drawing.Point(6, 110);
+            this.RdoTblGrid.Name = "RdoTblGrid";
+            this.RdoTblGrid.Size = new System.Drawing.Size(155, 17);
+            this.RdoTblGrid.TabIndex = 5;
+            this.RdoTblGrid.TabStop = true;
+            this.RdoTblGrid.Text = "Fix Corrupt Table Properties";
+            this.RdoTblGrid.UseVisualStyleBackColor = true;
+            // 
             // RdoLT
             // 
             this.RdoLT.AutoSize = true;
@@ -75,9 +86,9 @@
             this.RdoEndnotes.Enabled = false;
             this.RdoEndnotes.Location = new System.Drawing.Point(6, 64);
             this.RdoEndnotes.Name = "RdoEndnotes";
-            this.RdoEndnotes.Size = new System.Drawing.Size(86, 17);
+            this.RdoEndnotes.Size = new System.Drawing.Size(123, 17);
             this.RdoEndnotes.TabIndex = 2;
-            this.RdoEndnotes.Text = "Fix Endnotes";
+            this.RdoEndnotes.Text = "Fix Corrupt Endnotes";
             this.RdoEndnotes.UseVisualStyleBackColor = true;
             // 
             // RdoRev
@@ -139,10 +150,10 @@
             this.RdoFixNotesPageWithFile.Enabled = false;
             this.RdoFixNotesPageWithFile.Location = new System.Drawing.Point(6, 42);
             this.RdoFixNotesPageWithFile.Name = "RdoFixNotesPageWithFile";
-            this.RdoFixNotesPageWithFile.Size = new System.Drawing.Size(141, 17);
+            this.RdoFixNotesPageWithFile.Size = new System.Drawing.Size(164, 17);
             this.RdoFixNotesPageWithFile.TabIndex = 5;
             this.RdoFixNotesPageWithFile.TabStop = true;
-            this.RdoFixNotesPageWithFile.Text = "Fix Notes Page With File";
+            this.RdoFixNotesPageWithFile.Text = "Fix Notes Page Size With File";
             this.RdoFixNotesPageWithFile.UseVisualStyleBackColor = true;
             // 
             // RdoNotes
@@ -155,17 +166,6 @@
             this.RdoNotes.TabIndex = 0;
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
-            // 
-            // RdoTblGrid
-            // 
-            this.RdoTblGrid.AutoSize = true;
-            this.RdoTblGrid.Location = new System.Drawing.Point(6, 110);
-            this.RdoTblGrid.Name = "RdoTblGrid";
-            this.RdoTblGrid.Size = new System.Drawing.Size(118, 17);
-            this.RdoTblGrid.TabIndex = 5;
-            this.RdoTblGrid.TabStop = true;
-            this.RdoTblGrid.Text = "Fix Table Properties";
-            this.RdoTblGrid.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 
