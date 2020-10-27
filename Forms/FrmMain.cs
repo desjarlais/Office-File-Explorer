@@ -4397,13 +4397,16 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
+                    bool corruptEndnotesFound = false;
+
                     if (document.MainDocumentPart.EndnotesPart != null)
                     {
                         Endnotes ens = document.MainDocumentPart.EndnotesPart.Endnotes;
-                        foreach (var en in ens)
+
+                        foreach (Endnote en in ens)
                         {
                             // get the paragraph list from the endnote, if it has more than 1000 runs of content
-                            // delete it..need to find a way to check for dupes
+                            // delete it...need to find a way to check for dupes
                             // for now just deleting all but the first paragraph
                             var paraList = en.Descendants<Paragraph>().ToList();
                             foreach (var p in paraList)
@@ -4417,19 +4420,23 @@ namespace Office_File_Explorer
                                         if (count > 0)
                                         {
                                             r.Remove();
+                                            corruptEndnotesFound = true;
                                         }
                                         count++;
                                     }
                                 }
                             }
                         }
-                        
+                    }
+
+                    if (corruptEndnotesFound == true)
+                    {
                         document.MainDocumentPart.Document.Save();
                         LstDisplay.Items.Add("** Endnotes Fix Completed **");
                     }
                     else
                     {
-                        LstDisplay.Items.Add("** No Endnotes Found **");
+                        LstDisplay.Items.Add("** No Corrupt Endnotes Found **");
                     }
                 }
             }
