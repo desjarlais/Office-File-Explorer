@@ -355,6 +355,7 @@ namespace Office_File_Explorer.Forms
             try
             {
                 Cursor = Cursors.WaitCursor;
+                lstOutput.Items.Clear();
 
                 foreach (string f in files)
                 {
@@ -363,10 +364,12 @@ namespace Office_File_Explorer.Forms
                         if (WordExtensionClass.HasPersonalInfo(document) == true)
                         {
                             WordExtensionClass.RemovePersonalInfo(document);
+                            lstOutput.Items.Add(f + " : PII removed from file.");
                             LoggingHelper.Log(f + " : PII removed from file.");
                         }
                         else
                         {
+                            lstOutput.Items.Add(f + " : does not contain PII.");
                             LoggingHelper.Log(f + " : does not contain PII.");
                         }
                     }
@@ -420,53 +423,62 @@ namespace Office_File_Explorer.Forms
                 foreach (string f in files)
                 {
                     bool isFixed = false;
+                    
+                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    {
+                        lstOutput.Items.Add(f + " : Not A Valid Office File");
+                        return;
+                    }
+
                     using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                     {
-                        Document doc = document.MainDocumentPart.Document;
-                        var deleted = doc.Descendants<DeletedRun>().ToList();
-
-                        // loop each DeletedRun
-                        foreach (DeletedRun dr in deleted)
+                        if (WordOpenXml.IsPartNull(document, "DeletedRun") == false)
                         {
-                            foreach (OpenXmlElement oxedr in dr)
+                            var deleted = document.MainDocumentPart.Document.Descendants<DeletedRun>().ToList();
+
+                            // loop each DeletedRun
+                            foreach (DeletedRun dr in deleted)
                             {
-                                // if we have a Run, we need to look for Text tags
-                                if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
+                                foreach (OpenXmlElement oxedr in dr)
                                 {
-                                    Run r = (Run)oxedr;
-                                    foreach (OpenXmlElement oxe in oxedr.ChildElements)
+                                    // if we have a Run, we need to look for Text tags
+                                    if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
                                     {
-                                        // you can't have a Text tag inside a DeletedRun
-                                        if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
+                                        Run r = (Run)oxedr;
+                                        foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                         {
-                                            // create a DeletedText object so we can replace it with the Text tag
-                                            DeletedText dt = new DeletedText();
-
-                                            // check for attributes
-                                            if (oxe.HasAttributes)
+                                            // you can't have a Text tag inside a DeletedRun
+                                            if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
                                             {
-                                                if (oxe.GetAttributes().Count > 0)
+                                                // create a DeletedText object so we can replace it with the Text tag
+                                                DeletedText dt = new DeletedText();
+
+                                                // check for attributes
+                                                if (oxe.HasAttributes)
                                                 {
-                                                    dt.SetAttributes(oxe.GetAttributes());
+                                                    if (oxe.GetAttributes().Count > 0)
+                                                    {
+                                                        dt.SetAttributes(oxe.GetAttributes());
+                                                    }
                                                 }
+
+                                                // set the text value
+                                                dt.Text = oxe.InnerText;
+
+                                                // replace the Text with new DeletedText
+                                                r.ReplaceChild(dt, oxe);
+                                                isFixed = true;
                                             }
-
-                                            // set the text value
-                                            dt.Text = oxe.InnerText;
-
-                                            // replace the Text with new DeletedText
-                                            r.ReplaceChild(dt, oxe);
-                                            isFixed = true;
                                         }
                                     }
                                 }
                             }
                         }
-
+                        
                         // now save the file if we have changes
                         if (isFixed == true)
                         {
-                            doc.Save();
+                            document.MainDocumentPart.Document.Save();
                             lstOutput.Items.Add(f + ": Fixed Corrupt Revisions");
                         }
                         else
@@ -799,7 +811,7 @@ namespace Office_File_Explorer.Forms
                         OpenXmlElement tgClone = null;
 
                         // get the list of tables in the document
-                        if (WordOpenXml.HasTableDescendants(document) == true)
+                        if (WordOpenXml.IsPartNull(document, "Table") == false)
                         {
                             List<Table> tbls = document.MainDocumentPart.Document.Descendants<Table>().ToList();
 
@@ -897,6 +909,13 @@ namespace Office_File_Explorer.Forms
                     foreach (string f in files)
                     {
                         nodeDeleted = false;
+
+                        if (FileUtilities.IsZipArchiveFile(f) == false)
+                        {
+                            lstOutput.Items.Add(f + " : Not A Valid Office File");
+                            return;
+                        }
+
                         using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
                             cxpList = document.MainDocumentPart.CustomXmlParts.ToList();

@@ -902,16 +902,30 @@ namespace Office_File_Explorer.Word_Helpers
             return endnotes1;
         }
 
-        public static bool HasTableDescendants(WordprocessingDocument doc)
+        /// <summary>
+        /// Function to check if a part is null
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="partType"></param>
+        /// <returns></returns>
+        public static bool IsPartNull(WordprocessingDocument doc, string partType)
         {
             try
             {
-                var tbls = doc.MainDocumentPart.Document.Descendants<Table>().ToList();
-                return true;
+                if (partType == "DeletedRun")
+                {
+                    var deleted = doc.MainDocumentPart.Document.Descendants<DeletedRun>().ToList();
+                }
+                else if (partType == "Table")
+                {
+                    var tbls = doc.MainDocumentPart.Document.Descendants<Table>().ToList();
+                }
+
+                return false;
             }
             catch (Exception)
             {
-                return false;
+                return true;
             }
         }
     }

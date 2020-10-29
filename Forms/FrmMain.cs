@@ -4093,7 +4093,7 @@ namespace Office_File_Explorer
                     bool tblModified = false;
                     OpenXmlElement tgClone = null;
 
-                    if (WordOpenXml.HasTableDescendants(document) == true)
+                    if (WordOpenXml.IsPartNull(document, "Table") == false)
                     {
                         // get the list of tables in the document
                         List<O.Wordprocessing.Table> tbls = document.MainDocumentPart.Document.Descendants<O.Wordprocessing.Table>().ToList();
@@ -4216,7 +4216,7 @@ namespace Office_File_Explorer
                             if (ni.AbstractNumId.Val == an.AbstractNumberId.Value)
                             {
                                 // get the level count
-                                var lvlNumberingList = an.Descendants<DocumentFormat.OpenXml.Wordprocessing.Level>().ToList();
+                                var lvlNumberingList = an.Descendants<Level>().ToList();
 
                                 // since we have the list template, find out if it is a bullet
                                 foreach (OpenXmlElement anChild in an)
