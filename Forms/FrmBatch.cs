@@ -143,19 +143,40 @@ namespace Office_File_Explorer.Forms
 
                 // get all the file paths for .docx files in the folder
                 DirectoryInfo dir = new DirectoryInfo(TxbDirectoryPath.Text);
-                foreach (FileInfo f in dir.GetFiles(GetFileExtension()))
+                if (ckSearchSubfolders.Checked == true)
                 {
-                    if (f.Name.StartsWith("~"))
+                    foreach (FileInfo f in dir.GetFiles(GetFileExtension(), SearchOption.AllDirectories))
                     {
-                        // we don't want to change temp files
-                        continue;
+                        if (f.Name.StartsWith("~"))
+                        {
+                            // we don't want to change temp files
+                            continue;
+                        }
+                        else
+                        {
+                            // populate the list of file paths
+                            files.Add(f.FullName);
+                            lstOutput.Items.Add(f.FullName);
+                            fCount++;
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    foreach (FileInfo f in dir.GetFiles(GetFileExtension()))
                     {
-                        // populate the list of file paths
-                        files.Add(f.FullName);
-                        lstOutput.Items.Add(f.FullName);
-                        fCount++;
+                        if (f.Name.StartsWith("~"))
+                        {
+                            // we don't want to change temp files
+                            continue;
+                        }
+                        else
+                        {
+                            // populate the list of file paths
+                            files.Add(f.FullName);
+                            lstOutput.Items.Add(f.FullName);
+                            fCount++;
+                        }
                     }
                 }
 
@@ -1032,6 +1053,11 @@ namespace Office_File_Explorer.Forms
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void CkSearchSubfolders_CheckedChanged(object sender, EventArgs e)
+        {
+            PopulateAndDisplayFiles();
         }
     }
 }

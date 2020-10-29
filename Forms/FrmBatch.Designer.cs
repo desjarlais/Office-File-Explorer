@@ -52,6 +52,7 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -175,7 +176,7 @@
             this.groupBox3.Controls.Add(this.BtnFixNotesPageSize);
             this.groupBox3.Controls.Add(this.BtnChangeTheme);
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
-            this.groupBox3.Location = new System.Drawing.Point(15, 453);
+            this.groupBox3.Location = new System.Drawing.Point(15, 469);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(773, 79);
             this.groupBox3.TabIndex = 7;
@@ -286,19 +287,31 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.ckSearchSubfolders);
             this.groupBox4.Controls.Add(this.lstOutput);
             this.groupBox4.Location = new System.Drawing.Point(15, 66);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(773, 380);
+            this.groupBox4.Size = new System.Drawing.Size(773, 397);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
+            // 
+            // ckSearchSubfolders
+            // 
+            this.ckSearchSubfolders.AutoSize = true;
+            this.ckSearchSubfolders.Location = new System.Drawing.Point(7, 367);
+            this.ckSearchSubfolders.Name = "ckSearchSubfolders";
+            this.ckSearchSubfolders.Size = new System.Drawing.Size(113, 17);
+            this.ckSearchSubfolders.TabIndex = 4;
+            this.ckSearchSubfolders.Text = "Search Subfolders";
+            this.ckSearchSubfolders.UseVisualStyleBackColor = true;
+            this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
             // 
             // FrmBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 544);
+            this.ClientSize = new System.Drawing.Size(800, 560);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -315,6 +328,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -344,5 +358,6 @@
         private System.Windows.Forms.Button BtnDeleteProps;
         private System.Windows.Forms.Button BtnFixTableProps;
         private System.Windows.Forms.Button BtnDeleteRequestStatus;
+        private System.Windows.Forms.CheckBox ckSearchSubfolders;
     }
 }

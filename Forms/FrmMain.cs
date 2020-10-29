@@ -4407,7 +4407,7 @@ namespace Office_File_Explorer
                         {
                             // get the paragraph list from the endnote, if it has more than 1000 runs of content
                             // delete it...need to find a way to check for dupes
-                            // for now just deleting all but the first paragraph
+                            // for now just deleting all but the first paragraph run
                             var paraList = en.Descendants<Paragraph>().ToList();
                             foreach (var p in paraList)
                             {
