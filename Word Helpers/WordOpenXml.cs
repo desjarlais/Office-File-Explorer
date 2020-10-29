@@ -902,5 +902,17 @@ namespace Office_File_Explorer.Word_Helpers
             return endnotes1;
         }
 
+        public static bool HasTableDescendants(WordprocessingDocument doc)
+        {
+            try
+            {
+                var tbls = doc.MainDocumentPart.Document.Descendants<Table>().ToList();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

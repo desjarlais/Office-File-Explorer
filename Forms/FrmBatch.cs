@@ -78,6 +78,9 @@ namespace Office_File_Explorer.Forms
             rdoPowerPoint.Enabled = false;
             rdoWord.Enabled = false;
 
+            // disable checkbox
+            ckSearchSubfolders.Enabled = false;
+
             lstOutput.Items.Clear();
         }
 
@@ -94,6 +97,9 @@ namespace Office_File_Explorer.Forms
             rdoExcel.Enabled = true;
             rdoPowerPoint.Enabled = true;
             rdoWord.Enabled = true;
+
+            // enable checkbox
+            ckSearchSubfolders.Enabled = true;
 
             // now check which radio button is selected and light up appropriate buttons
             if (rdoWord.Checked == true)
@@ -780,6 +786,12 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
+                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    {
+                        lstOutput.Items.Add(f + " : Not A Valid Office File");
+                        return;
+                    }
+
                     using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                     {
                         // "global" document variables
@@ -787,57 +799,60 @@ namespace Office_File_Explorer.Forms
                         OpenXmlElement tgClone = null;
 
                         // get the list of tables in the document
-                        var tbls = document.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().ToList();
-
-                        foreach (O.Wordprocessing.Table tbl in tbls)
+                        if (WordOpenXml.HasTableDescendants(document) == true)
                         {
-                            // you can have only one tblGrid per table, including nested tables
-                            // it needs to be before any row elements so sequence is
-                            // 1. check if the tblGrid element is before any trow
-                            // 2. check for multiple tblGrid elements
-                            bool tRowFound = false;
-                            bool tGridBeforeRowFound = false;
-                            int tGridCount = 0;
+                            List<Table> tbls = document.MainDocumentPart.Document.Descendants<Table>().ToList();
 
-                            foreach (OpenXmlElement oxe in tbl.Elements())
+                            foreach (Table tbl in tbls)
                             {
-                                // flag if we found a table row, once we find 1, the rest do not matter
-                                if (oxe.GetType().Name == "TableRow")
-                                {
-                                    tRowFound = true;
-                                }
+                                // you can have only one tblGrid per table, including nested tables
+                                // it needs to be before any row elements so sequence is
+                                // 1. check if the tblGrid element is before any trow
+                                // 2. check for multiple tblGrid elements
+                                bool tRowFound = false;
+                                bool tGridBeforeRowFound = false;
+                                int tGridCount = 0;
 
-                                // when we get to a tablegrid, we have a few things to check
-                                // 1. have we found a table row
-                                // 2. only one table grid can exist in the table, if there are multiple, delete the extras
-                                if (oxe.GetType().Name == "TableGrid")
+                                foreach (OpenXmlElement oxe in tbl.Elements())
                                 {
-                                    // increment the tg counter
-                                    tGridCount++;
-
-                                    // if we have a table row and no table grid has been found yet, we need to save out this table grid
-                                    // then move it in front of the table row later
-                                    if (tRowFound == true && tGridCount == 1)
+                                    // flag if we found a table row, once we find 1, the rest do not matter
+                                    if (oxe.GetType().Name == "TableRow")
                                     {
-                                        tGridBeforeRowFound = true;
-                                        tgClone = oxe.CloneNode(true);
-                                        oxe.Remove();
+                                        tRowFound = true;
                                     }
 
-                                    // if we have multiple table grids, delete the extras
-                                    if (tGridCount > 1)
+                                    // when we get to a tablegrid, we have a few things to check
+                                    // 1. have we found a table row
+                                    // 2. only one table grid can exist in the table, if there are multiple, delete the extras
+                                    if (oxe.GetType().Name == "TableGrid")
                                     {
-                                        oxe.Remove();
-                                        tblModified = true;
+                                        // increment the tg counter
+                                        tGridCount++;
+
+                                        // if we have a table row and no table grid has been found yet, we need to save out this table grid
+                                        // then move it in front of the table row later
+                                        if (tRowFound == true && tGridCount == 1)
+                                        {
+                                            tGridBeforeRowFound = true;
+                                            tgClone = oxe.CloneNode(true);
+                                            oxe.Remove();
+                                        }
+
+                                        // if we have multiple table grids, delete the extras
+                                        if (tGridCount > 1)
+                                        {
+                                            oxe.Remove();
+                                            tblModified = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            // if we had a table grid before a row, move it before the first row
-                            if (tGridBeforeRowFound == true)
-                            {
-                                tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
-                                tblModified = true;
+                                // if we had a table grid before a row, move it before the first row
+                                if (tGridBeforeRowFound == true)
+                                {
+                                    tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
+                                    tblModified = true;
+                                }
                             }
                         }
 
