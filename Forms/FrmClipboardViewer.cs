@@ -88,18 +88,18 @@ namespace Office_File_Explorer.Forms
         {
             rtbClipData.Text = text;
             rtbClipData.SelectAll();
-            rtbClipData.SelectionFont = new System.Drawing.Font("Courier New", 10, (FontStyle)0 /* no style */ );
-            rtbClipData.SelectionColor = System.Drawing.Color.FromKnownColor(KnownColor.WindowText);
-            rtbClipData.SelectionBackColor = System.Drawing.Color.FromKnownColor(KnownColor.Window);
+            rtbClipData.SelectionFont = new Font("Courier New", 10, (FontStyle)0 /* no style */ );
+            rtbClipData.SelectionColor = Color.FromKnownColor(KnownColor.Black);
+            rtbClipData.SelectionBackColor = Color.FromKnownColor(KnownColor.White);
             rtbClipData.Select(0, 0);
-
+            rtbClipData.Visible = true;
             pbClipData.Visible = false;
         }
 
         private void UpdateDisplay()
         {
             // check for empty clipboard
-            if ((string)lbClipFormats.SelectedItem.ToString() == "The clipboard is emtpy.")
+            if (lbClipFormats.SelectedItem.ToString() == "The clipboard is emtpy.")
             {
                 return;
             }
@@ -140,7 +140,7 @@ namespace Office_File_Explorer.Forms
                     else
                     {
                         // string
-                        if (dataobject is string @string)
+                        if (dataobject is string)
                         {
                             if (Format == "System.String")
                             {
@@ -153,15 +153,15 @@ namespace Office_File_Explorer.Forms
                             else
                             {
                                 // display other type of string text
-                                SetDataText(@string);
+                                SetDataText((string)dataobject);
                             }
                         }
                         else
                         {
                             // bitmap
-                            if (dataobject is Bitmap bitmap && DisplayPictures)
+                            if (dataobject is Bitmap && DisplayPictures)
                             {
-                                pbClipData.Image = bitmap;
+                                pbClipData.Image = (Bitmap)dataobject;
                                 pbClipData.Visible = true;
                             }
                             else

@@ -2718,7 +2718,9 @@ namespace Office_File_Explorer
                         if (part.Uri.ToString() == "/word/document.xml")
                         {
                             fileType = StringResources.word;
+                            string strDocTextBackup;
                             XmlDocument xdoc = new XmlDocument();
+
                             try
                             {
                                 xdoc.Load(part.GetStream(FileMode.Open, FileAccess.Read));
@@ -2733,6 +2735,7 @@ namespace Office_File_Explorer
                                     using (TextReader tr = new StreamReader(part.GetStream(FileMode.Open, FileAccess.Read)))
                                     {
                                         string strDocText = tr.ReadToEnd();
+                                        strDocTextBackup = strDocText;
 
                                         foreach (string el in invalid.InvalidTags())
                                         {
@@ -2901,6 +2904,14 @@ namespace Office_File_Explorer
                                             LstDisplay.Items.Add("...removing all fallback tags");
                                             GetAllNodes(strDocText);
                                             strDocText = FixedFallback;
+                                        }
+
+                                        // check if any changes were made by comparing the doctext variable
+                                        bool result = strDocText.Equals(strDocTextBackup);
+                                        if (result == true)
+                                        {
+                                            LstDisplay.Items.Add(" ## No Corruption Found  ## ");
+                                            return;
                                         }
 
                                         tw.Write(strDocText);
@@ -3995,6 +4006,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 bool isFixed = false;
                 Cursor = Cursors.WaitCursor;
+
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     Document doc = document.MainDocumentPart.Document;
