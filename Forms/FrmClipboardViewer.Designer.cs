@@ -74,28 +74,28 @@
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
             // ownerToolStripMenuItem
             // 
             this.ownerToolStripMenuItem.Name = "ownerToolStripMenuItem";
-            this.ownerToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.ownerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ownerToolStripMenuItem.Text = "Owner";
             this.ownerToolStripMenuItem.Click += new System.EventHandler(this.OwnerToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
@@ -112,8 +112,6 @@
             // 
             // autoRefreshToolStripMenuItem
             // 
-            this.autoRefreshToolStripMenuItem.Checked = true;
-            this.autoRefreshToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoRefreshToolStripMenuItem.Name = "autoRefreshToolStripMenuItem";
             this.autoRefreshToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.autoRefreshToolStripMenuItem.Text = "Auto Refresh";

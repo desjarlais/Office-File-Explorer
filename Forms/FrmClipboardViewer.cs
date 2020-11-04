@@ -42,9 +42,6 @@ namespace Office_File_Explorer.Forms
         [DllImport("user32.dll")]
         private static extern int IsClipboardFormatAvailable(int wFormat);
 
-        [DllImport("user32.dll")]
-        static extern bool EmptyClipboard();
-
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
@@ -113,11 +110,21 @@ namespace Office_File_Explorer.Forms
                 {
                     Cursor = Cursors.WaitCursor;
 
-                    // emf
-                    if (Format == "EnhancedMetafile")
+                    // check for image formats
+                    if (Format == "EnhancedMetafile" || Format == "PNG")
                     {
-                        Image emfImage = GetEnhMetaImageFromClipboard();
-                        pbClipData.Image = emfImage;
+                        Image imgFormat = null;
+
+                        if (Format == "EnhancedMetafile")
+                        {
+                            imgFormat = GetEnhMetaImageFromClipboard(".emf");
+                        }
+                        else if (Format == "PNG")
+                        {
+                            imgFormat = GetEnhMetaImageFromClipboard(".png");
+                        }
+
+                        pbClipData.Image = imgFormat;
                         pbClipData.Visible = true;
                         rtbClipData.Visible = false;
                         return;
@@ -239,9 +246,9 @@ namespace Office_File_Explorer.Forms
             }
         }
 
-        public Image GetEnhMetaImageFromClipboard()
+        public Image GetEnhMetaImageFromClipboard(string fileExtension)
         {
-            string fileName = Environment.GetEnvironmentVariable("TEMP") + "\\" + Guid.NewGuid().ToString() + ".emf";
+            string fileName = Environment.GetEnvironmentVariable("TEMP") + "\\" + Guid.NewGuid().ToString() + fileExtension;
 
             OpenClipboard(IntPtr.Zero);
             IntPtr pointer = GetClipboardData(14);
@@ -264,6 +271,10 @@ namespace Office_File_Explorer.Forms
         public FrmClipboardViewer()
         {
             InitializeComponent();
+
+            // enable auto refresh by default
+            autoRefreshToolStripMenuItem.Checked = true;
+            AutoRefresh = true;
         }
 
         private void RefreshClipboard()
