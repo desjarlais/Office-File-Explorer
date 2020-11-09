@@ -130,3 +130,4 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmMoveSlide
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmDeleteCustomProps.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatchDeleteCustomProps.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomXmlViewer.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmViewImages.resources

@@ -111,19 +111,9 @@ namespace Office_File_Explorer.Forms
                     Cursor = Cursors.WaitCursor;
 
                     // check for image formats
-                    if (Format == "EnhancedMetafile" || Format == "PNG")
+                    if (Format == "EnhancedMetafile")
                     {
-                        Image imgFormat = null;
-
-                        if (Format == "EnhancedMetafile")
-                        {
-                            imgFormat = GetEnhMetaImageFromClipboard(".emf");
-                        }
-                        else if (Format == "PNG")
-                        {
-                            imgFormat = GetEnhMetaImageFromClipboard(".png");
-                        }
-
+                        Image imgFormat = GetEnhMetaImageFromClipboard();
                         pbClipData.Image = imgFormat;
                         pbClipData.Visible = true;
                         rtbClipData.Visible = false;
@@ -246,9 +236,9 @@ namespace Office_File_Explorer.Forms
             }
         }
 
-        public Image GetEnhMetaImageFromClipboard(string fileExtension)
+        public Image GetEnhMetaImageFromClipboard()
         {
-            string fileName = Environment.GetEnvironmentVariable("TEMP") + "\\" + Guid.NewGuid().ToString() + fileExtension;
+            string fileName = Environment.GetEnvironmentVariable("TEMP") + "\\" + Guid.NewGuid().ToString() + ".emf";
 
             OpenClipboard(IntPtr.Zero);
             IntPtr pointer = GetClipboardData(14);

@@ -193,6 +193,7 @@ namespace Office_File_Explorer
             BtnMoveSlide.Enabled = false;
             BtnDeleteCustomProps.Enabled = false;
             BtnViewCustomXml.Enabled = false;
+            BtnViewImages.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -353,6 +354,7 @@ namespace Office_File_Explorer
             BtnListShapes.Enabled = true;
             BtnDeleteCustomProps.Enabled = true;
             BtnViewCustomXml.Enabled = true;
+            BtnViewImages.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -4850,6 +4852,15 @@ namespace Office_File_Explorer
                 Owner = this
             };
             bFrm.ShowDialog();
+        }
+
+        private void BtnViewImages_Click(object sender, EventArgs e)
+        {
+            FrmViewImages imgFrm = new FrmViewImages(TxtFileName.Text, fileType)
+            {
+                Owner = this
+            };
+            imgFrm.ShowDialog();
         }
     }
 }

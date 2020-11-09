@@ -115,6 +115,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnViewImages = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -763,6 +764,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnViewImages);
             this.groupBox4.Controls.Add(this.BtnViewCustomXml);
             this.groupBox4.Controls.Add(this.BtnDeleteCustomProps);
             this.groupBox4.Controls.Add(this.BtnListShapes);
@@ -1077,6 +1079,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
+            // BtnViewImages
+            // 
+            this.BtnViewImages.Location = new System.Drawing.Point(5, 284);
+            this.BtnViewImages.Name = "BtnViewImages";
+            this.BtnViewImages.Size = new System.Drawing.Size(118, 23);
+            this.BtnViewImages.TabIndex = 11;
+            this.BtnViewImages.Text = "View Images";
+            this.BtnViewImages.UseVisualStyleBackColor = true;
+            this.BtnViewImages.Click += new System.EventHandler(this.BtnViewImages_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1201,6 +1213,7 @@
         private System.Windows.Forms.Button BtnDeleteCustomProps;
         private System.Windows.Forms.Button BtnViewCustomXml;
         private System.Windows.Forms.ToolStripMenuItem batchFileProcessingToolStripMenuItem;
+        private System.Windows.Forms.Button BtnViewImages;
     }
 }
 
