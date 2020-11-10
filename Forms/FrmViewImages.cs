@@ -1,6 +1,8 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using Office_File_Explorer.App_Helpers;
+using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
@@ -13,6 +15,7 @@ namespace Office_File_Explorer.Forms
         public FrmViewImages(string fName, string fType)
         {
             InitializeComponent();
+
             appName = fType;
             fileName = fName;
 
@@ -52,10 +55,6 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else
-            {
-                return;
-            }
 
             if (LstImages.Items.Count > 0)
             {
@@ -64,6 +63,8 @@ namespace Office_File_Explorer.Forms
             else
             {
                 MessageBox.Show("Document does not contain any images.", "Images", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Load += (s, e) => Close();
+                return;
             }
         }
 
@@ -122,10 +123,28 @@ namespace Office_File_Explorer.Forms
 
         public void DisplayImage(ImagePart ip)
         {
-            Stream stream = ip.GetStream();
-            pbImage.Image = Image.FromStream(stream);
-            pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbImage.Visible = true;
+            try
+            {
+                Stream stream = ip.GetStream();
+
+                if (ip.Uri.ToString().EndsWith(".svg"))
+                {
+                    MessageBox.Show("Format not currently supported.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    pbImage.Image = pbImage.ErrorImage;
+                    pbImage.SizeMode = PictureBoxSizeMode.CenterImage;
+                }
+                else
+                {
+                    pbImage.Image = Image.FromStream(stream);
+                    pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+
+                pbImage.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("ViewImages::UnableToDisplayImage : " + ex.Message);
+            }
         }
     }
 }
