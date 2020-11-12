@@ -39,7 +39,7 @@
             this.LstImages.FormattingEnabled = true;
             this.LstImages.Location = new System.Drawing.Point(12, 12);
             this.LstImages.Name = "LstImages";
-            this.LstImages.Size = new System.Drawing.Size(225, 433);
+            this.LstImages.Size = new System.Drawing.Size(225, 511);
             this.LstImages.TabIndex = 0;
             this.LstImages.SelectedIndexChanged += new System.EventHandler(this.LstImages_SelectedIndexChanged);
             // 
@@ -47,7 +47,7 @@
             // 
             this.pbImage.Location = new System.Drawing.Point(243, 12);
             this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(545, 433);
+            this.pbImage.Size = new System.Drawing.Size(655, 511);
             this.pbImage.TabIndex = 1;
             this.pbImage.TabStop = false;
             // 
@@ -55,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(910, 529);
             this.Controls.Add(this.pbImage);
             this.Controls.Add(this.LstImages);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

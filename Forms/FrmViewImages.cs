@@ -2,7 +2,6 @@
 using Office_File_Explorer.App_Helpers;
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
@@ -135,8 +134,17 @@ namespace Office_File_Explorer.Forms
                 }
                 else
                 {
-                    pbImage.Image = Image.FromStream(stream);
-                    pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    Image imgStream = Image.FromStream(stream);
+                    pbImage.Image = imgStream;
+                    
+                    if (imgStream.Height > pbImage.Size.Height || imgStream.Width > pbImage.Size.Width)
+                    {
+                        pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                    else
+                    {
+                        pbImage.SizeMode = PictureBoxSizeMode.CenterImage;
+                    }
                 }
 
                 pbImage.Visible = true;
