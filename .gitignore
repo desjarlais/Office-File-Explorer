@@ -31,3 +31,12 @@ bin/Debug/Office File Explorer.application
 *.pdb
 bin/Debug/app.publish/Office File Explorer.exe
 *.manifest
+bin/Debug/app.publish/Office File Explorer.exe
+bin/Debug/app.publish/Office File Explorer.exe
+bin/Debug/Office File Explorer.application
+obj/Debug/Office File Explorer.pdb
+obj/Debug/Office File Explorer.exe.manifest
+obj/Debug/Office File Explorer.exe
+obj/Debug/Office File Explorer.application
+bin/Debug/Office File Explorer.pdb
+bin/Debug/Office File Explorer.exe.manifest

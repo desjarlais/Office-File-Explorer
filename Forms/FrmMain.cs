@@ -1470,6 +1470,17 @@ namespace Office_File_Explorer
                     // if we have an author, go through all the revisions
                     authorList = WordOpenXml.GetAllAuthors(document.MainDocumentPart.Document);
 
+                    // check people part for authors too
+                    WordprocessingPeoplePart peoplePart = document.MainDocumentPart.WordprocessingPeoplePart;
+                    if (peoplePart != null)
+                    {
+                        foreach (Person person in peoplePart.People)
+                        {
+                            PresenceInfo pi = person.PresenceInfo;
+                            authorList.Add(person.Author);
+                        }
+                    }
+
                     Document doc = document.MainDocumentPart.Document;
                     var paragraphChanged = doc.Descendants<ParagraphPropertiesChange>().ToList();
                     var runChanged = doc.Descendants<RunPropertiesChange>().ToList();
@@ -1533,7 +1544,7 @@ namespace Office_File_Explorer
                             {
                                 if (item.Parent != null)
                                 {
-                                    var textRuns = item.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList();
+                                    var textRuns = item.Elements<Run>().ToList();
                                     var parent = item.Parent;
 
                                     foreach (var textRun in textRuns)
