@@ -572,7 +572,7 @@ namespace Office_File_Explorer
                 {
                     int count = 0;
                     
-                    IEnumerable<O.Wordprocessing.Hyperlink> hLinks = myDoc.MainDocumentPart.Document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Hyperlink>();
+                    IEnumerable<O.Wordprocessing.Hyperlink> hLinks = myDoc.MainDocumentPart.Document.Descendants<O.Wordprocessing.Hyperlink>();
                     
                     // handle if no links are found
                     if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0 && hLinks.Count() == 0)
@@ -582,17 +582,22 @@ namespace Office_File_Explorer
                     else
                     {
                         // loop through regular hyperlinks
-                        foreach (var h in hLinks)
+                        foreach (O.Wordprocessing.Hyperlink h in hLinks)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + ". " + h.InnerText);
-                        }
 
-                        // then check for hyperlinks relationships
-                        foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
-                        {
-                            count++;
-                            LstDisplay.Items.Add(count + StringResources.period + hRel.Uri);
+                            string hRelUri = null;
+
+                            // then check for hyperlinks relationships
+                            foreach (HyperlinkRelationship hRel in myDoc.MainDocumentPart.HyperlinkRelationships)
+                            {
+                                if (h.Id == hRel.Id)
+                                {
+                                    hRelUri = hRel.Uri.ToString();
+                                }
+                            }
+
+                            LstDisplay.Items.Add(count + ". " + h.InnerText + " Uri = " + hRelUri);
                         }
 
                         // now we need to check for field hyperlinks
@@ -1615,7 +1620,7 @@ namespace Office_File_Explorer
                         {
                             if (item.Parent != null)
                             {
-                                var textRuns = item.Elements<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList();
+                                var textRuns = item.Elements<Run>().ToList();
                                 var parent = item.Parent;
 
                                 foreach (var textRun in textRuns)
