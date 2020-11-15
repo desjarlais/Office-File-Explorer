@@ -139,7 +139,7 @@ namespace Office_File_Explorer.Forms
                     
                     if (imgStream.Height > pbImage.Size.Height || imgStream.Width > pbImage.Size.Width)
                     {
-                        pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbImage.SizeMode = PictureBoxSizeMode.Zoom;
                     }
                     else
                     {
