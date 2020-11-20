@@ -61,6 +61,7 @@
             // RdoTblGrid
             // 
             this.RdoTblGrid.AutoSize = true;
+            this.RdoTblGrid.Enabled = false;
             this.RdoTblGrid.Location = new System.Drawing.Point(6, 110);
             this.RdoTblGrid.Name = "RdoTblGrid";
             this.RdoTblGrid.Size = new System.Drawing.Size(155, 17);

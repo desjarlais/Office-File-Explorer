@@ -37,6 +37,7 @@ namespace Office_File_Explorer.Forms
             RdoEndnotes.Checked = false;
             RdoNotes.Checked = false;
             RdoFixNotesPageWithFile.Checked = false;
+            RdoTblGrid.Checked = false;
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Office_File_Explorer.Forms
             RdoLT.Enabled = true;
             RdoRev.Enabled = true;
             RdoEndnotes.Enabled = true;
+            RdoTblGrid.Enabled = true;
         }
 
         /// <summary>
