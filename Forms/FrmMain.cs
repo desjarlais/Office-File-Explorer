@@ -2375,8 +2375,11 @@ namespace Office_File_Explorer
                         foreach (SharedStringItem ssi in sst)
                         {
                             sharedStringCount++;
-                            DocumentFormat.OpenXml.Spreadsheet.Text ssValue = ssi.Text;
-                            LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
+                            O.Spreadsheet.Text ssValue = ssi.Text;
+                            if (ssValue.Text != null)
+                            {
+                                LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
+                            }
                         }
                     }
                     else

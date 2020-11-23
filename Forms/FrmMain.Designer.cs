@@ -84,6 +84,7 @@
             this.BtnPPTGetAllSlideTitles = new System.Windows.Forms.Button();
             this.BtnPPTListHyperlinks = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BtnViewImages = new System.Windows.Forms.Button();
             this.BtnViewCustomXml = new System.Windows.Forms.Button();
             this.BtnDeleteCustomProps = new System.Windows.Forms.Button();
             this.BtnListShapes = new System.Windows.Forms.Button();
@@ -115,7 +116,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnViewImages = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -783,6 +783,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
             // 
+            // BtnViewImages
+            // 
+            this.BtnViewImages.Location = new System.Drawing.Point(5, 284);
+            this.BtnViewImages.Name = "BtnViewImages";
+            this.BtnViewImages.Size = new System.Drawing.Size(118, 23);
+            this.BtnViewImages.TabIndex = 11;
+            this.BtnViewImages.Text = "View Images";
+            this.BtnViewImages.UseVisualStyleBackColor = true;
+            this.BtnViewImages.Click += new System.EventHandler(this.BtnViewImages_Click);
+            // 
             // BtnViewCustomXml
             // 
             this.BtnViewCustomXml.Location = new System.Drawing.Point(5, 255);
@@ -882,7 +892,7 @@
             this.TxtFileName.Location = new System.Drawing.Point(46, 19);
             this.TxtFileName.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.TxtFileName.Name = "TxtFileName";
-            this.TxtFileName.Size = new System.Drawing.Size(896, 20);
+            this.TxtFileName.Size = new System.Drawing.Size(919, 20);
             this.TxtFileName.TabIndex = 1;
             // 
             // label1
@@ -1042,7 +1052,7 @@
             this.groupBox5.Controls.Add(this.TxtFileName);
             this.groupBox5.Location = new System.Drawing.Point(12, 27);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(949, 49);
+            this.groupBox5.Size = new System.Drawing.Size(970, 49);
             this.groupBox5.TabIndex = 9;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "File Location:";
@@ -1078,16 +1088,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // BtnViewImages
-            // 
-            this.BtnViewImages.Location = new System.Drawing.Point(5, 284);
-            this.BtnViewImages.Name = "BtnViewImages";
-            this.BtnViewImages.Size = new System.Drawing.Size(118, 23);
-            this.BtnViewImages.TabIndex = 11;
-            this.BtnViewImages.Text = "View Images";
-            this.BtnViewImages.UseVisualStyleBackColor = true;
-            this.BtnViewImages.Click += new System.EventHandler(this.BtnViewImages_Click);
             // 
             // FrmMain
             // 
