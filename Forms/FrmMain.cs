@@ -2064,13 +2064,18 @@ namespace Office_File_Explorer
             }
             catch (OpenXmlPackageException ope)
             {
-                // known issue in .NET https://github.com/desjarlais/Office-File-Explorer
+                // known issue in .NET with malformed hyperlinks causing SDK to throw during parse
+                // see UriFixHelper for more details
+                // get the path and make a new file name in the same directory
                 var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
                 var StrExtension = Path.GetExtension(TxtFileName.Text);
                 var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + StrExtension;
 
+                // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
                 File.Copy(TxtFileName.Text, StrCopyFileName);
 
+                // if the exception is related to invalid hyperlinks, use the FixInvalidUri method to change the file
+                // once we change the copied file, we can open it in the SDK
                 if (ope.ToString().Contains("Invalid Hyperlink"))
                 {
                     // create the new file with the updated hyperlink
@@ -2107,6 +2112,7 @@ namespace Office_File_Explorer
                         }
                     }
 
+                    // update the main form UI
                     TxtFileName.Text = StrCopyFileName;
                 }
                 else
@@ -2130,6 +2136,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// given a broken uri this function will return a generic non-broken uri
+        /// </summary>
+        /// <param name="brokenUri">the uri that is failing in the sdk</param>
+        /// <returns></returns>
         private static Uri FixUri(string brokenUri)
         {
             return new Uri("http://broken-link/");
