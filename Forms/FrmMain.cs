@@ -59,9 +59,9 @@ namespace Office_File_Explorer
     public partial class FrmMain : Form
     {
         // globals
-        private string _fromAuthor;
-        private string _FindText;
-        private string _ReplaceText;
+        private string fromAuthor;
+        private string findText;
+        private string replaceText;
         public static char PrevChar = '<';
         public bool IsRegularXmlTag;
         public bool IsFixed;
@@ -78,13 +78,13 @@ namespace Office_File_Explorer
         private ArrayList numIdList = new ArrayList();
 
         // fix corrupt doc globals
-        private static List<string> _nodes = new List<string>();
+        private static List<string> corruptNodes = new List<string>();
 
         // global lists
-        private static List<string> _pParts = new List<string>();
+        private static List<string> pParts = new List<string>();
 
         // corrupt doc buffer
-        private static StringBuilder _sbNodeBuffer = new StringBuilder();
+        private static StringBuilder sbNodeBuffer = new StringBuilder();
 
         public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogInformation };
 
@@ -101,8 +101,8 @@ namespace Office_File_Explorer
             LoggingHelper.Log("App Start");
             
             // init search replace strings
-            _FindText = StringResources.emptyString;
-            _ReplaceText = StringResources.emptyString;
+            findText = StringResources.emptyString;
+            replaceText = StringResources.emptyString;
 
             // disable all buttons
             DisableButtons();
@@ -112,17 +112,17 @@ namespace Office_File_Explorer
 
         public string AuthorProperty
         {
-            set => _fromAuthor = value;
+            set => fromAuthor = value;
         }
 
         public string FindTextProperty
         {
-            set => _FindText = value;
+            set => findText = value;
         }
 
         public string ReplaceTextProperty
         {
-            set => _ReplaceText = value;
+            set => replaceText = value;
         }
 
         #endregion Class Properties
@@ -1059,7 +1059,7 @@ namespace Office_File_Explorer
                 using (document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     // get the list of authors
-                    _fromAuthor = StringResources.emptyString;
+                    fromAuthor = StringResources.emptyString;
 
                     authors = WordOpenXml.GetAllAuthors(document.MainDocumentPart.Document);
 
@@ -1073,13 +1073,13 @@ namespace Office_File_Explorer
 
                 Cursor = Cursors.WaitCursor;
 
-                if (_fromAuthor == "* No Authors *" || _fromAuthor == "")
+                if (fromAuthor == "* No Authors *" || fromAuthor == "")
                 {
                     LogInformation(InformationOutput.ClearAndAdd, "** No Revisions To Accept **", "");
                     return;
                 }
 
-                WordOpenXml.AcceptAllRevisions(TxtFileName.Text, _fromAuthor);
+                WordOpenXml.AcceptAllRevisions(TxtFileName.Text, fromAuthor);
                 LogInformation(InformationOutput.ClearAndAdd, "** Revisions Accepted **", "");
             }
             catch (Exception ex)
@@ -1494,7 +1494,7 @@ namespace Office_File_Explorer
                     var inserted = doc.Descendants<InsertedRun>().ToList();
 
                     // get the list of authors
-                    _fromAuthor = StringResources.emptyString;
+                    fromAuthor = StringResources.emptyString;
 
                     FrmAuthors aFrm = new FrmAuthors(authorList)
                     {
@@ -1502,7 +1502,7 @@ namespace Office_File_Explorer
                     };
                     aFrm.ShowDialog();
 
-                    if (_fromAuthor == "* All Authors *")
+                    if (fromAuthor == "* All Authors *")
                     {
                         List<string> temp = new List<string>();
                         temp = WordOpenXml.GetAllAuthors(doc);
@@ -1564,17 +1564,17 @@ namespace Office_File_Explorer
                     else
                     {
                         // list the selected authors revisions
-                        if (!string.IsNullOrEmpty(_fromAuthor))
+                        if (!string.IsNullOrEmpty(fromAuthor))
                         {
-                            paragraphChanged = paragraphChanged.Where(item => item.Author == _fromAuthor).ToList();
-                            runChanged = runChanged.Where(item => item.Author == _fromAuthor).ToList();
-                            deleted = deleted.Where(item => item.Author == _fromAuthor).ToList();
-                            inserted = inserted.Where(item => item.Author == _fromAuthor).ToList();
-                            deletedParagraph = deletedParagraph.Where(item => item.Author == _fromAuthor).ToList();
+                            paragraphChanged = paragraphChanged.Where(item => item.Author == fromAuthor).ToList();
+                            runChanged = runChanged.Where(item => item.Author == fromAuthor).ToList();
+                            deleted = deleted.Where(item => item.Author == fromAuthor).ToList();
+                            inserted = inserted.Where(item => item.Author == fromAuthor).ToList();
+                            deletedParagraph = deletedParagraph.Where(item => item.Author == fromAuthor).ToList();
 
                             if ((paragraphChanged.Count + runChanged.Count + deleted.Count + inserted.Count + deletedParagraph.Count) == 0)
                             {
-                                if (_fromAuthor == "* No Authors *")
+                                if (fromAuthor == "* No Authors *")
                                 {
                                     LogInformation(InformationOutput.ClearAndAdd, "** There are no revisions in this document **", "");
                                 }
@@ -1998,7 +1998,7 @@ namespace Office_File_Explorer
 
         public void PopulatePackageParts()
         {
-            _pParts.Clear();
+            pParts.Clear();
 
             using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open, FileAccess.Read))
             {
@@ -2006,7 +2006,7 @@ namespace Office_File_Explorer
                 {
                     foreach (ZipArchiveEntry zae in archive.Entries)
                     {
-                        _pParts.Add(zae.FullName + StringResources.colonBuffer + FileUtilities.SizeSuffix(zae.Length));
+                        pParts.Add(zae.FullName + StringResources.colonBuffer + FileUtilities.SizeSuffix(zae.Length));
                     }
                 }
             }
@@ -2017,14 +2017,14 @@ namespace Office_File_Explorer
         /// if the SDK fails to open the file, it is not a valid docx
         /// </summary>
         /// <param name="file">the path to the initial fix attempt</param>
-        public void OpenWithSdk(string file, bool IsFileOpen)
+        public void OpenWithSdk(string file, bool isFileOpen)
         {
             try
             {
                 // if the file is opened by the SDK, we can proceed with opening in tool
                 Cursor = Cursors.WaitCursor;
 
-                if (IsFileOpen)
+                if (isFileOpen)
                 {
                     SetUpButtons();
                 }
@@ -2062,6 +2062,60 @@ namespace Office_File_Explorer
                     BtnFixCorruptDocument.Enabled = true;
                 }
             }
+            catch (OpenXmlPackageException ope)
+            {
+                // known issue in .NET https://github.com/desjarlais/Office-File-Explorer
+                var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
+                var StrExtension = Path.GetExtension(TxtFileName.Text);
+                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + StrExtension;
+
+                File.Copy(TxtFileName.Text, StrCopyFileName);
+
+                if (ope.ToString().Contains("Invalid Hyperlink"))
+                {
+                    // create the new file with the updated hyperlink
+                    using (FileStream fs = new FileStream(StrCopyFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                    {
+                        UriFixHelper.FixInvalidUri(fs, brokenUri => FixUri(brokenUri));
+                    }
+
+                    // now use the new file in the open logic from above
+                    string body = StringResources.emptyString;
+
+                    if (fileType == StringResources.word)
+                    {
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(StrCopyFileName, false))
+                        {
+                            // try to get the localname of the document.xml file, if it fails, it is not a Word file
+                            body = document.MainDocumentPart.Document.LocalName;
+                        }
+                    }
+                    else if (fileType == StringResources.excel)
+                    {
+                        using (SpreadsheetDocument document = SpreadsheetDocument.Open(StrCopyFileName, false))
+                        {
+                            // try to get the localname of the workbook.xml file if it fails, its not an Excel file
+                            body = document.WorkbookPart.Workbook.LocalName;
+                        }
+                    }
+                    else if (fileType == StringResources.powerpoint)
+                    {
+                        using (PresentationDocument document = PresentationDocument.Open(StrCopyFileName, false))
+                        {
+                            // try to get the presentation.xml local name, if it fails it is not a PPT file
+                            body = document.PresentationPart.Presentation.LocalName;
+                        }
+                    }
+
+                    TxtFileName.Text = StrCopyFileName;
+                }
+                else
+                {
+                    DisableButtons();
+                    LstDisplay.Items.Add("Invalid File: FixUri Failure");
+                    LoggingHelper.Log("OpenWithSDK Error: " + ope.Message);
+                }
+            }
             catch (Exception ex)
             {
                 // if the file failed to open in the sdk, it is invalid or corrupt and we need to stop opening
@@ -2074,6 +2128,11 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private static Uri FixUri(string brokenUri)
+        {
+            return new Uri("http://broken-link/");
         }
 
         private void BtnPPTListHyperlinks_Click(object sender, EventArgs e)
@@ -2138,13 +2197,13 @@ namespace Office_File_Explorer
                 };
                 sFrm.ShowDialog();
 
-                if (_FindText == StringResources.emptyString && _ReplaceText == StringResources.emptyString)
+                if (findText == StringResources.emptyString && replaceText == StringResources.emptyString)
                 {
                     return;
                 }
                 else
                 {
-                    SearchAndReplace(TxtFileName.Text, _FindText, _ReplaceText);
+                    SearchAndReplace(TxtFileName.Text, findText, replaceText);
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add("** Search and Replace Finished **");
                 }
@@ -2885,10 +2944,10 @@ namespace Office_File_Explorer
                                                     case '<':
                                                         // if we haven't hit a close, but hit another '<' char
                                                         // we are not a true open tag so add it like a regular char
-                                                        if (_sbNodeBuffer.Length > 0)
+                                                        if (sbNodeBuffer.Length > 0)
                                                         {
-                                                            _nodes.Add(_sbNodeBuffer.ToString());
-                                                            _sbNodeBuffer.Clear();
+                                                            corruptNodes.Add(sbNodeBuffer.ToString());
+                                                            sbNodeBuffer.Clear();
                                                         }
                                                         Node(charEnum.Current);
                                                         break;
@@ -2904,8 +2963,8 @@ namespace Office_File_Explorer
                                                             IsRegularXmlTag = false;
                                                         }
                                                         Node(charEnum.Current);
-                                                        _nodes.Add(_sbNodeBuffer.ToString());
-                                                        _sbNodeBuffer.Clear();
+                                                        corruptNodes.Add(sbNodeBuffer.ToString());
+                                                        sbNodeBuffer.Clear();
                                                         break;
 
                                                     default:
@@ -3019,7 +3078,7 @@ namespace Office_File_Explorer
 
         public static void Node(char input)
         {
-            _sbNodeBuffer.Append(input);
+            sbNodeBuffer.Append(input);
         }
 
         /// <summary>
@@ -3032,7 +3091,7 @@ namespace Office_File_Explorer
             bool isFallback = false;
             var fallback = new List<string>();
 
-            foreach (string o in _nodes)
+            foreach (string o in corruptNodes)
             {
                 if (o == StringResources.txtFallbackStart)
                 {
@@ -3288,7 +3347,7 @@ namespace Office_File_Explorer
         {
             PreButtonClickWork();
 
-            foreach (var o in _pParts)
+            foreach (var o in pParts)
             {
                 LstDisplay.Items.Add(o);
             }
