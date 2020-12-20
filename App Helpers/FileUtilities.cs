@@ -61,5 +61,12 @@ namespace Office_File_Explorer.App_Helpers
                 return false;
             }
         }
+
+        public static int GetRandomNumber()
+        {
+            Random r = new Random();
+            int rNum = r.Next(1, 1000);
+            return rNum;
+        }
     }
 }

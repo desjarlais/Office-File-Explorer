@@ -10,8 +10,7 @@ namespace Office_File_Explorer.App_Helpers
     class UriFixHelper
     {
         /// <summary>
-        /// known issue in .NET
-        /// see this link for more info https://github.com/OfficeDev/Open-XML-SDK/issues/38
+        /// known issue in .NET, more info here -> https://github.com/OfficeDev/Open-XML-SDK/issues/38
         /// </summary>
         /// <param name="fs"></param>
         /// <param name="invalidUriHandler"></param>
@@ -23,7 +22,10 @@ namespace Office_File_Explorer.App_Helpers
                 foreach (var entry in za.Entries.ToList())
                 {
                     if (!entry.Name.EndsWith(".rels"))
+                    {
                         continue;
+                    }
+
                     bool replaceEntry = false;
                     XDocument entryXDoc = null;
                     using (var entryStream = entry.Open())
@@ -31,11 +33,13 @@ namespace Office_File_Explorer.App_Helpers
                         try
                         {
                             entryXDoc = XDocument.Load(entryStream);
+
                             if (entryXDoc.Root != null && entryXDoc.Root.Name.Namespace == relNs)
                             {
                                 var urisToCheck = entryXDoc
                                     .Descendants(relNs + "Relationship")
                                     .Where(r => r.Attribute("TargetMode") != null && (string)r.Attribute("TargetMode") == "External");
+                                
                                 foreach (var rel in urisToCheck)
                                 {
                                     var target = (string)rel.Attribute("Target");

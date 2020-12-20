@@ -71,6 +71,7 @@ namespace Office_File_Explorer
         public static string StrExtension = string.Empty;
         public static string StrDestFileName = string.Empty;
         private string fileType;
+        public static string StrCopiedFileName = string.Empty;
 
         // global numid lists
         private ArrayList oNumIdList = new ArrayList();
@@ -1976,6 +1977,7 @@ namespace Office_File_Explorer
                             // if the file does start with PK, check if it fails in the SDK
                             OpenWithSdk(TxtFileName.Text, true);
                             PopulatePackageParts();
+                            TxtFileName.Enabled = true;
                         }
                     }
                 }
@@ -2072,7 +2074,15 @@ namespace Office_File_Explorer
                 var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + StrExtension;
 
                 // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
-                File.Copy(TxtFileName.Text, StrCopyFileName);
+                if (!File.Exists(StrCopyFileName))
+                {
+                    File.Copy(TxtFileName.Text, StrCopyFileName);
+                }
+                else
+                {
+                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                    File.Copy(TxtFileName.Text, StrCopyFileName);
+                }
 
                 // if the exception is related to invalid hyperlinks, use the FixInvalidUri method to change the file
                 // once we change the copied file, we can open it in the SDK
@@ -2114,9 +2124,11 @@ namespace Office_File_Explorer
 
                     // update the main form UI
                     TxtFileName.Text = StrCopyFileName;
+                    StrCopiedFileName = StrCopyFileName;
                 }
                 else
                 {
+                    // unknown issue opening from .net
                     DisableButtons();
                     LstDisplay.Items.Add("Invalid File: FixUri Failure");
                     LoggingHelper.Log("OpenWithSDK Error: " + ope.Message);
@@ -2126,7 +2138,7 @@ namespace Office_File_Explorer
             {
                 // if the file failed to open in the sdk, it is invalid or corrupt and we need to stop opening
                 DisableButtons();
-                LstDisplay.Items.Add("Invalid File: Error opening file.");
+                LstDisplay.Items.Add("Invalid File: Unknown error opening file.");
                 LoggingHelper.Log("OpenWithSDK Error: " + ex.Message);
                 BtnFixCorruptDocument.Enabled = true;
             }
@@ -2143,7 +2155,8 @@ namespace Office_File_Explorer
         /// <returns></returns>
         private static Uri FixUri(string brokenUri)
         {
-            return new Uri("http://broken-link/");
+            brokenUri = "http://broken-link/";
+            return new Uri(brokenUri);
         }
 
         private void BtnPPTListHyperlinks_Click(object sender, EventArgs e)
@@ -3386,8 +3399,7 @@ namespace Office_File_Explorer
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ErrorLog.Clear();
-            Properties.Settings.Default.Save();
+            AppExitItems();
             Application.Exit();
         }
 
@@ -3969,6 +3981,28 @@ namespace Office_File_Explorer
         private void BtnCopyAll_Click(object sender, EventArgs e)
         {
             CopyAllItems();
+        }
+
+        public void AppExitItems()
+        {
+            try
+            {
+                if (Properties.Settings.Default.DeleteCopiesOnExit == true)
+                {
+                    File.Delete(StrCopiedFileName);
+                }
+
+                Properties.Settings.Default.ErrorLog.Clear();
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("App Exit Error: " + ex.Message);
+            }
+            finally
+            {
+                Application.Exit();
+            }
         }
 
         public void CopyAllItems()
@@ -4950,6 +4984,11 @@ namespace Office_File_Explorer
                 Owner = this
             };
             imgFrm.ShowDialog();
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AppExitItems();
         }
     }
 }

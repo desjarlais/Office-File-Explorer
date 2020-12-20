@@ -30,6 +30,11 @@ namespace Office_File_Explorer.Forms
                 ckResetNotesMaster.Checked = true;
             }
 
+            if (Properties.Settings.Default.DeleteCopiesOnExit == true)
+            {
+                ckDeleteCopies.Checked = true;
+            }
+
             if (Properties.Settings.Default.ListCellValuesSax == "true")
             {
                 rdoSax.Checked = true;
@@ -46,6 +51,7 @@ namespace Office_File_Explorer.Forms
             Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked ? "true" : "false";
             Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked ? "true" : "false";
             Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked ? "true" : "false";
+            Properties.Settings.Default.DeleteCopiesOnExit = ckDeleteCopies.Checked ? true : false;
             
             if (rdoSax.Checked == true)
             {

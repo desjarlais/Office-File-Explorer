@@ -41,9 +41,11 @@
             this.rdoDom = new System.Windows.Forms.RadioButton();
             this.rdoSax = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ckDeleteCopies = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // ckRemoveFallback
@@ -166,12 +168,23 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.ckDeleteCopies);
             this.groupBox4.Location = new System.Drawing.Point(12, 119);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(232, 100);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Office Settings";
+            this.groupBox4.Text = "App Settings";
+            // 
+            // ckDeleteCopies
+            // 
+            this.ckDeleteCopies.AutoSize = true;
+            this.ckDeleteCopies.Location = new System.Drawing.Point(6, 19);
+            this.ckDeleteCopies.Name = "ckDeleteCopies";
+            this.ckDeleteCopies.Size = new System.Drawing.Size(154, 17);
+            this.ckDeleteCopies.TabIndex = 0;
+            this.ckDeleteCopies.Text = "Delete Copied Files On Exit";
+            this.ckDeleteCopies.UseVisualStyleBackColor = true;
             // 
             // FrmSettings
             // 
@@ -197,6 +210,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -215,5 +230,6 @@
         private System.Windows.Forms.RadioButton rdoDom;
         private System.Windows.Forms.RadioButton rdoSax;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox ckDeleteCopies;
     }
 }
