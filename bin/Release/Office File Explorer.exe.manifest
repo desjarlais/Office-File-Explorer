@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DyIff4MUqQ/lAlPbAvmZnXJxdxXDF0hVKcL2+3GRzoE=</dsig:DigestValue>
+        <dsig:DigestValue>Yk2or14TH5OAjaJoCy+Ji1h9jKFfjxZ5So/J9TLajhw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -99,7 +99,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>CPm9sTSO6AnRHB+edy2M2ZxjGveZAI9k9AJC2WQELtk=</dsig:DigestValue>
+      <dsig:DigestValue>czNSh2QBQIULg6p0NgwWVOP5YiPycjPs5moNyYp8H4I=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\ASX_Copy_blue_16x.png" size="245">

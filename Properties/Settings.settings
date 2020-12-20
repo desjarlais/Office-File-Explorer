@@ -8,20 +8,20 @@
   &lt;string&gt;#### Error Log ####&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="RemoveFallback" Type="System.String" Scope="User">
-      <Value Profile="(Default)">false</Value>
+    <Setting Name="RemoveFallback" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="OpenInWord" Type="System.String" Scope="User">
-      <Value Profile="(Default)">false</Value>
+    <Setting Name="OpenInWord" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="FixGroupedShapes" Type="System.String" Scope="User">
-      <Value Profile="(Default)">false</Value>
+    <Setting Name="FixGroupedShapes" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ResetNotesMaster" Type="System.String" Scope="User">
-      <Value Profile="(Default)">false</Value>
+    <Setting Name="ResetNotesMaster" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ListCellValuesSax" Type="System.String" Scope="User">
-      <Value Profile="(Default)">false</Value>
+    <Setting Name="ListCellValuesSax" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DeleteCopiesOnExit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

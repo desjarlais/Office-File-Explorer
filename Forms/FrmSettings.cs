@@ -10,22 +10,22 @@ namespace Office_File_Explorer.Forms
             InitializeComponent();
 
             // populate checkboxes from settings
-            if (Properties.Settings.Default.RemoveFallback == "true")
+            if (Properties.Settings.Default.RemoveFallback == true)
             {
                 ckRemoveFallback.Checked = true;
             }
             
-            if (Properties.Settings.Default.OpenInWord == "true")
+            if (Properties.Settings.Default.OpenInWord == true)
             {
                 ckOpenInWord.Checked = true;
             }
              
-            if (Properties.Settings.Default.FixGroupedShapes == "true")
+            if (Properties.Settings.Default.FixGroupedShapes == true)
             {
                 ckGroupShapeFix.Checked = true;
             }
             
-            if (Properties.Settings.Default.ResetNotesMaster == "true")
+            if (Properties.Settings.Default.ResetNotesMaster == true)
             {
                 ckResetNotesMaster.Checked = true;
             }
@@ -35,7 +35,7 @@ namespace Office_File_Explorer.Forms
                 ckDeleteCopies.Checked = true;
             }
 
-            if (Properties.Settings.Default.ListCellValuesSax == "true")
+            if (Properties.Settings.Default.ListCellValuesSax == true)
             {
                 rdoSax.Checked = true;
             }
@@ -47,19 +47,19 @@ namespace Office_File_Explorer.Forms
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.RemoveFallback = ckRemoveFallback.Checked ? "true" : "false";
-            Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked ? "true" : "false";
-            Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked ? "true" : "false";
-            Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked ? "true" : "false";
-            Properties.Settings.Default.DeleteCopiesOnExit = ckDeleteCopies.Checked ? true : false;
+            Properties.Settings.Default.RemoveFallback = ckRemoveFallback.Checked;
+            Properties.Settings.Default.OpenInWord = ckOpenInWord.Checked;
+            Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked;
+            Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked;
+            Properties.Settings.Default.DeleteCopiesOnExit = ckDeleteCopies.Checked;
             
             if (rdoSax.Checked == true)
             {
-                Properties.Settings.Default.ListCellValuesSax = "true";
+                Properties.Settings.Default.ListCellValuesSax = true;
             }
             else
             {
-                Properties.Settings.Default.ListCellValuesSax = "false";
+                Properties.Settings.Default.ListCellValuesSax = false;
             }
             
             Properties.Settings.Default.Save();

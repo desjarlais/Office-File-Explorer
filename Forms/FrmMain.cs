@@ -2702,7 +2702,7 @@ namespace Office_File_Explorer
             PreButtonClickWork();
             List<string> list;
 
-            if (Properties.Settings.Default.ListCellValuesSax == "true")
+            if (Properties.Settings.Default.ListCellValuesSax == true)
             {
                 list = ExcelOpenXml.ReadExcelFileSAX(TxtFileName.Text);
             }
@@ -2859,7 +2859,7 @@ namespace Office_File_Explorer
                                                         // the original strvalidvshape fixes most corruptions, but there are
                                                         // some that are within a group so I added this for those rare situations
                                                         // where the v:group closing tag needs to be included
-                                                        if (Properties.Settings.Default.FixGroupedShapes == "true")
+                                                        if (Properties.Settings.Default.FixGroupedShapes == true)
                                                         {
                                                             strDocText = strDocText.Replace(m.Value, ValidXmlTags.StrValidVshapegroup);
                                                             LstDisplay.Items.Add(StringResources.invalidTag + m.Value);
@@ -2953,7 +2953,7 @@ namespace Office_File_Explorer
                                         // Step 1. start by getting a list of all nodes/values in the document.xml file
                                         // Step 2. call GetAllNodes to add each fallback tag
                                         // Step 3. call ParseOutFallbackTags to remove each fallback
-                                        if (Properties.Settings.Default.RemoveFallback == "true")
+                                        if (Properties.Settings.Default.RemoveFallback == true)
                                         {
                                             CharEnumerator charEnum = strDocText.GetEnumerator();
                                             while (charEnum.MoveNext())
@@ -3031,7 +3031,7 @@ namespace Office_File_Explorer
                                         IsFixed = true;
 
                                         // open the file in Word
-                                        if (Properties.Settings.Default.OpenInWord == "true")
+                                        if (Properties.Settings.Default.OpenInWord == true)
                                         {
                                             Process.Start(StrDestFileName);
                                         }
@@ -4036,7 +4036,7 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.WaitCursor;
                 PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
-                if (Properties.Settings.Default.ResetNotesMaster == "false")
+                if (Properties.Settings.Default.ResetNotesMaster == false)
                 {
                     MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -4069,7 +4069,7 @@ namespace Office_File_Explorer
                 using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                 {
                     PowerPointOpenXml.ChangeNotesPageSize(document);
-                    if (Properties.Settings.Default.ResetNotesMaster == "false")
+                    if (Properties.Settings.Default.ResetNotesMaster == false)
                     {
                         MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }

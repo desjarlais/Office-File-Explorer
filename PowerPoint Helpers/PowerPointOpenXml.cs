@@ -46,10 +46,10 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 // Iterate through all the slide parts in the presentation part.
                 foreach (SlidePart slidePart in document.PresentationPart.SlideParts)
                 {
-                    IEnumerable<Drawing.HyperlinkType> links = slidePart.Slide.Descendants<Drawing.HyperlinkType>();
+                    IEnumerable<HyperlinkType> links = slidePart.Slide.Descendants<Drawing.HyperlinkType>();
 
                     // Iterate through all the links in the slide part.
-                    foreach (Drawing.HyperlinkType link in links)
+                    foreach (HyperlinkType link in links)
                     {
                         // Iterate through all the external relationships in the slide part. 
                         foreach (HyperlinkRelationship relation in slidePart.HyperlinkRelationships)
@@ -101,7 +101,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     p.Save();
 
                     // Step 2 : loop the shapes in the notes master and reset their sizes
-                    if (Properties.Settings.Default.ResetNotesMaster == "true")
+                    if (Properties.Settings.Default.ResetNotesMaster == true)
                     {
                         // we need to reset sizes in the notes master for each shape
                         ShapeTree mSt = presentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
@@ -316,7 +316,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                 // Step 2 : loop the shapes in the notes master and reset their sizes
                 // need to find a way to flag a file if the notes master and/or notes slides become corrupt
                 // hiding behind a setting checkbox for now
-                if (Properties.Settings.Default.ResetNotesMaster == "true")
+                if (Properties.Settings.Default.ResetNotesMaster == true)
                 {
                     // we need to reset sizes in the notes master for each shape
                     ShapeTree mSt = presentationPart.NotesMasterPart.NotesMaster.CommonSlideData.ShapeTree;
@@ -847,8 +847,10 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         FillReference fillRef = style.FillReference;
 
                         // Set the fill color to SchemeColor Accent 6;
-                        fillRef.SchemeColor = new Drawing.SchemeColor();
-                        fillRef.SchemeColor.Val = Drawing.SchemeColorValues.Accent6;
+                        fillRef.SchemeColor = new SchemeColor
+                        {
+                            Val = SchemeColorValues.Accent6
+                        };
 
                         // Save the modified slide.
                         slide.Slide.Save();

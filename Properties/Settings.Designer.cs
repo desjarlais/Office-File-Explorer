@@ -39,10 +39,10 @@ namespace Office_File_Explorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("false")]
-        public string RemoveFallback {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RemoveFallback {
             get {
-                return ((string)(this["RemoveFallback"]));
+                return ((bool)(this["RemoveFallback"]));
             }
             set {
                 this["RemoveFallback"] = value;
@@ -51,10 +51,10 @@ namespace Office_File_Explorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("false")]
-        public string OpenInWord {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenInWord {
             get {
-                return ((string)(this["OpenInWord"]));
+                return ((bool)(this["OpenInWord"]));
             }
             set {
                 this["OpenInWord"] = value;
@@ -63,10 +63,10 @@ namespace Office_File_Explorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("false")]
-        public string FixGroupedShapes {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FixGroupedShapes {
             get {
-                return ((string)(this["FixGroupedShapes"]));
+                return ((bool)(this["FixGroupedShapes"]));
             }
             set {
                 this["FixGroupedShapes"] = value;
@@ -75,10 +75,10 @@ namespace Office_File_Explorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("false")]
-        public string ResetNotesMaster {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ResetNotesMaster {
             get {
-                return ((string)(this["ResetNotesMaster"]));
+                return ((bool)(this["ResetNotesMaster"]));
             }
             set {
                 this["ResetNotesMaster"] = value;
@@ -87,10 +87,10 @@ namespace Office_File_Explorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("false")]
-        public string ListCellValuesSax {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ListCellValuesSax {
             get {
-                return ((string)(this["ListCellValuesSax"]));
+                return ((bool)(this["ListCellValuesSax"]));
             }
             set {
                 this["ListCellValuesSax"] = value;
