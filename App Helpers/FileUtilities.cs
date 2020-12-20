@@ -65,7 +65,7 @@ namespace Office_File_Explorer.App_Helpers
         public static int GetRandomNumber()
         {
             Random r = new Random();
-            int rNum = r.Next(1, 1000);
+            int rNum = r.Next(1, 100);
             return rNum;
         }
     }

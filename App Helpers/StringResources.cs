@@ -22,15 +22,16 @@
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
         public const string errorText = "Error: ";
+        public const string fixedFileName = "(Fixed)";
         public const string pptNotesSizeReset = "Notes Page Size Reset.";
         public const string sEnd = "end";
         public const string sBegin = "begin";
         public const string colon = ": ";
         public const string colonBuffer = " : ";
         public const string period = ". ";
-        public const string emptyString = "";
         public const string docSecurity = "DocSecurity";
         public const string arrow = " --> ";
+        public const string customXmlRequestStatus = "RequestStatus";
         public const string nonEmptyId = "Target Id cannot be empty.";
         public const string duplicateId = "OOXML part Id <1> already exists.";
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";

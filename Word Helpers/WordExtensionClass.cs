@@ -142,7 +142,7 @@ namespace Office_File_Explorer.Word_Helpers
             OpenXmlPart extendedFilePropertiesPart = document.ExtendedFilePropertiesPart;
             XDocument extendedFilePropertiesXDoc = extendedFilePropertiesPart.GetXDocument();
             string company = extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + StringResources.propsCompany).Select(e => (string)e)
-                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+                .Aggregate(string.Empty, (s, i) => s + i);
             
             if (company.Length > 0)
             {
@@ -155,7 +155,7 @@ namespace Office_File_Explorer.Word_Helpers
             OpenXmlPart coreFilePropertiesPart = document.CoreFilePropertiesPart;
             XDocument coreFilePropertiesXDoc = coreFilePropertiesPart.GetXDocument();
             string creator = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(dc + StringResources.propsCreator).Select(e => (string)e)
-                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+                .Aggregate(string.Empty, (s, i) => s + i);
             
             if (creator.Length > 0)
             {
@@ -163,7 +163,7 @@ namespace Office_File_Explorer.Word_Helpers
             }
 
             string lastModifiedBy = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + StringResources.propsLastModifiedBy).Select(e => (string)e)
-                .Aggregate(StringResources.emptyString, (s, i) => s + i);
+                .Aggregate(string.Empty, (s, i) => s + i);
             
             if (lastModifiedBy.Length > 0)
             {
@@ -219,7 +219,7 @@ namespace Office_File_Explorer.Word_Helpers
                                                            .Nodes()
                                                            .OfType<XText>())
             {
-                textNode.Value = StringResources.emptyString;
+                textNode.Value = string.Empty;
             }
 
             foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties)
@@ -227,7 +227,7 @@ namespace Office_File_Explorer.Word_Helpers
                                                            .Nodes()
                                                            .OfType<XText>())
             {
-                textNode.Value = StringResources.emptyString;
+                textNode.Value = string.Empty;
             }
 
             XElement revision = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + "revision").FirstOrDefault();

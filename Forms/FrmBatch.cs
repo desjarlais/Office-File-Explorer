@@ -27,8 +27,8 @@ namespace Office_File_Explorer.Forms
     public partial class FrmBatch : Form
     {
         public List<string> files = new List<string>();
-        public string fileType = "";
-        public string fType = "";
+        public string fileType = string.Empty;
+        public string fType = string.Empty;
         public bool nodeDeleted = false;
 
         public FrmBatch()
@@ -321,12 +321,12 @@ namespace Office_File_Explorer.Forms
                 catch (NullReferenceException nre)
                 {
                     lstOutput.Items.Add(f + StringResources.arrow + "** Document does not contain Notes Master **");
-                    LoggingHelper.Log(f + StringResources.arrow + "error = " + nre.Message);
+                    LoggingHelper.Log(f + StringResources.arrow + StringResources.errorText + nre.Message);
                 }
                 catch (Exception ex)
                 {
-                    lstOutput.Items.Add(f + StringResources.arrow + "error = " + ex.Message);
-                    LoggingHelper.Log(f + StringResources.arrow + "error = " + ex.Message);
+                    lstOutput.Items.Add(f + StringResources.arrow + StringResources.errorText + ex.Message);
+                    LoggingHelper.Log(f + StringResources.arrow + StringResources.errorText + ex.Message);
                 }
                 finally
                 {
@@ -573,7 +573,7 @@ namespace Office_File_Explorer.Forms
                     }
                     else
                     {
-                        excelcnvPath = StringResources.emptyString;
+                        excelcnvPath = string.Empty;
                     }
 
                     // check if the file is strict
@@ -605,13 +605,13 @@ namespace Office_File_Explorer.Forms
                         }
                     }
 
-                    if (isStrict == true && excelcnvPath != StringResources.emptyString)
+                    if (isStrict == true && excelcnvPath != string.Empty)
                     {
                         // setup destination file path
                         string strOriginalFile = f;
                         string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
                         string strFileExtension = Path.GetExtension(strOriginalFile);
-                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + "(Fixed)" + strFileExtension;
+                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.fixedFileName + strFileExtension;
 
                         // run the command to convert the file "excelcnv.exe -nme -oice "file-path" "converted-file-path""
                         string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
@@ -641,7 +641,7 @@ namespace Office_File_Explorer.Forms
         {
             try
             {
-                string propNameToDelete = "";
+                string propNameToDelete = string.Empty;
                 lstOutput.Items.Clear();
 
                 if (fType == StringResources.word)
@@ -671,7 +671,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
                                             customPropFound = true;
                                         }
                                     }
@@ -714,7 +714,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
                                         }
                                         else
                                         {
@@ -755,7 +755,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + " : " + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
                                         }
                                         else
                                         {
@@ -932,12 +932,12 @@ namespace Office_File_Explorer.Forms
                                 {
                                     // move to the node and delete it
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
-                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+                                    navigator.MoveToChild("documentManagement", string.Empty);
+                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
 
                                     // check if we actually moved to the RequestStatus node
                                     // if we didn't move there, no changes should happen, it doesn't exist
-                                    if (navigator.Name == "RequestStatus")
+                                    if (navigator.Name == StringResources.customXmlRequestStatus)
                                     {
                                         // delete the node
                                         navigator.DeleteSelf();
@@ -987,10 +987,10 @@ namespace Office_File_Explorer.Forms
                                 if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                 {
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
-                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+                                    navigator.MoveToChild("documentManagement", string.Empty);
+                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
                                     
-                                    if (navigator.Name == "RequestStatus")
+                                    if (navigator.Name == StringResources.customXmlRequestStatus)
                                     {
                                         navigator.DeleteSelf();
 
@@ -1037,10 +1037,10 @@ namespace Office_File_Explorer.Forms
                                 if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                 {
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", StringResources.emptyString);
-                                    navigator.MoveToChild("RequestStatus", StringResources.requestStatusNS);
+                                    navigator.MoveToChild("documentManagement", string.Empty);
+                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
 
-                                    if (navigator.Name == "RequestStatus")
+                                    if (navigator.Name == StringResources.customXmlRequestStatus)
                                     {
                                         navigator.DeleteSelf();
 
