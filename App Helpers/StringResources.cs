@@ -54,6 +54,35 @@
         public const string propsRemovePI = "removePersonalInformation";
         public const string propsRemoveDateTime = "removeDateAndTime";
 
+        // notes slide refs
+        public const string pptHeaderPlaceholder = "Header Placeholder";
+        public const string pptHeaderPlaceholder1 = "Header Placeholder 1";
+        public const string pptDatePlaceholder = "Date Placeholder";
+        public const string pptDatePlaceholder2 = "Date Placeholder 2";
+        public const string pptSlideImagePlaceholder = "Slide Image Placeholder";
+        public const string pptSlideImagePlaceholder3 = "Slide Image Placeholder 3";
+        public const string pptNotesPlaceholder = "Notes Placeholder";
+        public const string pptNotesPlaceholder4 = "Notes Placeholder 4";
+        public const string pptFooterPlaceholder = "Footer Placeholder";
+        public const string pptFooterPlaceholder5 = "Footer Placeholder 5";
+        public const string pptSlideNumberPlaceholder = "Slide Number Placeholder";
+        public const string pptSlideNumberPlaceholder6 = "Slide Number Placeholder 6";
+        public const string pptexceptionPowerPoint = "presentationDocument";
+        public const string pptPicture = "Picture";
+
+        // sdk refs
+        public const string wdBody = "DocumentFormat.OpenXml.Wordprocessing.Body";
+        public const string wdSdt = "DocumentFormat.OpenXml.Wordprocessing.Sdt";
+        public const string wdStyle = "DocumentFormat.OpenXml.Wordprocessing.Style";
+        public const string wdLevel = "DocumentFormat.OpenXml.Wordprocessing.Level";
+        public const string wdText = "DocumentFormat.OpenXml.Wordprocessing.Text";
+        public const string wdRun = "DocumentFormat.OpenXml.Wordprocessing.Run";
+
+        public const string pptNVSP = "DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties";
+        public const string pptNVDP = "DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties";
+        public const string pptShape = "DocumentFormat.OpenXml.Presentation.Shape";
+        public const string pptPresentationPicture = "DocumentFormat.OpenXml.Presentation.Picture";
+
         // excelcnv paths
         public const string sameBitnessO365 = @"C:\Program Files\Microsoft Office\root\Office16\excelcnv.exe";
         public const string x86OfficeO365 = @"C:\Program Files (x86)\Microsoft Office\root\Office16\excelcnv.exe";

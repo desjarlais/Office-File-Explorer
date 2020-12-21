@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Windows.Forms;
+using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.PowerPoint_Helpers
 {
@@ -108,13 +109,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
                         foreach (var mShp in mSt)
                         {
-                            if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                            if (mShp.ToString() == StringResources.pptShape)
                             {
                                 PShape ps = (PShape)mShp;
                                 NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
 
-                                if (nvdpr.Name.ToString().Contains("Header Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptHeaderPlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dHeader.OffsetX;
                                     t2d.Offset.Y = nsh.t2dHeader.OffsetY;
@@ -122,7 +123,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dHeader.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name.ToString().Contains("Date Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptDatePlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dDate.OffsetX;
                                     t2d.Offset.Y = nsh.t2dDate.OffsetY;
@@ -130,7 +131,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dDate.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name.ToString().Contains("Slide Image Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptSlideImagePlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dSlideImage.OffsetX;
                                     t2d.Offset.Y = nsh.t2dSlideImage.OffsetY;
@@ -138,7 +139,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dSlideImage.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name.ToString().Contains("Notes Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptNotesPlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dNotes.OffsetX;
                                     t2d.Offset.Y = nsh.t2dNotes.OffsetY;
@@ -146,7 +147,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dNotes.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name.ToString().Contains("Footer Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptFooterPlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dFooter.OffsetX;
                                     t2d.Offset.Y = nsh.t2dFooter.OffsetY;
@@ -154,7 +155,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dFooter.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name.ToString().Contains("Slide Number Placeholder"))
+                                if (nvdpr.Name.ToString().Contains(StringResources.pptSlideNumberPlaceholder))
                                 {
                                     t2d.Offset.X = nsh.t2dSlideNumber.OffsetX;
                                     t2d.Offset.Y = nsh.t2dSlideNumber.OffsetY;
@@ -162,7 +163,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     t2d.Extents.Cy = nsh.t2dSlideNumber.ExtentsCy;
                                 }
 
-                                if (nvdpr.Name == "Picture")
+                                if (nvdpr.Name == StringResources.pptPicture)
                                 {
                                     t2d.Offset.X = nsh.t2dPicture.OffsetX;
                                     t2d.Offset.Y = nsh.t2dPicture.OffsetY;
@@ -182,7 +183,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                             foreach (var s in st)
                             {
                                 // we only want to make changes to the shapes
-                                if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                                if (s.ToString() == StringResources.pptShape)
                                 {
                                     PShape ps = (PShape)s;
                                     NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
@@ -198,7 +199,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents = extents1;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Header Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptHeaderPlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dHeader.OffsetX;
                                         t2d.Offset.Y = nsh.t2dHeader.OffsetY;
@@ -206,7 +207,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dHeader.ExtentsCy;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Date Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptDatePlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dDate.OffsetX;
                                         t2d.Offset.Y = nsh.t2dDate.OffsetY;
@@ -214,7 +215,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dDate.ExtentsCy;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Slide Image Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptSlideImagePlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dSlideImage.OffsetX;
                                         t2d.Offset.Y = nsh.t2dSlideImage.OffsetY;
@@ -222,7 +223,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dSlideImage.ExtentsCy;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Notes Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptNotesPlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dNotes.OffsetX;
                                         t2d.Offset.Y = nsh.t2dNotes.OffsetY;
@@ -230,7 +231,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dNotes.ExtentsCy;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Footer Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptFooterPlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dFooter.OffsetX;
                                         t2d.Offset.Y = nsh.t2dFooter.OffsetY;
@@ -238,7 +239,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dFooter.ExtentsCy;
                                     }
 
-                                    if (nvdpr.Name.ToString().Contains("Slide Number Placeholder"))
+                                    if (nvdpr.Name.ToString().Contains(StringResources.pptSlideNumberPlaceholder))
                                     {
                                         t2d.Offset.X = nsh.t2dSlideNumber.OffsetX;
                                         t2d.Offset.Y = nsh.t2dSlideNumber.OffsetY;
@@ -246,7 +247,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dSlideNumber.ExtentsCy;
                                     }
                                 }
-                                else if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Picture")
+                                else if (s.ToString() == StringResources.pptPresentationPicture)
                                 {
                                     DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
                                     Transform2D t2d = pic.ShapeProperties.Transform2D;
@@ -323,14 +324,14 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     
                     foreach (var mShp in mSt)
                     {
-                        if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                        if (mShp.ToString() == StringResources.pptShape)
                         {
                             PShape ps = (PShape)mShp;
                             NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                             Transform2D t2d = ps.ShapeProperties.Transform2D;
 
                             // use default values
-                            if (nvdpr.Name == "Header Placeholder 1")
+                            if (nvdpr.Name == StringResources.pptHeaderPlaceholder1)
                             {
                                 t2d.Offset.X = 0L;
                                 t2d.Offset.Y = 0L;
@@ -338,7 +339,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 t2d.Extents.Cy = 458788L;
                             }
 
-                            if (nvdpr.Name == "Date Placeholder 2")
+                            if (nvdpr.Name == StringResources.pptDatePlaceholder2)
                             {
                                 t2d.Offset.X = 3884613L;
                                 t2d.Offset.Y = 0L;
@@ -346,7 +347,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 t2d.Extents.Cy = 458788L;
                             }
 
-                            if (nvdpr.Name == "Slide Image Placeholder 3")
+                            if (nvdpr.Name == StringResources.pptSlideImagePlaceholder3)
                             {
                                 t2d.Offset.X = 685800L;
                                 t2d.Offset.Y = 1143000L;
@@ -354,7 +355,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 t2d.Extents.Cy = 3086100L;
                             }
 
-                            if (nvdpr.Name == "Notes Placeholder 4")
+                            if (nvdpr.Name == StringResources.pptNotesPlaceholder4)
                             {
                                 t2d.Offset.X = 685800L;
                                 t2d.Offset.Y = 4400550L;
@@ -362,7 +363,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 t2d.Extents.Cy = 3600450L;
                             }
 
-                            if (nvdpr.Name == "Footer Placeholder 5")
+                            if (nvdpr.Name == StringResources.pptFooterPlaceholder5)
                             {
                                 t2d.Offset.X = 0L;
                                 t2d.Offset.Y = 8685213L;
@@ -370,7 +371,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 t2d.Extents.Cy = 458787L;
                             }
 
-                            if (nvdpr.Name == "Slide Number Placeholder 6")
+                            if (nvdpr.Name == StringResources.pptSlideNumberPlaceholder6)
                             {
                                 t2d.Offset.X = 3884613L;
                                 t2d.Offset.Y = 8685213L;
@@ -390,7 +391,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         foreach (var s in st)
                         {
                             // we only want to make changes to the shapes
-                            if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                            if (s.ToString() == StringResources.pptShape)
                             {
                                 PShape ps = (PShape)s;                                
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
@@ -409,7 +410,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     {
                                         if (x.ToString() == "DocumentFormat.OpenXml.Drawing.Paragraph")
                                         {
-                                            DocumentFormat.OpenXml.Drawing.Paragraph para = (DocumentFormat.OpenXml.Drawing.Paragraph)x;
+                                            Paragraph para = (Paragraph)x;
                                             if (para.ParagraphProperties != null)
                                             {
                                                 if (para.ParagraphProperties.LeftMargin != null)
@@ -426,7 +427,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     }
                                 }
                             }
-                            else if (s.ToString() == "DocumentFormat.OpenXml.Presentation.Picture")
+                            else if (s.ToString() == StringResources.pptPresentationPicture)
                             {
                                 DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
                                 Transform2D t2d = pic.ShapeProperties.Transform2D;
@@ -474,13 +475,13 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
                     foreach (var mShp in mSt)
                     {
-                        if (mShp.ToString() == "DocumentFormat.OpenXml.Presentation.Shape")
+                        if (mShp.ToString() == StringResources.pptShape)
                         {
                             PShape ps = (PShape)mShp;
                             NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
                             Transform2D t2d = ps.ShapeProperties.Transform2D;
 
-                            if (nvdpr.Name == "Header Placeholder 1")
+                            if (nvdpr.Name == StringResources.pptHeaderPlaceholder1)
                             {
                                 nsh.t2dHeader.OffsetX = t2d.Offset.X;
                                 nsh.t2dHeader.OffsetY = t2d.Offset.Y;
@@ -488,7 +489,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dHeader.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Date Placeholder 2")
+                            if (nvdpr.Name == StringResources.pptDatePlaceholder2)
                             {
                                 nsh.t2dDate.OffsetX = t2d.Offset.X;
                                 nsh.t2dDate.OffsetY = t2d.Offset.Y;
@@ -496,7 +497,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dDate.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Slide Image Placeholder 3")
+                            if (nvdpr.Name == StringResources.pptSlideImagePlaceholder3)
                             {
                                 nsh.t2dSlideImage.OffsetX = t2d.Offset.X;
                                 nsh.t2dSlideImage.OffsetY = t2d.Offset.Y;
@@ -504,7 +505,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dSlideImage.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Notes Placeholder 4")
+                            if (nvdpr.Name == StringResources.pptNotesPlaceholder4)
                             {
                                 nsh.t2dNotes.OffsetX = t2d.Offset.X;
                                 nsh.t2dNotes.OffsetY = t2d.Offset.Y;
@@ -512,7 +513,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dNotes.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Footer Placeholder 5")
+                            if (nvdpr.Name == StringResources.pptFooterPlaceholder5)
                             {
                                 nsh.t2dFooter.OffsetX = t2d.Offset.X;
                                 nsh.t2dFooter.OffsetY = t2d.Offset.Y;
@@ -520,7 +521,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dFooter.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Slide Number Placeholder 6")
+                            if (nvdpr.Name == StringResources.pptSlideNumberPlaceholder6)
                             {
                                 nsh.t2dSlideNumber.OffsetX = t2d.Offset.X;
                                 nsh.t2dSlideNumber.OffsetY = t2d.Offset.Y;
@@ -528,7 +529,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                 nsh.t2dSlideNumber.ExtentsCy = t2d.Extents.Cy;
                             }
 
-                            if (nvdpr.Name == "Picture")
+                            if (nvdpr.Name == StringResources.pptPicture)
                             {
                                 nsh.t2dPicture.OffsetX = t2d.Offset.X;
                                 nsh.t2dPicture.OffsetY = t2d.Offset.Y;
@@ -548,7 +549,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             if (presentationDocument == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException(StringResources.pptexceptionPowerPoint);
             }
 
             // Get a PresentationPart object from the PresentationDocument object.
@@ -588,7 +589,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             if (presentationDocument == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException(StringResources.pptexceptionPowerPoint);
             }
 
             // Get a PresentationPart object from the PresentationDocument object.
@@ -607,7 +608,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     foreach (var slideId in presentation.SlideIdList.Elements<SlideId>())
                     {
                         SlidePart slidePart = presentationPart.GetPartById(slideId.RelationshipId) as SlidePart;
-                        string transition = "";
+                        string transition = string.Empty;
 
                         if (slidePart.Slide.Transition != null)
                         {
@@ -638,7 +639,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             if (slidePart == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException(StringResources.pptexceptionPowerPoint);
             }
 
             // Declare a paragraph separator.
@@ -755,7 +756,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
             // Check for a null document object.
             if (presentationDocument == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException(StringResources.pptexceptionPowerPoint);
             }
 
             int slidesCount = 0;
@@ -781,7 +782,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
         {
             if (presentationDocument == null)
             {
-                throw new ArgumentNullException("presentationDocument");
+                throw new ArgumentNullException(StringResources.pptexceptionPowerPoint);
             }
 
             // Get the presentation part from the presentation document.
