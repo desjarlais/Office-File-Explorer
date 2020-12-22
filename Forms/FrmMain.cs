@@ -1977,7 +1977,6 @@ namespace Office_File_Explorer
                             // if the file does start with PK, check if it fails in the SDK
                             OpenWithSdk(TxtFileName.Text, true);
                             PopulatePackageParts();
-                            //TxtFileName.Enabled = true;
                         }
                     }
                 }
