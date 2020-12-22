@@ -1235,7 +1235,7 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Add("Description: " + error.Description);
                 LstDisplay.Items.Add("Path: " + error.Path.XPath);
                 LstDisplay.Items.Add("Part: " + error.Part.Uri);
-                LstDisplay.Items.Add("-------------------------------------------");
+                LstDisplay.Items.Add(StringResources.headerLine);
             }
 
             DisplayEmptyCount(count, "errors.");
@@ -1309,7 +1309,7 @@ namespace Office_File_Explorer
                                 if (c.CellFormula != null)
                                 {
                                     count++;
-                                    LstDisplay.Items.Add(count + StringResources.period + c.CellReference + " = " + c.CellFormula.Text);
+                                    LstDisplay.Items.Add(count + StringResources.period + c.CellReference + StringResources.equalSign + c.CellFormula.Text);
                                 }
                             }
                         }
@@ -1977,7 +1977,7 @@ namespace Office_File_Explorer
                             // if the file does start with PK, check if it fails in the SDK
                             OpenWithSdk(TxtFileName.Text, true);
                             PopulatePackageParts();
-                            TxtFileName.Enabled = true;
+                            //TxtFileName.Enabled = true;
                         }
                     }
                 }
@@ -2649,7 +2649,7 @@ namespace Office_File_Explorer
                             return;
                         }
 
-                        foreach (DocumentFormat.OpenXml.Presentation.Comment cmt in sCPart.CommentList)
+                        foreach (P.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
                             LstDisplay.Items.Add(commentCount + StringResources.period + cmt.InnerText);
@@ -2690,7 +2690,7 @@ namespace Office_File_Explorer
                         }
                         else
                         {
-                            LstDisplay.Items.Add(" - " + attr.LocalName + StringResources.colonBuffer + attr.Value);
+                            LstDisplay.Items.Add(StringResources.minusSign + attr.LocalName + StringResources.colonBuffer + attr.Value);
                         }
                     }
                 }
@@ -2791,12 +2791,12 @@ namespace Office_File_Explorer
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
-                StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileName + StrExtension;
+                StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileParentheses + StrExtension;
 
                 // check if file we are about to copy exists and append a number so its unique
                 if (File.Exists(StrDestFileName))
                 {
-                    StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileName + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                    StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
                 }
 
                 LstDisplay.Items.Clear();
@@ -2923,7 +2923,7 @@ namespace Office_File_Explorer
                                                         // the second if <w:pict/> is to catch and replace the invalid mc:Fallback tags
                                                         else if (m.Value.Contains("<w:pict/>"))
                                                         {
-                                                            if (m.Value.Contains("</mc:Fallback>"))
+                                                            if (m.Value.Contains(StringResources.txtFallbackEnd))
                                                             {
                                                                 // if the match contains the closing fallback we just need to remove the entire fallback
                                                                 // this will leave the closing AC and Run tags, which should be correct
@@ -3586,7 +3586,7 @@ namespace Office_File_Explorer
 
                             if (bkCommentList.Count() > 0)
                             {
-                                LstDisplay.Items.Add("");
+                                LstDisplay.Items.Add(string.Empty);
                                 LstDisplay.Items.Add("** Comment Bookmarks ** ");
                                 hasBookmark = true;
 
@@ -4121,6 +4121,10 @@ namespace Office_File_Explorer
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        public void OpenFile()
+        { 
         }
 
         public void FixRevisions()
@@ -4745,7 +4749,7 @@ namespace Office_File_Explorer
                     string strOriginalFile = TxtFileName.Text;
                     string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
                     string strFileExtension = Path.GetExtension(strOriginalFile);
-                    string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + "(Fixed)" + strFileExtension;
+                    string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.fixedFileParentheses + strFileExtension;
 
                     // run the command to convert the file "excelcnv.exe -nme -oice "strict-file-path" "converted-file-path""
                     string cParams = " -nme -oice " + '"' + TxtFileName.Text + '"' + " " + '"' + strOutputFileName + '"';

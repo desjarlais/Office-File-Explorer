@@ -2,10 +2,42 @@
 {
     class StringResources
     {
-        // global app strings
+        // global app strings - words
         public const string word = "Word";
         public const string excel = "Excel";
         public const string powerpoint = "PowerPoint";
+        public const string errorText = "Error: ";
+        public const string fixedFileParentheses = "(Fixed)";
+        public const string copyFileParentheses = "(Copy)";
+        public const string sEnd = "end";
+        public const string sBegin = "begin";
+        public const string colon = ": ";
+        public const string colonBuffer = " : ";
+        public const string period = ". ";
+        public const string arrow = " --> ";
+        public const string minusSign = " - ";
+        public const string equalSign = " = ";
+        public const string headerLine = "-------------------------------------------";
+        public const string customXmlRequestStatus = "RequestStatus";
+        public const string requestStatusNS = "d264e665-9d0b-48fb-b78a-227e1d3d858d";
+        public const string shpChart = "Chart";
+        public const string propsProperties = "Properties";
+        public const string propsCoreProperties = "coreProperties";
+        public const string propsCompany = "Company";
+        public const string propsCreator = "creator";
+        public const string propsLastModifiedBy = "lastModifiedBy";
+        public const string propsRemovePI = "removePersonalInformation";
+        public const string propsRemoveDateTime = "removeDateAndTime";
+        public const string docSecurity = "DocSecurity";
+
+        // global xml tag strings
+        public const string txtFallbackStart = "<mc:Fallback>";
+        public const string txtFallbackEnd = "</mc:Fallback>";
+
+        // global app messages
+        public const string nonEmptyId = "Target Id cannot be empty.";
+        public const string duplicateId = "OOXML part Id <1> already exists.";
+        public const string pptNotesSizeReset = "Notes Page Size Reset.";
         public const string noCustomDocProps = "** There are no custom file properties in this file **";
         public const string fileDoesNotExist = "** File does not exist **";
         public const string noFootnotes = "** No Footnotes in this document **";
@@ -16,27 +48,9 @@
         public const string noShapes = "** Document does not contain any shapes **";
         public const string noComments = "** Document does not contain any comments **";
         public const string sampleSentence = "This is a sample sentence.  Enter your own text here.";
-        public const string txtFallbackStart = "<mc:Fallback>";
-        public const string txtFallbackEnd = "</mc:Fallback>";
         public const string invalidTag = "Invalid Tag: ";
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
-        public const string errorText = "Error: ";
-        public const string fixedFileName = "(Fixed)";
-        public const string pptNotesSizeReset = "Notes Page Size Reset.";
-        public const string sEnd = "end";
-        public const string sBegin = "begin";
-        public const string colon = ": ";
-        public const string colonBuffer = " : ";
-        public const string period = ". ";
-        public const string docSecurity = "DocSecurity";
-        public const string arrow = " --> ";
-        public const string customXmlRequestStatus = "RequestStatus";
-        public const string nonEmptyId = "Target Id cannot be empty.";
-        public const string duplicateId = "OOXML part Id <1> already exists.";
-        public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
-        public const string requestStatusNS = "d264e665-9d0b-48fb-b78a-227e1d3d858d";
-        public const string shpChart = "Chart";
         public const string shpOfficeDrawing = ". Office Drawing";
         public const string shpVml = "Vml Shape";
         public const string shpMath = ". Math Shape";
@@ -46,13 +60,6 @@
         public const string shpShape = ". Shape";
         public const string shp3D = ". 3D Shape";
         public const string shpXlDraw = ". Spreadsheet Drawing";
-        public const string propsProperties = "Properties";
-        public const string propsCoreProperties = "coreProperties";
-        public const string propsCompany = "Company";
-        public const string propsCreator = "creator";
-        public const string propsLastModifiedBy = "lastModifiedBy";
-        public const string propsRemovePI = "removePersonalInformation";
-        public const string propsRemoveDateTime = "removeDateAndTime";
 
         // notes slide refs
         public const string pptHeaderPlaceholder = "Header Placeholder";
@@ -96,6 +103,9 @@
         public const string schemaMsft2007 = "http://schemas.microsoft.com/office/2007/relationships/";
         public const string schemaMsft2006 = "http://schemas.microsoft.com/office/2006/relationships/";
         public const string schemaMetadataProperties = "http://schemas.microsoft.com/office/2006/metadata/properties";
+        
+        // urls
+        public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
 
         // Office package relationship ids
         public const string CustomUIPartRelType = schemaMsft2006 + "ui/extensibility";
