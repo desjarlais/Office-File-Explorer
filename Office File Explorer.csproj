@@ -98,124 +98,124 @@
     <Compile Include="App Helpers\StringResources.cs" />
     <Compile Include="App Helpers\UriFixHelper.cs" />
     <Compile Include="Excel Helpers\ExcelOpenXml.cs" />
-    <Compile Include="Forms\FrmAuthors.cs">
+    <Compile Include="WinForms\FrmAuthors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmAuthors.Designer.cs">
+    <Compile Include="WinForms\FrmAuthors.Designer.cs">
       <DependentUpon>FrmAuthors.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmAbout.cs">
+    <Compile Include="WinForms\FrmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmAbout.Designer.cs">
+    <Compile Include="WinForms\FrmAbout.Designer.cs">
       <DependentUpon>FrmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmBatch.cs">
+    <Compile Include="WinForms\FrmBatch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmBatch.Designer.cs">
+    <Compile Include="WinForms\FrmBatch.Designer.cs">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmBatchDeleteCustomProps.cs">
+    <Compile Include="WinForms\FrmBatchDeleteCustomProps.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmBatchDeleteCustomProps.Designer.cs">
+    <Compile Include="WinForms\FrmBatchDeleteCustomProps.Designer.cs">
       <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmClipboardViewer.cs">
+    <Compile Include="WinForms\FrmClipboardViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmClipboardViewer.Designer.cs">
+    <Compile Include="WinForms\FrmClipboardViewer.Designer.cs">
       <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmCustomProperties.cs">
+    <Compile Include="WinForms\FrmCustomProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmCustomProperties.Designer.cs">
+    <Compile Include="WinForms\FrmCustomProperties.Designer.cs">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmCustomXmlViewer.cs">
+    <Compile Include="WinForms\FrmCustomXmlViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmCustomXmlViewer.Designer.cs">
+    <Compile Include="WinForms\FrmCustomXmlViewer.Designer.cs">
       <DependentUpon>FrmCustomXmlViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmDeleteCustomProps.cs">
+    <Compile Include="WinForms\FrmDeleteCustomProps.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmDeleteCustomProps.Designer.cs">
+    <Compile Include="WinForms\FrmDeleteCustomProps.Designer.cs">
       <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmErrorLog.cs">
+    <Compile Include="WinForms\FrmErrorLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmErrorLog.Designer.cs">
+    <Compile Include="WinForms\FrmErrorLog.Designer.cs">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmFixDocument.cs">
+    <Compile Include="WinForms\FrmFixDocument.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmFixDocument.Designer.cs">
+    <Compile Include="WinForms\FrmFixDocument.Designer.cs">
       <DependentUpon>FrmFixDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmFontDetails.cs">
+    <Compile Include="WinForms\FrmFontDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmFontDetails.Designer.cs">
+    <Compile Include="WinForms\FrmFontDetails.Designer.cs">
       <DependentUpon>FrmFontDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmFontViewer.cs">
+    <Compile Include="WinForms\FrmFontViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmFontViewer.Designer.cs">
+    <Compile Include="WinForms\FrmFontViewer.Designer.cs">
       <DependentUpon>FrmFontViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMain.cs">
+    <Compile Include="WinForms\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMain.Designer.cs">
+    <Compile Include="WinForms\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmMoveSlide.cs">
+    <Compile Include="WinForms\FrmMoveSlide.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmMoveSlide.Designer.cs">
+    <Compile Include="WinForms\FrmMoveSlide.Designer.cs">
       <DependentUpon>FrmMoveSlide.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmParagraphs.cs">
+    <Compile Include="WinForms\FrmParagraphs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmParagraphs.Designer.cs">
+    <Compile Include="WinForms\FrmParagraphs.Designer.cs">
       <DependentUpon>FrmParagraphs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmPrinterSettings.cs">
+    <Compile Include="WinForms\FrmPrinterSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmPrinterSettings.Designer.cs">
+    <Compile Include="WinForms\FrmPrinterSettings.Designer.cs">
       <DependentUpon>FrmPrinterSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmPrintOrientation.cs">
+    <Compile Include="WinForms\FrmPrintOrientation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmPrintOrientation.Designer.cs">
+    <Compile Include="WinForms\FrmPrintOrientation.Designer.cs">
       <DependentUpon>FrmPrintOrientation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmSearchAndReplace.cs">
+    <Compile Include="WinForms\FrmSearchAndReplace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmSearchAndReplace.Designer.cs">
+    <Compile Include="WinForms\FrmSearchAndReplace.Designer.cs">
       <DependentUpon>FrmSearchAndReplace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmSettings.cs">
+    <Compile Include="WinForms\FrmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmSettings.Designer.cs">
+    <Compile Include="WinForms\FrmSettings.Designer.cs">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmViewImages.cs">
+    <Compile Include="WinForms\FrmViewImages.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmViewImages.Designer.cs">
+    <Compile Include="WinForms\FrmViewImages.Designer.cs">
       <DependentUpon>FrmViewImages.cs</DependentUpon>
     </Compile>
     <Compile Include="PowerPoint Helpers\NoteSlideHelper.cs" />
@@ -232,64 +232,64 @@
     <Compile Include="Word Helpers\ValidXmlTags.cs" />
     <Compile Include="Word Helpers\WordExtensionClass.cs" />
     <Compile Include="Word Helpers\WordOpenXml.cs" />
-    <EmbeddedResource Include="Forms\FrmAuthors.resx">
+    <EmbeddedResource Include="WinForms\FrmAuthors.resx">
       <DependentUpon>FrmAuthors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmAbout.resx">
+    <EmbeddedResource Include="WinForms\FrmAbout.resx">
       <DependentUpon>FrmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmBatch.resx">
+    <EmbeddedResource Include="WinForms\FrmBatch.resx">
       <DependentUpon>FrmBatch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmBatchDeleteCustomProps.resx">
+    <EmbeddedResource Include="WinForms\FrmBatchDeleteCustomProps.resx">
       <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmClipboardViewer.resx">
+    <EmbeddedResource Include="WinForms\FrmClipboardViewer.resx">
       <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmCustomProperties.resx">
+    <EmbeddedResource Include="WinForms\FrmCustomProperties.resx">
       <DependentUpon>FrmCustomProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmCustomXmlViewer.resx">
+    <EmbeddedResource Include="WinForms\FrmCustomXmlViewer.resx">
       <DependentUpon>FrmCustomXmlViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmDeleteCustomProps.resx">
+    <EmbeddedResource Include="WinForms\FrmDeleteCustomProps.resx">
       <DependentUpon>FrmDeleteCustomProps.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmErrorLog.resx">
+    <EmbeddedResource Include="WinForms\FrmErrorLog.resx">
       <DependentUpon>FrmErrorLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmFixDocument.resx">
+    <EmbeddedResource Include="WinForms\FrmFixDocument.resx">
       <DependentUpon>FrmFixDocument.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmFontDetails.resx">
+    <EmbeddedResource Include="WinForms\FrmFontDetails.resx">
       <DependentUpon>FrmFontDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmFontViewer.resx">
+    <EmbeddedResource Include="WinForms\FrmFontViewer.resx">
       <DependentUpon>FrmFontViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMain.resx">
+    <EmbeddedResource Include="WinForms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmMoveSlide.resx">
+    <EmbeddedResource Include="WinForms\FrmMoveSlide.resx">
       <DependentUpon>FrmMoveSlide.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmParagraphs.resx">
+    <EmbeddedResource Include="WinForms\FrmParagraphs.resx">
       <DependentUpon>FrmParagraphs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmPrinterSettings.resx">
+    <EmbeddedResource Include="WinForms\FrmPrinterSettings.resx">
       <DependentUpon>FrmPrinterSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmPrintOrientation.resx">
+    <EmbeddedResource Include="WinForms\FrmPrintOrientation.resx">
       <DependentUpon>FrmPrintOrientation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmSearchAndReplace.resx">
+    <EmbeddedResource Include="WinForms\FrmSearchAndReplace.resx">
       <DependentUpon>FrmSearchAndReplace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmSettings.resx">
+    <EmbeddedResource Include="WinForms\FrmSettings.resx">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmViewImages.resx">
+    <EmbeddedResource Include="WinForms\FrmViewImages.resx">
       <DependentUpon>FrmViewImages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
