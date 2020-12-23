@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Office_File_Explorer.App_Helpers;
+using System;
 using System.Windows.Forms;
 
 namespace Office_File_Explorer.Forms
@@ -14,7 +15,7 @@ namespace Office_File_Explorer.Forms
             InitializeComponent();
             OfficeApp = app;
 
-            if (OfficeApp == "Word")
+            if (OfficeApp == StringResources.word)
             {
                 EnableWordUI();
                 RdoBK.Checked = true;

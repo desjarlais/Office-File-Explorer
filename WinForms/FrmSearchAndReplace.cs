@@ -25,8 +25,8 @@ namespace Office_File_Explorer.Forms
         {
             if (Owner is FrmMain f)
             {
-                f.FindTextProperty = "";
-                f.ReplaceTextProperty = "";
+                f.FindTextProperty = string.Empty;
+                f.ReplaceTextProperty = string.Empty;
             }
             Close();
         }

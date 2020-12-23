@@ -68,7 +68,7 @@ namespace Office_File_Explorer.Forms
                             foreach (string f in bFiles)
                             {
                                 OfficeHelpers.SetCustomProperty(f, TxtName.Text, value, OfficeHelpers.PropertyTypes.YesNo, fType);
-                                LoggingHelper.Log(f + ": Custom Property Saved.");
+                                LoggingHelper.Log(f + StringResources.customPropSaved);
                             }
                         }
                         else
@@ -83,7 +83,7 @@ namespace Office_File_Explorer.Forms
                             foreach (string f in bFiles)
                             {
                                 OfficeHelpers.SetCustomProperty(f, TxtName.Text, DtDateTime.Value, OfficeHelpers.PropertyTypes.DateTime, fType);
-                                LoggingHelper.Log(f + ": Custom Property Saved.");
+                                LoggingHelper.Log(f + StringResources.customPropSaved);
                             }
                         }
                         else
@@ -100,7 +100,7 @@ namespace Office_File_Explorer.Forms
                                 foreach (string f in bFiles)
                                 {
                                     OfficeHelpers.SetCustomProperty(f, TxtName.Text, num, OfficeHelpers.PropertyTypes.NumberInteger, fType);
-                                    LoggingHelper.Log(f + ": Custom Property Saved.");
+                                    LoggingHelper.Log(f + StringResources.customPropSaved);
                                 }
                             }
                             else
@@ -116,7 +116,7 @@ namespace Office_File_Explorer.Forms
                                 foreach (string f in bFiles)
                                 {
                                     OfficeHelpers.SetCustomProperty(f, TxtName.Text, number, OfficeHelpers.PropertyTypes.NumberDouble, fType);
-                                    LoggingHelper.Log(f + ": Custom Property Saved.");
+                                    LoggingHelper.Log(f + StringResources.customPropSaved);
                                 }
                             }
                             else
@@ -134,7 +134,7 @@ namespace Office_File_Explorer.Forms
                                 foreach (string f in bFiles)
                                 {
                                     OfficeHelpers.SetCustomProperty(f, TxtName.Text, TxtBoxNumber.Text, OfficeHelpers.PropertyTypes.Text, fType);
-                                    LoggingHelper.Log(f + ": Custom Property Saved.");
+                                    LoggingHelper.Log(f + StringResources.customPropSaved);
                                 }
                             }
                             else
@@ -150,7 +150,7 @@ namespace Office_File_Explorer.Forms
                             foreach (string f in bFiles)
                             {
                                 OfficeHelpers.SetCustomProperty(f, TxtName.Text, TxtBoxText.Text, OfficeHelpers.PropertyTypes.Text, fType);
-                                LoggingHelper.Log(f + ": Custom Property Saved.");
+                                LoggingHelper.Log(f + StringResources.customPropSaved);
                             }
                         }
                         else

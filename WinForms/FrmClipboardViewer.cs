@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Office_File_Explorer.App_Helpers;
+using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
@@ -21,37 +22,37 @@ namespace Office_File_Explorer.Forms
         private IntPtr _chainedWnd = (IntPtr)0;
 
         // win32 imports
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
 
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         static extern IntPtr ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
 
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         public static extern void SendMessage(IntPtr hwnd, uint wMsg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(StringResources.user32, SetLastError = true)]
         static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         static extern IntPtr GetClipboardData(uint uFormat);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(StringResources.user32, SetLastError = true)]
         static extern bool CloseClipboard();
 
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         private static extern int IsClipboardFormatAvailable(int wFormat);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(StringResources.user32, SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
-        [DllImport("user32.dll")]
+        [DllImport(StringResources.user32)]
         static extern IntPtr GetClipboardOwner();
 
-        [DllImport("gdi32.dll")]
+        [DllImport(StringResources.gdi32)]
         static extern IntPtr CopyEnhMetaFile(IntPtr hemfSrc, string lpszFile);
 
-        [DllImport("gdi32.dll")]
+        [DllImport(StringResources.gdi32)]
         static extern bool DeleteEnhMetaFile(IntPtr hemf);
 
         const int WM_DRAWCLIPBOARD = 0x0308;

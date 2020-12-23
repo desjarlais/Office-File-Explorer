@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Office_File_Explorer.App_Helpers;
+using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
@@ -34,7 +35,7 @@ namespace Office_File_Explorer.Forms
 
         private void UpdateDisplay()
         {
-            if (CboFonts.SelectedItem.ToString() == "")
+            if (CboFonts.SelectedItem.ToString() == string.Empty)
             {
                 return;
             }
@@ -181,7 +182,7 @@ namespace Office_File_Explorer.Forms
                 Bottom = rect.Bottom;
             }
         }
-        [DllImport("gdi32.dll")]
+        [DllImport(StringResources.gdi32)]
         internal static extern IntPtr CreateFont(
             int nHeight,
             int nWidth,
@@ -199,7 +200,7 @@ namespace Office_File_Explorer.Forms
             string lpszFace
             );
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(StringResources.user32, CharSet = CharSet.Auto)]
         static extern int DrawText(HandleRef hDC, string lpchText, int nCount, ref Rect lpRect, uint uFormat);
         internal static int DrawText(HandleRef hDC, string text, Rectangle rect, uint format)
         {
@@ -222,13 +223,13 @@ namespace Office_File_Explorer.Forms
         ///   <para>An application cannot select a single bitmap into more than one DC at a time.</para>
         ///   <para>ICM: If the object being selected is a brush or a pen, color management is performed.</para>
         /// </remarks>
-        [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
+        [DllImport(StringResources.gdi32, EntryPoint = "SelectObject")]
         public static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr hgdiobj);
 
-        [DllImport("gdi32.dll")]
+        [DllImport(StringResources.gdi32)]
         public static extern int SetBkMode(IntPtr hdc, int iBkMode);
 
-        [DllImport("gdi32.dll")]
+        [DllImport(StringResources.gdi32)]
         public static extern uint SetTextColor(IntPtr hdc, int crColor);
 
         /// <summary>Deletes a logical pen, brush, font, bitmap, region, or palette, freeing all system resources associated with the object. After the object is deleted, the specified handle is no longer valid.</summary>
@@ -241,7 +242,7 @@ namespace Office_File_Explorer.Forms
         ///   <para>Do not delete a drawing object (pen or brush) while it is still selected into a DC.</para>
         ///   <para>When a pattern brush is deleted, the bitmap associated with the brush is not deleted. The bitmap must be deleted independently.</para>
         /// </remarks>
-        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [DllImport(StringResources.gdi32, EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject([In] IntPtr hObject);
     }

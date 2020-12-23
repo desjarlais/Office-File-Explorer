@@ -442,13 +442,13 @@ namespace Office_File_Explorer.Forms
                                 foreach (OpenXmlElement oxedr in dr)
                                 {
                                     // if we have a Run, we need to look for Text tags
-                                    if (oxedr.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Run")
+                                    if (oxedr.GetType().ToString() == StringResources.dfowRun)
                                     {
                                         Run r = (Run)oxedr;
                                         foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                         {
                                             // you can't have a Text tag inside a DeletedRun
-                                            if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Text")
+                                            if (oxe.GetType().ToString() == StringResources.dfowText)
                                             {
                                                 // create a DeletedText object so we can replace it with the Text tag
                                                 DeletedText dt = new DeletedText();
@@ -678,12 +678,12 @@ namespace Office_File_Explorer.Forms
 
                                     if (customPropFound == false)
                                     {
-                                        lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                        lstOutput.Items.Add(f + StringResources.noProp);
                                     }
                                 }
                                 else
                                 {
-                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                    lstOutput.Items.Add(f + StringResources.noProp);
                                 }
                             }
                         }
@@ -718,13 +718,13 @@ namespace Office_File_Explorer.Forms
                                         }
                                         else
                                         {
-                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                            lstOutput.Items.Add(f + StringResources.noProp);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                    lstOutput.Items.Add(f + StringResources.noProp);
                                 }
                             }
                         }
@@ -759,13 +759,13 @@ namespace Office_File_Explorer.Forms
                                         }
                                         else
                                         {
-                                            lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                            lstOutput.Items.Add(f + StringResources.noProp);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    lstOutput.Items.Add(f + " : Property Does Not Exist");
+                                    lstOutput.Items.Add(f + StringResources.noProp);
                                 }
                             }
                         }

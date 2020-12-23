@@ -21,7 +21,7 @@ namespace Office_File_Explorer.Forms
 {
     public partial class FrmAuthors : Form
     {
-        string author = "";
+        string author = string.Empty;
 
         public FrmAuthors(List<string> authors)
         {

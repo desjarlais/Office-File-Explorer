@@ -31,6 +31,10 @@
         public const string propsRemoveDateTime = "removeDateAndTime";
         public const string docSecurity = "DocSecurity";
 
+        // dll refs
+        public const string gdi32 = "gdi32.dll";
+        public const string user32 = "user32.dll";
+
         // global xml tag strings
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
@@ -62,6 +66,8 @@
         public const string shpShape = ". Shape";
         public const string shp3D = ". 3D Shape";
         public const string shpXlDraw = ". Spreadsheet Drawing";
+        public const string customPropSaved = ": Custom Property Saved.";
+        public const string noProp = " : Property Does Not Exist";
 
         // notes slide refs
         public const string pptHeaderPlaceholder = "Header Placeholder";

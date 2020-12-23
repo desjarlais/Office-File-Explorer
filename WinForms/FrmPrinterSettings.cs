@@ -164,7 +164,7 @@ namespace Office_File_Explorer.Forms
                 LstDisplay.Items.Add("Page Bounds = " + pgs.Bounds);
 
                 // display  print queues
-                LstDisplay.Items.Add("");
+                LstDisplay.Items.Add(string.Empty);
                 LstDisplay.Items.Add("Print Queue:");
 
                 // check if network printer and adjust print server
