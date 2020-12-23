@@ -733,7 +733,7 @@ namespace Office_File_Explorer.Word_Helpers
                             do
                             {
                                 // first check if we are a content control
-                                if (cElem.Parent != null && cElem.Parent.ToString().Contains(StringResources.wdSdt))
+                                if (cElem.Parent != null && cElem.Parent.ToString().Contains(StringResources.dfowSdt))
                                 {
                                     foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                     {
@@ -773,7 +773,7 @@ namespace Office_File_Explorer.Word_Helpers
                                         cElem = pElem;
 
                                         // loop should continue until we get to the body element, then we can stop looping
-                                        if (pElem.ToString() == StringResources.wdBody)
+                                        if (pElem.ToString() == StringResources.dfowBody)
                                         {
                                             endLoop = true;
                                         }

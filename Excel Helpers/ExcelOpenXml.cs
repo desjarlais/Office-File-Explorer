@@ -19,6 +19,7 @@ using System.Linq;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
+using Office_File_Explorer.App_Helpers;
 
 namespace Office_File_Explorer.Excel_Helpers
 {
@@ -121,7 +122,7 @@ namespace Office_File_Explorer.Excel_Helpers
                         if (c.CellValue != null)
                         {
                             text = c.CellValue.Text;
-                            values.Add(text + " ");
+                            values.Add(text + StringResources.spaceChar);
                         }
                     }
                 }
@@ -148,7 +149,7 @@ namespace Office_File_Explorer.Excel_Helpers
                     if (reader.ElementType == typeof(CellValue))
                     {
                         text = reader.GetText();
-                        values.Add(text + " ");
+                        values.Add(text + StringResources.spaceChar);
                     }
                 }
 

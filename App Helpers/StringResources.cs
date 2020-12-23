@@ -17,6 +17,7 @@
         public const string arrow = " --> ";
         public const string minusSign = " - ";
         public const string equalSign = " = ";
+        public const string spaceChar = " ";
         public const string headerLine = "-------------------------------------------";
         public const string customXmlRequestStatus = "RequestStatus";
         public const string requestStatusNS = "d264e665-9d0b-48fb-b78a-227e1d3d858d";
@@ -33,6 +34,7 @@
         // global xml tag strings
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
+        public const string txtMcChoiceTagEnd = "</mc:Choice>";
 
         // global app messages
         public const string nonEmptyId = "Target Id cannot be empty.";
@@ -77,18 +79,19 @@
         public const string pptexceptionPowerPoint = "presentationDocument";
         public const string pptPicture = "Picture";
 
-        // sdk refs
-        public const string wdBody = "DocumentFormat.OpenXml.Wordprocessing.Body";
-        public const string wdSdt = "DocumentFormat.OpenXml.Wordprocessing.Sdt";
-        public const string wdStyle = "DocumentFormat.OpenXml.Wordprocessing.Style";
-        public const string wdLevel = "DocumentFormat.OpenXml.Wordprocessing.Level";
-        public const string wdText = "DocumentFormat.OpenXml.Wordprocessing.Text";
-        public const string wdRun = "DocumentFormat.OpenXml.Wordprocessing.Run";
+        // word sdk refs (DocumentFormat.OpenXml.Wordprocessing = dfow)
+        public const string dfowBody = "DocumentFormat.OpenXml.Wordprocessing.Body";
+        public const string dfowSdt = "DocumentFormat.OpenXml.Wordprocessing.Sdt";
+        public const string dfowStyle = "DocumentFormat.OpenXml.Wordprocessing.Style";
+        public const string dfowLevel = "DocumentFormat.OpenXml.Wordprocessing.Level";
+        public const string dfowText = "DocumentFormat.OpenXml.Wordprocessing.Text";
+        public const string dfowRun = "DocumentFormat.OpenXml.Wordprocessing.Run";
 
-        public const string pptNVSP = "DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties";
-        public const string pptNVDP = "DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties";
-        public const string pptShape = "DocumentFormat.OpenXml.Presentation.Shape";
-        public const string pptPresentationPicture = "DocumentFormat.OpenXml.Presentation.Picture";
+        // powerpoint sdk refs (DocumentFormat.OpenXml.Presentation = dfop)
+        public const string dfopNVSP = "DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties";
+        public const string dfopNVDP = "DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties";
+        public const string dfopShape = "DocumentFormat.OpenXml.Presentation.Shape";
+        public const string dfopPresentationPicture = "DocumentFormat.OpenXml.Presentation.Picture";
 
         // excelcnv paths
         public const string sameBitnessO365 = @"C:\Program Files\Microsoft Office\root\Office16\excelcnv.exe";

@@ -109,7 +109,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
                         foreach (var mShp in mSt)
                         {
-                            if (mShp.ToString() == StringResources.pptShape)
+                            if (mShp.ToString() == StringResources.dfopShape)
                             {
                                 PShape ps = (PShape)mShp;
                                 NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
@@ -183,7 +183,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                             foreach (var s in st)
                             {
                                 // we only want to make changes to the shapes
-                                if (s.ToString() == StringResources.pptShape)
+                                if (s.ToString() == StringResources.dfopShape)
                                 {
                                     PShape ps = (PShape)s;
                                     NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
@@ -247,7 +247,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                         t2d.Extents.Cy = nsh.t2dSlideNumber.ExtentsCy;
                                     }
                                 }
-                                else if (s.ToString() == StringResources.pptPresentationPicture)
+                                else if (s.ToString() == StringResources.dfopPresentationPicture)
                                 {
                                     DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
                                     Transform2D t2d = pic.ShapeProperties.Transform2D;
@@ -324,7 +324,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                     
                     foreach (var mShp in mSt)
                     {
-                        if (mShp.ToString() == StringResources.pptShape)
+                        if (mShp.ToString() == StringResources.dfopShape)
                         {
                             PShape ps = (PShape)mShp;
                             NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;
@@ -391,7 +391,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                         foreach (var s in st)
                         {
                             // we only want to make changes to the shapes
-                            if (s.ToString() == StringResources.pptShape)
+                            if (s.ToString() == StringResources.dfopShape)
                             {
                                 PShape ps = (PShape)s;                                
                                 Transform2D t2d = ps.ShapeProperties.Transform2D;
@@ -427,7 +427,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
                                     }
                                 }
                             }
-                            else if (s.ToString() == StringResources.pptPresentationPicture)
+                            else if (s.ToString() == StringResources.dfopPresentationPicture)
                             {
                                 DocumentFormat.OpenXml.Presentation.Picture pic = (DocumentFormat.OpenXml.Presentation.Picture)s;
                                 Transform2D t2d = pic.ShapeProperties.Transform2D;
@@ -475,7 +475,7 @@ namespace Office_File_Explorer.PowerPoint_Helpers
 
                     foreach (var mShp in mSt)
                     {
-                        if (mShp.ToString() == StringResources.pptShape)
+                        if (mShp.ToString() == StringResources.dfopShape)
                         {
                             PShape ps = (PShape)mShp;
                             NonVisualDrawingProperties nvdpr = ps.NonVisualShapeProperties.NonVisualDrawingProperties;

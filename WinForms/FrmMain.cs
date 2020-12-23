@@ -2070,7 +2070,7 @@ namespace Office_File_Explorer
                 // get the path and make a new file name in the same directory
                 var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
                 var StrExtension = Path.GetExtension(TxtFileName.Text);
-                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + StrExtension;
+                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.copyFileParentheses + StrExtension;
 
                 // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
                 if (!File.Exists(StrCopyFileName))
@@ -2079,7 +2079,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + "(Copy)" + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.copyFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
                     File.Copy(TxtFileName.Text, StrCopyFileName);
                 }
 
@@ -2901,7 +2901,7 @@ namespace Office_File_Explorer
                                                         // since the exact string will never be the same and always has different trailing tags
                                                         // we need to conditionally check for specific patterns
                                                         // the first if </mc:Choice> is to catch and replace the invalid mc:Choice tags
-                                                        if (m.Value.Contains("</mc:Choice>"))
+                                                        if (m.Value.Contains(StringResources.txtMcChoiceTagEnd))
                                                         {
                                                             if (m.Value.Contains("<mc:Fallback id="))
                                                             {
@@ -3527,7 +3527,7 @@ namespace Office_File_Explorer
 
                             do
                             {
-                                if (cElem != null && cElem.Parent != null && cElem.Parent.ToString().Contains(StringResources.wdSdt))
+                                if (cElem != null && cElem.Parent != null && cElem.Parent.ToString().Contains(StringResources.dfowSdt))
                                 {
                                     foreach (OpenXmlElement oxe in cElem.Parent.ChildElements)
                                     {
@@ -3564,7 +3564,7 @@ namespace Office_File_Explorer
 
                                     // if the parent is body, we can stop looping up
                                     // otherwise, we can continue moving up the element chain
-                                    if (pElem != null && pElem.ToString() == StringResources.wdBody)
+                                    if (pElem != null && pElem.ToString() == StringResources.dfowBody)
                                     {
                                         endLoop = true;
                                     }
@@ -3862,11 +3862,11 @@ namespace Office_File_Explorer
                                 count++;
                                 foreach (OpenXmlElement child1 in shape.ChildElements)
                                 {
-                                    if (child1.GetType().ToString() == StringResources.pptNVSP)
+                                    if (child1.GetType().ToString() == StringResources.dfopNVSP)
                                     {
                                         foreach (OpenXmlElement child2 in child1.ChildElements)
                                         {
-                                            if (child2.GetType().ToString() == StringResources.pptNVDP)
+                                            if (child2.GetType().ToString() == StringResources.dfopNVDP)
                                             {
                                                 P.NonVisualDrawingProperties nvdp = (P.NonVisualDrawingProperties)child2;
                                                 LstDisplay.Items.Add(count + StringResources.period + nvdp.Name);
@@ -4145,13 +4145,13 @@ namespace Office_File_Explorer
                         foreach (OpenXmlElement oxedr in dr)
                         {
                             // if we have a run, we need to look for Text tags
-                            if (oxedr.GetType().ToString() == StringResources.wdRun)
+                            if (oxedr.GetType().ToString() == StringResources.dfowRun)
                             {
                                 Run r = (Run)oxedr;
                                 foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                 {
                                     // you can't have a Text tag inside a DeletedRun
-                                    if (oxe.GetType().ToString() == StringResources.wdText)
+                                    if (oxe.GetType().ToString() == StringResources.dfowText)
                                     {
                                         // create a DeletedText object so we can replace it with the Text tag
                                         DeletedText dt = new DeletedText();
@@ -4360,7 +4360,7 @@ namespace Office_File_Explorer
                                 // since we have the list template, find out if it is a bullet
                                 foreach (OpenXmlElement anChild in an)
                                 {
-                                    if (anChild.GetType().ToString() == StringResources.wdLevel)
+                                    if (anChild.GetType().ToString() == StringResources.dfowLevel)
                                     {
                                         Level lvl = (Level)anChild;
                                         
@@ -4479,7 +4479,7 @@ namespace Office_File_Explorer
 
                     foreach (OpenXmlElement el in stylePart.Styles.Elements())
                     {
-                        if (el.GetType().ToString() == StringResources.wdStyle)
+                        if (el.GetType().ToString() == StringResources.dfowStyle)
                         {
                             string styleEl = el.GetAttribute("styleId", StringResources.wordMainAttributeNamespace).Value;
                             int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
