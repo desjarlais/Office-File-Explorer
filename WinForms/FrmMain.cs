@@ -97,7 +97,7 @@ namespace Office_File_Explorer
             LoggingHelper.Clear();
             LoggingHelper.Log(" ## System Information ##");
             LoggingHelper.LogSystemInformation();
-            LoggingHelper.Log("");
+            LoggingHelper.Log(string.Empty);
             LoggingHelper.Log(" ## App Logging ##");
             LoggingHelper.Log("App Start");
             
@@ -416,7 +416,7 @@ namespace Office_File_Explorer
                     break;
                 case InformationOutput.InvalidFile:
                     LstDisplay.Items.Clear();
-                    LstDisplay.Items.Add("Invalid File. Please select a valid document.");
+                    LstDisplay.Items.Add(StringResources.invalidFile);
                     break;
                 case InformationOutput.LogInformation:
                     LstDisplay.Items.Add(output);
@@ -477,7 +477,7 @@ namespace Office_File_Explorer
                     }
                     catch (NullReferenceException)
                     {
-                        LogInformation(InformationOutput.ClearAndAdd, "** Missing StylesWithEffects part **", "");
+                        LogInformation(InformationOutput.ClearAndAdd, "** Missing StylesWithEffects part **", string.Empty);
                         return;
                     }
                 }
@@ -598,7 +598,7 @@ namespace Office_File_Explorer
                                 }
                             }
 
-                            LstDisplay.Items.Add(count + ". " + h.InnerText + " Uri = " + hRelUri);
+                            LstDisplay.Items.Add(count + StringResources.period + h.InnerText + " Uri = " + hRelUri);
                         }
 
                         // now we need to check for field hyperlinks
@@ -1956,7 +1956,7 @@ namespace Office_File_Explorer
                     TxtFileName.Text = fDialog.FileName.ToString();
                     if (!File.Exists(TxtFileName.Text))
                     {
-                        LogInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist, "");
+                        LogInformation(InformationOutput.InvalidFile, StringResources.fileDoesNotExist, string.Empty);
                         return;
                     }
                     else

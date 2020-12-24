@@ -55,6 +55,7 @@
         public const string noComments = "** Document does not contain any comments **";
         public const string sampleSentence = "This is a sample sentence.  Enter your own text here.";
         public const string invalidTag = "Invalid Tag: ";
+        public const string invalidFile = "Invalid File. Please select a valid document.";
         public const string replacedWith = "Replaced With: ";
         public const string errorUnableToFixDocument = "ERROR: Unable to fix document.";
         public const string shpOfficeDrawing = ". Office Drawing";

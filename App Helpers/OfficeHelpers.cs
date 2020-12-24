@@ -279,7 +279,7 @@ namespace Office_File_Explorer.App_Helpers
         public static string ConvertMacroEnabled2NonMacroEnabled(string fileName, string app)
         {
             bool fileChanged = false;
-            string newFileName = "";
+            string newFileName = string.Empty;
             string fileExtension;
 
             if (app == "Word")
