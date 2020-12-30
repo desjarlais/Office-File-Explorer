@@ -30,6 +30,7 @@
         public const string wRemovePI = "removePersonalInformation";
         public const string wRemoveDateTime = "removeDateAndTime";
         public const string wDocSecurity = "DocSecurity";
+        public const string wAuthors = "authors";
         public const string wComments = "comments";
         public const string wOle = "OLE objects";
         public const string wBookmarks = "bookmarks";
@@ -37,6 +38,8 @@
         public const string wFootnotes = "footnotes";
         public const string wEndnotes = "endnotes";
         public const string wConnections = "connections";
+        public const string wSharedStrings = "shared strings";
+        public const string wInvalidXml = "invalid xml";
         public const string wFonts = "fonts";
         public const string wForumulas = "formulas";
         public const string wHyperlinks = "hyperlinks";
@@ -46,6 +49,8 @@
         public const string wTransitions = "transitions";
         public const string wCustomDocProps = "custom document properties";
         public const string wNotesMaster = "Notes Master";
+        public const string wPII = "Personally Identifiable Information";
+        public const string wValidationErr = "validation errors";
 
         // dll refs
         public const string gdi32 = "gdi32.dll";

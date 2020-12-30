@@ -1219,7 +1219,7 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LogInformation(InformationOutput.ClearAndAdd, "Document does not contain PII.", string.Empty);
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wPII, string.Empty);
                     }
                 }
             }
@@ -1283,7 +1283,7 @@ namespace Office_File_Explorer
             {
                 if (LstDisplay.Items.Count < 0)
                 {
-                    LstDisplay.Items.Add("** No validation errors **");
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wValidationErr, string.Empty);
                 }
 
                 Cursor = Cursors.Default;
@@ -1341,7 +1341,7 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument doc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
-                    foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
+                    foreach (O.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
                         count++;
                         LstDisplay.Items.Add(count + StringResources.wPeriod + ft.Name);
@@ -1444,7 +1444,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain footnotes **", string.Empty);
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wFootnotes, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -1464,7 +1464,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain endnotes **", string.Empty);
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wEndnotes, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -1702,7 +1702,7 @@ namespace Office_File_Explorer
                     // if the count is 0 at this point, no authors exist
                     if (count == 0)
                     {
-                        LogInformation(InformationOutput.TextOnly, "** There are no authors in this document **", string.Empty);
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wAuthors, string.Empty);
                     }
                 }
             }
@@ -2471,13 +2471,13 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LstDisplay.Items.Add("** Document does not contain any shared strings **");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wSharedStrings, string.Empty);
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.TextOnly, "** Document does not contain any shared strings **", string.Empty);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wSharedStrings, string.Empty);
                 LoggingHelper.Log("BtnListSharedStrings_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -2522,7 +2522,7 @@ namespace Office_File_Explorer
             {
                 LoggingHelper.Log("Excel - BtnComments_Click Error:");
                 LoggingHelper.Log(ex.Message);
-                LogInformation(InformationOutput.TextOnly, "** No Comments **", string.Empty);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
             }
             finally
             {
@@ -2649,7 +2649,7 @@ namespace Office_File_Explorer
                         SlideCommentsPart sCPart = sPart.SlideCommentsPart;
                         if (sCPart == null)
                         {
-                            LogInformation(InformationOutput.ClearAndAdd, "** File does not have any comments **", string.Empty);
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
                             return;
                         }
 
@@ -3049,7 +3049,7 @@ namespace Office_File_Explorer
                     }
                     if (IsFixed == false)
                     {
-                        LstDisplay.Items.Add("This document does not contain invalid xml.");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wInvalidXml, string.Empty);
                     }
                 }
             }
@@ -3275,6 +3275,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
+                    LoggingHelper.Log("BtnListCC - unknown app");
                     return;
                 }
             }
