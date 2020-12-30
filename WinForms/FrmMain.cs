@@ -2774,7 +2774,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LstDisplay.Items.Add("Presentation contains no slides.");
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wSlides, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -3196,7 +3196,7 @@ namespace Office_File_Explorer
 
                     if (cPart == null)
                     {
-                        LstDisplay.Items.Add("** There are no connections in this file **");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wConnections, string.Empty);
                         return;
                     }
 
@@ -4061,7 +4061,7 @@ namespace Office_File_Explorer
             }
             catch (NullReferenceException nre)
             {
-                LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **", string.Empty);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wNotesMaster, string.Empty);
                 LoggingHelper.Log("FixNotesPageSizeCustom Error");
                 LoggingHelper.Log(nre.Message);
             }
@@ -4095,7 +4095,7 @@ namespace Office_File_Explorer
             }
             catch (NullReferenceException nre)
             {
-                LogInformation(InformationOutput.ClearAndAdd, "** Document does not contain Notes Master **", string.Empty);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wNotesMaster, string.Empty);
                 LoggingHelper.Log("FixNotesPageSizeDefault Error");
                 LoggingHelper.Log(nre.Message);
             }
@@ -4721,7 +4721,10 @@ namespace Office_File_Explorer
                 }
                 else
                 {
+                    // if no path is found, we will be unable to convert
                     excelcnvPath = string.Empty;
+                    LstDisplay.Items.Add("** Unable to convert file **");
+                    return;
                 }
 
                 // check if the file is strict, no changes are made to the file yet
@@ -4753,9 +4756,9 @@ namespace Office_File_Explorer
                     }
                 }
 
-                // if the file is strict and the converter is on the machine
+                // if the file is strict format
                 // run the command to convert it to non-strict
-                if (isStrict == true && excelcnvPath != string.Empty)
+                if (isStrict == true)
                 {
                     // setup destination file path
                     string strOriginalFile = TxtFileName.Text;
@@ -4767,7 +4770,7 @@ namespace Office_File_Explorer
                     string cParams = " -nme -oice " + '"' + TxtFileName.Text + '"' + StringResources.wSpaceChar + '"' + strOutputFileName + '"';
                     var proc = Process.Start(excelcnvPath, cParams);
                     proc.Close();
-                    LstDisplay.Items.Add("** File Converted Successfully **");
+                    LstDisplay.Items.Add(StringResources.fileConvertSuccessful);
                     LstDisplay.Items.Add("File Location: " + strOutputFileName);
                 }
                 else

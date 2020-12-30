@@ -36,6 +36,7 @@
         public const string wFldCodes = "field codes";
         public const string wFootnotes = "footnotes";
         public const string wEndnotes = "endnotes";
+        public const string wConnections = "connections";
         public const string wFonts = "fonts";
         public const string wForumulas = "formulas";
         public const string wHyperlinks = "hyperlinks";
@@ -44,6 +45,7 @@
         public const string wContentControls = "content controls";
         public const string wTransitions = "transitions";
         public const string wCustomDocProps = "custom document properties";
+        public const string wNotesMaster = "Notes Master";
 
         // dll refs
         public const string gdi32 = "gdi32.dll";
@@ -62,6 +64,7 @@
         public const string themeFileAdded = "Theme File Added.";
         public const string unableToDownloadUpdate = "Unable to download update.";
         public const string sampleSentence = "This is a sample sentence.  Enter your own text here.";
+        public const string fileConvertSuccessful = "** File Converted Successfully **";
         public const string invalidTag = "Invalid Tag: ";
         public const string invalidFile = "Invalid File. Please select a valid document.";
         public const string replacedWith = "Replaced With: ";
