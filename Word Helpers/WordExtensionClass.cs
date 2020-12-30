@@ -141,7 +141,7 @@ namespace Office_File_Explorer.Word_Helpers
             XNamespace x = StringResources.OfficeExtendedProps;
             OpenXmlPart extendedFilePropertiesPart = document.ExtendedFilePropertiesPart;
             XDocument extendedFilePropertiesXDoc = extendedFilePropertiesPart.GetXDocument();
-            string company = extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + StringResources.propsCompany).Select(e => (string)e)
+            string company = extendedFilePropertiesXDoc.Elements(x + StringResources.wProperties).Elements(x + StringResources.wCompany).Select(e => (string)e)
                 .Aggregate(string.Empty, (s, i) => s + i);
             
             if (company.Length > 0)
@@ -154,7 +154,7 @@ namespace Office_File_Explorer.Word_Helpers
             XNamespace cp = StringResources.OfficeCoreProps;
             OpenXmlPart coreFilePropertiesPart = document.CoreFilePropertiesPart;
             XDocument coreFilePropertiesXDoc = coreFilePropertiesPart.GetXDocument();
-            string creator = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(dc + StringResources.propsCreator).Select(e => (string)e)
+            string creator = coreFilePropertiesXDoc.Elements(cp + StringResources.wCoreProperties).Elements(dc + StringResources.wCreator).Select(e => (string)e)
                 .Aggregate(string.Empty, (s, i) => s + i);
             
             if (creator.Length > 0)
@@ -162,7 +162,7 @@ namespace Office_File_Explorer.Word_Helpers
                 return true;
             }
 
-            string lastModifiedBy = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + StringResources.propsLastModifiedBy).Select(e => (string)e)
+            string lastModifiedBy = coreFilePropertiesXDoc.Elements(cp + StringResources.wCoreProperties).Elements(cp + StringResources.wLastModifiedBy).Select(e => (string)e)
                 .Aggregate(string.Empty, (s, i) => s + i);
             
             if (lastModifiedBy.Length > 0)
@@ -176,12 +176,12 @@ namespace Office_File_Explorer.Word_Helpers
             XDocument documentSettingsXDoc = documentSettingsPart.GetXDocument();
             XElement settings = documentSettingsXDoc.Root;
             
-            if (settings.Element(w + StringResources.propsRemovePI) == null)
+            if (settings.Element(w + StringResources.wRemovePI) == null)
             {
                 return true;
             }
 
-            if (settings.Element(w + StringResources.propsRemoveDateTime) == null)
+            if (settings.Element(w + StringResources.wRemoveDateTime) == null)
             {
                 return true;
             }
@@ -196,8 +196,8 @@ namespace Office_File_Explorer.Word_Helpers
             XNamespace x = StringResources.OfficeExtendedProps;
             OpenXmlPart extendedFilePropertiesPart = document.ExtendedFilePropertiesPart;
             XDocument extendedFilePropertiesXDoc = extendedFilePropertiesPart.GetXDocument();
-            extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + StringResources.propsCompany).Remove();
-            XElement totalTime = extendedFilePropertiesXDoc.Elements(x + StringResources.propsProperties).Elements(x + "TotalTime").FirstOrDefault();
+            extendedFilePropertiesXDoc.Elements(x + StringResources.wProperties).Elements(x + StringResources.wCompany).Remove();
+            XElement totalTime = extendedFilePropertiesXDoc.Elements(x + StringResources.wProperties).Elements(x + "TotalTime").FirstOrDefault();
             if (totalTime != null)
             {
                 totalTime.Value = "0";
@@ -214,23 +214,23 @@ namespace Office_File_Explorer.Word_Helpers
             XNamespace cp = StringResources.OfficeCoreProps;
             OpenXmlPart coreFilePropertiesPart = document.CoreFilePropertiesPart;
             XDocument coreFilePropertiesXDoc = coreFilePropertiesPart.GetXDocument();
-            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties)
-                                                           .Elements(dc + StringResources.propsCreator)
+            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.wCoreProperties)
+                                                           .Elements(dc + StringResources.wCreator)
                                                            .Nodes()
                                                            .OfType<XText>())
             {
                 textNode.Value = string.Empty;
             }
 
-            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties)
-                                                           .Elements(cp + StringResources.propsLastModifiedBy)
+            foreach (var textNode in coreFilePropertiesXDoc.Elements(cp + StringResources.wCoreProperties)
+                                                           .Elements(cp + StringResources.wLastModifiedBy)
                                                            .Nodes()
                                                            .OfType<XText>())
             {
                 textNode.Value = string.Empty;
             }
 
-            XElement revision = coreFilePropertiesXDoc.Elements(cp + StringResources.propsCoreProperties).Elements(cp + "revision").FirstOrDefault();
+            XElement revision = coreFilePropertiesXDoc.Elements(cp + StringResources.wCoreProperties).Elements(cp + "revision").FirstOrDefault();
             if (revision != null)
             {
                 revision.Value = "1";
@@ -259,24 +259,24 @@ namespace Office_File_Explorer.Word_Helpers
             {
                 // none of those three exist, so add as first children of the root element
                 settings.AddFirst(
-                    settings.Elements(w + StringResources.propsRemovePI).Any() ?
+                    settings.Elements(w + StringResources.wRemovePI).Any() ?
                         null :
-                        new XElement(w + StringResources.propsRemovePI),
-                    settings.Elements(w + StringResources.propsRemoveDateTime).Any() ?
+                        new XElement(w + StringResources.wRemovePI),
+                    settings.Elements(w + StringResources.wRemoveDateTime).Any() ?
                         null :
-                        new XElement(w + StringResources.propsRemoveDateTime)
+                        new XElement(w + StringResources.wRemoveDateTime)
                 );
             }
             else
             {
                 // one of those three exist, so add after the last one
                 lastOfTop3.AddAfterSelf(
-                    settings.Elements(w + StringResources.propsRemovePI).Any() ?
+                    settings.Elements(w + StringResources.wRemovePI).Any() ?
                         null :
-                        new XElement(w + StringResources.propsRemovePI),
-                    settings.Elements(w + StringResources.propsRemoveDateTime).Any() ?
+                        new XElement(w + StringResources.wRemovePI),
+                    settings.Elements(w + StringResources.wRemoveDateTime).Any() ?
                         null :
-                        new XElement(w + StringResources.propsRemoveDateTime)
+                        new XElement(w + StringResources.wRemoveDateTime)
                 );
             }
             using (XmlWriter xw = XmlWriter.Create(documentSettingsPart.GetStream(FileMode.Create, FileAccess.Write)))

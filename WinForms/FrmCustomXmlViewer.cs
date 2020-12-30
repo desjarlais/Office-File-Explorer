@@ -21,7 +21,7 @@ namespace Office_File_Explorer.Forms
 
             nodeNames = new List<string>();
 
-            if (fType == StringResources.word)
+            if (fType == StringResources.wWord)
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(fName, true))
                 {
@@ -33,7 +33,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (fType == StringResources.excel)
+            else if (fType == StringResources.wExcel)
             {
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fName, true))
                 {
@@ -45,7 +45,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (fType == StringResources.powerpoint)
+            else if (fType == StringResources.wPowerpoint)
             {
                 using (PresentationDocument document = PresentationDocument.Open(fName, true))
                 {
@@ -65,7 +65,7 @@ namespace Office_File_Explorer.Forms
 
         private void LstCustomXmlFiles_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (fType == StringResources.word)
+            if (fType == StringResources.wWord)
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(fName, true))
                 {
@@ -80,7 +80,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (fType == StringResources.excel)
+            else if (fType == StringResources.wExcel)
             {
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fName, true))
                 {
@@ -95,7 +95,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (fType == StringResources.powerpoint)
+            else if (fType == StringResources.wPowerpoint)
             {
                 using (PresentationDocument document = PresentationDocument.Open(fName, true))
                 {

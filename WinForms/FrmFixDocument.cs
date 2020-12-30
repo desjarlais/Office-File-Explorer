@@ -15,7 +15,7 @@ namespace Office_File_Explorer.Forms
             InitializeComponent();
             OfficeApp = app;
 
-            if (OfficeApp == StringResources.word)
+            if (OfficeApp == StringResources.wWord)
             {
                 EnableWordUI();
                 RdoBK.Checked = true;

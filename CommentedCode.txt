@@ -9,6 +9,7 @@ using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAcce
     }
 }
 
+// this is for ongoing work to try getting the color from the text of a paragraph
 private void BtnColorDlg_Click(object sender, EventArgs e)
 {
     DialogResult result = colorDialog1.ShowDialog();

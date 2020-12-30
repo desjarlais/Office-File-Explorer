@@ -87,7 +87,7 @@ namespace Office_File_Explorer
         // corrupt doc buffer
         private static StringBuilder sbNodeBuffer = new StringBuilder();
 
-        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogInformation };
+        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogInformation, EmptyCount };
 
         public FrmMain()
         {
@@ -254,7 +254,7 @@ namespace Office_File_Explorer
 
             if (ffmt == OxmlFileFormat.Docx || ffmt == OxmlFileFormat.Docm || ffmt == OxmlFileFormat.Dotx)
             {
-                fileType = StringResources.word;
+                fileType = StringResources.wWord;
 
                 // enable WD only files
                 BtnAcceptRevisions.Enabled = true;
@@ -292,7 +292,7 @@ namespace Office_File_Explorer
             }
             else if (ffmt == OxmlFileFormat.Xlsx || ffmt == OxmlFileFormat.Xlsm || ffmt == OxmlFileFormat.Xlst)
             {
-                fileType = StringResources.excel;
+                fileType = StringResources.wExcel;
 
                 // enable XL only files
                 BtnListDefinedNames.Enabled = true;
@@ -315,7 +315,7 @@ namespace Office_File_Explorer
             }
             else if (ffmt == OxmlFileFormat.Pptx || ffmt == OxmlFileFormat.Pptm || ffmt == OxmlFileFormat.Potx)
             {
-                fileType = StringResources.powerpoint;
+                fileType = StringResources.wPowerpoint;
 
                 // enable PPT only files
                 BtnPPTGetAllSlideTitles.Enabled = true;
@@ -370,7 +370,7 @@ namespace Office_File_Explorer
                     WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
                     if (commentsPart == null)
                     {
-                        DisplayEmptyCount(0, "comments");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
                     }
                     else
                     {
@@ -378,7 +378,7 @@ namespace Office_File_Explorer
                         foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + StringResources.period + cm.InnerText);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + cm.InnerText);
                         }
                     }
                 }
@@ -422,6 +422,9 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Add(output);
                     LoggingHelper.Log(output);
                     LoggingHelper.Log(ex);
+                    break;
+                case InformationOutput.EmptyCount:
+                    LstDisplay.Items.Add("** Document contains no " + output + " **");
                     break;
                 default:
                     LstDisplay.Items.Add(output);
@@ -578,7 +581,7 @@ namespace Office_File_Explorer
                     // handle if no links are found
                     if (myDoc.MainDocumentPart.HyperlinkRelationships.Count() == 0 && myDoc.MainDocumentPart.RootElement.Descendants<FieldCode>().Count() == 0 && hLinks.Count() == 0)
                     {
-                        DisplayEmptyCount(0, "hyperlinks");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wHyperlinks, string.Empty);
                     }
                     else
                     {
@@ -598,7 +601,7 @@ namespace Office_File_Explorer
                                 }
                             }
 
-                            LstDisplay.Items.Add(count + StringResources.period + h.InnerText + " Uri = " + hRelUri);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + h.InnerText + " Uri = " + hRelUri);
                         }
 
                         // now we need to check for field hyperlinks
@@ -609,7 +612,7 @@ namespace Office_File_Explorer
                             {
                                 count++;
                                 fldText = field.InnerText.Remove(0, 11);
-                                LstDisplay.Items.Add(count + StringResources.period + fldText);
+                                LstDisplay.Items.Add(count + StringResources.wPeriod + fldText);
                             }
                         }
                     }
@@ -823,7 +826,7 @@ namespace Office_File_Explorer
             PreButtonClickWork();
             try
             {
-                if (fileType == StringResources.word)
+                if (fileType == StringResources.wWord)
                 {
                     using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
@@ -832,11 +835,11 @@ namespace Office_File_Explorer
 
                         if (wdOlePkgPart == 0 && wdOleObjCount == 0)
                         {
-                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, string.Empty);
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wOle, string.Empty);
                         }
                     }
                 }
-                else if (fileType == StringResources.excel)
+                else if (fileType == StringResources.wExcel)
                 {
                     using (SpreadsheetDocument doc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                     {
@@ -851,11 +854,11 @@ namespace Office_File_Explorer
 
                         if (xlOlePkgPart == 0 && xlOleObjCount == 0)
                         {
-                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, string.Empty);
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wOle, string.Empty);
                         }
                     }
                 }
-                else if (fileType == StringResources.powerpoint)
+                else if (fileType == StringResources.wPowerpoint)
                 {
                     using (PresentationDocument doc = PresentationDocument.Open(TxtFileName.Text, false))
                     {
@@ -870,13 +873,13 @@ namespace Office_File_Explorer
 
                         if (pptOlePkgPart == 0 && pptOleObjCount == 0)
                         {
-                            LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, string.Empty);
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wOle, string.Empty);
                         }
                     }
                 }
                 else
                 {
-                    LogInformation(InformationOutput.ClearAndAdd, StringResources.noOle, string.Empty);
+                    LogInformation(InformationOutput.ClearAndAdd, StringResources.wOle, string.Empty);
                 }
             }
             catch (Exception ex)
@@ -926,7 +929,7 @@ namespace Office_File_Explorer
 
                 do
                 {
-                    LstDisplay.Items.Add(wPart.Uri + StringResources.arrow + wPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
+                    LstDisplay.Items.Add(wPart.Uri + StringResources.wArrow + wPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
                     x++;
                 }
                 while (x < olePkgCount);
@@ -953,7 +956,7 @@ namespace Office_File_Explorer
 
                 do
                 {
-                    LstDisplay.Items.Add(sPart.Uri + StringResources.arrow + sPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
+                    LstDisplay.Items.Add(sPart.Uri + StringResources.wArrow + sPart.EmbeddedPackageParts.ElementAt(x).Uri.ToString());
                     x++;
                 }
                 while (x < olePkgCount);
@@ -1007,7 +1010,7 @@ namespace Office_File_Explorer
 
                 do
                 {
-                    LstDisplay.Items.Add(wPart.Uri + StringResources.arrow + wPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
+                    LstDisplay.Items.Add(wPart.Uri + StringResources.wArrow + wPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
                     x++;
                 }
                 while (x < oleEmbCount);
@@ -1034,7 +1037,7 @@ namespace Office_File_Explorer
 
                 do
                 {
-                    LstDisplay.Items.Add(sPart.Uri + StringResources.arrow + sPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
+                    LstDisplay.Items.Add(sPart.Uri + StringResources.wArrow + sPart.EmbeddedObjectParts.ElementAt(x).Uri.ToString());
                     x++;
                 }
                 while (x < oleEmbCount);
@@ -1235,10 +1238,8 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Add("Description: " + error.Description);
                 LstDisplay.Items.Add("Path: " + error.Path.XPath);
                 LstDisplay.Items.Add("Part: " + error.Part.Uri);
-                LstDisplay.Items.Add(StringResources.headerLine);
+                LstDisplay.Items.Add(StringResources.wHeaderLine);
             }
-
-            DisplayEmptyCount(count, "errors.");
         }
 
         private void BtnValidateFile_Click(object sender, EventArgs e)
@@ -1309,14 +1310,17 @@ namespace Office_File_Explorer
                                 if (c.CellFormula != null)
                                 {
                                     count++;
-                                    LstDisplay.Items.Add(count + StringResources.period + c.CellReference + StringResources.equalSign + c.CellFormula.Text);
+                                    LstDisplay.Items.Add(count + StringResources.wPeriod + c.CellReference + StringResources.wEqualSign + c.CellFormula.Text);
                                 }
                             }
                         }
                     }
                 }
 
-                DisplayEmptyCount(count, "formulas");
+                if (count == 0)
+                {
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wForumulas, string.Empty);
+                }
             }
             catch (Exception ex)
             {
@@ -1340,11 +1344,14 @@ namespace Office_File_Explorer
                     foreach (DocumentFormat.OpenXml.Wordprocessing.Font ft in doc.MainDocumentPart.FontTablePart.Fonts)
                     {
                         count++;
-                        LstDisplay.Items.Add(count + StringResources.period + ft.Name);
+                        LstDisplay.Items.Add(count + StringResources.wPeriod + ft.Name);
                     }
                 }
 
-                DisplayEmptyCount(count, "fonts");
+                if (count == 0)
+                {
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wFonts, string.Empty);
+                }
             }
             catch (Exception ex)
             {
@@ -1368,16 +1375,18 @@ namespace Office_File_Explorer
                             if (fn.InnerText != string.Empty)
                             {
                                 count++;
-                                LogInformation(InformationOutput.TextOnly, count + StringResources.period + fn.InnerText, string.Empty);
+                                LogInformation(InformationOutput.TextOnly, count + StringResources.wPeriod + fn.InnerText, string.Empty);
                             }
                         }
 
-                        DisplayEmptyCount(count, "footnotes");
-                        
+                        if (count == 0)
+                        {
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wFootnotes, string.Empty);
+                        }
                     }
                     else
                     {
-                        LogInformation(InformationOutput.TextOnly, StringResources.noFootnotes, string.Empty);
+                        LogInformation(InformationOutput.TextOnly, StringResources.wFootnotes, string.Empty);
                     }
                 }
             }
@@ -1403,15 +1412,18 @@ namespace Office_File_Explorer
                             if (en.InnerText != string.Empty)
                             {
                                 count++;
-                                LogInformation(InformationOutput.TextOnly, count + StringResources.period + en.InnerText, string.Empty);
+                                LogInformation(InformationOutput.TextOnly, count + StringResources.wPeriod + en.InnerText, string.Empty);
                             }
                         }
 
-                        DisplayEmptyCount(count, "endnotes");
+                        if (count == 0)
+                        {
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wEndnotes, string.Empty);
+                        }
                     }
                     else
                     {
-                        LogInformation(InformationOutput.TextOnly, StringResources.noEndnotes, string.Empty);
+                        LogInformation(InformationOutput.TextOnly, StringResources.wEndnotes, string.Empty);
                     }
                 }
             }
@@ -1525,25 +1537,25 @@ namespace Office_File_Explorer
                             foreach (var item in tempParagraphChanged)
                             {
                                 revCount++;
-                                LstDisplay.Items.Add(revCount + ". " + s + " : Paragraph Changed ");
+                                LstDisplay.Items.Add(revCount + StringResources.wPeriod + s + " : Paragraph Changed ");
                             }
 
                             foreach (var item in tempDeletedParagraph)
                             {
                                 revCount++;
-                                LstDisplay.Items.Add(revCount + ". " + s + " : Paragraph Deleted ");
+                                LstDisplay.Items.Add(revCount + StringResources.wPeriod + s + " : Paragraph Deleted ");
                             }
 
                             foreach (var item in tempRunChanged)
                             {
                                 revCount++;
-                                LstDisplay.Items.Add(revCount + ". " + s + " :  Run Changed = " + item.InnerText);
+                                LstDisplay.Items.Add(revCount + StringResources.wPeriod + s + " :  Run Changed = " + item.InnerText);
                             }
 
                             foreach (var item in tempDeleted)
                             {
                                 revCount++;
-                                LstDisplay.Items.Add(revCount + ". " + s + " :  Deletion = " + item.InnerText);
+                                LstDisplay.Items.Add(revCount + StringResources.wPeriod + s + " :  Deletion = " + item.InnerText);
                             }
 
                             foreach (var item in tempInserted)
@@ -1556,7 +1568,7 @@ namespace Office_File_Explorer
                                     foreach (var textRun in textRuns)
                                     {
                                         revCount++;
-                                        LstDisplay.Items.Add(revCount + ". " + s + " :  Insertion = " + textRun.InnerText);
+                                        LstDisplay.Items.Add(revCount + StringResources.wPeriod + s + " :  Insertion = " + textRun.InnerText);
                                     }
                                 }
                             }
@@ -1662,7 +1674,7 @@ namespace Office_File_Explorer
                         {
                             count++;
                             PresenceInfo pi = person.PresenceInfo;
-                            LstDisplay.Items.Add(count + StringResources.period + person.Author);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + person.Author);
                             LstDisplay.Items.Add("   - User Id = " + pi.UserId);
                             LstDisplay.Items.Add("   - Provider Id = " + pi.ProviderId);
                         }
@@ -1738,7 +1750,7 @@ namespace Office_File_Explorer
                                         {
                                             if (setting.ElementAt(0).InnerText != string.Empty)
                                             {
-                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + StringResources.colon + setting.ElementAt(0).InnerText);
+                                                LstDisplay.Items.Add(setting.ElementAt(0).LocalName + StringResources.wColon + setting.ElementAt(0).InnerText);
                                             }
                                             settingIndex++;
                                         }
@@ -1770,12 +1782,12 @@ namespace Office_File_Explorer
                                                     compatModeVersion = " (Unknown Version)";
                                                 }
 
-                                                LstDisplay.Items.Add(cs.Name + StringResources.colon + cs.Val + compatModeVersion);
+                                                LstDisplay.Items.Add(cs.Name + StringResources.wColon + cs.Val + compatModeVersion);
                                                 settingIndex++;
                                             }
                                             else
                                             {
-                                                LstDisplay.Items.Add(cs.Name + StringResources.colon + cs.Val);
+                                                LstDisplay.Items.Add(cs.Name + StringResources.wColon + cs.Val);
                                                 settingIndex++;
                                             }
                                         }
@@ -1795,7 +1807,7 @@ namespace Office_File_Explorer
                                         sb.Clear();
                                         if (xe.Attributes.Count > 1)
                                         {
-                                            sb.Append(xe.Name + StringResources.colon);
+                                            sb.Append(xe.Name + StringResources.wColon);
                                             foreach (XmlAttribute xa in xe.Attributes)
                                             {
                                                 if (!(xa.LocalName == "w" || xa.LocalName == "m" || xa.LocalName == "w14" || xa.LocalName == "w15" || xa.LocalName == "w16"))
@@ -1808,7 +1820,7 @@ namespace Office_File_Explorer
                                                         }
                                                         else
                                                         {
-                                                            sb.Append(xa.LocalName + StringResources.colon + xa.Value);
+                                                            sb.Append(xa.LocalName + StringResources.wColon + xa.Value);
                                                         }
                                                     }
                                                 }
@@ -1898,24 +1910,24 @@ namespace Office_File_Explorer
 
         public void DisplayElementDetails(XmlElement elem)
         {
-            if (elem.Name == StringResources.docSecurity)
+            if (elem.Name == StringResources.wDocSecurity)
             {
                 switch (elem.InnerText)
                 {
                     case "0":
-                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "None");
+                        LstDisplay.Items.Add(StringResources.wDocSecurity + StringResources.wColon + "None");
                         break;
                     case "1":
-                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Password Protected");
+                        LstDisplay.Items.Add(StringResources.wDocSecurity + StringResources.wColon + "Password Protected");
                         break;
                     case "2":
-                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Recommended");
+                        LstDisplay.Items.Add(StringResources.wDocSecurity + StringResources.wColon + "Read-Only Recommended");
                         break;
                     case "4":
-                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Read-Only Enforced");
+                        LstDisplay.Items.Add(StringResources.wDocSecurity + StringResources.wColon + "Read-Only Enforced");
                         break;
                     case "8":
-                        LstDisplay.Items.Add(StringResources.docSecurity + StringResources.colon + "Locked For Annotation");
+                        LstDisplay.Items.Add(StringResources.wDocSecurity + StringResources.wColon + "Locked For Annotation");
                         break;
                     default:
                         break;
@@ -1923,7 +1935,7 @@ namespace Office_File_Explorer
             }
             else
             {
-                LstDisplay.Items.Add(elem.Name + StringResources.colonBuffer + elem.InnerText);
+                LstDisplay.Items.Add(elem.Name + StringResources.wColonBuffer + elem.InnerText);
             }
         }
 
@@ -2007,7 +2019,7 @@ namespace Office_File_Explorer
                 {
                     foreach (ZipArchiveEntry zae in archive.Entries)
                     {
-                        pParts.Add(zae.FullName + StringResources.colonBuffer + FileUtilities.SizeSuffix(zae.Length));
+                        pParts.Add(zae.FullName + StringResources.wColonBuffer + FileUtilities.SizeSuffix(zae.Length));
                     }
                 }
             }
@@ -2032,7 +2044,7 @@ namespace Office_File_Explorer
 
                 string body = string.Empty;
 
-                if (fileType == StringResources.word)
+                if (fileType == StringResources.wWord)
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(file, false))
                     {
@@ -2040,7 +2052,7 @@ namespace Office_File_Explorer
                         body = document.MainDocumentPart.Document.LocalName;
                     }
                 }
-                else if (fileType == StringResources.excel)
+                else if (fileType == StringResources.wExcel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(file, false))
                     {
@@ -2048,7 +2060,7 @@ namespace Office_File_Explorer
                         body = document.WorkbookPart.Workbook.LocalName;
                     }
                 }
-                else if (fileType == StringResources.powerpoint)
+                else if (fileType == StringResources.wPowerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(file, false))
                     {
@@ -2070,7 +2082,7 @@ namespace Office_File_Explorer
                 // get the path and make a new file name in the same directory
                 var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
                 var StrExtension = Path.GetExtension(TxtFileName.Text);
-                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.copyFileParentheses + StrExtension;
+                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + StrExtension;
 
                 // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
                 if (!File.Exists(StrCopyFileName))
@@ -2079,7 +2091,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.copyFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
                     File.Copy(TxtFileName.Text, StrCopyFileName);
                 }
 
@@ -2096,7 +2108,7 @@ namespace Office_File_Explorer
                     // now use the new file in the open logic from above
                     string body = string.Empty;
 
-                    if (fileType == StringResources.word)
+                    if (fileType == StringResources.wWord)
                     {
                         using (WordprocessingDocument document = WordprocessingDocument.Open(StrCopyFileName, false))
                         {
@@ -2104,7 +2116,7 @@ namespace Office_File_Explorer
                             body = document.MainDocumentPart.Document.LocalName;
                         }
                     }
-                    else if (fileType == StringResources.excel)
+                    else if (fileType == StringResources.wExcel)
                     {
                         using (SpreadsheetDocument document = SpreadsheetDocument.Open(StrCopyFileName, false))
                         {
@@ -2112,7 +2124,7 @@ namespace Office_File_Explorer
                             body = document.WorkbookPart.Workbook.LocalName;
                         }
                     }
-                    else if (fileType == StringResources.powerpoint)
+                    else if (fileType == StringResources.wPowerpoint)
                     {
                         using (PresentationDocument document = PresentationDocument.Open(StrCopyFileName, false))
                         {
@@ -2171,10 +2183,13 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetAllExternalHyperlinksInPresentation(TxtFileName.Text))
                     {
                         linkCount++;
-                        LstDisplay.Items.Add(linkCount + StringResources.period + s);
+                        LstDisplay.Items.Add(linkCount + StringResources.wPeriod + s);
                     }
 
-                    DisplayEmptyCount(linkCount, "hyperlinks");
+                    if (linkCount == 0)
+                    {
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wHyperlinks, string.Empty);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2197,10 +2212,13 @@ namespace Office_File_Explorer
                     foreach (string s in PowerPointOpenXml.GetSlideTitles(presentationDocument))
                     {
                         slideCount++;
-                        LstDisplay.Items.Add(slideCount + StringResources.period + s);
+                        LstDisplay.Items.Add(slideCount + StringResources.wPeriod + s);
                     }
 
-                    DisplayEmptyCount(slideCount, "slides");
+                    if (slideCount == 0)
+                    {
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wSlides, string.Empty);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2280,14 +2298,14 @@ namespace Office_File_Explorer
                     {
                         ExtRelCount++;
                         ExternalRelationship extRel = extWbPart.ExternalRelationships.ElementAt(0);
-                        LstDisplay.Items.Add(ExtRelCount + StringResources.period + extWbPart.ExternalRelationships.ElementAt(0).Uri);
+                        LstDisplay.Items.Add(ExtRelCount + StringResources.wPeriod + extWbPart.ExternalRelationships.ElementAt(0).Uri);
                     }
                 }
             }
             catch (Exception ex)
             {
                 // log the error
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnListLinks_Click Error");
                 LoggingHelper.Log(ex.Message);
             }
@@ -2331,7 +2349,7 @@ namespace Office_File_Explorer
                         foreach (DefinedName dn in definedNames)
                         {
                             nameCount++;
-                            LstDisplay.Items.Add(nameCount + StringResources.period + dn.Name.Value + " = " + dn.Text);
+                            LstDisplay.Items.Add(nameCount + StringResources.wPeriod + dn.Name.Value + " = " + dn.Text);
                         }
                     }
                     else
@@ -2385,7 +2403,7 @@ namespace Office_File_Explorer
                             foreach (Row row in rows)
                             {
                                 rowCount++;
-                                LstDisplay.Items.Add(rowCount + StringResources.period + row.InnerText);
+                                LstDisplay.Items.Add(rowCount + StringResources.wPeriod + row.InnerText);
                             }
 
                             if (rowCount == 0)
@@ -2423,19 +2441,6 @@ namespace Office_File_Explorer
             }
         }
 
-        /// <summary>
-        /// display function to handle logging empty collection counts for objects
-        /// </summary>
-        /// <param name="count">the count of the list/collection</param>
-        /// <param name="input">the name of the list/collection (ex: hyperlinks)</param>
-        private void DisplayEmptyCount(int count, string input)
-        {
-            if (count == 0)
-            {
-                LstDisplay.Items.Add("** Document contains no " + input + " **");
-            }
-        }
-
         private void BtnListSharedStrings_Click(object sender, EventArgs e)
         {
             try
@@ -2460,7 +2465,7 @@ namespace Office_File_Explorer
                             O.Spreadsheet.Text ssValue = ssi.Text;
                             if (ssValue.Text != null)
                             {
-                                LstDisplay.Items.Add(sharedStringCount + StringResources.period + ssValue.Text);
+                                LstDisplay.Items.Add(sharedStringCount + StringResources.wPeriod + ssValue.Text);
                             }
                         }
                     }
@@ -2502,14 +2507,14 @@ namespace Office_File_Explorer
                             {
                                 commentCount++;
                                 CommentText cText = cmt.CommentText;
-                                LstDisplay.Items.Add(commentCount + StringResources.period + cText.InnerText);
+                                LstDisplay.Items.Add(commentCount + StringResources.wPeriod + cText.InnerText);
                             }
                         }
                     }
 
                     if (commentCount == 0)
                     {
-                        DisplayEmptyCount(0, "comments");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
                     }
                 }
             }
@@ -2563,7 +2568,7 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LstDisplay.Items.Add(StringResources.noComments);
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
                     }
                 }
             }
@@ -2598,18 +2603,18 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    if (fileType == StringResources.word)
+                    if (fileType == StringResources.wWord)
                     {
                         // call the replace function using the theme file provided
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, string.Empty);
                     }
-                    else if (fileType == StringResources.excel)
+                    else if (fileType == StringResources.wExcel)
                     {
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, string.Empty);
                     }
-                    else if (fileType == StringResources.powerpoint)
+                    else if (fileType == StringResources.wPowerpoint)
                     {
                         OfficeHelpers.ReplaceTheme(TxtFileName.Text, sThemeFilePath, fileType);
                         LogInformation(InformationOutput.ClearAndAdd, StringResources.themeFileAdded, string.Empty);
@@ -2651,11 +2656,14 @@ namespace Office_File_Explorer
                         foreach (P.Comment cmt in sCPart.CommentList)
                         {
                             commentCount++;
-                            LstDisplay.Items.Add(commentCount + StringResources.period + cmt.InnerText);
+                            LstDisplay.Items.Add(commentCount + StringResources.wPeriod + cmt.InnerText);
                         }
                     }
 
-                    DisplayEmptyCount(commentCount, "comments");
+                    if (commentCount == 0)
+                    {
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2685,11 +2693,11 @@ namespace Office_File_Explorer
                     {
                         if (attr.LocalName == "name")
                         {
-                            LstDisplay.Items.Add(attr.LocalName + StringResources.colonBuffer + attr.Value);
+                            LstDisplay.Items.Add(attr.LocalName + StringResources.wColonBuffer + attr.Value);
                         }
                         else
                         {
-                            LstDisplay.Items.Add(StringResources.minusSign + attr.LocalName + StringResources.colonBuffer + attr.Value);
+                            LstDisplay.Items.Add(StringResources.wMinusSign + attr.LocalName + StringResources.wColonBuffer + attr.Value);
                         }
                     }
                 }
@@ -2720,7 +2728,7 @@ namespace Office_File_Explorer
         private void BtnConvertDocmToDocx_Click(object sender, EventArgs e)
         {
             PreButtonClickWork();
-            ConvertToNonMacro(StringResources.word);
+            ConvertToNonMacro(StringResources.wWord);
         }
 
         public void ConvertToNonMacro(string app)
@@ -2760,7 +2768,7 @@ namespace Office_File_Explorer
                     do
                     {
                         PowerPointOpenXml.GetSlideIdAndText(out string sldText, TxtFileName.Text, count);
-                        LstDisplay.Items.Add("Slide " + (count + 1) + StringResources.period + sldText);
+                        LstDisplay.Items.Add("Slide " + (count + 1) + StringResources.wPeriod + sldText);
                         count++;
                     } while (count < sCount);
                 }
@@ -2790,12 +2798,12 @@ namespace Office_File_Explorer
                 StrOrigFileName = TxtFileName.Text;
                 StrDestPath = Path.GetDirectoryName(StrOrigFileName) + "\\";
                 StrExtension = Path.GetExtension(StrOrigFileName);
-                StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileParentheses + StrExtension;
+                StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.wFixedFileParentheses + StrExtension;
 
                 // check if file we are about to copy exists and append a number so its unique
                 if (File.Exists(StrDestFileName))
                 {
-                    StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.fixedFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                    StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.wFixedFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
                 }
 
                 LstDisplay.Items.Clear();
@@ -2819,7 +2827,7 @@ namespace Office_File_Explorer
                     {
                         if (part.Uri.ToString() == "/word/document.xml")
                         {
-                            fileType = StringResources.word;
+                            fileType = StringResources.wWord;
                             string strDocTextBackup;
                             XmlDocument xdoc = new XmlDocument();
 
@@ -3244,21 +3252,21 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 PreButtonClickWork();
 
-                if (fileType == StringResources.word)
+                if (fileType == StringResources.wWord)
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
                     {
                         AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
-                else if (fileType == StringResources.excel)
+                else if (fileType == StringResources.wExcel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
                     {
                         AddCustomDocPropsToList(document.CustomFilePropertiesPart);
                     }
                 }
-                else if (fileType == StringResources.powerpoint)
+                else if (fileType == StringResources.wPowerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
                     {
@@ -3273,7 +3281,7 @@ namespace Office_File_Explorer
             catch (IOException ioe)
             {
                 LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
-                LstDisplay.Items.Add(StringResources.noCustomDocProps);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wCustomDocProps, string.Empty);
             }
             catch (Exception ex)
             {
@@ -3290,7 +3298,7 @@ namespace Office_File_Explorer
         {
             if (cfp == null)
             {
-                LstDisplay.Items.Add(StringResources.noCustomDocProps);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wCustomDocProps, string.Empty);
                 return;
             }
 
@@ -3299,10 +3307,13 @@ namespace Office_File_Explorer
             foreach (var v in CfpList(cfp))
             {
                 count++;
-                LstDisplay.Items.Add(count + StringResources.period + v);
+                LstDisplay.Items.Add(count + StringResources.wPeriod + v);
             }
 
-            DisplayEmptyCount(count, "custom document properties");
+            if (count == 0)
+            {
+                LogInformation(InformationOutput.EmptyCount, StringResources.wCustomDocProps, string.Empty);
+            }
         }
 
         public List<string> CfpList(CustomFilePropertiesPart part)
@@ -3310,7 +3321,7 @@ namespace Office_File_Explorer
             List<string> val = new List<string>();
             foreach (CustomDocumentProperty cdp in part.RootElement)
             {
-                val.Add(cdp.Name + StringResources.colonBuffer + cdp.InnerText);
+                val.Add(cdp.Name + StringResources.wColonBuffer + cdp.InnerText);
             }
             return val;
         }
@@ -3356,13 +3367,13 @@ namespace Office_File_Explorer
         private void BtnConvertXlsm2Xlsx_Click(object sender, EventArgs e)
         {
             PreButtonClickWork();
-            ConvertToNonMacro(StringResources.excel);
+            ConvertToNonMacro(StringResources.wExcel);
         }
 
         private void BtnConvertPptmToPptx_Click(object sender, EventArgs e)
         {
             PreButtonClickWork();
-            ConvertToNonMacro(StringResources.powerpoint);
+            ConvertToNonMacro(StringResources.wPowerpoint);
         }
 
         private void BtnListPackageParts_Click(object sender, EventArgs e)
@@ -3397,7 +3408,7 @@ namespace Office_File_Explorer
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AppExitItems();
+            AppExitWork();
             Application.Exit();
         }
 
@@ -3454,7 +3465,7 @@ namespace Office_File_Explorer
 
                     if (fieldCharList.Count == 0 && fieldCodeList.Count == 0)
                     {
-                        LstDisplay.Items.Add("** Document does not contain any field codes **");
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wFldCodes, string.Empty);
                         return;
                     }
                     else
@@ -3472,7 +3483,7 @@ namespace Office_File_Explorer
                             {
                                 // display the field code values
                                 fCount++;
-                                LstDisplay.Items.Add(fCount + StringResources.period + sb);
+                                LstDisplay.Items.Add(fCount + StringResources.wPeriod + sb);
                                 sb.Clear();
                             }
                             else
@@ -3484,14 +3495,14 @@ namespace Office_File_Explorer
                         foreach (string s in fieldCodeList)
                         {
                             fCount++;
-                            LstDisplay.Items.Add(fCount + StringResources.period + s);
+                            LstDisplay.Items.Add(fCount + StringResources.wPeriod + s);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnListFieldCodes: " + ex.Message);
             }
             finally
@@ -3571,7 +3582,7 @@ namespace Office_File_Explorer
                                 }
                             } while (endLoop == false);
 
-                            LstDisplay.Items.Add(count + StringResources.period + bk.Name + isCorruptText);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + bk.Name + isCorruptText);
                             count++;
                         }
                     }
@@ -3592,7 +3603,7 @@ namespace Office_File_Explorer
                                 foreach (BookmarkStart bkc in bkCommentList)
                                 {
                                     bkCommentCount++;
-                                    LstDisplay.Items.Add(bkCommentCount + StringResources.period + bkc.Name);
+                                    LstDisplay.Items.Add(bkCommentCount + StringResources.wPeriod + bkc.Name);
                                 }
                             }
                         }
@@ -3606,7 +3617,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnListBookmarks: " + ex.Message);
             }
             finally
@@ -3696,21 +3707,24 @@ namespace Office_File_Explorer
                         count++;
                         if (PropFound == true)
                         {
-                            LstDisplay.Items.Add(count + StringResources.period + ccType);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + ccType);
                         }
                         else
                         {
-                            LstDisplay.Items.Add(count + StringResources.period + "Rich Text");
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + "Rich Text");
                         }
                         
                     }
 
-                    DisplayEmptyCount(count, "content controls.");
+                    if (count == 0)
+                    {
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wContentControls, string.Empty);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnListCC: " + ex.Message);
             }
             finally
@@ -3727,7 +3741,7 @@ namespace Office_File_Explorer
                 PreButtonClickWork();
                 int count = 0;
 
-                if (fileType == StringResources.word)
+                if (fileType == StringResources.wWord)
                 {
                     // with Word, we can just run through the entire body and get the shapes
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, false))
@@ -3735,7 +3749,7 @@ namespace Office_File_Explorer
                         foreach (ChartPart c in document.MainDocumentPart.ChartParts)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + StringResources.period + c.Uri + StringResources.arrow + StringResources.shpChart);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + c.Uri + StringResources.wArrow + StringResources.wShpChart);
                         }
 
                         foreach (AO.Shape shape in document.MainDocumentPart.Document.Body.Descendants<AO.Shape>())
@@ -3747,7 +3761,7 @@ namespace Office_File_Explorer
                         foreach (O.Vml.Shape shape in document.MainDocumentPart.Document.Body.Descendants<O.Vml.Shape>())
                         {
                             count++;
-                            LstDisplay.Items.Add(count + StringResources.period + shape.Id + StringResources.arrow + StringResources.shpVml);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + shape.Id + StringResources.wArrow + StringResources.shpVml);
                         }
 
                         foreach (O.Math.Shape shape in document.MainDocumentPart.Document.Body.Descendants<O.Math.Shape>())
@@ -3787,7 +3801,7 @@ namespace Office_File_Explorer
                         }
                     }
                 }
-                else if (fileType == StringResources.excel)
+                else if (fileType == StringResources.wExcel)
                 {
                     // with XL, we would need to check all sheets
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, false))
@@ -3809,7 +3823,7 @@ namespace Office_File_Explorer
                             foreach (O.Vml.Shape shape in sheet.Descendants<O.Vml.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + StringResources.period + shape.Id + StringResources.arrow + StringResources.shpVml);
+                                LstDisplay.Items.Add(count + StringResources.wPeriod + shape.Id + StringResources.wArrow + StringResources.shpVml);
                             }
 
                             foreach (O.Math.Shape shape in sheet.Descendants<O.Math.Shape>())
@@ -3850,7 +3864,7 @@ namespace Office_File_Explorer
                         }
                     }
                 }
-                else if (fileType == StringResources.powerpoint)
+                else if (fileType == StringResources.wPowerpoint)
                 {
                     // with PPT, we need to run through all slides
                     using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, false))
@@ -3869,7 +3883,7 @@ namespace Office_File_Explorer
                                             if (child2.GetType().ToString() == StringResources.dfopNVDP)
                                             {
                                                 P.NonVisualDrawingProperties nvdp = (P.NonVisualDrawingProperties)child2;
-                                                LstDisplay.Items.Add(count + StringResources.period + nvdp.Name);
+                                                LstDisplay.Items.Add(count + StringResources.wPeriod + nvdp.Name);
                                             }
                                         }
                                     }
@@ -3885,7 +3899,7 @@ namespace Office_File_Explorer
                             foreach (O.Vml.Shape shape in slidePart.Slide.Descendants<O.Vml.Shape>())
                             {
                                 count++;
-                                LstDisplay.Items.Add(count + StringResources.period + shape.Id + StringResources.arrow + StringResources.shpVml);
+                                LstDisplay.Items.Add(count + StringResources.wPeriod + shape.Id + StringResources.wArrow + StringResources.shpVml);
                             }
 
                             foreach (O.Math.Shape shape in slidePart.Slide.Descendants<O.Math.Shape>())
@@ -3931,7 +3945,10 @@ namespace Office_File_Explorer
                     return;
                 }
 
-                DisplayEmptyCount(count, "shapes.");
+                if (count == 0)
+                {
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wShapes, string.Empty);
+                }
             }
             catch (IOException ioe)
             {
@@ -3981,7 +3998,7 @@ namespace Office_File_Explorer
             CopyAllItems();
         }
 
-        public void AppExitItems()
+        public void AppExitWork()
         {
             try
             {
@@ -4040,7 +4057,7 @@ namespace Office_File_Explorer
                     MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
-                LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset, string.Empty);
+                LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.wColonBuffer + StringResources.pptNotesSizeReset, string.Empty);
             }
             catch (NullReferenceException nre)
             {
@@ -4073,7 +4090,7 @@ namespace Office_File_Explorer
                         MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
-                    LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.colonBuffer + StringResources.pptNotesSizeReset, string.Empty);
+                    LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.wColonBuffer + StringResources.pptNotesSizeReset, string.Empty);
                 }
             }
             catch (NullReferenceException nre)
@@ -4113,17 +4130,13 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
             }
             finally
             {
                 Cursor = Cursors.Default;
             }
-        }
-
-        public void OpenFile()
-        { 
         }
 
         public void FixRevisions()
@@ -4191,7 +4204,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
             }
             finally
@@ -4304,7 +4317,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("FixTbleGrid: " + ex.Message);
             }
             finally
@@ -4514,7 +4527,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixListNumbering: " + ex.Message);
             }
             finally
@@ -4584,7 +4597,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.errorText + ex.Message);
+                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixEndnotes: " + ex.Message);
             }
             finally
@@ -4602,7 +4615,7 @@ namespace Office_File_Explorer
         {
             PreButtonClickWork();
 
-            using (var f = new FrmFixDocument(StringResources.word))
+            using (var f = new FrmFixDocument(StringResources.wWord))
             {
                 var result = f.ShowDialog();
                 if (result == DialogResult.OK)
@@ -4643,7 +4656,7 @@ namespace Office_File_Explorer
         private void BtnFixPresentation_Click(object sender, EventArgs e)
         {
             PreButtonClickWork();
-            using (var f = new FrmFixDocument(StringResources.powerpoint))
+            using (var f = new FrmFixDocument(StringResources.wPowerpoint))
             {
                 var result = f.ShowDialog();
                 if (result == DialogResult.OK)
@@ -4748,10 +4761,10 @@ namespace Office_File_Explorer
                     string strOriginalFile = TxtFileName.Text;
                     string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
                     string strFileExtension = Path.GetExtension(strOriginalFile);
-                    string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.fixedFileParentheses + strFileExtension;
+                    string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.wFixedFileParentheses + strFileExtension;
 
                     // run the command to convert the file "excelcnv.exe -nme -oice "strict-file-path" "converted-file-path""
-                    string cParams = " -nme -oice " + '"' + TxtFileName.Text + '"' + " " + '"' + strOutputFileName + '"';
+                    string cParams = " -nme -oice " + '"' + TxtFileName.Text + '"' + StringResources.wSpaceChar + '"' + strOutputFileName + '"';
                     var proc = Process.Start(excelcnvPath, cParams);
                     proc.Close();
                     LstDisplay.Items.Add("** File Converted Successfully **");
@@ -4808,15 +4821,18 @@ namespace Office_File_Explorer
             {
                 using (PresentationDocument ppt = PresentationDocument.Open(TxtFileName.Text, false))
                 {
-                    int slideCount = 0;
+                    int transitionCount = 0;
 
                     foreach (string s in PowerPointOpenXml.GetSlideTransitions(ppt))
                     {
-                        slideCount++;
-                        LstDisplay.Items.Add(slideCount + StringResources.period + s);
+                        transitionCount++;
+                        LstDisplay.Items.Add(transitionCount + StringResources.wPeriod + s);
                     }
 
-                    DisplayEmptyCount(slideCount, "slides");
+                    if (transitionCount == 0)
+                    {
+                        LogInformation(InformationOutput.EmptyCount, StringResources.wTransitions, string.Empty);
+                    }
                 }
             }
             catch (Exception ex)
@@ -4866,7 +4882,7 @@ namespace Office_File_Explorer
                 Cursor = Cursors.WaitCursor;
                 PreButtonClickWork();
 
-                if (fileType == StringResources.word)
+                if (fileType == StringResources.wWord)
                 {
                     using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                     {
@@ -4885,7 +4901,7 @@ namespace Office_File_Explorer
                         }
                     }
                 }
-                else if (fileType == StringResources.excel)
+                else if (fileType == StringResources.wExcel)
                 {
                     using (SpreadsheetDocument document = SpreadsheetDocument.Open(TxtFileName.Text, true))
                     {
@@ -4903,7 +4919,7 @@ namespace Office_File_Explorer
                         }
                     }
                 }
-                else if (fileType == StringResources.powerpoint)
+                else if (fileType == StringResources.wPowerpoint)
                 {
                     using (PresentationDocument document = PresentationDocument.Open(TxtFileName.Text, true))
                     {
@@ -4929,7 +4945,7 @@ namespace Office_File_Explorer
             catch (IOException ioe)
             {
                 LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
-                LstDisplay.Items.Add(StringResources.noCustomDocProps);
+                LogInformation(InformationOutput.EmptyCount, StringResources.wCustomDocProps, string.Empty);
             }
             catch (Exception ex)
             {
@@ -4990,7 +5006,7 @@ namespace Office_File_Explorer
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            AppExitItems();
+            AppExitWork();
         }
     }
 }

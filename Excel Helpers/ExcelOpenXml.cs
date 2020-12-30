@@ -122,7 +122,7 @@ namespace Office_File_Explorer.Excel_Helpers
                         if (c.CellValue != null)
                         {
                             text = c.CellValue.Text;
-                            values.Add(text + StringResources.spaceChar);
+                            values.Add(text + StringResources.wSpaceChar);
                         }
                     }
                 }
@@ -149,7 +149,7 @@ namespace Office_File_Explorer.Excel_Helpers
                     if (reader.ElementType == typeof(CellValue))
                     {
                         text = reader.GetText();
-                        values.Add(text + StringResources.spaceChar);
+                        values.Add(text + StringResources.wSpaceChar);
                     }
                 }
 

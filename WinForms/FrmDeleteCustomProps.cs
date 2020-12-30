@@ -23,7 +23,7 @@ namespace Office_File_Explorer.Forms
         {
             if (part == null)
             {
-                lbProps.Items.Add(StringResources.noCustomDocProps);
+                lbProps.Items.Add(StringResources.wCustomDocProps);
                 return;
             }
 
@@ -32,7 +32,7 @@ namespace Office_File_Explorer.Forms
             foreach (var v in CfpList(part))
             {
                 count++;
-                lbProps.Items.Add(count + StringResources.period + v);
+                lbProps.Items.Add(count + StringResources.wPeriod + v);
             }
 
             lbProps.SelectedIndex = 0;

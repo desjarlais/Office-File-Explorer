@@ -42,17 +42,17 @@ namespace Office_File_Explorer.Forms
             if (rdoWord.Checked == true)
             {
                 fileType = "*.docx";
-                fType = StringResources.word;
+                fType = StringResources.wWord;
             }
             else if (rdoExcel.Checked == true)
             {
                 fileType = "*.xlsx";
-                fType = StringResources.excel;
+                fType = StringResources.wExcel;
             }
             else if (rdoPowerPoint.Checked == true)
             {
                 fileType = "*.pptx";
-                fType = StringResources.powerpoint;
+                fType = StringResources.wPowerpoint;
             }
 
             return fileType;
@@ -314,19 +314,19 @@ namespace Office_File_Explorer.Forms
                     using (PresentationDocument document = PresentationDocument.Open(f, true))
                     {
                         PowerPoint_Helpers.PowerPointOpenXml.ChangeNotesPageSize(document);
-                        lstOutput.Items.Add(f + StringResources.arrow + StringResources.pptNotesSizeReset);
-                        LoggingHelper.Log(f + StringResources.arrow + StringResources.pptNotesSizeReset);
+                        lstOutput.Items.Add(f + StringResources.wArrow + StringResources.pptNotesSizeReset);
+                        LoggingHelper.Log(f + StringResources.wArrow + StringResources.pptNotesSizeReset);
                     }
                 }
                 catch (NullReferenceException nre)
                 {
-                    lstOutput.Items.Add(f + StringResources.arrow + "** Document does not contain Notes Master **");
-                    LoggingHelper.Log(f + StringResources.arrow + StringResources.errorText + nre.Message);
+                    lstOutput.Items.Add(f + StringResources.wArrow + "** Document does not contain Notes Master **");
+                    LoggingHelper.Log(f + StringResources.wArrow + StringResources.wErrorText + nre.Message);
                 }
                 catch (Exception ex)
                 {
-                    lstOutput.Items.Add(f + StringResources.arrow + StringResources.errorText + ex.Message);
-                    LoggingHelper.Log(f + StringResources.arrow + StringResources.errorText + ex.Message);
+                    lstOutput.Items.Add(f + StringResources.wArrow + StringResources.wErrorText + ex.Message);
+                    LoggingHelper.Log(f + StringResources.wArrow + StringResources.wErrorText + ex.Message);
                 }
                 finally
                 {
@@ -405,7 +405,7 @@ namespace Office_File_Explorer.Forms
             }
             catch (Exception ex)
             {
-                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                lstOutput.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixCorruptBookmarks: " + ex.Message);
             }
             finally
@@ -490,7 +490,7 @@ namespace Office_File_Explorer.Forms
             }
             catch (Exception ex)
             {
-                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                lstOutput.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
             }
             finally
@@ -527,7 +527,7 @@ namespace Office_File_Explorer.Forms
             }
             catch (Exception ex)
             {
-                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                lstOutput.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnPPTResetPII: " + ex.Message);
             }
             finally
@@ -611,7 +611,7 @@ namespace Office_File_Explorer.Forms
                         string strOriginalFile = f;
                         string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
                         string strFileExtension = Path.GetExtension(strOriginalFile);
-                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.fixedFileParentheses + strFileExtension;
+                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.wFixedFileParentheses + strFileExtension;
 
                         // run the command to convert the file "excelcnv.exe -nme -oice "file-path" "converted-file-path""
                         string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
@@ -628,7 +628,7 @@ namespace Office_File_Explorer.Forms
             }
             catch (Exception ex)
             {
-                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                lstOutput.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnConvertStrict: " + ex.Message);
             }
             finally
@@ -644,7 +644,7 @@ namespace Office_File_Explorer.Forms
                 string propNameToDelete = string.Empty;
                 lstOutput.Items.Clear();
 
-                if (fType == StringResources.word)
+                if (fType == StringResources.wWord)
                 {
                     using (var fm = new FrmBatchDeleteCustomProps())
                     {
@@ -671,7 +671,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
                                             customPropFound = true;
                                         }
                                     }
@@ -689,7 +689,7 @@ namespace Office_File_Explorer.Forms
                         }
                     }
                 }
-                else if (fType == StringResources.excel)
+                else if (fType == StringResources.wExcel)
                 {
                     using (var fm = new FrmBatchDeleteCustomProps())
                     {
@@ -714,7 +714,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
                                         }
                                         else
                                         {
@@ -730,7 +730,7 @@ namespace Office_File_Explorer.Forms
                         }
                     }
                 }
-                else if (fType == StringResources.powerpoint)
+                else if (fType == StringResources.wPowerpoint)
                 {
                     using (var fm = new FrmBatchDeleteCustomProps())
                     {
@@ -755,7 +755,7 @@ namespace Office_File_Explorer.Forms
                                         if (propNameToDelete == cdp.Name)
                                         {
                                             cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.colonBuffer + propNameToDelete + " deleted");
+                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
                                         }
                                         else
                                         {
@@ -882,7 +882,7 @@ namespace Office_File_Explorer.Forms
             }
             catch (Exception ex)
             {
-                lstOutput.Items.Add(StringResources.errorText + ex.Message);
+                lstOutput.Items.Add(StringResources.wErrorText + ex.Message);
                 LoggingHelper.Log("BtnFixTableProps: " + ex.Message);
             }
             finally
@@ -904,7 +904,7 @@ namespace Office_File_Explorer.Forms
                 List<CustomXmlPart> cxpList;
                 lstOutput.Items.Clear();
 
-                if (fType == StringResources.word)
+                if (fType == StringResources.wWord)
                 {
                     foreach (string f in files)
                     {
@@ -933,11 +933,11 @@ namespace Office_File_Explorer.Forms
                                     // move to the node and delete it
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
+                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
 
                                     // check if we actually moved to the RequestStatus node
                                     // if we didn't move there, no changes should happen, it doesn't exist
-                                    if (navigator.Name == StringResources.customXmlRequestStatus)
+                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                     {
                                         // delete the node
                                         navigator.DeleteSelf();
@@ -968,7 +968,7 @@ namespace Office_File_Explorer.Forms
                         }
                     }
                 }
-                else if (fType == StringResources.excel)
+                else if (fType == StringResources.wExcel)
                 {
                     foreach (string f in files)
                     {
@@ -988,9 +988,9 @@ namespace Office_File_Explorer.Forms
                                 {
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
+                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
                                     
-                                    if (navigator.Name == StringResources.customXmlRequestStatus)
+                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                     {
                                         navigator.DeleteSelf();
 
@@ -1018,7 +1018,7 @@ namespace Office_File_Explorer.Forms
                         }
                     }
                 }
-                else if (fType == StringResources.powerpoint)
+                else if (fType == StringResources.wPowerpoint)
                 {
                     foreach (string f in files)
                     {
@@ -1038,9 +1038,9 @@ namespace Office_File_Explorer.Forms
                                 {
                                     navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
                                     navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.customXmlRequestStatus, StringResources.requestStatusNS);
+                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
 
-                                    if (navigator.Name == StringResources.customXmlRequestStatus)
+                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                     {
                                         navigator.DeleteSelf();
 

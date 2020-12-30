@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3648000">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3647488">
       <assemblyIdentity name="Office File Explorer" version="1.0.2.49" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>E2FnpH1flCL/owHOKq4OKKLPrZ40oiSjeAa+qbv4ruk=</dsig:DigestValue>
+        <dsig:DigestValue>M6mksJjRdnx+E0i6SG8/l5jY5AKyiCc2W9iL7LBy7WE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>MkDPg3tixwwj/EFv9l31uCdVgSLv7NfPzluKLH1bvsw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="CommentedCode.txt" size="831">
+  <file name="CommentedCode.txt" size="914">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>cjQDyxGHloihRnVVMbqB3HB87qN28rkJpUN0AlUkSsU=</dsig:DigestValue>
+      <dsig:DigestValue>KpGKqvYkUYUKRbczQOun1xwPd2zIi4krx34DzKfgy7c=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Instructions.txt" size="617">

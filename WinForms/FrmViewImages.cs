@@ -18,7 +18,7 @@ namespace Office_File_Explorer.Forms
             appName = fType;
             fileName = fName;
 
-            if (appName == StringResources.word)
+            if (appName == StringResources.wWord)
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(fileName, false))
                 {
@@ -28,7 +28,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (appName == StringResources.excel)
+            else if (appName == StringResources.wExcel)
             {
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
                 {
@@ -41,7 +41,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (appName == StringResources.powerpoint)
+            else if (appName == StringResources.wPowerpoint)
             {
                 using (PresentationDocument document = PresentationDocument.Open(fileName, false))
                 {
@@ -69,7 +69,7 @@ namespace Office_File_Explorer.Forms
 
         private void LstImages_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (appName == StringResources.word)
+            if (appName == StringResources.wWord)
             {
                 using (WordprocessingDocument document = WordprocessingDocument.Open(fileName, false))
                 {
@@ -82,7 +82,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (appName == StringResources.excel)
+            else if (appName == StringResources.wExcel)
             {
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
                 {
@@ -98,7 +98,7 @@ namespace Office_File_Explorer.Forms
                     }
                 }
             }
-            else if (appName == StringResources.powerpoint)
+            else if (appName == StringResources.wPowerpoint)
             {
                 using (PresentationDocument document = PresentationDocument.Open(fileName, false))
                 {
