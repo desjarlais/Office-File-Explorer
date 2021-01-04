@@ -39,6 +39,7 @@
         public const string wEndnotes = "endnotes";
         public const string wConnections = "connections";
         public const string wSharedStrings = "shared strings";
+        public const string wStyles = "styles";
         public const string wInvalidXml = "invalid xml";
         public const string wFonts = "fonts";
         public const string wForumulas = "formulas";
@@ -51,6 +52,7 @@
         public const string wNotesMaster = "Notes Master";
         public const string wPII = "Personally Identifiable Information";
         public const string wValidationErr = "validation errors";
+        public const string mbWarning = "Warning";
 
         // dll refs
         public const string gdi32 = "gdi32.dll";
@@ -85,6 +87,7 @@
         public const string shpXlDraw = ". Spreadsheet Drawing";
         public const string customPropSaved = ": Custom Property Saved.";
         public const string noProp = " : Property Does Not Exist";
+        public const string resetNotesMasterRegKey = "If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master";
 
         // notes slide refs
         public const string pptHeaderPlaceholder = "Header Placeholder";

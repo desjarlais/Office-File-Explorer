@@ -335,6 +335,7 @@ namespace Office_File_Explorer
             else if (ffmt == OxmlFileFormat.Invalid)
             {
                 // invalid file format
+                LoggingHelper.Log("Unknown format" + TxtFileName.Text);
                 MessageBox.Show("Unsupported File Format");
                 return;
             }
@@ -487,7 +488,7 @@ namespace Office_File_Explorer
 
                 if (containStyle == false)
                 {
-                    LstDisplay.Items.Add("** No styles in this document **");
+                    LogInformation(InformationOutput.EmptyCount, StringResources.wStyles, string.Empty);
                 }
                 else
                 {
@@ -1838,7 +1839,7 @@ namespace Office_File_Explorer
                         }
                         else
                         {
-                            LogInformation(InformationOutput.TextOnly, "** There are no custom properties in this document **", string.Empty);
+                            LogInformation(InformationOutput.EmptyCount, StringResources.wCustomDocProps, string.Empty);
                         }
                     }
                     catch (Exception ex)
@@ -4055,7 +4056,7 @@ namespace Office_File_Explorer
                 PowerPointOpenXml.UseCustomNotesPageSize(TxtFileName.Text);
                 if (Properties.Settings.Default.ResetNotesMaster == false)
                 {
-                    MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(StringResources.resetNotesMasterRegKey, StringResources.mbWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
                 LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.wColonBuffer + StringResources.pptNotesSizeReset, string.Empty);
@@ -4088,7 +4089,7 @@ namespace Office_File_Explorer
                     PowerPointOpenXml.ChangeNotesPageSize(document);
                     if (Properties.Settings.Default.ResetNotesMaster == false)
                     {
-                        MessageBox.Show("If you need to also resize the notes slides enable via: \r\n\r\nFile | Settings | Reset Notes Master", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(StringResources.resetNotesMasterRegKey, StringResources.mbWarning, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
                     LogInformation(InformationOutput.ClearAndAdd, TxtFileName.Text + StringResources.wColonBuffer + StringResources.pptNotesSizeReset, string.Empty);
