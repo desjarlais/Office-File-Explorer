@@ -119,7 +119,7 @@ namespace Office_File_Explorer.Forms
                     LstDisplay.Items.Add("   No Printer Resolutions.");
                 }
 
-                LstDisplay.Items.Add("");
+                LstDisplay.Items.Add(string.Empty);
                 LstDisplay.Items.Add("Paper Sources: ");
                 if (psc.Count > 0)
                 {
@@ -133,7 +133,7 @@ namespace Office_File_Explorer.Forms
                     LstDisplay.Items.Add("   No Paper Sources.");
                 }
 
-                LstDisplay.Items.Add("");
+                LstDisplay.Items.Add(string.Empty);
                 LstDisplay.Items.Add("Paper Sizes: ");
                 if (pszc.Count > 0)
                 {
@@ -147,7 +147,7 @@ namespace Office_File_Explorer.Forms
                     LstDisplay.Items.Add("   No Paper Sizes.");
                 }
 
-                LstDisplay.Items.Add("");
+                LstDisplay.Items.Add(string.Empty);
                 LstDisplay.Items.Add("Default Page Settings: ");
                 if (pgs.Landscape == true)
                 {

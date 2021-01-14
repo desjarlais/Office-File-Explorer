@@ -9,6 +9,7 @@ namespace Office_File_Explorer.Forms
     public partial class FrmDeleteCustomProps : Form
     {
         CustomFilePropertiesPart part;
+
         public bool PartModified { get; set; }
 
         public FrmDeleteCustomProps(CustomFilePropertiesPart cfp)

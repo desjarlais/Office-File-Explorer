@@ -17,7 +17,6 @@ namespace Office_File_Explorer.Forms
                 f.FindTextProperty = TxtBxFind.Text;
                 f.ReplaceTextProperty = TxtBxReplace.Text;
             }
-
             Close();
         }
 

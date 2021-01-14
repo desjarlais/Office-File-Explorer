@@ -87,7 +87,7 @@ namespace Office_File_Explorer
         // corrupt doc buffer
         private static StringBuilder sbNodeBuffer = new StringBuilder();
 
-        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogInformation, EmptyCount };
+        public enum InformationOutput { ClearAndAdd, Append, TextOnly, InvalidFile, LogException, EmptyCount };
 
         public FrmMain()
         {
@@ -386,11 +386,11 @@ namespace Office_File_Explorer
             }
             catch (NullReferenceException nre)
             {
-                LogInformation(InformationOutput.LogInformation, "Word - BtnListComments_Click Error", nre.Message);
+                LogInformation(InformationOutput.LogException, "Word - BtnListComments_Click Error", nre.Message);
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "Word - BtnListComments_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "Word - BtnListComments_Click Error", ex.Message);
             }
             finally
             {
@@ -399,10 +399,11 @@ namespace Office_File_Explorer
         }
 
         /// <summary>
-        /// Output text to the listbox
+        /// log output based on the type of information
         /// </summary>
-        /// <param name="typeOfOutput">This variable specifies the type of output to display</param>
-        /// <param name="output">This is the actual data from the document we want to display</param>
+        /// <param name="display">scenario to be logged</param>
+        /// <param name="output">text to be logged</param>
+        /// <param name="ex">exception string if included</param>
         public void LogInformation(InformationOutput display, string output, string ex)
         {
             switch (display)
@@ -419,7 +420,7 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add(StringResources.invalidFile);
                     break;
-                case InformationOutput.LogInformation:
+                case InformationOutput.LogException:
                     LstDisplay.Items.Add(output);
                     LoggingHelper.Log(output);
                     LoggingHelper.Log(ex);
@@ -556,11 +557,11 @@ namespace Office_File_Explorer
             }
             catch (IOException ioe)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListStyles Error: Error listing paragraphs.", ioe.Message);
+                LogInformation(InformationOutput.LogException, "BtnListStyles Error: Error listing paragraphs.", ioe.Message);
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListStyles Error: Error listing paragraphs.", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListStyles Error: Error listing paragraphs.", ex.Message);
             }
             finally
             {
@@ -621,7 +622,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListHyperlinks_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListHyperlinks_Click Error", ex.Message);
             }
         }
 
@@ -728,7 +729,7 @@ namespace Office_File_Explorer
                                 string strNumId = el.GetAttribute("numId", StringResources.wordMainAttributeNamespace).Value;
                                 aNumIdList.Add(strNumId);
                                 aCount++;
-                                LstDisplay.Items.Add(aCount + ". numId = " + strNumId);
+                                LstDisplay.Items.Add(aCount + StringResources.wNumId + strNumId);
                             }
                         }
                     }
@@ -747,7 +748,7 @@ namespace Office_File_Explorer
                         foreach (object item in oNumIdList)
                         {
                             oCount++;
-                            LstDisplay.Items.Add(oCount + ". numId = " + item);
+                            LstDisplay.Items.Add(oCount + StringResources.wNumId + item);
                         }
                     }
                     else
@@ -759,7 +760,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListTemplates_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListTemplates_Click Error", ex.Message);
             }
             finally
             {
@@ -784,12 +785,12 @@ namespace Office_File_Explorer
             foreach (object item in al)
             {
                 count++;
-                LstDisplay.Items.Add(count + ". numID = " + item);
+                LstDisplay.Items.Add(count + StringResources.wNumId + item);
                 
                 // Word is limited to 2047 total active lists in a document
                 if (count == 2047)
                 {
-                    LogInformation(InformationOutput.LogInformation, "## You have too many lists in this file. Word will only display up to 2047 lists. ##", "Active List Limit Reached");
+                    LogInformation(InformationOutput.LogException, "## You have too many lists in this file. Word will only display up to 2047 lists. ##", "Active List Limit Reached");
                 }
             }
         }
@@ -880,12 +881,12 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LogInformation(InformationOutput.ClearAndAdd, StringResources.wOle, string.Empty);
+                    LogInformation(InformationOutput.ClearAndAdd, "BtnListOle_Click Error", string.Empty);
                 }
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListOle_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListOle_Click Error", ex.Message);
             }
         }
 
@@ -1089,7 +1090,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnAcceptRevisions_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnAcceptRevisions_Click Error", ex.Message);
             }
             finally
             {
@@ -1108,7 +1109,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnDeleteComments_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnDeleteComments_Click Error", ex.Message);
             }
             finally
             {
@@ -1133,7 +1134,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnDeleteHiddenText_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnDeleteHiddenText_Click Error", ex.Message);
             }
             finally
             {
@@ -1158,7 +1159,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnDeleteHdrFtr_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnDeleteHdrFtr_Click Error", ex.Message);
             }
             finally
             {
@@ -1272,13 +1273,13 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    LoggingHelper.Log("BtnValidateFileClick Error");
+                    LoggingHelper.Log("Unknown file format - BtnValidateFileClick Error");
                     throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnValidateFile_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnValidateFile_Click Error", ex.Message);
             }
             finally
             {
@@ -1325,7 +1326,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListFormulas_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListFormulas_Click Error", ex.Message);
             }
             finally
             {
@@ -1356,7 +1357,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListFonts_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListFonts_Click Error", ex.Message);
             }
         }
 
@@ -1393,7 +1394,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListFootnotes_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListFootnotes_Click Error", ex.Message);
             }
         }
 
@@ -1430,7 +1431,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListEndnotes_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListEndnotes_Click Error", ex.Message);
             }
         }
 
@@ -1450,7 +1451,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnDeleteFootnotes_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnDeleteFootnotes_Click Error", ex.Message);
             }
         }
 
@@ -1470,7 +1471,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnDeleteEndnotes_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnDeleteEndnotes_Click Error", ex.Message);
             }
         }
 
@@ -1649,7 +1650,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListRevisions_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListRevisions_Click Error", ex.Message);
             }
             finally
             {
@@ -1709,7 +1710,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListAuthors_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListAuthors_Click Error", ex.Message);
             }
             finally
             {
@@ -1844,13 +1845,13 @@ namespace Office_File_Explorer
                     }
                     catch (Exception ex)
                     {
-                        LogInformation(InformationOutput.LogInformation, "BtnViewCustomDocProps (doc settings) Error", ex.Message);
+                        LogInformation(InformationOutput.LogException, "BtnViewCustomDocProps (doc settings) Error", ex.Message);
                     }
                 }
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnViewCustomDocProps_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnViewCustomDocProps_Click Error", ex.Message);
             }
             finally
             {
@@ -2013,7 +2014,6 @@ namespace Office_File_Explorer
         public void PopulatePackageParts()
         {
             pParts.Clear();
-
             using (FileStream zipToOpen = new FileStream(TxtFileName.Text, FileMode.Open, FileAccess.Read))
             {
                 using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read))
@@ -2031,19 +2031,20 @@ namespace Office_File_Explorer
         /// if the SDK fails to open the file, it is not a valid docx
         /// </summary>
         /// <param name="file">the path to the initial fix attempt</param>
+        /// <param name="isFileOpen">is a file open scenario</param>
         public void OpenWithSdk(string file, bool isFileOpen)
         {
+            string body = string.Empty;
+
             try
             {
-                // if the file is opened by the SDK, we can proceed with opening in tool
                 Cursor = Cursors.WaitCursor;
 
+                // if the file is opened by the SDK, we can proceed with opening in tool
                 if (isFileOpen)
                 {
                     SetUpButtons();
                 }
-
-                string body = string.Empty;
 
                 if (fileType == StringResources.wWord)
                 {
@@ -2107,8 +2108,6 @@ namespace Office_File_Explorer
                     }
 
                     // now use the new file in the open logic from above
-                    string body = string.Empty;
-
                     if (fileType == StringResources.wWord)
                     {
                         using (WordprocessingDocument document = WordprocessingDocument.Open(StrCopyFileName, false))
@@ -2195,7 +2194,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnPPTListHyperlinks_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnPPTListHyperlinks_Click Error", ex.Message);
             }
         }
 
@@ -2224,7 +2223,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnGetAllSlideTitles_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnGetAllSlideTitles_Click Error", ex.Message);
             }
         }
 
@@ -2252,7 +2251,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnSearchAndReplace_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnSearchAndReplace_Click Error", ex.Message);
             }
         }
 
@@ -2306,9 +2305,7 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 // log the error
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("BtnListLinks_Click Error");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogException, StringResources.wErrorText, ex.Message);
             }
             finally
             {
@@ -2361,7 +2358,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListDefinedNames_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListDefinedNames_Click Error", ex.Message);
             }
             finally
             {
@@ -2434,7 +2431,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListHiddenRowsColumns_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListHiddenRowsColumns_Click Error", ex.Message);
             }
             finally
             {
@@ -2521,9 +2518,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LoggingHelper.Log("Excel - BtnComments_Click Error:");
-                LoggingHelper.Log(ex.Message);
-                LogInformation(InformationOutput.EmptyCount, StringResources.wComments, string.Empty);
+                LogInformation(InformationOutput.LogException, "Excel - BtnComments_Click Error:", ex.Message);
             }
             finally
             {
@@ -2575,7 +2570,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.LogInformation, "BtnListFormulas_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListFormulas_Click Error", ex.Message);
             }
             finally
             {
@@ -2669,7 +2664,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.InvalidFile, "PPT - BtnListComments_Click Error", ex.Message);
+                LogInformation(InformationOutput.LogException, "PPT - BtnListComments_Click Error", ex.Message);
             }
         }
 
@@ -2748,9 +2743,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("Unable to convert document.");
-                LoggingHelper.Log("BtnConvertDocmToDocx Error:");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogException, "Unable to convert Docm document.", ex.Message);
             }
         }
 
@@ -2780,8 +2773,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LoggingHelper.Log("BtnListSlideText Error:");
-                LoggingHelper.Log(ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListSlideText Error:", ex.Message);
             }
             finally
             {
@@ -2801,7 +2793,7 @@ namespace Office_File_Explorer
                 StrExtension = Path.GetExtension(StrOrigFileName);
                 StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.wFixedFileParentheses + StrExtension;
 
-                // check if file we are about to copy exists and append a number so its unique
+                // check if file we are about to copy exists and append a number so it is unique
                 if (File.Exists(StrDestFileName))
                 {
                     StrDestFileName = StrDestPath + Path.GetFileNameWithoutExtension(StrOrigFileName) + StringResources.wFixedFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
@@ -3237,8 +3229,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(InformationOutput.TextOnly, ex.Message, string.Empty);
-                LoggingHelper.Log("List Connections Failed = " + ex.Message);
+                LogInformation(InformationOutput.LogException, "List Connections Failed", ex.Message);
             }
             finally
             {
@@ -3287,8 +3278,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("BtnListCustomProps Error: " + ex.Message);
-                LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+                LogInformation(InformationOutput.LogException, "BtnListCustomProps Error: ", ex.Message);
             }
             finally
             {

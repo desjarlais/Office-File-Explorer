@@ -104,6 +104,6 @@ namespace Office_File_Explorer.Forms
             DialogResult = DialogResult.Cancel;
             OptionSelected = "Cancel";
             Close();
-        }        
+        }
     }
 }

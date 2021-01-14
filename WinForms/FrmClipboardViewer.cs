@@ -280,7 +280,7 @@ namespace Office_File_Explorer.Forms
                 if (Formats.Length == 0)
                 {
                     lbClipFormats.Items.Add("The clipboard is emtpy.");
-                    rtbClipData.Text = "";
+                    rtbClipData.Text = string.Empty;
                     pbClipData.Visible = false;
                     return;
                 }

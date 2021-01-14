@@ -96,7 +96,7 @@ namespace Office_File_Explorer.Forms
                     
                     foreach (Paragraph p in pList)
                     {
-                        if (p.InnerText == "")
+                        if (p.InnerText == string.Empty)
                         {
                             continue;
                         }
@@ -193,7 +193,7 @@ namespace Office_File_Explorer.Forms
         /// </summary>
         /// <param name="hexString">The hex string.</param>
         /// <returns></returns>
-        private System.Drawing.Color GetSystemDrawingColorFromHexString(string hexString)
+        private Color GetSystemDrawingColorFromHexString(string hexString)
         {
             try
             {

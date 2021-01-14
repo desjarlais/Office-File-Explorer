@@ -13,6 +13,7 @@
         public const string sBegin = "begin";
         public const string wColon = ": ";
         public const string wColonBuffer = " : ";
+        public const string wNumId = ". numId = ";
         public const string wPeriod = ". ";
         public const string wArrow = " --> ";
         public const string wMinusSign = " - ";
