@@ -2,16 +2,16 @@
 
 The purpose of this tool is to provide potential file specific troubleshooting of Office Open Xml formatted documents for Word, Excel and PowerPoint (.docx, .dotx, .docm, .xlsx, .xlst, .xlsm, .pptx, .pptm).
 
-### Note
+## Note
 Keep in mind if you use this on a production document and choose to use something that changes or removes data, you should be working on a copy of the file, not the original.  
 
-### Help
+## Help
 If you need assistance (find a bug, have a question or any suggestions or feedback), please report them using the [Issues tab](https://github.com/desjarlais/Office-File-Explorer/issues)
 
-### Main Window
+## Main Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
 
-# List of features
+## List of features
 
 ### Word
 * List function to display (content controls, styles, hyperlinks, List Templates, fonts, footnotes, endnotes, document properties, authors, revisions/tracked changes, comments, field codes, bookmarks, paragraphs, paragraph styles)
@@ -45,7 +45,7 @@ If you need assistance (find a bug, have a question or any suggestions or feedba
 * Validate underlying xml file details
 * View Custom Xml - view custom xml files in Office documents
 
-### Batch File Processing Window
+## Batch File Processing Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
 
 ### Batch File Processing (following features can be used to change many documents at one time)
