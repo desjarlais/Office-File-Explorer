@@ -8,6 +8,9 @@ Keep in mind if you use this on a production document and choose to use somethin
 ### Help
 If you need assistance (find a bug, have a question or any suggestions or feedback), please report them using the [Issues tab](https://github.com/desjarlais/Office-File-Explorer/issues)
 
+### Main Window
+![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
+
 # List of features
 
 ### Word
@@ -42,6 +45,9 @@ If you need assistance (find a bug, have a question or any suggestions or feedba
 * Validate underlying xml file details
 * View Custom Xml - view custom xml files in Office documents
 
+### Batch File Processing Window
+![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
+
 ### Batch File Processing (following features can be used to change many documents at one time)
 * Change Theme (Word, Excel, PowerPoint)
 * Add Custom Properties (Word, Excel, PowerPoint)
@@ -53,11 +59,3 @@ If you need assistance (find a bug, have a question or any suggestions or feedba
 * Remove PII (PowerPoint)
 * Convert Strict xlsx format to non-Strict xlsx format (Excel)
 * Delete RequestStatus xml node - (Word, Excel, PowerPoint)
-
-# App UI
-
-### Main Window
-![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
-
-### Batch File Processing Window
-![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcbatch.png?raw=true)
