@@ -70,7 +70,6 @@
             this.BtnListSharedStrings = new System.Windows.Forms.Button();
             this.BtnListHiddenRowsColumns = new System.Windows.Forms.Button();
             this.BtnListDefinedNames = new System.Windows.Forms.Button();
-            this.BtnDeleteExternalLinks = new System.Windows.Forms.Button();
             this.BtnListLinks = new System.Windows.Forms.Button();
             this.BtnListFormulas = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -492,7 +491,6 @@
             this.groupBox2.Controls.Add(this.BtnListSharedStrings);
             this.groupBox2.Controls.Add(this.BtnListHiddenRowsColumns);
             this.groupBox2.Controls.Add(this.BtnListDefinedNames);
-            this.groupBox2.Controls.Add(this.BtnDeleteExternalLinks);
             this.groupBox2.Controls.Add(this.BtnListLinks);
             this.groupBox2.Controls.Add(this.BtnListFormulas);
             this.groupBox2.Location = new System.Drawing.Point(456, 83);
@@ -612,17 +610,6 @@
             this.BtnListDefinedNames.Text = "List Defined Names";
             this.BtnListDefinedNames.UseVisualStyleBackColor = true;
             this.BtnListDefinedNames.Click += new System.EventHandler(this.BtnListDefinedNames_Click);
-            // 
-            // BtnDeleteExternalLinks
-            // 
-            this.BtnDeleteExternalLinks.Location = new System.Drawing.Point(6, 264);
-            this.BtnDeleteExternalLinks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.BtnDeleteExternalLinks.Name = "BtnDeleteExternalLinks";
-            this.BtnDeleteExternalLinks.Size = new System.Drawing.Size(130, 23);
-            this.BtnDeleteExternalLinks.TabIndex = 7;
-            this.BtnDeleteExternalLinks.Text = "Delete Links";
-            this.BtnDeleteExternalLinks.UseVisualStyleBackColor = true;
-            this.BtnDeleteExternalLinks.Click += new System.EventHandler(this.BtnDeleteExternalLinks_Click);
             // 
             // BtnListLinks
             // 
@@ -937,7 +924,7 @@
             // 
             this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -945,7 +932,7 @@
             // 
             this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.CopyOutputToolStripMenuItem_Click);
             // 
@@ -953,20 +940,20 @@
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -1162,7 +1149,6 @@
         private System.Windows.Forms.Button BtnPPTGetAllSlideTitles;
         private System.Windows.Forms.Button BtnSearchAndReplace;
         private System.Windows.Forms.Button BtnListLinks;
-        private System.Windows.Forms.Button BtnDeleteExternalLinks;
         private System.Windows.Forms.Button BtnListDefinedNames;
         private System.Windows.Forms.Button BtnListHiddenRowsColumns;
         private System.Windows.Forms.Button BtnListSharedStrings;

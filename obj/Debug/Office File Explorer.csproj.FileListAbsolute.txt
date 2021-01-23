@@ -131,3 +131,4 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmDeleteCus
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatchDeleteCustomProps.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomXmlViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmViewImages.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.WinForms.FrmEditLinks.resources

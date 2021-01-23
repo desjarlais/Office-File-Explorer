@@ -20,6 +20,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 using Office_File_Explorer.App_Helpers;
+using System;
 
 namespace Office_File_Explorer.Excel_Helpers
 {
@@ -27,29 +28,107 @@ namespace Office_File_Explorer.Excel_Helpers
     {
         public static bool RemoveExternalLinks(string docName)
         {
-            bool linkRemoved = false;
+            // step 1 remove the externalworkbookpart
+            // step 2 remove the oleobject attributes in the worksheet
+            bool linksRemoved = false;
 
-            // Given a document name, remove all headers and footers.
             using (SpreadsheetDocument xlDoc = SpreadsheetDocument.Open(docName, true))
             {
-                if (xlDoc.WorkbookPart.GetPartsCountOfType<ExternalWorkbookPart>() > 0)
-                {
-                    // Remove header and footer parts.
-                    xlDoc.WorkbookPart.DeleteParts(xlDoc.WorkbookPart.ExternalWorkbookParts);
+                var ewParts = xlDoc.WorkbookPart.ExternalWorkbookParts.ToList();
+                var wksParts = xlDoc.WorkbookPart.WorksheetParts.ToList();
 
-                    // Remove references to the headers and footers.
-                    var wbLinks = xlDoc.WorkbookPart.Workbook.Descendants<ExternalReference>().ToList();
-                    foreach (var link in wbLinks)
+                if (ewParts.Count > 0)
+                {
+                    foreach (ExternalWorkbookPart ewp in ewParts)
                     {
-                        link.Parent.RemoveChild(link);
-                        linkRemoved = true;
+                        xlDoc.WorkbookPart.DeletePart(ewp);
+                        linksRemoved = true;
+                    }
+
+                    foreach (WorksheetPart wp in wksParts)
+                    {
+                        foreach (OpenXmlElement child in wp.Worksheet.ChildElements)
+                        {
+                            if (child.LocalName == "oleObjects")
+                            {
+                                foreach (OpenXmlElement childOleObjects in child.ChildElements)
+                                {
+                                    if (childOleObjects.LocalName == "AlternateContent")
+                                    {
+                                        foreach (OpenXmlElement ac in childOleObjects.ChildElements)
+                                        {
+                                            if (ac.LocalName == "Choice")
+                                            {
+                                                foreach (OpenXmlElement oleObj in ac.ChildElements)
+                                                {
+                                                    if (oleObj.LocalName == "oleObject")
+                                                    {
+                                                        oleObj.ClearAllAttributes();
+                                                        linksRemoved = true;
+                                                    }
+                                                }
+                                            }
+
+                                            if (ac.LocalName == "Fallback")
+                                            {
+                                                ac.Remove();
+                                                linksRemoved = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (linksRemoved)
+                    {
+                        // save the document
+                        xlDoc.WorkbookPart.Workbook.Save();
                     }
 
                     xlDoc.Close();
                 }
             }
 
-            return linkRemoved;
+            return linksRemoved;
+        }
+
+        public static void RemoveExternalLink(string fileName, StringValue linkToDelete)
+        {
+            bool linkRemoved = false;
+
+            foreach (ExternalReference eLink in GetExternalLinks(fileName))
+            {
+                if (linkToDelete == eLink.Id)
+                {
+                    ExternalReference er = (ExternalReference)eLink;
+                    er.Remove();
+                    linkRemoved = true;
+                }
+            }
+
+            if (linkRemoved == true)
+            {
+
+            }
+        }
+
+        public static List<ExternalReference> GetExternalLinks(string fileName)
+        {
+            List<ExternalReference> returnVal = new List<ExternalReference>();
+
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(fileName, false))
+            {
+                var wbLinks = excelDoc.WorkbookPart.Workbook.Descendants<ExternalReference>().ToList();
+
+                foreach (ExternalReference eLink in wbLinks)
+                {
+                    returnVal.Add(eLink);
+                }
+            }
+
+            return returnVal;
         }
 
         public static List<Sheet> GetSheets(string fileName, bool fileIsEditable)

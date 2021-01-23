@@ -4,7 +4,7 @@
   <description asmv2:iconFile="1 (47).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Office File Explorer" version="1.0.2.48" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Office File Explorer" version="1.0.2.49" language="neutral" processorArchitecture="msil" />
     <commandLine file="Office File Explorer.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="4478464">
-      <assemblyIdentity name="Office File Explorer" version="1.0.2.48" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="4484096">
+      <assemblyIdentity name="Office File Explorer" version="1.0.2.49" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>rWHhKUkUzOnQ+TrHxL4Gt1adiMNNWjLbOEQ9MxONBHs=</dsig:DigestValue>
+        <dsig:DigestValue>SE3f7JVjY+LRjx6x3l9YYtFC9bf1JgzkZk/w5slIBXc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>MkDPg3tixwwj/EFv9l31uCdVgSLv7NfPzluKLH1bvsw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="CommentedCode.txt" size="831">
+  <file name="CommentedCode.txt" size="914">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>cjQDyxGHloihRnVVMbqB3HB87qN28rkJpUN0AlUkSsU=</dsig:DigestValue>
+      <dsig:DigestValue>KpGKqvYkUYUKRbczQOun1xwPd2zIi4krx34DzKfgy7c=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Instructions.txt" size="617">
@@ -93,13 +93,13 @@
       <dsig:DigestValue>RgO0FsNYFxycaPen1CzLodvMDa31JS0/NC5RmPBgXfg=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Office File Explorer.exe.config" size="1864">
+  <file name="Office File Explorer.exe.config" size="1996">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ByXt+WhSpmAEQKc0+j8/UuMFt+PqUvVjy6/SJSw9ras=</dsig:DigestValue>
+      <dsig:DigestValue>czNSh2QBQIULg6p0NgwWVOP5YiPycjPs5moNyYp8H4I=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\ASX_Copy_blue_16x.png" size="245">
