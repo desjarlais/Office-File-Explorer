@@ -29,7 +29,12 @@ namespace Office_File_Explorer.Excel_Helpers
         public static bool RemoveExternalLinks(string docName)
         {
             // step 1 remove the externalworkbookpart
-            // step 2 remove the oleobject attributes in the worksheet
+            // step 2 in sheet move oleObjects into AC
+            // step 3 loop each oleObject
+            //   step 3a remove all attributes except shapeId
+            //   step 3b in objectPr, remove dde attribute
+            //   step 3c remove fallback
+
             bool linksRemoved = false;
 
             using (SpreadsheetDocument xlDoc = SpreadsheetDocument.Open(docName, true))

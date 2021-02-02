@@ -194,6 +194,7 @@ namespace Office_File_Explorer
             BtnDeleteCustomProps.Enabled = false;
             BtnViewCustomXml.Enabled = false;
             BtnViewImages.Enabled = false;
+            BtnListExcelHyperlinks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -447,34 +448,52 @@ namespace Office_File_Explorer
                 {
                     MainDocumentPart mainPart = myDoc.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
-                    
+
                     LstDisplay.Items.Clear();
                     LstDisplay.Items.Add("# Style Summary #");
                     try
                     {
-                        foreach (OpenXmlElement el in stylePart.Styles.LatentStyles.Elements())
+                        foreach (OpenXmlElement el in stylePart.Styles.Elements())
                         {
-                            string styleEl = el.GetAttribute("name", StringResources.wordMainAttributeNamespace).Value;
-                            int pStyle = WordExtensionClass.ParagraphsByStyleName(mainPart, styleEl).Count();
-                            int rStyle = WordExtensionClass.RunsByStyleName(mainPart, styleEl).Count();
-                            int tStyle = WordExtensionClass.TablesByStyleName(mainPart, styleEl).Count();
+                            string sName = "";
+                            string sType = "";
 
-                            if (pStyle > 0)
+                            if (el.LocalName == "style")
                             {
-                                LstDisplay.Items.Add("Number of paragraphs with " + styleEl + " styles: " + pStyle);
-                                containStyle = true;
-                            }
+                                Style s = (Style)el;
+                                sName = s.StyleId;
+                                sType = s.Type;
 
-                            if (rStyle > 0)
-                            {
-                                LstDisplay.Items.Add("Number of runs with " + styleEl + " styles: " + rStyle);
-                                containStyle = true;
-                            }
+                                int pStyleCount = WordExtensionClass.ParagraphsByStyleName(mainPart, sName).Count();
+                                int rStyleCount = WordExtensionClass.RunsByStyleName(mainPart, sName).Count();
+                                int tStyleCount = WordExtensionClass.TablesByStyleName(mainPart, sName).Count();
 
-                            if (tStyle > 0)
-                            {
-                                LstDisplay.Items.Add("Number of tables with " + styleEl + " styles: " + tStyle);
-                                containStyle = true;
+                                if (sType == "paragraph")
+                                {
+                                    if (pStyleCount > 0)
+                                    {
+                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + pStyleCount);
+                                        containStyle = true;
+                                    }
+                                }
+
+                                if (sType == "character")
+                                {
+                                    if (rStyleCount > 0)
+                                    {
+                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + rStyleCount);
+                                        containStyle = true;
+                                    }
+                                }
+
+                                if (sType == "table")
+                                {
+                                    if (tStyleCount > 0)
+                                    {
+                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + tStyleCount);
+                                        containStyle = true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -491,6 +510,7 @@ namespace Office_File_Explorer
                 }
                 else
                 {
+                    // list the styles in use
                     LstDisplay.Items.Add(string.Empty);
                     LstDisplay.Items.Add("# List of paragraph styles #");
 
@@ -502,17 +522,17 @@ namespace Office_File_Explorer
                             Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), docPackageRelationship.TargetUri);
                             PackagePart documentPart = wdPackage.GetPart(documentUri);
 
-                            //  Load the document XML in the part into an XDocument instance.  
+                            //  Load the document XML in the part into an XDocument instance.
                             xDoc = XDocument.Load(XmlReader.Create(documentPart.GetStream()));
 
-                            //  Find the styles part. There will only be one.  
+                            //  Find the styles part. There will only be one.
                             PackageRelationship styleRelation = documentPart.GetRelationshipsByType(StringResources.StyleDefsPartType).FirstOrDefault();
                             if (styleRelation != null)
                             {
                                 Uri styleUri = PackUriHelper.ResolvePartUri(documentUri, styleRelation.TargetUri);
                                 PackagePart stylePart = wdPackage.GetPart(styleUri);
 
-                                //  Load the style XML in the part into an XDocument instance.  
+                                //  Load the style XML in the part into an XDocument instance.
                                 styleDoc = XDocument.Load(XmlReader.Create(stylePart.GetStream()));
                             }
                         }
@@ -4990,6 +5010,11 @@ namespace Office_File_Explorer
             //    Owner = this
             //};
             //linksFrm.ShowDialog();
+        }
+
+        private void BtnListExcelHyperlinks_Click(object sender, EventArgs e)
+        {
+            //TODO
         }
     }
 }

@@ -115,6 +115,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnListExcelHyperlinks = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -481,6 +482,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnListExcelHyperlinks);
             this.groupBox2.Controls.Add(this.BtnConvertToNonStrictFormat);
             this.groupBox2.Controls.Add(this.BtnConvertXlsmToXlsx);
             this.groupBox2.Controls.Add(this.BtnListConnections);
@@ -1077,6 +1079,16 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
+            // BtnListExcelHyperlinks
+            // 
+            this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(138, 101);
+            this.BtnListExcelHyperlinks.Name = "BtnListExcelHyperlinks";
+            this.BtnListExcelHyperlinks.Size = new System.Drawing.Size(107, 23);
+            this.BtnListExcelHyperlinks.TabIndex = 11;
+            this.BtnListExcelHyperlinks.Text = "List Hyperlinks";
+            this.BtnListExcelHyperlinks.UseVisualStyleBackColor = true;
+            this.BtnListExcelHyperlinks.Click += new System.EventHandler(this.BtnListExcelHyperlinks_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1202,6 +1214,7 @@
         private System.Windows.Forms.Button BtnViewCustomXml;
         private System.Windows.Forms.ToolStripMenuItem batchFileProcessingToolStripMenuItem;
         private System.Windows.Forms.Button BtnViewImages;
+        private System.Windows.Forms.Button BtnListExcelHyperlinks;
     }
 }
 

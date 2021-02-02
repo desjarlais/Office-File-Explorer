@@ -313,8 +313,17 @@ namespace Office_File_Explorer.Word_Helpers
                 {
                     return paraStyle.Val.Value.Equals(styleId);
                 }
+                return false;
             }
-            return false;
+            else if (pPr == null && styleId == "Normal")
+            {
+                // typically, if the pPr is null the style is Normal
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static IEnumerable<Run> RunsByStyleName(this MainDocumentPart mainPart, string styleName)
