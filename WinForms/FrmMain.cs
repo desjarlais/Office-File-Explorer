@@ -443,6 +443,8 @@ namespace Office_File_Explorer
                 XDocument xDoc = null;
                 XDocument styleDoc = null;
                 bool containStyle = false;
+                bool styleInUse = false;
+                int count = 0;
 
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
@@ -453,6 +455,7 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Add("# Style Summary #");
                     try
                     {
+                        // loop the styles in style.xml
                         foreach (OpenXmlElement el in stylePart.Styles.Elements())
                         {
                             string sName = "";
@@ -463,39 +466,64 @@ namespace Office_File_Explorer
                                 Style s = (Style)el;
                                 sName = s.StyleId;
                                 sType = s.Type;
+                                styleInUse = false;
 
                                 int pStyleCount = WordExtensionClass.ParagraphsByStyleName(mainPart, sName).Count();
-                                int rStyleCount = WordExtensionClass.RunsByStyleName(mainPart, sName).Count();
-                                int tStyleCount = WordExtensionClass.TablesByStyleName(mainPart, sName).Count();
-
                                 if (sType == "paragraph")
                                 {
                                     if (pStyleCount > 0)
                                     {
-                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + pStyleCount);
+                                        count += 1;
+                                        LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> Used in " + pStyleCount + " paragraphs"); 
                                         containStyle = true;
+                                        styleInUse = true;
+                                        continue;
                                     }
                                 }
 
+                                int rStyleCount = WordExtensionClass.RunsByStyleName(mainPart, sName).Count();
                                 if (sType == "character")
                                 {
                                     if (rStyleCount > 0)
                                     {
-                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + rStyleCount);
+                                        count += 1;
+                                        LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> Used in " + rStyleCount + " runs");
                                         containStyle = true;
+                                        styleInUse = true;
+                                        continue;
                                     }
                                 }
 
+                                int tStyleCount = WordExtensionClass.TablesByStyleName(mainPart, sName).Count();
                                 if (sType == "table")
                                 {
                                     if (tStyleCount > 0)
                                     {
-                                        LstDisplay.Items.Add("Number of runs with " + sName + " styles: " + tStyleCount);
+                                        count += 1;
+                                        LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> Used in " + tStyleCount + " tables");
                                         containStyle = true;
+                                        styleInUse = true;
+                                        continue;
                                     }
+                                }
+
+                                if (styleInUse == false)
+                                {
+                                    count += 1;
+                                    LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> (Not Used)");
                                 }
                             }
                         }
+
+                        // add latent style information
+                        LstDisplay.Items.Add(string.Empty);
+                        LstDisplay.Items.Add("# Latent Style Summary #");
+                        foreach (LatentStyleExceptionInfo lex in stylePart.Styles.LatentStyles)
+                        {
+                            count += 1;
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + lex.Name);
+                        }
+
                     }
                     catch (NullReferenceException)
                     {
@@ -510,9 +538,10 @@ namespace Office_File_Explorer
                 }
                 else
                 {
-                    // list the styles in use
+                    // list the styles for paragraphs
                     LstDisplay.Items.Add(string.Empty);
                     LstDisplay.Items.Add("# List of paragraph styles #");
+                    count = 0;
 
                     using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
                     {
@@ -563,8 +592,6 @@ namespace Office_File_Explorer
                             para.StyleName,
                             Text = ParagraphText(para.ParagraphNode)
                         };
-
-                    int count = 0;
 
                     foreach (var p in paraWithText)
                     {
