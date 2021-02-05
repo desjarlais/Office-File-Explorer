@@ -521,7 +521,14 @@ namespace Office_File_Explorer
                         foreach (LatentStyleExceptionInfo lex in stylePart.Styles.LatentStyles)
                         {
                             count += 1;
-                            LstDisplay.Items.Add(count + StringResources.wPeriod + lex.Name);
+                            if (lex.UnhideWhenUsed != null)
+                            {
+                                LstDisplay.Items.Add(count + StringResources.wPeriod + lex.Name + " (Hidden)");
+                            }
+                            else
+                            {
+                                LstDisplay.Items.Add(count + StringResources.wPeriod + lex.Name);
+                            }
                         }
 
                     }
