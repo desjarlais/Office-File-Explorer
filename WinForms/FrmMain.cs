@@ -5060,12 +5060,10 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     try
                     {
-                        // first, get all the base style chains
+                        // first, get all the base style
                         List<string> baseStyleChains = new List<string>();
-                        List<string> nonBaseStyleChains = new List<string>();
                         string[] words = null;
 
-                        // need to create the linkedlist chains
                         List<string> baseStyles = new List<string>();
                         foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
                         {
@@ -5093,6 +5091,7 @@ namespace Office_File_Explorer
                             }
                         }
 
+                        // now, we need to parse out the style chains and check each style
                         if (baseStyleChains.Count > 0)
                         {
                             foreach (string b in baseStyleChains)
@@ -5101,7 +5100,6 @@ namespace Office_File_Explorer
                                 string[] separatingStrings = { "-->" };
                                 words = b.Split(separatingStrings, StringSplitOptions.None);
 
-                                // now we can delete each style in the words array
                                 if (words.Count() > 0)
                                 {
                                     foreach (string w in words.Reverse<string>())
@@ -5153,33 +5151,6 @@ namespace Office_File_Explorer
                                 }
                             }
                         }
-
-                        // now check the non-base style chains
-                        foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
-                        {
-                            bool isBaseStyleChainStyle = false;
-
-                            if (tempEl.LocalName == "style")
-                            {
-                                Style tempStyle = (Style)tempEl;
-
-                                foreach (string w in words)
-                                {
-                                    if (tempStyle.StyleId == w)
-                                    {
-                                        isBaseStyleChainStyle = true;
-                                    }
-                                }
-
-                                if (isBaseStyleChainStyle == false)
-                                {
-                                    nonBaseStyleChains.Add(tempStyle.StyleId);
-                                }
-                            }
-                        }
-
-                        // now we should have the list to check non base styles
-
                     }
                     catch (NullReferenceException)
                     {
