@@ -302,6 +302,13 @@ namespace Office_File_Explorer.Word_Helpers
             return paraList;
         }
 
+        public static IEnumerable<Paragraph> ParagraphsByStyleId(this MainDocumentPart mainPart, string styleId)
+        {
+            IEnumerable<Paragraph> paraList = mainPart.Document.Descendants<Paragraph>()
+                .Where(p => IsParagraphInStyle(p, styleId));
+            return paraList;
+        }
+
         private static bool IsParagraphInStyle(Paragraph p, string styleId)
         {
             ParagraphProperties pPr = p.GetFirstChild<ParagraphProperties>();
@@ -329,7 +336,13 @@ namespace Office_File_Explorer.Word_Helpers
         public static IEnumerable<Run> RunsByStyleName(this MainDocumentPart mainPart, string styleName)
         {
             string styleId = GetStyleIdFromStyleName(mainPart, styleName);
+            IEnumerable<Run> runList = mainPart.Document.Descendants<Run>()
+                .Where(r => IsRunInStyle(r, styleId));
+            return runList;
+        }
 
+        public static IEnumerable<Run> RunsByStyleId(this MainDocumentPart mainPart, string styleId)
+        {
             IEnumerable<Run> runList = mainPart.Document.Descendants<Run>()
                 .Where(r => IsRunInStyle(r, styleId));
             return runList;
@@ -353,7 +366,13 @@ namespace Office_File_Explorer.Word_Helpers
         public static IEnumerable<Table> TablesByStyleName(this MainDocumentPart mainPart, string styleName)
         {
             string styleId = GetStyleIdFromStyleName(mainPart, styleName);
+            IEnumerable<Table> tableList = mainPart.Document.Descendants<Table>()
+                .Where(t => IsTableInStyle(t, styleId));
+            return tableList;
+        }
 
+        public static IEnumerable<Table> TablesByStyleId(this MainDocumentPart mainPart, string styleId)
+        {
             IEnumerable<Table> tableList = mainPart.Document.Descendants<Table>()
                 .Where(t => IsTableInStyle(t, styleId));
             return tableList;

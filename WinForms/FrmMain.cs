@@ -195,6 +195,7 @@ namespace Office_File_Explorer
             BtnViewCustomXml.Enabled = false;
             BtnViewImages.Enabled = false;
             BtnListExcelHyperlinks.Enabled = false;
+            BtnDeleteUnusedStyles.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -284,6 +285,7 @@ namespace Office_File_Explorer
                 BtnListBookmarks.Enabled = true;
                 BtnListCC.Enabled = true;
                 BtnFixDocument.Enabled = true;
+                BtnDeleteUnusedStyles.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -5037,18 +5039,163 @@ namespace Office_File_Explorer
             AppExitWork();
         }
 
-        private void BtnDeleteLink_Click(object sender, EventArgs e)
-        {
-            //FrmEditLinks linksFrm = new FrmEditLinks(TxtFileName.Text)
-            //{
-            //    Owner = this
-            //};
-            //linksFrm.ShowDialog();
-        }
-
         private void BtnListExcelHyperlinks_Click(object sender, EventArgs e)
         {
             //TODO
+        }
+
+        private void BtnDeleteUnusedStyles_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                PreButtonClickWork();
+                int count = 0;
+
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
+                {
+                    MainDocumentPart mainPart = myDoc.MainDocumentPart;
+                    StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
+                    
+                    LstDisplay.Items.Clear();
+                    try
+                    {
+                        // first, get all the base style chains
+                        List<string> baseStyleChains = new List<string>();
+                        List<string> nonBaseStyleChains = new List<string>();
+                        string[] words = null;
+
+                        // need to create the linkedlist chains
+                        List<string> baseStyles = new List<string>();
+                        foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
+                        {
+                            if (tempEl.LocalName == "style")
+                            {
+                                Style tempStyle = (Style)tempEl;
+                                if (tempStyle.BasedOn == null)
+                                {
+                                    baseStyles.Add(tempStyle.StyleId);
+                                }
+                            }
+                        }
+
+                        // loop base styles and recursively get basedon chain
+                        foreach (string sBase in baseStyles)
+                        {
+                            StringBuilder tempBaseStyleChain = new StringBuilder();
+                            tempBaseStyleChain.Append(sBase);
+
+                            StringBuilder baseStyleChain = WordOpenXml.GetBasedOnStyleChain(stylePart, sBase, tempBaseStyleChain);
+
+                            if (baseStyleChain.ToString().Contains("-->"))
+                            {
+                                baseStyleChains.Add(baseStyleChain.ToString());
+                            }
+                        }
+
+                        if (baseStyleChains.Count > 0)
+                        {
+                            foreach (string b in baseStyleChains)
+                            {
+                                bool doNotDeleteAnyInChain = false;
+                                string[] separatingStrings = { "-->" };
+                                words = b.Split(separatingStrings, StringSplitOptions.None);
+
+                                // now we can delete each style in the words array
+                                if (words.Count() > 0)
+                                {
+                                    foreach (string w in words.Reverse<string>())
+                                    {
+                                        int pWStyleCount = WordExtensionClass.ParagraphsByStyleName(mainPart, w).Count();
+                                        int rWStyleCount = WordExtensionClass.RunsByStyleName(mainPart, w).Count();
+                                        int tWStyleCount = WordExtensionClass.TablesByStyleName(mainPart, w).Count();
+                                        count += 1;
+
+                                        // if the style is used anywhere, don't delete
+                                        if (pWStyleCount > 0 || rWStyleCount > 0 || tWStyleCount > 0)
+                                        {
+                                            LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                            doNotDeleteAnyInChain = true;
+                                        }
+
+                                        // if the style is not used, candidate for delete
+                                        if (pWStyleCount == 0 && rWStyleCount == 0 && tWStyleCount == 0)
+                                        {
+                                            // if the previous style in the chain was true, we need to leave these alone
+                                            if (doNotDeleteAnyInChain == true)
+                                            {
+                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                            }
+                                            else
+                                            {
+                                                // if the style is a default style, don't delete either
+                                                foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
+                                                {
+                                                    if (tempEl.LocalName == "style")
+                                                    {
+                                                        Style tempStyle = (Style)tempEl;
+                                                        if (tempStyle.StyleId == w)
+                                                        {
+                                                            if (tempStyle.Default == null && tempStyle.NextParagraphStyle == null && tempStyle.LinkedStyle == null)
+                                                            {
+                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DELETE + " + w);
+                                                            }
+                                                            else
+                                                            {
+                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // now check the non-base style chains
+                        foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
+                        {
+                            bool isBaseStyleChainStyle = false;
+
+                            if (tempEl.LocalName == "style")
+                            {
+                                Style tempStyle = (Style)tempEl;
+
+                                foreach (string w in words)
+                                {
+                                    if (tempStyle.StyleId == w)
+                                    {
+                                        isBaseStyleChainStyle = true;
+                                    }
+                                }
+
+                                if (isBaseStyleChainStyle == false)
+                                {
+                                    nonBaseStyleChains.Add(tempStyle.StyleId);
+                                }
+                            }
+                        }
+
+                        // now we should have the list to check non base styles
+
+                    }
+                    catch (NullReferenceException)
+                    {
+                        LogInformation(LogType.ClearAndAdd, "** Missing StylesWithEffects part **", string.Empty);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnListStyles Error: Error listing paragraphs.", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 
 using Office_File_Explorer.App_Helpers;
+using System.Text;
 
 namespace Office_File_Explorer.Word_Helpers
 {
@@ -927,6 +928,27 @@ namespace Office_File_Explorer.Word_Helpers
             {
                 return true;
             }
+        }
+
+        public static StringBuilder GetBasedOnStyleChain(StyleDefinitionsPart sdp, string prevStyle, StringBuilder currentStyleChain)
+        {
+            foreach (OpenXmlElement tempEl in sdp.Styles.Elements())
+            {
+                if (tempEl.LocalName == "style")
+                {
+                    Style tempStyle = (Style)tempEl;
+                    if (tempStyle.BasedOn != null)
+                    {
+                        if (tempStyle.BasedOn.Val == prevStyle)
+                        {
+                            currentStyleChain.Append("-->" + tempStyle.StyleId);
+                            GetBasedOnStyleChain(sdp, tempStyle.StyleId, currentStyleChain);
+                        }
+                    }
+                }
+            }
+
+            return currentStyleChain;
         }
     }
 }

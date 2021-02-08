@@ -60,6 +60,7 @@
             this.BtnListComments = new System.Windows.Forms.Button();
             this.BtnListOle = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnListExcelHyperlinks = new System.Windows.Forms.Button();
             this.BtnConvertToNonStrictFormat = new System.Windows.Forms.Button();
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
             this.BtnListConnections = new System.Windows.Forms.Button();
@@ -115,7 +116,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnListExcelHyperlinks = new System.Windows.Forms.Button();
+            this.BtnDeleteUnusedStyles = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -127,6 +128,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnDeleteUnusedStyles);
             this.groupBox1.Controls.Add(this.BtnFixDocument);
             this.groupBox1.Controls.Add(this.BtnListCC);
             this.groupBox1.Controls.Add(this.BtnListBookmarks);
@@ -503,6 +505,16 @@
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
+            // 
+            // BtnListExcelHyperlinks
+            // 
+            this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(138, 101);
+            this.BtnListExcelHyperlinks.Name = "BtnListExcelHyperlinks";
+            this.BtnListExcelHyperlinks.Size = new System.Drawing.Size(107, 23);
+            this.BtnListExcelHyperlinks.TabIndex = 11;
+            this.BtnListExcelHyperlinks.Text = "List Hyperlinks";
+            this.BtnListExcelHyperlinks.UseVisualStyleBackColor = true;
+            this.BtnListExcelHyperlinks.Click += new System.EventHandler(this.BtnListExcelHyperlinks_Click);
             // 
             // BtnConvertToNonStrictFormat
             // 
@@ -1079,15 +1091,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnListExcelHyperlinks
+            // BtnDeleteUnusedStyles
             // 
-            this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(138, 101);
-            this.BtnListExcelHyperlinks.Name = "BtnListExcelHyperlinks";
-            this.BtnListExcelHyperlinks.Size = new System.Drawing.Size(107, 23);
-            this.BtnListExcelHyperlinks.TabIndex = 11;
-            this.BtnListExcelHyperlinks.Text = "List Hyperlinks";
-            this.BtnListExcelHyperlinks.UseVisualStyleBackColor = true;
-            this.BtnListExcelHyperlinks.Click += new System.EventHandler(this.BtnListExcelHyperlinks_Click);
+            this.BtnDeleteUnusedStyles.Location = new System.Drawing.Point(281, 266);
+            this.BtnDeleteUnusedStyles.Name = "BtnDeleteUnusedStyles";
+            this.BtnDeleteUnusedStyles.Size = new System.Drawing.Size(154, 23);
+            this.BtnDeleteUnusedStyles.TabIndex = 28;
+            this.BtnDeleteUnusedStyles.Text = "Delete Unused Styles";
+            this.BtnDeleteUnusedStyles.UseVisualStyleBackColor = true;
+            this.BtnDeleteUnusedStyles.Click += new System.EventHandler(this.BtnDeleteUnusedStyles_Click);
             // 
             // FrmMain
             // 
@@ -1215,6 +1227,7 @@
         private System.Windows.Forms.ToolStripMenuItem batchFileProcessingToolStripMenuItem;
         private System.Windows.Forms.Button BtnViewImages;
         private System.Windows.Forms.Button BtnListExcelHyperlinks;
+        private System.Windows.Forms.Button BtnDeleteUnusedStyles;
     }
 }
 
