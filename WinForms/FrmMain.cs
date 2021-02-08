@@ -5108,9 +5108,9 @@ namespace Office_File_Explorer
                                 {
                                     foreach (string w in words.Reverse<string>())
                                     {
-                                        int pWStyleCount = WordExtensionClass.ParagraphsByStyleName(mainPart, w).Count();
-                                        int rWStyleCount = WordExtensionClass.RunsByStyleName(mainPart, w).Count();
-                                        int tWStyleCount = WordExtensionClass.TablesByStyleName(mainPart, w).Count();
+                                        int pWStyleCount = WordExtensionClass.ParagraphsByStyleId(mainPart, w).Count();
+                                        int rWStyleCount = WordExtensionClass.RunsByStyleId(mainPart, w).Count();
+                                        int tWStyleCount = WordExtensionClass.TablesByStyleId(mainPart, w).Count();
                                         count += 1;
 
                                         // if the style is used anywhere, don't delete
