@@ -5060,11 +5060,11 @@ namespace Office_File_Explorer
                     LstDisplay.Items.Clear();
                     try
                     {
-                        // first, get all the base style
                         List<string> baseStyleChains = new List<string>();
+                        List<string> baseStyles = new List<string>();
                         string[] words = null;
 
-                        List<string> baseStyles = new List<string>();
+                        // first, get all the base styles
                         foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
                         {
                             if (tempEl.LocalName == "style")
@@ -5078,6 +5078,7 @@ namespace Office_File_Explorer
                         }
 
                         // loop base styles and recursively get basedon chain
+                        // add these linkedlists of styles to baseStyleChains
                         foreach (string sBase in baseStyles)
                         {
                             StringBuilder tempBaseStyleChain = new StringBuilder();
@@ -5091,7 +5092,10 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        // now, we need to parse out the style chains and check each style
+                        // now we need to parse out the style chains for each individual styleid
+                        // if the style is applied to any p, r, or t, don't delete
+                        // if the style is default, nextParagraphStyle or LinkedStyle, don't delete
+                        // if neither of these is true, we can delete the style
                         if (baseStyleChains.Count > 0)
                         {
                             foreach (string b in baseStyleChains)
@@ -5126,7 +5130,7 @@ namespace Office_File_Explorer
                                             }
                                             else
                                             {
-                                                // if the style is a default style, don't delete either
+                                                // if we get here, the style is not applied and we can check the rest of the requirements for deletion
                                                 foreach (OpenXmlElement tempEl in stylePart.Styles.Elements())
                                                 {
                                                     if (tempEl.LocalName == "style")
