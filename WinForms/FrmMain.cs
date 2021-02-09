@@ -514,6 +514,11 @@ namespace Office_File_Explorer
                                     count += 1;
                                     LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> (Not Used)");
                                 }
+
+                                if (count == 4080)
+                                {
+                                    LstDisplay.Items.Add("WARNING: Max Count of Styles for a document is 4079");
+                                }
                             }
                         }
 
@@ -5052,11 +5057,12 @@ namespace Office_File_Explorer
                 PreButtonClickWork();
                 int count = 0;
 
-                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
                     MainDocumentPart mainPart = myDoc.MainDocumentPart;
                     StyleDefinitionsPart stylePart = mainPart.StyleDefinitionsPart;
-                    
+                    bool styleDeleted = false;
+
                     LstDisplay.Items.Clear();
                     try
                     {
@@ -5138,9 +5144,13 @@ namespace Office_File_Explorer
                                                         Style tempStyle = (Style)tempEl;
                                                         if (tempStyle.StyleId == w)
                                                         {
+                                                            // this is the last leg of the style still in use checks
+                                                            // if default, nextpara and linked are all null, this style can be deleted
                                                             if (tempStyle.Default == null && tempStyle.NextParagraphStyle == null && tempStyle.LinkedStyle == null)
                                                             {
-                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DELETE + " + w);
+                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DELETED + " + w);
+                                                                tempEl.Remove();
+                                                                styleDeleted = true;
                                                             }
                                                             else
                                                             {
@@ -5160,6 +5170,11 @@ namespace Office_File_Explorer
                     {
                         LogInformation(LogType.ClearAndAdd, "** Missing StylesWithEffects part **", string.Empty);
                         return;
+                    }
+
+                    if (styleDeleted == true)
+                    {
+                        myDoc.MainDocumentPart.Document.Save();
                     }
                 }
             }
