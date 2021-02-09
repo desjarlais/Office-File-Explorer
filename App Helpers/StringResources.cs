@@ -65,6 +65,8 @@
         public const string txtMcChoiceTagEnd = "</mc:Choice>";
 
         // global app messages
+        public const string doNotDeleteStyle = "DO NOT DELETE + ";
+        public const string deleteStyle = "DELETE + ";
         public const string nonEmptyId = "Target Id cannot be empty.";
         public const string duplicateId = "OOXML part Id <1> already exists.";
         public const string pptNotesSizeReset = "Notes Page Size Reset.";

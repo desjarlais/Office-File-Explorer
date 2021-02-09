@@ -5083,7 +5083,7 @@ namespace Office_File_Explorer
 
                             StringBuilder baseStyleChain = WordOpenXml.GetBasedOnStyleChain(stylePart, sBase, tempBaseStyleChain);
 
-                            if (baseStyleChain.ToString().Contains("-->"))
+                            if (baseStyleChain.ToString().Contains(StringResources.wArrow))
                             {
                                 baseStyleChains.Add(baseStyleChain.ToString());
                             }
@@ -5098,12 +5098,12 @@ namespace Office_File_Explorer
                             foreach (string b in baseStyleChains)
                             {
                                 bool doNotDeleteAnyInChain = false;
-                                string[] separatingStrings = { "-->" };
+                                string[] separatingStrings = { StringResources.wArrow };
                                 words = b.Split(separatingStrings, StringSplitOptions.None);
 
                                 if (words.Count() > 0)
                                 {
-                                    foreach (string w in words.Reverse<string>())
+                                    foreach (string w in words.Reverse())
                                     {
                                         int pWStyleCount = WordExtensionClass.ParagraphsByStyleId(mainPart, w).Count();
                                         int rWStyleCount = WordExtensionClass.RunsByStyleId(mainPart, w).Count();
@@ -5113,7 +5113,7 @@ namespace Office_File_Explorer
                                         // if the style is used anywhere, don't delete
                                         if (pWStyleCount > 0 || rWStyleCount > 0 || tWStyleCount > 0)
                                         {
-                                            LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                            LstDisplay.Items.Add(count + StringResources.wPeriod + StringResources.doNotDeleteStyle + w);
                                             doNotDeleteAnyInChain = true;
                                         }
 
@@ -5123,7 +5123,7 @@ namespace Office_File_Explorer
                                             // if the previous style in the chain was true, we need to leave these alone
                                             if (doNotDeleteAnyInChain == true)
                                             {
-                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                                LstDisplay.Items.Add(count + StringResources.wPeriod + StringResources.doNotDeleteStyle + w);
                                             }
                                             else
                                             {
@@ -5139,13 +5139,13 @@ namespace Office_File_Explorer
                                                             // if default, nextpara and linked are all null, this style can be deleted
                                                             if (tempStyle.Default == null && tempStyle.NextParagraphStyle == null && tempStyle.LinkedStyle == null)
                                                             {
-                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DELETED + " + w);
+                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + StringResources.deleteStyle + w);
                                                                 tempEl.Remove();
                                                                 styleDeleted = true;
                                                             }
                                                             else
                                                             {
-                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + "DO NOT DELETE + " + w);
+                                                                LstDisplay.Items.Add(count + StringResources.wPeriod + StringResources.doNotDeleteStyle + w);
                                                             }
                                                         }
                                                     }
