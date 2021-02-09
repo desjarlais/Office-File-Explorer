@@ -84,4 +84,3 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmDeleteC
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmMoveSlide.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmCustomXmlViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmViewImages.resources
-E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.WinForms.FrmEditLinks.resources

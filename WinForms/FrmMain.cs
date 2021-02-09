@@ -4162,8 +4162,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("BtnPPTRemovePII: " + ex.Message);
+                LogInformation(LogType.LogException, "BtnPPTRemovePII", ex.Message);
             }
             finally
             {
@@ -4236,8 +4235,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("BtnFixCorruptRevisions: " + ex.Message);
+                LogInformation(LogType.LogException, "BtnFixCorruptRevisions", ex.Message);
             }
             finally
             {
@@ -4349,8 +4347,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("FixTbleGrid: " + ex.Message);
+                LogInformation(LogType.LogException, "FixTbleGrid", ex.Message);
             }
             finally
             {
@@ -4559,8 +4556,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("BtnFixListNumbering: " + ex.Message);
+                LogInformation(LogType.LogException, "BtnFixListNumbering", ex.Message);
             }
             finally
             {
@@ -4629,8 +4625,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add(StringResources.wErrorText + ex.Message);
-                LoggingHelper.Log("BtnFixEndnotes: " + ex.Message);
+                LogInformation(LogType.LogException, "BtnFixEndnotes", ex.Message);
             }
             finally
             {
@@ -4782,7 +4777,7 @@ namespace Office_File_Explorer
                             }
                             catch (Exception ex)
                             {
-                                LoggingHelper.Log(ex.Message);
+                                LoggingHelper.Log("BtnConvertToNonStrictFormat_Click ReadToEnd Error = " + ex.Message);
                             }
                         }
                     }
@@ -4812,7 +4807,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LoggingHelper.Log("BtnConvertToNonStrictFormat_Click Error = " + ex.Message);
+                LogInformation(LogType.LogException, "BtnConvertToNonStrictFormat_Click Error = ", ex.Message);
             }
             finally
             {
@@ -4979,13 +4974,11 @@ namespace Office_File_Explorer
             }
             catch (IOException ioe)
             {
-                LoggingHelper.Log("BtnListCustomProps Error: " + ioe.Message);
-                LogInformation(LogType.EmptyCount, StringResources.wCustomDocProps, string.Empty);
+                LogInformation(LogType.LogException, "BtnListCustomProps Error: ", ioe.Message);
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("BtnListCustomProps Error: " + ex.Message);
-                LoggingHelper.Log("BtnListCustomProps Error: " + ex.Message);
+                LogInformation(LogType.LogException, "BtnListCustomProps Error: ", ex.Message);
             }
             finally
             {
@@ -5007,13 +5000,11 @@ namespace Office_File_Explorer
             }
             catch (IOException ioe)
             {
-                LoggingHelper.Log("BtnViewCustomXml Error: " + ioe.Message);
-                LstDisplay.Items.Add("No Custom Xml.");
+                LogInformation(LogType.LogException, "No Customer Xml - BtnViewCustomXml Error: ", ioe.Message);
             }
             catch (Exception ex)
             {
-                LstDisplay.Items.Add("BtnViewCustomXmls Error: " + ex.Message);
-                LoggingHelper.Log("BtnViewCustomXml Error: " + ex.Message);
+                LogInformation(LogType.LogException, "No Customer Xml - BtnViewCustomXml Error: ", ex.Message);
             }
             finally
             {
@@ -5084,7 +5075,7 @@ namespace Office_File_Explorer
                         }
 
                         // loop base styles and recursively get basedon chain
-                        // add these linkedlists of styles to baseStyleChains
+                        // this should create a string of the linked list sequence of styles
                         foreach (string sBase in baseStyles)
                         {
                             StringBuilder tempBaseStyleChain = new StringBuilder();
@@ -5098,7 +5089,7 @@ namespace Office_File_Explorer
                             }
                         }
 
-                        // now we need to parse out the style chains for each individual styleid
+                        // now we need to parse out the style chains for each individual styleid in reverse order
                         // if the style is applied to any p, r, or t, don't delete
                         // if the style is default, nextParagraphStyle or LinkedStyle, don't delete
                         // if neither of these is true, we can delete the style
@@ -5168,10 +5159,11 @@ namespace Office_File_Explorer
                     }
                     catch (NullReferenceException)
                     {
-                        LogInformation(LogType.ClearAndAdd, "** Missing StylesWithEffects part **", string.Empty);
+                        LogInformation(LogType.LogException, "BtnDeleteUnusedStyles - Missing StylesWithEffects part.", string.Empty);
                         return;
                     }
 
+                    // if we deleted any style, save the file
                     if (styleDeleted == true)
                     {
                         myDoc.MainDocumentPart.Document.Save();
@@ -5180,7 +5172,7 @@ namespace Office_File_Explorer
             }
             catch (Exception ex)
             {
-                LogInformation(LogType.LogException, "BtnListStyles Error: Error listing paragraphs.", ex.Message);
+                LogInformation(LogType.LogException, "BtnDeleteUnusedStyles Error: ", ex.Message);
             }
             finally
             {
