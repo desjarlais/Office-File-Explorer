@@ -930,6 +930,13 @@ namespace Office_File_Explorer.Word_Helpers
             }
         }
 
+        /// <summary>
+        /// function to create the style linked list chain
+        /// </summary>
+        /// <param name="sdp">style def part</param>
+        /// <param name="prevStyle">name of the previous style to compare with basedon</param>
+        /// <param name="currentStyleChain">string to hold the sequence of styles starting with the base style</param>
+        /// <returns></returns>
         public static StringBuilder GetBasedOnStyleChain(StyleDefinitionsPart sdp, string prevStyle, StringBuilder currentStyleChain)
         {
             foreach (OpenXmlElement tempEl in sdp.Styles.Elements())

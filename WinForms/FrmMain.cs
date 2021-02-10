@@ -460,8 +460,8 @@ namespace Office_File_Explorer
                         // loop the styles in style.xml
                         foreach (OpenXmlElement el in stylePart.Styles.Elements())
                         {
-                            string sName = "";
-                            string sType = "";
+                            string sName = string.Empty;
+                            string sType = string.Empty;
 
                             if (el.LocalName == "style")
                             {
@@ -515,7 +515,7 @@ namespace Office_File_Explorer
                                     LstDisplay.Items.Add(count + StringResources.wPeriod + sName + " -> (Not Used)");
                                 }
 
-                                if (count == 4080)
+                                if (count == 4079)
                                 {
                                     LstDisplay.Items.Add("WARNING: Max Count of Styles for a document is 4079");
                                 }
@@ -794,7 +794,7 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LstDisplay.Items.Add(" -- none");
+                        LstDisplay.Items.Add(StringResources.wNone);
                     }
 
                     // get the unused list templates
@@ -812,7 +812,7 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        LstDisplay.Items.Add(" -- none");
+                        LstDisplay.Items.Add(StringResources.wNone);
                     }
                     
                 }
@@ -835,7 +835,7 @@ namespace Office_File_Explorer
             // if we don't have any active templates, just continue checking for orphaned
             if (al.Count == 0)
             {
-                LstDisplay.Items.Add(" -- none ");
+                LstDisplay.Items.Add(StringResources.wNone);
                 return;
             }
 
@@ -2135,28 +2135,28 @@ namespace Office_File_Explorer
             }
             catch (OpenXmlPackageException ope)
             {
-                // known issue in .NET with malformed hyperlinks causing SDK to throw during parse
-                // see UriFixHelper for more details
-                // get the path and make a new file name in the same directory
-                var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
-                var StrExtension = Path.GetExtension(TxtFileName.Text);
-                var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + StrExtension;
-
-                // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
-                if (!File.Exists(StrCopyFileName))
-                {
-                    File.Copy(TxtFileName.Text, StrCopyFileName);
-                }
-                else
-                {
-                    StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
-                    File.Copy(TxtFileName.Text, StrCopyFileName);
-                }
-
                 // if the exception is related to invalid hyperlinks, use the FixInvalidUri method to change the file
                 // once we change the copied file, we can open it in the SDK
                 if (ope.ToString().Contains("Invalid Hyperlink"))
                 {
+                    // known issue in .NET with malformed hyperlinks causing SDK to throw during parse
+                    // see UriFixHelper for more details
+                    // get the path and make a new file name in the same directory
+                    var StrDestPath = Path.GetDirectoryName(TxtFileName.Text) + "\\";
+                    var StrExtension = Path.GetExtension(TxtFileName.Text);
+                    var StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + StrExtension;
+
+                    // need a copy of the file to change the hyperlinks so we can open the modified version instead of the original
+                    if (!File.Exists(StrCopyFileName))
+                    {
+                        File.Copy(TxtFileName.Text, StrCopyFileName);
+                    }
+                    else
+                    {
+                        StrCopyFileName = StrDestPath + Path.GetFileNameWithoutExtension(TxtFileName.Text) + StringResources.wCopyFileParentheses + FileUtilities.GetRandomNumber().ToString() + StrExtension;
+                        File.Copy(TxtFileName.Text, StrCopyFileName);
+                    }
+
                     // create the new file with the updated hyperlink
                     using (FileStream fs = new FileStream(StrCopyFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
@@ -3057,7 +3057,6 @@ namespace Office_File_Explorer
                                                 charEnum.Dispose();
                                             }
 
-                                            LstDisplay.Items.Add("...removing all fallback tags");
                                             GetAllNodes(strDocText);
                                             strDocText = FixedFallback;
                                         }
@@ -5023,6 +5022,7 @@ namespace Office_File_Explorer
 
         private void BtnViewImages_Click(object sender, EventArgs e)
         {
+            PreButtonClickWork();
             FrmViewImages imgFrm = new FrmViewImages(TxtFileName.Text, fileType)
             {
                 Owner = this
@@ -5038,6 +5038,7 @@ namespace Office_File_Explorer
         private void BtnListExcelHyperlinks_Click(object sender, EventArgs e)
         {
             //TODO
+            PreButtonClickWork();
         }
 
         private void BtnDeleteUnusedStyles_Click(object sender, EventArgs e)
@@ -5055,6 +5056,7 @@ namespace Office_File_Explorer
                     bool styleDeleted = false;
 
                     LstDisplay.Items.Clear();
+
                     try
                     {
                         List<string> baseStyleChains = new List<string>();
@@ -5110,7 +5112,7 @@ namespace Office_File_Explorer
                                         int tWStyleCount = WordExtensionClass.TablesByStyleId(mainPart, w).Count();
                                         count += 1;
 
-                                        // if the style is used anywhere, don't delete
+                                        // if the style is used in a para, run or table, don't delete
                                         if (pWStyleCount > 0 || rWStyleCount > 0 || tWStyleCount > 0)
                                         {
                                             LstDisplay.Items.Add(count + StringResources.wPeriod + StringResources.doNotDeleteStyle + w);

@@ -54,6 +54,7 @@
         public const string wPII = "Personally Identifiable Information";
         public const string wValidationErr = "validation errors";
         public const string mbWarning = "Warning";
+        public const string wNone = " -- none ";
 
         // dll refs
         public const string gdi32 = "gdi32.dll";
