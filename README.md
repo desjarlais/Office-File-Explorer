@@ -26,6 +26,7 @@ If you need assistance (find a bug, have a question or any suggestions or feedba
 * Fix orphan / unused ListTemplates (Numbering)
 * Fix corrupt table properties
 * Remove PII
+* Delete unused styles
 
 ### Excel
 * List function to display (links, comments, worksheets, hidden rows & columns, shared strings, cell values, connections, defined names)
