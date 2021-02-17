@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteUnusedStyles = new System.Windows.Forms.Button();
             this.BtnFixDocument = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
             this.BtnListBookmarks = new System.Windows.Forms.Button();
@@ -116,7 +117,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnDeleteUnusedStyles = new System.Windows.Forms.Button();
+            this.BtnDeleteEmbeddedLinks = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -166,9 +167,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
             // 
+            // BtnDeleteUnusedStyles
+            // 
+            this.BtnDeleteUnusedStyles.Location = new System.Drawing.Point(280, 213);
+            this.BtnDeleteUnusedStyles.Name = "BtnDeleteUnusedStyles";
+            this.BtnDeleteUnusedStyles.Size = new System.Drawing.Size(154, 23);
+            this.BtnDeleteUnusedStyles.TabIndex = 28;
+            this.BtnDeleteUnusedStyles.Text = "Delete Unused Styles";
+            this.BtnDeleteUnusedStyles.UseVisualStyleBackColor = true;
+            this.BtnDeleteUnusedStyles.Click += new System.EventHandler(this.BtnDeleteUnusedStyles_Click);
+            // 
             // BtnFixDocument
             // 
-            this.BtnFixDocument.Location = new System.Drawing.Point(281, 241);
+            this.BtnFixDocument.Location = new System.Drawing.Point(280, 269);
             this.BtnFixDocument.Name = "BtnFixDocument";
             this.BtnFixDocument.Size = new System.Drawing.Size(154, 21);
             this.BtnFixDocument.TabIndex = 27;
@@ -230,7 +241,7 @@
             // 
             // BtnFixCorruptDocument
             // 
-            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(281, 214);
+            this.BtnFixCorruptDocument.Location = new System.Drawing.Point(280, 242);
             this.BtnFixCorruptDocument.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnFixCorruptDocument.Name = "BtnFixCorruptDocument";
             this.BtnFixCorruptDocument.Size = new System.Drawing.Size(155, 21);
@@ -484,6 +495,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnDeleteEmbeddedLinks);
             this.groupBox2.Controls.Add(this.BtnListExcelHyperlinks);
             this.groupBox2.Controls.Add(this.BtnConvertToNonStrictFormat);
             this.groupBox2.Controls.Add(this.BtnConvertXlsmToXlsx);
@@ -1091,15 +1103,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnDeleteUnusedStyles
+            // BtnDeleteEmbeddedLinks
             // 
-            this.BtnDeleteUnusedStyles.Location = new System.Drawing.Point(281, 266);
-            this.BtnDeleteUnusedStyles.Name = "BtnDeleteUnusedStyles";
-            this.BtnDeleteUnusedStyles.Size = new System.Drawing.Size(154, 23);
-            this.BtnDeleteUnusedStyles.TabIndex = 28;
-            this.BtnDeleteUnusedStyles.Text = "Delete Unused Styles";
-            this.BtnDeleteUnusedStyles.UseVisualStyleBackColor = true;
-            this.BtnDeleteUnusedStyles.Click += new System.EventHandler(this.BtnDeleteUnusedStyles_Click);
+            this.BtnDeleteEmbeddedLinks.Location = new System.Drawing.Point(6, 268);
+            this.BtnDeleteEmbeddedLinks.Name = "BtnDeleteEmbeddedLinks";
+            this.BtnDeleteEmbeddedLinks.Size = new System.Drawing.Size(130, 23);
+            this.BtnDeleteEmbeddedLinks.TabIndex = 30;
+            this.BtnDeleteEmbeddedLinks.Text = "Delete Embedded Links";
+            this.BtnDeleteEmbeddedLinks.UseVisualStyleBackColor = true;
+            this.BtnDeleteEmbeddedLinks.Click += new System.EventHandler(this.BtnDeleteEmbeddedLinks_Click);
             // 
             // FrmMain
             // 
@@ -1228,6 +1240,7 @@
         private System.Windows.Forms.Button BtnViewImages;
         private System.Windows.Forms.Button BtnListExcelHyperlinks;
         private System.Windows.Forms.Button BtnDeleteUnusedStyles;
+        private System.Windows.Forms.Button BtnDeleteEmbeddedLinks;
     }
 }
 

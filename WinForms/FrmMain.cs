@@ -196,6 +196,7 @@ namespace Office_File_Explorer
             BtnViewImages.Enabled = false;
             BtnListExcelHyperlinks.Enabled = false;
             BtnDeleteUnusedStyles.Enabled = false;
+            BtnDeleteEmbeddedLinks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -308,6 +309,7 @@ namespace Office_File_Explorer
                 BtnListCellValuesSAX.Enabled = true;
                 BtnListConnections.Enabled = true;
                 BtnConvertToNonStrictFormat.Enabled = true;
+                BtnDeleteEmbeddedLinks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Xlsm)
                 {
@@ -5037,8 +5039,23 @@ namespace Office_File_Explorer
 
         private void BtnListExcelHyperlinks_Click(object sender, EventArgs e)
         {
-            //TODO
             PreButtonClickWork();
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnListExcelHyperlinks", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private void BtnDeleteUnusedStyles_Click(object sender, EventArgs e)
@@ -5175,6 +5192,54 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LogInformation(LogType.LogException, "BtnDeleteUnusedStyles Error: ", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnDeleteEmbeddedLinks_Click(object sender, EventArgs e)
+        {
+            PreButtonClickWork();
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                bool linkDeleted = false;
+
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                    foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
+                    {
+                        var oleObjects = wsp.Worksheet.Descendants<OleObject>().ToList();
+
+                        foreach (OleObject oo in oleObjects)
+                        {
+                            oo.RemoveAttribute("link", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                            oo.RemoveAttribute("oleUpdate", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                            
+                            if (oo.EmbeddedObjectProperties != null)
+                            {
+                                oo.EmbeddedObjectProperties.RemoveAttribute("dde", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                            }
+                            linkDeleted = true;
+                        }
+                    }
+
+                    if (linkDeleted == true)
+                    {
+                        excelDoc.WorkbookPart.Workbook.Save();
+                        LstDisplay.Items.Add("** Embedded Links Removed **");
+                    }
+                    else
+                    {
+                        LogInformation(LogType.EmptyCount, "Embedded Links", "");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnListExcelHyperlinks", ex.Message);
             }
             finally
             {

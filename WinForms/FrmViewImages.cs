@@ -17,6 +17,7 @@ namespace Office_File_Explorer.Forms
 
             appName = fType;
             fileName = fName;
+            int count = 0;
 
             if (appName == StringResources.wWord)
             {
@@ -24,7 +25,8 @@ namespace Office_File_Explorer.Forms
                 {
                     foreach (ImagePart ip in document.MainDocumentPart.ImageParts)
                     {
-                        LstImages.Items.Add(ip.Uri);
+                        count += 1;
+                        LstImages.Items.Add(count + StringResources.wPeriod + ip.Uri);
                     }
                 }
             }
@@ -36,7 +38,8 @@ namespace Office_File_Explorer.Forms
                     {
                         foreach (ImagePart ip in wp.DrawingsPart.ImageParts)
                         {
-                            LstImages.Items.Add(ip.Uri);
+                            count += 1;
+                            LstImages.Items.Add(count + StringResources.wPeriod + ip.Uri);
                         }
                     }
                 }
@@ -49,7 +52,8 @@ namespace Office_File_Explorer.Forms
                     {
                         foreach (ImagePart ip in sp.ImageParts)
                         {
-                            LstImages.Items.Add(ip.Uri);
+                            count += 1;
+                            LstImages.Items.Add(count + StringResources.wPeriod + ip.Uri);
                         }
                     }
                 }
