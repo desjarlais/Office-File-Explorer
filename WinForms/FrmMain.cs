@@ -634,6 +634,7 @@ namespace Office_File_Explorer
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 PreButtonClickWork();
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
@@ -684,6 +685,10 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LogInformation(LogType.LogException, "BtnListHyperlinks_Click Error", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -5215,13 +5220,15 @@ namespace Office_File_Explorer
 
                         foreach (OleObject oo in oleObjects)
                         {
-                            oo.RemoveAttribute("link", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
-                            oo.RemoveAttribute("oleUpdate", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                            oo.RemoveAttribute("link", string.Empty);
+                            oo.RemoveAttribute("oleUpdate", string.Empty);
                             
                             if (oo.EmbeddedObjectProperties != null)
                             {
-                                oo.EmbeddedObjectProperties.RemoveAttribute("dde", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                                oo.EmbeddedObjectProperties.RemoveAttribute("dde", string.Empty);
                             }
+
+                            // set the change flag
                             linkDeleted = true;
                         }
                     }

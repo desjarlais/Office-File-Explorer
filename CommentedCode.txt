@@ -1,29 +1,32 @@
 ﻿## This file is for sample and commented code storage in case I need to use later ##
 
-// this sample will loop through each oxml package and add to the global list
-using (Package _package = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+// sample button template inside the event callback
+try
 {
-    foreach (PackagePart pckg in _package.GetParts())
-    {
-        _pParts.Add(pckg.Uri.ToString());
-    }
+    Cursor = Cursors.WaitCursor;
+    PreButtonClickWork();
+}
+catch (Exception ex)
+{
+    LogInformation(LogType.LogException, "BtnName Error", ex.Message);
+}
+finally
+{
+    Cursor = Cursors.Default;
 }
 
-// this is for ongoing work to try getting the color from the text of a paragraph
-private void BtnColorDlg_Click(object sender, EventArgs e)
+// sample using statements for Word, Excel, PowerPoint
+using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
 {
-    DialogResult result = colorDialog1.ShowDialog();
-    if (result == DialogResult.OK)
-    {
-        textColor = colorDialog1.Color;
-        if (textColor.IsKnownColor)
-        {
-            LblColor.Text = textColor.Name;
-        }
-        else
-        {
-            LblColor.Text = "Unknown: Hex = " + textColor.Name.ToUpper();
-        }
-        UpdateDisplay();
-    }
+
+}
+
+using (SpreadsheetDocument xlDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
+{
+
+}
+
+using (PresentationDocument pptDoc = PresentationDocument.Open(TxtFileName.Text, false))
+{
+
 }
