@@ -197,6 +197,7 @@ namespace Office_File_Explorer
             BtnListExcelHyperlinks.Enabled = false;
             BtnDeleteUnusedStyles.Enabled = false;
             BtnDeleteEmbeddedLinks.Enabled = false;
+            BtnListExcelHyperlinks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -310,6 +311,7 @@ namespace Office_File_Explorer
                 BtnListConnections.Enabled = true;
                 BtnConvertToNonStrictFormat.Enabled = true;
                 BtnDeleteEmbeddedLinks.Enabled = true;
+                BtnListExcelHyperlinks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Xlsm)
                 {
@@ -5050,7 +5052,35 @@ namespace Office_File_Explorer
             {
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, false))
                 {
+                    int count = 0;
 
+                    foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
+                    {
+                        IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
+                        foreach (O.Spreadsheet.Hyperlink h in hLinks)
+                        {
+                            count++;
+
+                            string hRelUri = null;
+
+                            // then check for hyperlinks relationships
+                            if (wsp.HyperlinkRelationships.Count() > 0)
+                            {
+                                foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
+                                {
+                                    if (h.Id == hRel.Id)
+                                    {
+                                        hRelUri = hRel.Uri.ToString();
+                                        LstDisplay.Items.Add(count + StringResources.wPeriod + h.InnerText + " Uri = " + hRelUri);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                LogInformation(LogType.EmptyCount, "hyperlinks", string.Empty);
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
