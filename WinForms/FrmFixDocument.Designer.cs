@@ -40,12 +40,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
+            this.RdoFixComments = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.RdoFixComments);
             this.groupBox1.Controls.Add(this.RdoTblGrid);
             this.groupBox1.Controls.Add(this.RdoLT);
             this.groupBox1.Controls.Add(this.RdoEndnotes);
@@ -53,7 +55,7 @@
             this.groupBox1.Controls.Add(this.RdoBK);
             this.groupBox1.Location = new System.Drawing.Point(12, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(195, 150);
+            this.groupBox1.Size = new System.Drawing.Size(195, 179);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
@@ -168,6 +170,17 @@
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
             // 
+            // RdoFixComments
+            // 
+            this.RdoFixComments.AutoSize = true;
+            this.RdoFixComments.Location = new System.Drawing.Point(6, 133);
+            this.RdoFixComments.Name = "RdoFixComments";
+            this.RdoFixComments.Size = new System.Drawing.Size(127, 17);
+            this.RdoFixComments.TabIndex = 6;
+            this.RdoFixComments.TabStop = true;
+            this.RdoFixComments.Text = "Fix Corrupt Comments";
+            this.RdoFixComments.UseVisualStyleBackColor = true;
+            // 
             // FrmFixDocument
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,5 +215,6 @@
         private System.Windows.Forms.RadioButton RdoNotes;
         private System.Windows.Forms.RadioButton RdoFixNotesPageWithFile;
         private System.Windows.Forms.RadioButton RdoTblGrid;
+        private System.Windows.Forms.RadioButton RdoFixComments;
     }
 }

@@ -39,6 +39,7 @@ namespace Office_File_Explorer.Forms
             RdoNotes.Checked = false;
             RdoFixNotesPageWithFile.Checked = false;
             RdoTblGrid.Checked = false;
+            RdoFixComments.Checked = false;
         }
 
         /// <summary>
@@ -52,6 +53,7 @@ namespace Office_File_Explorer.Forms
             RdoRev.Enabled = true;
             RdoEndnotes.Enabled = true;
             RdoTblGrid.Enabled = true;
+            RdoFixComments.Enabled = true;
         }
 
         /// <summary>
@@ -93,6 +95,10 @@ namespace Office_File_Explorer.Forms
             else if (RdoFixNotesPageWithFile.Checked)
             {
                 OptionSelected = "NotesWithFile";
+            }
+            else if (RdoFixComments.Checked)
+            {
+                OptionSelected = "FixComments";
             }
             
             DialogResult = DialogResult.OK;

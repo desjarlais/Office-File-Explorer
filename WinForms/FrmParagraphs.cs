@@ -8,8 +8,6 @@ using Color = System.Drawing.Color;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Drawing;
 using System.Xml.Linq;
 using Office_File_Explorer.Word_Helpers;
 using System.Linq;

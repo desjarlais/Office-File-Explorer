@@ -4266,6 +4266,103 @@ namespace Office_File_Explorer
             }
         }
 
+        public void FixCorruptComments()
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    // TODO
+                    // loop each comment in comments.xml and get a list of comment ref #'s
+                    // loop each comment in document, compare id to commentRef
+                    // if the id does not exist, it needs to be deleted
+                    WordprocessingCommentsPart commentsPart = document.MainDocumentPart.WordprocessingCommentsPart;
+                    IEnumerable<OpenXmlUnknownElement> unknownList = document.MainDocumentPart.Document.Descendants<OpenXmlUnknownElement>();
+                    bool saveFile = false;
+                    bool cRefIdExists = false;
+
+                    if (commentsPart == null)
+                    {
+                        LogInformation(LogType.EmptyCount, StringResources.wComments, string.Empty);
+                    }
+                    else
+                    {
+                        foreach (OpenXmlUnknownElement uk in unknownList)
+                        {
+                            // for some reason these dangling refs are considered unknown types, not commentrefs
+                            // convert to an openxmlelement then type it to a commentref to get the id
+                            if (uk.LocalName == "commentReference")
+                            {
+                                // so far I only see the id in the outerxml
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.LoadXml(uk.OuterXml);
+
+                                // traverse the outerxml until we get to the id
+                                if (xDoc.ChildNodes.Count > 0)
+                                {
+                                    foreach (XmlNode xNode in xDoc.ChildNodes)
+                                    {
+                                        if (xNode.Attributes.Count > 0)
+                                        {
+                                            foreach (XmlAttribute xa in xNode.Attributes)
+                                            {
+                                                if (xa.LocalName == "id")
+                                                {
+                                                    // now that we have the id number, we can use it to compare with the comment part
+                                                    // if the id exists in commentref but not the commentpart, it can be deleted
+                                                    foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
+                                                    {
+                                                        int cId = Convert.ToInt32(cm.Id);
+                                                        int cRefId = Convert.ToInt32(xa.Value);
+                                                        
+                                                        if (cId == cRefId)
+                                                        {
+                                                            cRefIdExists = true;
+                                                        }
+                                                    }
+
+                                                    if (cRefIdExists == false)
+                                                    {
+                                                        uk.Remove();
+                                                        saveFile = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        cRefIdExists = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (saveFile)
+                        {
+                            document.MainDocumentPart.Document.Save();
+                            LstDisplay.Items.Add("** Corrupt Comment Fixed **");
+                        }
+                        else
+                        {
+                            LstDisplay.Items.Add("** No Corrupt Comment Found **");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnFixCorruptComments", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
         /// <summary>
         /// this fix is for a known issue where files contain a table
         /// with a tblGrid element before the first table row, that is not valid per the schema
@@ -4673,6 +4770,9 @@ namespace Office_File_Explorer
                             break;
                         case "TblGrid":
                             FixTblGrid();
+                            break;
+                        case "FixComments":
+                            FixCorruptComments();
                             break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");
