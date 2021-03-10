@@ -373,6 +373,9 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, false))
                 {
+                    int count = 0;
+
+                    // first list all comments in the comment part
                     WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
                     if (commentsPart == null)
                     {
@@ -380,13 +383,31 @@ namespace Office_File_Explorer
                     }
                     else
                     {
-                        int count = 0;
                         foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
                         {
                             count++;
                             LstDisplay.Items.Add(count + StringResources.wPeriod + cm.InnerText);
                         }
                     }
+
+                    // now we can check how many comment references there are and display that number, they should be the same
+                    IEnumerable<CommentReference> crList = myDoc.MainDocumentPart.Document.Descendants<CommentReference>();
+                    IEnumerable<OpenXmlUnknownElement> unknownList = myDoc.MainDocumentPart.Document.Descendants<OpenXmlUnknownElement>();
+                    int cRefCount = 0;
+
+                    cRefCount = crList.Count();
+
+                    foreach (OpenXmlUnknownElement uk in unknownList)
+                    {
+                        if (uk.LocalName == "commentReference")
+                        {
+                            cRefCount++;
+                        }
+                    }
+
+                    LstDisplay.Items.Add(string.Empty);
+                    LstDisplay.Items.Add("Total Comments = " + count);
+                    LstDisplay.Items.Add("Comment References = " + cRefCount);
                 }
             }
             catch (NullReferenceException nre)
