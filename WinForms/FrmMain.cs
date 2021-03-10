@@ -4266,6 +4266,11 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// There are times when documents have dangling comment refs where document.xml will reference a comment id
+        /// the problem is that comment no longer exists for unknown reasons
+        /// this fix should get the id's for those comments and remove them
+        /// </summary>
         public void FixCorruptComments()
         {
             try
@@ -4275,10 +4280,6 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
-                    // TODO
-                    // loop each comment in comments.xml and get a list of comment ref #'s
-                    // loop each comment in document, compare id to commentRef
-                    // if the id does not exist, it needs to be deleted
                     WordprocessingCommentsPart commentsPart = document.MainDocumentPart.WordprocessingCommentsPart;
                     IEnumerable<OpenXmlUnknownElement> unknownList = document.MainDocumentPart.Document.Descendants<OpenXmlUnknownElement>();
                     bool saveFile = false;

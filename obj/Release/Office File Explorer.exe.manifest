@@ -4,7 +4,7 @@
   <description asmv2:iconFile="1 (47).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Office File Explorer" version="1.0.2.49" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Office File Explorer" version="1.0.2.50" language="neutral" processorArchitecture="msil" />
     <commandLine file="Office File Explorer.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3652608">
-      <assemblyIdentity name="Office File Explorer" version="1.0.2.49" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="3655680">
+      <assemblyIdentity name="Office File Explorer" version="1.0.2.50" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jTTq+Vdf2RdsHwH8zghJ7DwKxbDqkmZp3vuI+wd2uHE=</dsig:DigestValue>
+        <dsig:DigestValue>pJLHyEhtR6jJFafw7RYbHbKq526sqyZgWVcnddGxuHw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>MkDPg3tixwwj/EFv9l31uCdVgSLv7NfPzluKLH1bvsw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="CommentedCode.txt" size="914">
+  <file name="CommentedCode.txt" size="716">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>KpGKqvYkUYUKRbczQOun1xwPd2zIi4krx34DzKfgy7c=</dsig:DigestValue>
+      <dsig:DigestValue>rAGuZ72iYUFPqDeXm5rWdKtj1YepU0b7gACRL62VBHs=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Instructions.txt" size="617">
