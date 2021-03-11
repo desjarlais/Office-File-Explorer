@@ -25,6 +25,7 @@ If you need assistance (find a bug, have a question or any suggestions or feedba
 * Fix corrupt endnotes
 * Fix orphan / unused ListTemplates (Numbering)
 * Fix corrupt table properties
+* Fix corrupt commments
 * Remove PII
 * Delete unused styles
 
