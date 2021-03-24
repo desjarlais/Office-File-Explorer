@@ -4287,6 +4287,12 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// there are times when a hyperlink is added in between a field code sequence
+        /// typically it is begin-separate-end OR begin-end
+        /// however, there are times when we see begin-hyperlink-end
+        /// that is not valid, this is used to fix those situations
+        /// </summary>
         public void FixCorruptHyperlinks()
         {
             try
@@ -4302,6 +4308,7 @@ namespace Office_File_Explorer
                     int pCount = paras.Count();
                     int tempCount = 0;
 
+                    // need to keep looping paragraphs until we don't find a bad hlink position
                     do
                     {
                         isHyperlinkInBetweenSequence = false;
@@ -4318,12 +4325,18 @@ namespace Office_File_Explorer
                             tempCount++;
                             foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
                             {
+                                // keep track of previous run so we can get the right start position
+                                // you could just use the first "begin" field code, but fixing it back up later is more challenging
+                                // if we grab the begins root run, it makes this much easier
                                 elementCount++;
                                 if (oxe.GetType().Name == "Run")
                                 {
                                     prevRunPosition = elementCount;
                                 }
 
+                                // here we are keeping track of begin-end sequences
+                                // the beginCount is there for nested begin-end scenarios
+                                // you can have begin-begin-separate-end-end
                                 if (oxe.GetType().Name == "FieldChar")
                                 {
                                     FieldChar fc = (FieldChar)oxe;
@@ -4333,7 +4346,6 @@ namespace Office_File_Explorer
                                         inBeginEndSequence = true;
                                         if (beginPosition == 0)
                                         {
-                                            //beginPosition = elementCount;
                                             beginPosition = prevRunPosition;
                                         }
                                     }
@@ -4350,8 +4362,12 @@ namespace Office_File_Explorer
                                     }
                                 }
 
+                                // if we are still in the middle of a begin-end sequence
+                                // we can't have a hlink so we know we have a corruption
                                 if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
                                 {
+                                    // you can have a hlink in between the begin-end tags
+                                    // so we are only looking for an hlink that has an end inside it
                                     if (oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"end\""))
                                     {
                                         isHyperlinkInBetweenSequence = true;
@@ -4382,9 +4398,13 @@ namespace Office_File_Explorer
                                     tCount++;
                                     if (tCount >= beginPosition)
                                     {
+                                        // once we are at the right position where we need to start moving elements around
+                                        // create a list of elements
                                         els.Add(oxe);
                                         if (tCount == endPosition)
                                         {
+                                            // once we are at the end of the bad sequence
+                                            // reverse the list so we can prepend to the hyperlink
                                             atEndPosition = true;
                                             els.Reverse();
 
@@ -4392,6 +4412,9 @@ namespace Office_File_Explorer
                                             {
                                                 if (e.LocalName != "hyperlink")
                                                 {
+                                                    // haven't quite figured out why, but I need to create a run for all non-run elements
+                                                    // then I can clone it and add it back to the right location in the hyperlink
+                                                    // then we can remove the original bad position elements
                                                     if (e.LocalName != "r")
                                                     {
                                                         Run r = new Run();
