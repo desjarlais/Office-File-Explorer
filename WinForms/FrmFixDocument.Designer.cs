@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFixDocument));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RdoFixHyperlinks = new System.Windows.Forms.RadioButton();
             this.RdoFixComments = new System.Windows.Forms.RadioButton();
             this.RdoTblGrid = new System.Windows.Forms.RadioButton();
             this.RdoLT = new System.Windows.Forms.RadioButton();
@@ -41,7 +42,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
-            this.RdoFixHyperlinks = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +61,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
+            // 
+            // RdoFixHyperlinks
+            // 
+            this.RdoFixHyperlinks.AutoSize = true;
+            this.RdoFixHyperlinks.Location = new System.Drawing.Point(6, 156);
+            this.RdoFixHyperlinks.Name = "RdoFixHyperlinks";
+            this.RdoFixHyperlinks.Size = new System.Drawing.Size(127, 17);
+            this.RdoFixHyperlinks.TabIndex = 5;
+            this.RdoFixHyperlinks.TabStop = true;
+            this.RdoFixHyperlinks.Text = "Fix Corrupt Hyperlinks";
+            this.RdoFixHyperlinks.UseVisualStyleBackColor = true;
             // 
             // RdoFixComments
             // 
@@ -182,17 +193,6 @@
             this.RdoNotes.TabIndex = 0;
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
-            // 
-            // RdoFixHyperlinks
-            // 
-            this.RdoFixHyperlinks.AutoSize = true;
-            this.RdoFixHyperlinks.Location = new System.Drawing.Point(6, 156);
-            this.RdoFixHyperlinks.Name = "RdoFixHyperlinks";
-            this.RdoFixHyperlinks.Size = new System.Drawing.Size(90, 17);
-            this.RdoFixHyperlinks.TabIndex = 5;
-            this.RdoFixHyperlinks.TabStop = true;
-            this.RdoFixHyperlinks.Text = "Fix Hyperlinks";
-            this.RdoFixHyperlinks.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 

@@ -4366,9 +4366,10 @@ namespace Office_File_Explorer
                                 // we can't have a hlink so we know we have a corruption
                                 if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
                                 {
-                                    // you can have a hlink in between the begin-end tags
+                                    // you can have a hlink in between the begin-end tags or vica versa
+                                    // you just can't have the hyperlink in between
                                     // so we are only looking for an hlink that has an end inside it
-                                    if (oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"end\""))
+                                    if (oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"end\"") && !oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"begin\""))
                                     {
                                         isHyperlinkInBetweenSequence = true;
                                         endPosition = elementCount;
