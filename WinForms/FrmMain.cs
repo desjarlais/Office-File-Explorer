@@ -4299,102 +4299,103 @@ namespace Office_File_Explorer
                     bool fileChanged = false;
                     bool isHyperlinkInBetweenSequence = false;
                     IEnumerable<Paragraph> paras = myDoc.MainDocumentPart.Document.Descendants<Paragraph>();
+                    int pCount = paras.Count();
+                    int tempCount = 0;
 
-                    fileChanged = false;
-                    isHyperlinkInBetweenSequence = false;
-                    bool inBeginEndSequence = false;
-                    int beginPosition = 0;
-                    int endPosition = 0;
-                    int elementCount = 0;
-
-                    foreach (Paragraph p in paras)
+                    do
                     {
-                        foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
+                        isHyperlinkInBetweenSequence = false;
+                        bool inBeginEndSequence = false;
+                        int beginPosition = 0;
+                        int endPosition = 0;
+                        int elementCount = 0;
+                        tempCount = 0;
+
+                        foreach (Paragraph p in paras)
                         {
-                            elementCount++;
-                            if (oxe.GetType().Name == "FieldChar")
+                            tempCount++;
+                            foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
                             {
-                                FieldChar fc = (FieldChar)oxe;
-                                if (fc.FieldCharType == FieldCharValues.Begin)
+                                elementCount++;
+                                if (oxe.GetType().Name == "FieldChar")
                                 {
-                                    inBeginEndSequence = true;
-                                    if (beginPosition == 0)
+                                    FieldChar fc = (FieldChar)oxe;
+                                    if (fc.FieldCharType == FieldCharValues.Begin)
                                     {
-                                        beginPosition = elementCount;
+                                        inBeginEndSequence = true;
+                                        if (beginPosition == 0)
+                                        {
+                                            beginPosition = elementCount;
+                                        }
+                                    }
+
+                                    if (fc.FieldCharType == FieldCharValues.End)
+                                    {
+                                        // valid sequence, reset values
+                                        inBeginEndSequence = false;
+                                        beginPosition = 0;
                                     }
                                 }
 
-                                if (fc.FieldCharType == FieldCharValues.End)
+                                if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
                                 {
-                                    // valid sequence, reset values
-                                    inBeginEndSequence = false;
-                                    beginPosition = 0;
+                                    isHyperlinkInBetweenSequence = true;
+                                    endPosition = elementCount;
+                                    break;
                                 }
                             }
 
-                            if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
+                            if (isHyperlinkInBetweenSequence == true)
                             {
-                                isHyperlinkInBetweenSequence = true;
-                                endPosition = elementCount;
                                 break;
                             }
                         }
 
+                        // if isHyperlinkInBetween we need to loop again now that we have the bad position
                         if (isHyperlinkInBetweenSequence == true)
                         {
-                            break;
-                        }
-                    }
+                            int tCount = 0;
+                            bool atEndPosition = false;
+                            List<OpenXmlElement> els = new List<OpenXmlElement>();
 
-                    // if isHyperlinkInBetween we need to loop again now that we have the bad position
-                    if (isHyperlinkInBetweenSequence == true)
-                    {
-                        int tCount = 0;
-                        bool atEndPosition = false;
-                        List<OpenXmlElement> els = new List<OpenXmlElement>();
-
-                        foreach (Paragraph p in paras)
-                        {
-                            foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
+                            foreach (Paragraph p in paras)
                             {
-                                tCount++;
-                                if (tCount >= beginPosition)
+                                foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
                                 {
-                                    els.Add(oxe);
-                                    if (tCount == endPosition)
+                                    tCount++;
+                                    if (tCount >= beginPosition)
                                     {
-                                        atEndPosition = true;
-                                        els.Reverse();
-
-                                        foreach (OpenXmlElement e in els)
+                                        els.Add(oxe);
+                                        if (tCount == endPosition)
                                         {
-                                            if (e.LocalName != "hyperlink")
+                                            atEndPosition = true;
+                                            els.Reverse();
+
+                                            foreach (OpenXmlElement e in els)
                                             {
-                                                if (e.LocalName != "r")
+                                                if (e.LocalName != "hyperlink")
                                                 {
-                                                    Run r = new Run();
-                                                    r.AppendChild(e.CloneNode(true));
-                                                    oxe.PrependChild(r);
-                                                    e.Remove();
-                                                    fileChanged = true;
+                                                    if (e.LocalName != "r")
+                                                    {
+                                                        Run r = new Run();
+                                                        r.AppendChild(e.CloneNode(true));
+                                                        oxe.PrependChild(r);
+                                                        e.Remove();
+                                                        fileChanged = true;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
 
-                            if (atEndPosition == true)
-                            {
-                                break;
+                                if (atEndPosition == true)
+                                {
+                                    break;
+                                }
                             }
                         }
-                    }
-
-                    //do
-                    //{
-                        
-                    //} while (isHyperlinkInBetweenSequence == true);
+                    } while (tempCount < pCount);
 
                     if (fileChanged)
                     {
