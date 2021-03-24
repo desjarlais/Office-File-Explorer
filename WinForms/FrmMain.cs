@@ -386,7 +386,7 @@ namespace Office_File_Explorer
                         foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
                         {
                             count++;
-                            LstDisplay.Items.Add(count + StringResources.wPeriod + cm.InnerText);
+                            LstDisplay.Items.Add(count + StringResources.wPeriod + cm.Author + StringResources.wColon + cm.InnerText);
                         }
                     }
 
@@ -4287,6 +4287,136 @@ namespace Office_File_Explorer
             }
         }
 
+        public void FixCorruptHyperlinks()
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    bool fileChanged = false;
+                    bool isHyperlinkInBetweenSequence = false;
+                    IEnumerable<Paragraph> paras = myDoc.MainDocumentPart.Document.Descendants<Paragraph>();
+
+                    fileChanged = false;
+                    isHyperlinkInBetweenSequence = false;
+                    bool inBeginEndSequence = false;
+                    int beginPosition = 0;
+                    int endPosition = 0;
+                    int elementCount = 0;
+
+                    foreach (Paragraph p in paras)
+                    {
+                        foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
+                        {
+                            elementCount++;
+                            if (oxe.GetType().Name == "FieldChar")
+                            {
+                                FieldChar fc = (FieldChar)oxe;
+                                if (fc.FieldCharType == FieldCharValues.Begin)
+                                {
+                                    inBeginEndSequence = true;
+                                    if (beginPosition == 0)
+                                    {
+                                        beginPosition = elementCount;
+                                    }
+                                }
+
+                                if (fc.FieldCharType == FieldCharValues.End)
+                                {
+                                    // valid sequence, reset values
+                                    inBeginEndSequence = false;
+                                    beginPosition = 0;
+                                }
+                            }
+
+                            if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
+                            {
+                                isHyperlinkInBetweenSequence = true;
+                                endPosition = elementCount;
+                                break;
+                            }
+                        }
+
+                        if (isHyperlinkInBetweenSequence == true)
+                        {
+                            break;
+                        }
+                    }
+
+                    // if isHyperlinkInBetween we need to loop again now that we have the bad position
+                    if (isHyperlinkInBetweenSequence == true)
+                    {
+                        int tCount = 0;
+                        bool atEndPosition = false;
+                        List<OpenXmlElement> els = new List<OpenXmlElement>();
+
+                        foreach (Paragraph p in paras)
+                        {
+                            foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
+                            {
+                                tCount++;
+                                if (tCount >= beginPosition)
+                                {
+                                    els.Add(oxe);
+                                    if (tCount == endPosition)
+                                    {
+                                        atEndPosition = true;
+                                        els.Reverse();
+
+                                        foreach (OpenXmlElement e in els)
+                                        {
+                                            if (e.LocalName != "hyperlink")
+                                            {
+                                                if (e.LocalName != "r")
+                                                {
+                                                    Run r = new Run();
+                                                    r.AppendChild(e.CloneNode(true));
+                                                    oxe.PrependChild(r);
+                                                    e.Remove();
+                                                    fileChanged = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (atEndPosition == true)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    //do
+                    //{
+                        
+                    //} while (isHyperlinkInBetweenSequence == true);
+
+                    if (fileChanged)
+                    {
+                        myDoc.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Hyperlinks Fixed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Hyperlinks Found **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnFixCorruptHyperlinks", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
         /// <summary>
         /// There are times when documents have dangling comment refs where document.xml will reference a comment id
         /// the problem is that comment no longer exists for unknown reasons
@@ -4795,6 +4925,9 @@ namespace Office_File_Explorer
                             break;
                         case "FixComments":
                             FixCorruptComments();
+                            break;
+                        case "FixHyperlinks":
+                            FixCorruptHyperlinks();
                             break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");

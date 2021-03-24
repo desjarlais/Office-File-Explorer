@@ -40,6 +40,7 @@ namespace Office_File_Explorer.Forms
             RdoFixNotesPageWithFile.Checked = false;
             RdoTblGrid.Checked = false;
             RdoFixComments.Checked = false;
+            RdoFixHyperlinks.Checked = false;
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Office_File_Explorer.Forms
             RdoEndnotes.Enabled = true;
             RdoTblGrid.Enabled = true;
             RdoFixComments.Enabled = true;
+            RdoFixHyperlinks.Enabled = true;
         }
 
         /// <summary>
@@ -99,6 +101,10 @@ namespace Office_File_Explorer.Forms
             else if (RdoFixComments.Checked)
             {
                 OptionSelected = "FixComments";
+            }
+            else if (RdoFixHyperlinks.Checked)
+            {
+                OptionSelected = "FixHyperlinks";
             }
             
             DialogResult = DialogResult.OK;

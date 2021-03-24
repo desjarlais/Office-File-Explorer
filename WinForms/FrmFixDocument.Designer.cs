@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFixDocument));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RdoFixComments = new System.Windows.Forms.RadioButton();
             this.RdoTblGrid = new System.Windows.Forms.RadioButton();
             this.RdoLT = new System.Windows.Forms.RadioButton();
             this.RdoEndnotes = new System.Windows.Forms.RadioButton();
@@ -40,13 +41,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
-            this.RdoFixComments = new System.Windows.Forms.RadioButton();
+            this.RdoFixHyperlinks = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.RdoFixHyperlinks);
             this.groupBox1.Controls.Add(this.RdoFixComments);
             this.groupBox1.Controls.Add(this.RdoTblGrid);
             this.groupBox1.Controls.Add(this.RdoLT);
@@ -59,6 +61,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
+            // 
+            // RdoFixComments
+            // 
+            this.RdoFixComments.AutoSize = true;
+            this.RdoFixComments.Location = new System.Drawing.Point(6, 133);
+            this.RdoFixComments.Name = "RdoFixComments";
+            this.RdoFixComments.Size = new System.Drawing.Size(127, 17);
+            this.RdoFixComments.TabIndex = 6;
+            this.RdoFixComments.TabStop = true;
+            this.RdoFixComments.Text = "Fix Corrupt Comments";
+            this.RdoFixComments.UseVisualStyleBackColor = true;
             // 
             // RdoTblGrid
             // 
@@ -170,16 +183,16 @@
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
             // 
-            // RdoFixComments
+            // RdoFixHyperlinks
             // 
-            this.RdoFixComments.AutoSize = true;
-            this.RdoFixComments.Location = new System.Drawing.Point(6, 133);
-            this.RdoFixComments.Name = "RdoFixComments";
-            this.RdoFixComments.Size = new System.Drawing.Size(127, 17);
-            this.RdoFixComments.TabIndex = 6;
-            this.RdoFixComments.TabStop = true;
-            this.RdoFixComments.Text = "Fix Corrupt Comments";
-            this.RdoFixComments.UseVisualStyleBackColor = true;
+            this.RdoFixHyperlinks.AutoSize = true;
+            this.RdoFixHyperlinks.Location = new System.Drawing.Point(6, 156);
+            this.RdoFixHyperlinks.Name = "RdoFixHyperlinks";
+            this.RdoFixHyperlinks.Size = new System.Drawing.Size(90, 17);
+            this.RdoFixHyperlinks.TabIndex = 5;
+            this.RdoFixHyperlinks.TabStop = true;
+            this.RdoFixHyperlinks.Text = "Fix Hyperlinks";
+            this.RdoFixHyperlinks.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 
@@ -216,5 +229,6 @@
         private System.Windows.Forms.RadioButton RdoFixNotesPageWithFile;
         private System.Windows.Forms.RadioButton RdoTblGrid;
         private System.Windows.Forms.RadioButton RdoFixComments;
+        private System.Windows.Forms.RadioButton RdoFixHyperlinks;
     }
 }
