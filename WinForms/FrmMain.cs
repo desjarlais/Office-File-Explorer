@@ -4309,6 +4309,8 @@ namespace Office_File_Explorer
                         int beginPosition = 0;
                         int endPosition = 0;
                         int elementCount = 0;
+                        int beginCount = 0;
+                        int prevRunPosition = 0;
                         tempCount = 0;
 
                         foreach (Paragraph p in paras)
@@ -4317,31 +4319,45 @@ namespace Office_File_Explorer
                             foreach (OpenXmlElement oxe in p.Descendants<OpenXmlElement>())
                             {
                                 elementCount++;
+                                if (oxe.GetType().Name == "Run")
+                                {
+                                    prevRunPosition = elementCount;
+                                }
+
                                 if (oxe.GetType().Name == "FieldChar")
                                 {
                                     FieldChar fc = (FieldChar)oxe;
                                     if (fc.FieldCharType == FieldCharValues.Begin)
                                     {
+                                        beginCount++;
                                         inBeginEndSequence = true;
                                         if (beginPosition == 0)
                                         {
-                                            beginPosition = elementCount;
+                                            //beginPosition = elementCount;
+                                            beginPosition = prevRunPosition;
                                         }
                                     }
 
                                     if (fc.FieldCharType == FieldCharValues.End)
                                     {
                                         // valid sequence, reset values
-                                        inBeginEndSequence = false;
-                                        beginPosition = 0;
+                                        beginCount--;
+                                        if (beginCount == 0)
+                                        {
+                                            inBeginEndSequence = false;
+                                            beginPosition = 0;
+                                        }
                                     }
                                 }
 
                                 if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
                                 {
-                                    isHyperlinkInBetweenSequence = true;
-                                    endPosition = elementCount;
-                                    break;
+                                    if (oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"end\""))
+                                    {
+                                        isHyperlinkInBetweenSequence = true;
+                                        endPosition = elementCount;
+                                        break;
+                                    }
                                 }
                             }
 
@@ -4357,6 +4373,7 @@ namespace Office_File_Explorer
                             int tCount = 0;
                             bool atEndPosition = false;
                             List<OpenXmlElement> els = new List<OpenXmlElement>();
+                            List<Run> runs = new List<Run>();
 
                             foreach (Paragraph p in paras)
                             {
@@ -4380,6 +4397,12 @@ namespace Office_File_Explorer
                                                         Run r = new Run();
                                                         r.AppendChild(e.CloneNode(true));
                                                         oxe.PrependChild(r);
+                                                        e.Remove();
+                                                        fileChanged = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        oxe.PrependChild(e.CloneNode(false));
                                                         e.Remove();
                                                         fileChanged = true;
                                                     }
