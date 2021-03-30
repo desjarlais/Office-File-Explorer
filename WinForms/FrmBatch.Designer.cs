@@ -41,6 +41,7 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteOpenByDefault = new System.Windows.Forms.Button();
             this.BtnDeleteRequestStatus = new System.Windows.Forms.Button();
             this.BtnFixTableProps = new System.Windows.Forms.Button();
             this.BtnDeleteProps = new System.Windows.Forms.Button();
@@ -91,7 +92,7 @@
             this.lstOutput.FormattingEnabled = true;
             this.lstOutput.Location = new System.Drawing.Point(7, 19);
             this.lstOutput.Name = "lstOutput";
-            this.lstOutput.Size = new System.Drawing.Size(757, 342);
+            this.lstOutput.Size = new System.Drawing.Size(829, 342);
             this.lstOutput.TabIndex = 3;
             // 
             // BtnChangeCustomProps
@@ -165,6 +166,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnDeleteOpenByDefault);
             this.groupBox3.Controls.Add(this.BtnDeleteRequestStatus);
             this.groupBox3.Controls.Add(this.BtnFixTableProps);
             this.groupBox3.Controls.Add(this.BtnDeleteProps);
@@ -178,10 +180,20 @@
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
             this.groupBox3.Location = new System.Drawing.Point(15, 469);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(773, 79);
+            this.groupBox3.Size = new System.Drawing.Size(842, 79);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnDeleteOpenByDefault
+            // 
+            this.BtnDeleteOpenByDefault.Location = new System.Drawing.Point(665, 51);
+            this.BtnDeleteOpenByDefault.Name = "BtnDeleteOpenByDefault";
+            this.BtnDeleteOpenByDefault.Size = new System.Drawing.Size(161, 23);
+            this.BtnDeleteOpenByDefault.TabIndex = 14;
+            this.BtnDeleteOpenByDefault.Text = "Set OpenByDefault = False";
+            this.BtnDeleteOpenByDefault.UseVisualStyleBackColor = true;
+            this.BtnDeleteOpenByDefault.Click += new System.EventHandler(this.BtnDeleteOpenByDefault_Click);
             // 
             // BtnDeleteRequestStatus
             // 
@@ -237,7 +249,7 @@
             // 
             this.BtnFixCorruptRevisions.Location = new System.Drawing.Point(501, 19);
             this.BtnFixCorruptRevisions.Name = "BtnFixCorruptRevisions";
-            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(158, 23);
+            this.BtnFixCorruptRevisions.Size = new System.Drawing.Size(119, 23);
             this.BtnFixCorruptRevisions.TabIndex = 9;
             this.BtnFixCorruptRevisions.Text = "Fix Corrupt Revisions";
             this.BtnFixCorruptRevisions.UseVisualStyleBackColor = true;
@@ -256,7 +268,7 @@
             // 
             // BtnRemovePII
             // 
-            this.BtnRemovePII.Location = new System.Drawing.Point(663, 19);
+            this.BtnRemovePII.Location = new System.Drawing.Point(626, 19);
             this.BtnRemovePII.Name = "BtnRemovePII";
             this.BtnRemovePII.Size = new System.Drawing.Size(101, 23);
             this.BtnRemovePII.TabIndex = 10;
@@ -291,7 +303,7 @@
             this.groupBox4.Controls.Add(this.lstOutput);
             this.groupBox4.Location = new System.Drawing.Point(15, 66);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(773, 397);
+            this.groupBox4.Size = new System.Drawing.Size(842, 397);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
@@ -311,7 +323,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 560);
+            this.ClientSize = new System.Drawing.Size(869, 560);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -359,5 +371,6 @@
         private System.Windows.Forms.Button BtnFixTableProps;
         private System.Windows.Forms.Button BtnDeleteRequestStatus;
         private System.Windows.Forms.CheckBox ckSearchSubfolders;
+        private System.Windows.Forms.Button BtnDeleteOpenByDefault;
     }
 }

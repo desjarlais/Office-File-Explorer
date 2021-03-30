@@ -30,6 +30,7 @@ namespace Office_File_Explorer.Forms
         public string fileType = string.Empty;
         public string fType = string.Empty;
         public bool nodeDeleted = false;
+        public bool nodeChanged = false;
 
         public FrmBatch()
         {
@@ -72,6 +73,7 @@ namespace Office_File_Explorer.Forms
             BtnDeleteProps.Enabled = false;
             BtnFixTableProps.Enabled = false;
             BtnDeleteRequestStatus.Enabled = false;
+            BtnDeleteOpenByDefault.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -108,6 +110,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixCorruptRevisions.Enabled = true;
                 BtnFixTableProps.Enabled = true;
                 BtnRemovePII.Enabled = true;
+                BtnDeleteOpenByDefault.Enabled = true;
 
                 BtnFixNotesPageSize.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
@@ -124,6 +127,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixCorruptRevisions.Enabled = false;
                 BtnFixTableProps.Enabled = false;
                 BtnConvertStrict.Enabled = false;
+                BtnDeleteOpenByDefault.Enabled = false;
             }
 
             if (rdoExcel.Checked == true)
@@ -136,6 +140,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixTableProps.Enabled = false;
                 BtnRemovePII.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
+                BtnDeleteOpenByDefault.Enabled = false;
             }
         }
 
@@ -1092,6 +1097,91 @@ namespace Office_File_Explorer.Forms
         private void CkSearchSubfolders_CheckedChanged(object sender, EventArgs e)
         {
             PopulateAndDisplayFiles();
+        }
+
+        /// <summary>
+        /// If the openByDefault custom xml part is true
+        /// document will open in Word and display the Info Pane instead of the document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnDeleteOpenByDefault_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<CustomXmlPart> cxpList;
+                lstOutput.Items.Clear();
+
+                foreach (string f in files)
+                {
+                    nodeChanged = false;
+
+                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    {
+                        lstOutput.Items.Add(f + " : Not A Valid Office File");
+                        return;
+                    }
+
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    {
+                        cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
+
+                        foreach (CustomXmlPart cxp in cxpList)
+                        {
+                            XmlDocument xDoc = new XmlDocument();
+                            xDoc.Load(cxp.GetStream());
+
+                            if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaCustomXsn)
+                            {
+                                foreach (XmlNode xNode in xDoc.ChildNodes)
+                                {
+                                    if (xNode.Name == "customXsn")
+                                    {
+                                        foreach (XmlNode x in xNode)
+                                        {
+                                            if (x.Name == "openByDefault")
+                                            {
+                                                x.FirstChild.Value = "False";
+                                                using (MemoryStream xmlMS = new MemoryStream())
+                                                {
+                                                    xDoc.Save(xmlMS);
+                                                    xmlMS.Position = 0;
+                                                    cxp.FeedData(xmlMS);
+                                                }
+                                                nodeChanged = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (nodeChanged == true)
+                        {
+                            document.MainDocumentPart.Document.Save();
+                            lstOutput.Items.Add(f + " : openByDefault Changed");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + " : openByDefault Not Found");
+                        }
+                    }
+                }
+            }
+            catch (IOException ioe)
+            {
+                LoggingHelper.Log("BtnDeleteOpenByDefault Error: " + ioe.Message);
+                lstOutput.Items.Add("Error - " + ioe.Message);
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnDeleteOpenByDefault Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }

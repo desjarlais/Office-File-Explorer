@@ -57,7 +57,7 @@
             this.groupBox1.Controls.Add(this.RdoBK);
             this.groupBox1.Location = new System.Drawing.Point(12, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(195, 179);
+            this.groupBox1.Size = new System.Drawing.Size(195, 203);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
@@ -142,7 +142,7 @@
             // 
             // BtnOk
             // 
-            this.BtnOk.Location = new System.Drawing.Point(232, 167);
+            this.BtnOk.Location = new System.Drawing.Point(231, 191);
             this.BtnOk.Name = "BtnOk";
             this.BtnOk.Size = new System.Drawing.Size(75, 23);
             this.BtnOk.TabIndex = 0;
@@ -152,7 +152,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(313, 167);
+            this.BtnCancel.Location = new System.Drawing.Point(312, 191);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
             this.BtnCancel.TabIndex = 1;
@@ -166,7 +166,7 @@
             this.groupBox2.Controls.Add(this.RdoNotes);
             this.groupBox2.Location = new System.Drawing.Point(213, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(175, 146);
+            this.groupBox2.Size = new System.Drawing.Size(175, 169);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PowerPoint Document Fixes";
@@ -198,7 +198,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 202);
+            this.ClientSize = new System.Drawing.Size(400, 226);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BtnOk);
             this.Controls.Add(this.BtnCancel);

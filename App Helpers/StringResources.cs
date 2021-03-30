@@ -21,6 +21,7 @@
         public const string wSpaceChar = " ";
         public const string wHeaderLine = "-------------------------------------------";
         public const string wCustomXmlRequestStatus = "RequestStatus";
+        public const string wCustomXsn = "openByDefault";
         public const string wRequestStatusNS = "d264e665-9d0b-48fb-b78a-227e1d3d858d";
         public const string wShpChart = "Chart";
         public const string wProperties = "Properties";
@@ -136,6 +137,7 @@
         public const string schemaMsft2007 = "http://schemas.microsoft.com/office/2007/relationships/";
         public const string schemaMsft2006 = "http://schemas.microsoft.com/office/2006/relationships/";
         public const string schemaMetadataProperties = "http://schemas.microsoft.com/office/2006/metadata/properties";
+        public const string schemaCustomXsn = "http://schemas.microsoft.com/office/2006/metadata/customXsn";
         
         // urls
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
