@@ -237,5 +237,7 @@
         public const string OfficeExtendedProps = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
         public const string OfficeCoreProps = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
         public const string DcElements = "http://purl.org/dc/elements/1.1/";
+        public const string MipSchema = "http://schemas.microsoft.com/office/2020/mipLabelMetadata";
+        public const string ClpRelationship = "http://schemas.microsoft.com/office/2020/02/relationships/classificationlabels";
     }
 }

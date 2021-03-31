@@ -61,6 +61,7 @@
             this.BtnListComments = new System.Windows.Forms.Button();
             this.BtnListOle = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteEmbeddedLinks = new System.Windows.Forms.Button();
             this.BtnListExcelHyperlinks = new System.Windows.Forms.Button();
             this.BtnConvertToNonStrictFormat = new System.Windows.Forms.Button();
             this.BtnConvertXlsmToXlsx = new System.Windows.Forms.Button();
@@ -117,7 +118,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnDeleteEmbeddedLinks = new System.Windows.Forms.Button();
+            this.BtnListMIPLabels = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -518,6 +519,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Excel";
             // 
+            // BtnDeleteEmbeddedLinks
+            // 
+            this.BtnDeleteEmbeddedLinks.Location = new System.Drawing.Point(6, 268);
+            this.BtnDeleteEmbeddedLinks.Name = "BtnDeleteEmbeddedLinks";
+            this.BtnDeleteEmbeddedLinks.Size = new System.Drawing.Size(130, 23);
+            this.BtnDeleteEmbeddedLinks.TabIndex = 30;
+            this.BtnDeleteEmbeddedLinks.Text = "Delete Embedded Links";
+            this.BtnDeleteEmbeddedLinks.UseVisualStyleBackColor = true;
+            this.BtnDeleteEmbeddedLinks.Click += new System.EventHandler(this.BtnDeleteEmbeddedLinks_Click);
+            // 
             // BtnListExcelHyperlinks
             // 
             this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(138, 101);
@@ -777,6 +788,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnListMIPLabels);
             this.groupBox4.Controls.Add(this.BtnViewImages);
             this.groupBox4.Controls.Add(this.BtnViewCustomXml);
             this.groupBox4.Controls.Add(this.BtnDeleteCustomProps);
@@ -785,13 +797,12 @@
             this.groupBox4.Controls.Add(this.BtnListCustomProps);
             this.groupBox4.Controls.Add(this.BtnSetCustomProps);
             this.groupBox4.Controls.Add(this.BtnChangeTheme);
-            this.groupBox4.Controls.Add(this.BtnValidateFile);
             this.groupBox4.Controls.Add(this.BtnListOle);
             this.groupBox4.Location = new System.Drawing.Point(849, 83);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox4.Size = new System.Drawing.Size(133, 313);
+            this.groupBox4.Size = new System.Drawing.Size(137, 313);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Office";
@@ -881,7 +892,7 @@
             // 
             // BtnValidateFile
             // 
-            this.BtnValidateFile.Location = new System.Drawing.Point(4, 21);
+            this.BtnValidateFile.Location = new System.Drawing.Point(611, 432);
             this.BtnValidateFile.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnValidateFile.Name = "BtnValidateFile";
             this.BtnValidateFile.Size = new System.Drawing.Size(119, 23);
@@ -930,7 +941,7 @@
             this.mnuMainApp.Location = new System.Drawing.Point(0, 0);
             this.mnuMainApp.Name = "mnuMainApp";
             this.mnuMainApp.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.mnuMainApp.Size = new System.Drawing.Size(1003, 24);
+            this.mnuMainApp.Size = new System.Drawing.Size(1005, 24);
             this.mnuMainApp.TabIndex = 8;
             this.mnuMainApp.Text = "menuStrip1";
             // 
@@ -950,7 +961,7 @@
             // 
             this.openToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.OpenFile_16x;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -958,7 +969,7 @@
             // 
             this.copyOutputToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.CopyToClipboard_16x;
             this.copyOutputToolStripMenuItem.Name = "copyOutputToolStripMenuItem";
-            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyOutputToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.copyOutputToolStripMenuItem.Text = "Copy &Output";
             this.copyOutputToolStripMenuItem.Click += new System.EventHandler(this.CopyOutputToolStripMenuItem_Click);
             // 
@@ -966,20 +977,20 @@
             // 
             this.settingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Settings_16x;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.settingsToolStripMenuItem.Text = "&Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Exit_16x;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -998,7 +1009,7 @@
             // 
             this.batchFileProcessingToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.BatchFile_16x;
             this.batchFileProcessingToolStripMenuItem.Name = "batchFileProcessingToolStripMenuItem";
-            this.batchFileProcessingToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.batchFileProcessingToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.batchFileProcessingToolStripMenuItem.Text = "Batch File Processing";
             this.batchFileProcessingToolStripMenuItem.Click += new System.EventHandler(this.BatchFileProcessingToolStripMenuItem_Click);
             // 
@@ -1006,7 +1017,7 @@
             // 
             this.clipboardViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ASX_Copy_blue_16x;
             this.clipboardViewerToolStripMenuItem.Name = "clipboardViewerToolStripMenuItem";
-            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.clipboardViewerToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.clipboardViewerToolStripMenuItem.Text = "Clipboard Viewer";
             this.clipboardViewerToolStripMenuItem.Click += new System.EventHandler(this.ClipboardViewerToolStripMenuItem_Click);
             // 
@@ -1014,7 +1025,7 @@
             // 
             this.fontViewerToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FontDialogControl_16x;
             this.fontViewerToolStripMenuItem.Name = "fontViewerToolStripMenuItem";
-            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.fontViewerToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.fontViewerToolStripMenuItem.Text = "Font Viewer";
             this.fontViewerToolStripMenuItem.Click += new System.EventHandler(this.FontViewerToolStripMenuItem_Click);
             // 
@@ -1022,7 +1033,7 @@
             // 
             this.printerSettingsToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.PrintSetup_16x;
             this.printerSettingsToolStripMenuItem.Name = "printerSettingsToolStripMenuItem";
-            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.printerSettingsToolStripMenuItem.Size = new System.Drawing.Size(193, 30);
             this.printerSettingsToolStripMenuItem.Text = "Printer Settings";
             this.printerSettingsToolStripMenuItem.Click += new System.EventHandler(this.PrinterSettingsToolStripMenuItem_Click);
             // 
@@ -1066,7 +1077,7 @@
             this.groupBox5.Controls.Add(this.TxtFileName);
             this.groupBox5.Location = new System.Drawing.Point(12, 27);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(970, 49);
+            this.groupBox5.Size = new System.Drawing.Size(974, 49);
             this.groupBox5.TabIndex = 9;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "File Location:";
@@ -1076,16 +1087,17 @@
             this.groupBox6.Controls.Add(this.BtnCopyLine);
             this.groupBox6.Controls.Add(this.BtnCopyAll);
             this.groupBox6.Controls.Add(this.LstDisplay);
+            this.groupBox6.Controls.Add(this.BtnValidateFile);
             this.groupBox6.Location = new System.Drawing.Point(12, 396);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(970, 461);
+            this.groupBox6.Size = new System.Drawing.Size(974, 461);
             this.groupBox6.TabIndex = 10;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Output";
             // 
             // BtnCopyLine
             // 
-            this.BtnCopyLine.Location = new System.Drawing.Point(735, 430);
+            this.BtnCopyLine.Location = new System.Drawing.Point(735, 432);
             this.BtnCopyLine.Name = "BtnCopyLine";
             this.BtnCopyLine.Size = new System.Drawing.Size(115, 23);
             this.BtnCopyLine.TabIndex = 2;
@@ -1095,7 +1107,7 @@
             // 
             // BtnCopyAll
             // 
-            this.BtnCopyAll.Location = new System.Drawing.Point(856, 430);
+            this.BtnCopyAll.Location = new System.Drawing.Point(856, 432);
             this.BtnCopyAll.Name = "BtnCopyAll";
             this.BtnCopyAll.Size = new System.Drawing.Size(104, 23);
             this.BtnCopyAll.TabIndex = 1;
@@ -1103,15 +1115,15 @@
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
             // 
-            // BtnDeleteEmbeddedLinks
+            // BtnListMIPLabels
             // 
-            this.BtnDeleteEmbeddedLinks.Location = new System.Drawing.Point(6, 268);
-            this.BtnDeleteEmbeddedLinks.Name = "BtnDeleteEmbeddedLinks";
-            this.BtnDeleteEmbeddedLinks.Size = new System.Drawing.Size(130, 23);
-            this.BtnDeleteEmbeddedLinks.TabIndex = 30;
-            this.BtnDeleteEmbeddedLinks.Text = "Delete Embedded Links";
-            this.BtnDeleteEmbeddedLinks.UseVisualStyleBackColor = true;
-            this.BtnDeleteEmbeddedLinks.Click += new System.EventHandler(this.BtnDeleteEmbeddedLinks_Click);
+            this.BtnListMIPLabels.Location = new System.Drawing.Point(5, 18);
+            this.BtnListMIPLabels.Name = "BtnListMIPLabels";
+            this.BtnListMIPLabels.Size = new System.Drawing.Size(118, 23);
+            this.BtnListMIPLabels.TabIndex = 3;
+            this.BtnListMIPLabels.Text = "View MIP Label Info";
+            this.BtnListMIPLabels.UseVisualStyleBackColor = true;
+            this.BtnListMIPLabels.Click += new System.EventHandler(this.BtnListMIPLabels_Click);
             // 
             // FrmMain
             // 
@@ -1119,7 +1131,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1003, 865);
+            this.ClientSize = new System.Drawing.Size(1005, 865);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -1241,6 +1253,7 @@
         private System.Windows.Forms.Button BtnListExcelHyperlinks;
         private System.Windows.Forms.Button BtnDeleteUnusedStyles;
         private System.Windows.Forms.Button BtnDeleteEmbeddedLinks;
+        private System.Windows.Forms.Button BtnListMIPLabels;
     }
 }
 

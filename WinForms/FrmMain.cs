@@ -198,6 +198,7 @@ namespace Office_File_Explorer
             BtnDeleteUnusedStyles.Enabled = false;
             BtnDeleteEmbeddedLinks.Enabled = false;
             BtnListExcelHyperlinks.Enabled = false;
+            BtnListMIPLabels.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -362,6 +363,7 @@ namespace Office_File_Explorer
             BtnDeleteCustomProps.Enabled = true;
             BtnViewCustomXml.Enabled = true;
             BtnViewImages.Enabled = true;
+            BtnListMIPLabels.Enabled = true;
         }
 
         private void BtnListComments_Click(object sender, EventArgs e)
@@ -5580,6 +5582,52 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LogInformation(LogType.LogException, "BtnListExcelHyperlinks", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnListMIPLabels_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            PreButtonClickWork();
+            try
+            {
+                using (Package wdPackage = Package.Open(TxtFileName.Text, FileMode.Open, FileAccess.Read))
+                {
+                    PackageRelationship mipPackageRelationship = wdPackage.GetRelationshipsByType(StringResources.ClpRelationship).FirstOrDefault();
+                    if (mipPackageRelationship != null)
+                    {
+                        Uri documentUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), mipPackageRelationship.TargetUri);
+                        PackagePart mipPart = wdPackage.GetPart(documentUri);
+
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(XmlReader.Create(mipPart.GetStream()));
+                        XmlElement root = doc.DocumentElement;
+
+                        int count = 0;
+                        foreach (XmlNode xn in root .ChildNodes)
+                        {
+                            count++;
+                            LstDisplay.Items.Add("Label " + count + StringResources.wColon);
+                            foreach (XmlAttribute xa in xn.Attributes)
+                            {
+                                LstDisplay.Items.Add(StringResources.wMinusSign + xa.Name + StringResources.wColonBuffer + xa.Value);
+                            }
+                        }
+
+                        if (count == 0)
+                        {
+                            LstDisplay.Items.Add("** Document does not contain any labels **");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnListMIPLabels Error: " + ex.Message);
             }
             finally
             {
