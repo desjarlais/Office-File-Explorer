@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="4496896">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Office File Explorer.exe" size="4497408">
       <assemblyIdentity name="Office File Explorer" version="1.0.2.52" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>M97z0rQEmCPF96QMOodDe0srlETqJBaXjWnwf83JK3c=</dsig:DigestValue>
+        <dsig:DigestValue>M/xAiP7h9MDCWjt9X2nn6Dq9ET3vvKW1QHXJJcm1VoM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

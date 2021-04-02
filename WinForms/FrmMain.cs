@@ -5442,7 +5442,7 @@ namespace Office_File_Explorer
 
                             StringBuilder baseStyleChain = WordOpenXml.GetBasedOnStyleChain(stylePart, sBase, tempBaseStyleChain);
 
-                            if (baseStyleChain.ToString().Contains(StringResources.wArrow))
+                            if (baseStyleChain.ToString().Contains(StringResources.wArrowOnly))
                             {
                                 baseStyleChains.Add(baseStyleChain.ToString());
                             }
@@ -5457,7 +5457,7 @@ namespace Office_File_Explorer
                             foreach (string b in baseStyleChains)
                             {
                                 bool doNotDeleteAnyInChain = false;
-                                string[] separatingStrings = { StringResources.wArrow };
+                                string[] separatingStrings = { StringResources.wArrowOnly };
                                 words = b.Split(separatingStrings, StringSplitOptions.None);
 
                                 if (words.Count() > 0)
@@ -5526,6 +5526,10 @@ namespace Office_File_Explorer
                     if (styleDeleted == true)
                     {
                         myDoc.MainDocumentPart.Document.Save();
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** Document does not contain unused styles **");
                     }
                 }
             }

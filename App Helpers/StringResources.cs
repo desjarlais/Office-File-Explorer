@@ -16,6 +16,7 @@
         public const string wNumId = ". numId = ";
         public const string wPeriod = ". ";
         public const string wArrow = " --> ";
+        public const string wArrowOnly = "-->";
         public const string wMinusSign = " - ";
         public const string wEqualSign = " = ";
         public const string wSpaceChar = " ";
