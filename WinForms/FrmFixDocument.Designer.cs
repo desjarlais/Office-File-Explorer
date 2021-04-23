@@ -42,12 +42,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
+            this.RdoFixCoAuthHyperlinks = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.RdoFixCoAuthHyperlinks);
             this.groupBox1.Controls.Add(this.RdoFixHyperlinks);
             this.groupBox1.Controls.Add(this.RdoFixComments);
             this.groupBox1.Controls.Add(this.RdoTblGrid);
@@ -164,9 +166,9 @@
             // 
             this.groupBox2.Controls.Add(this.RdoFixNotesPageWithFile);
             this.groupBox2.Controls.Add(this.RdoNotes);
-            this.groupBox2.Location = new System.Drawing.Point(213, 15);
+            this.groupBox2.Location = new System.Drawing.Point(213, 11);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(175, 169);
+            this.groupBox2.Size = new System.Drawing.Size(175, 77);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PowerPoint Document Fixes";
@@ -193,6 +195,17 @@
             this.RdoNotes.TabIndex = 0;
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
+            // 
+            // RdoFixCoAuthHyperlinks
+            // 
+            this.RdoFixCoAuthHyperlinks.AutoSize = true;
+            this.RdoFixCoAuthHyperlinks.Location = new System.Drawing.Point(6, 179);
+            this.RdoFixCoAuthHyperlinks.Name = "RdoFixCoAuthHyperlinks";
+            this.RdoFixCoAuthHyperlinks.Size = new System.Drawing.Size(137, 17);
+            this.RdoFixCoAuthHyperlinks.TabIndex = 6;
+            this.RdoFixCoAuthHyperlinks.TabStop = true;
+            this.RdoFixCoAuthHyperlinks.Text = "Fix Comment Hyperlinks";
+            this.RdoFixCoAuthHyperlinks.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 
@@ -230,5 +243,6 @@
         private System.Windows.Forms.RadioButton RdoTblGrid;
         private System.Windows.Forms.RadioButton RdoFixComments;
         private System.Windows.Forms.RadioButton RdoFixHyperlinks;
+        private System.Windows.Forms.RadioButton RdoFixCoAuthHyperlinks;
     }
 }

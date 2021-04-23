@@ -41,6 +41,7 @@ namespace Office_File_Explorer.Forms
             RdoTblGrid.Checked = false;
             RdoFixComments.Checked = false;
             RdoFixHyperlinks.Checked = false;
+            RdoFixCoAuthHyperlinks.Checked = false;
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace Office_File_Explorer.Forms
             RdoTblGrid.Enabled = true;
             RdoFixComments.Enabled = true;
             RdoFixHyperlinks.Enabled = true;
+            RdoFixCoAuthHyperlinks.Enabled = true;
         }
 
         /// <summary>
@@ -105,6 +107,10 @@ namespace Office_File_Explorer.Forms
             else if (RdoFixHyperlinks.Checked)
             {
                 OptionSelected = "FixHyperlinks";
+            }
+            else if (RdoFixCoAuthHyperlinks.Checked)
+            {
+                OptionSelected = "FixCoAuthHyperlinks";
             }
             
             DialogResult = DialogResult.OK;

@@ -66,6 +66,11 @@
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
         public const string txtMcChoiceTagEnd = "</mc:Choice>";
+        public const string txtAtMentionStyle = "<w:rStyle w:val=\"Mention\"";
+        public const string txtFieldCodeBegin = "<w:fldChar w:fldCharType=\"begin\"";
+        public const string txtFieldCodeSeparate = "<w:fldChar w:fldCharType=\"separate\"";
+        public const string txtFieldCodeEnd = "<w:fldChar w:fldCharType=\"end\"";
+        public const string txtRsid = "<w:rsidR=";
 
         // global app messages
         public const string doNotDeleteStyle = "DO NOT DELETE + ";

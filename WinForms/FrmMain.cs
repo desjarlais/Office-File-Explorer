@@ -4369,9 +4369,8 @@ namespace Office_File_Explorer
                                 if (oxe.GetType().Name == "Hyperlink" && inBeginEndSequence == true)
                                 {
                                     // you can have a hlink in between the begin-end tags or vica versa
-                                    // you just can't have the hyperlink in between
-                                    // so we are only looking for an hlink that has an end inside it
-                                    if (oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"end\"") && !oxe.InnerXml.Contains("<w:fldChar w:fldCharType=\"begin\""))
+                                    // so we are only looking for an hlink that has an end inside it with no begin
+                                    if (oxe.InnerXml.Contains(StringResources.txtFieldCodeEnd) && !oxe.InnerXml.Contains(StringResources.txtFieldCodeBegin))
                                     {
                                         isHyperlinkInBetweenSequence = true;
                                         endPosition = elementCount;
@@ -4467,12 +4466,137 @@ namespace Office_File_Explorer
             }
         }
 
+        public void AddSeparateToMentionHyperlink(Paragraph p)
+        {
+
+        }
+
+        /// <summary>
+        /// This is a known scenario that affects Word Co-Auth scenarios
+        /// if the field code sequence is missing the separate, it causes problems
+        /// </summary>
+        public void FixCommentFieldCodeTags()
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                using (WordprocessingDocument myDoc = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    bool isFileChanged = false;
+                    Regex emailPattern = new Regex(@"(.*?)<?(\b\S+@\S+\b)>?");
+                    WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
+                    foreach (O.Wordprocessing.Comment cmt in commentsPart.Comments)
+                    {
+                        IEnumerable<Paragraph> pList = cmt.Descendants<Paragraph>();
+                        List<Run> rList = new List<Run>();
+
+                        foreach (Paragraph p in pList)
+                        {
+                            // if the p has the mention style, it passes the first check we need to make
+                            if (p.InnerXml.Contains(StringResources.txtAtMentionStyle))
+                            {
+                                bool beginFound = false;
+                                bool separateFound = false;
+                                string emailAlias = "";
+
+                                // now we need to loop each run and check the separate is missing
+                                foreach (Run r in p.Descendants<Run>())
+                                {
+                                    if (r.InnerXml.Contains(StringResources.txtFieldCodeBegin))
+                                    {
+                                        beginFound = true;
+                                    }
+
+                                    if (r.InnerXml.Contains(StringResources.txtFieldCodeSeparate))
+                                    {
+                                        separateFound = true;
+                                    }
+
+                                    // hold onto the mailto so we at least have something to use for the mention text
+                                    if (beginFound == true && r.InnerXml.Contains("mailto"))
+                                    {
+                                        var groups = emailPattern.Match(r.InnerXml.ToString()).Groups;
+
+                                        // trim the mailto
+                                        emailAlias = groups[2].Value.Remove(0, 7);
+                                    }
+
+                                    // once we get to the end, if we haven't found a separate, we need to add it back
+                                    if (r.InnerXml.Contains(StringResources.txtFieldCodeEnd))
+                                    {
+                                        if (r.InnerXml.Contains(StringResources.txtAtMentionStyle) && separateFound == false)
+                                        {
+                                            // first, remove all children since we are in the area we need to change
+                                            // add the new separate run
+                                            // add the new text run with the mailto
+                                            // add the new end run back
+                                            r.RemoveAllChildren();
+
+                                            Run rNewSeparate = new Run();
+                                            O.Wordprocessing.RunProperties rPr = new O.Wordprocessing.RunProperties();
+                                            RunStyle rs = new RunStyle();
+                                            rs.Val = "Mention";
+                                            rPr.Append(rs);
+                                            rNewSeparate.Append(rPr);
+                                            FieldChar fcs = new FieldChar();
+                                            fcs.FieldCharType = FieldCharValues.Separate;
+                                            rNewSeparate.Append(fcs);
+                                            r.Append(rNewSeparate);
+
+                                            Run rNewText = new Run();
+                                            O.Wordprocessing.Text t = new O.Wordprocessing.Text();
+                                            t.Text = emailAlias;
+                                            rNewText.Append(t);
+                                            r.Append(rNewText);
+
+                                            Run rNewEnd = new Run();
+                                            FieldChar fce = new FieldChar();
+                                            fce.FieldCharType = FieldCharValues.End;
+                                            rNewEnd.Append(fce);
+                                            r.Append(rNewEnd);
+
+                                            isFileChanged = true;
+                                        }
+
+                                        // reset logic criteria
+                                        beginFound = false;
+                                        separateFound = false;
+                                        emailAlias = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (isFileChanged)
+                    {
+                        myDoc.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Corrupt Hyperlinks Fixed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Hyperlinks Found **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnFixCommentFieldCodeTags", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
         /// <summary>
         /// There are times when documents have dangling comment refs where document.xml will reference a comment id
         /// the problem is that comment no longer exists for unknown reasons
         /// this fix should get the id's for those comments and remove them
         /// </summary>
-        public void FixCorruptComments()
+        public void FixMissingCommentRef()
         {
             try
             {
@@ -4974,10 +5098,13 @@ namespace Office_File_Explorer
                             FixTblGrid();
                             break;
                         case "FixComments":
-                            FixCorruptComments();
+                            FixMissingCommentRef();
                             break;
                         case "FixHyperlinks":
                             FixCorruptHyperlinks();
+                            break;
+                        case "FixCoAuthHyperlinks":
+                            FixCommentFieldCodeTags();
                             break;
                         default:
                             LstDisplay.Items.Add("No Option Selected");
