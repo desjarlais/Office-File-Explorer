@@ -4534,16 +4534,14 @@ namespace Office_File_Explorer
                                             // add the new end run back
                                             r.RemoveAllChildren();
 
-                                            Run rNewSeparate = new Run();
                                             O.Wordprocessing.RunProperties rPr = new O.Wordprocessing.RunProperties();
                                             RunStyle rs = new RunStyle();
                                             rs.Val = "Mention";
                                             rPr.Append(rs);
-                                            rNewSeparate.Append(rPr);
+                                            r.Append(rPr);
                                             FieldChar fcs = new FieldChar();
                                             fcs.FieldCharType = FieldCharValues.Separate;
-                                            rNewSeparate.Append(fcs);
-                                            r.Append(rNewSeparate);
+                                            r.Append(fcs);
 
                                             Run rNewText = new Run();
                                             O.Wordprocessing.Text t = new O.Wordprocessing.Text();
