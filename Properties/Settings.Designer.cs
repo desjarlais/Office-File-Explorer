@@ -108,5 +108,17 @@ namespace Office_File_Explorer.Properties {
                 this["DeleteCopiesOnExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RemoveCorruptAtMentions {
+            get {
+                return ((bool)(this["RemoveCorruptAtMentions"]));
+            }
+            set {
+                this["RemoveCorruptAtMentions"] = value;
+            }
+        }
     }
 }

@@ -4466,11 +4466,6 @@ namespace Office_File_Explorer
             }
         }
 
-        public void AddSeparateToMentionHyperlink(Paragraph p)
-        {
-
-        }
-
         /// <summary>
         /// This is a known scenario that affects Word Co-Auth scenarios
         /// if the field code sequence is missing the separate, it causes problems
@@ -4487,6 +4482,7 @@ namespace Office_File_Explorer
                     bool isFileChanged = false;
                     Regex emailPattern = new Regex(@"(.*?)<?(\b\S+@\S+\b)>?");
                     WordprocessingCommentsPart commentsPart = myDoc.MainDocumentPart.WordprocessingCommentsPart;
+                    
                     foreach (O.Wordprocessing.Comment cmt in commentsPart.Comments)
                     {
                         IEnumerable<Paragraph> pList = cmt.Descendants<Paragraph>();
@@ -4519,8 +4515,12 @@ namespace Office_File_Explorer
                                     {
                                         var groups = emailPattern.Match(r.InnerXml.ToString()).Groups;
 
-                                        // trim the mailto
+                                        // trim the beginning of the mailto
                                         emailAlias = groups[2].Value.Remove(0, 7);
+
+                                        // remove the domain and add @ to the beginning
+                                        int atIndex = emailAlias.IndexOf('@');
+                                        emailAlias = "@" + emailAlias.Remove(atIndex);
                                     }
 
                                     // once we get to the end, if we haven't found a separate, we need to add it back
@@ -4541,19 +4541,19 @@ namespace Office_File_Explorer
                                             r.Append(fcs);
 
                                             // add a new text run with the mailto alias
-                                            // add a new end run back to close it out
                                             Run rNewEnd = new Run();
                                             FieldChar fce = new FieldChar();
                                             fce.FieldCharType = FieldCharValues.End;
                                             rNewEnd.Append(fce);
                                             r.InsertAfterSelf(rNewEnd);
 
+                                            // add a new end run back to close it out
                                             Run rNewText = new Run();
                                             O.Wordprocessing.Text t = new O.Wordprocessing.Text();
                                             t.Text = emailAlias;
                                             rNewText.Append(t);
                                             r.InsertAfterSelf(rNewText);
-
+                                            
                                             isFileChanged = true;
                                         }
 

@@ -35,6 +35,11 @@ namespace Office_File_Explorer.Forms
                 ckDeleteCopies.Checked = true;
             }
 
+            if (Properties.Settings.Default.RemoveCorruptAtMentions == true)
+            {
+                ckRemoveCorruptAtMentions.Checked = true;
+            }
+
             if (Properties.Settings.Default.ListCellValuesSax == true)
             {
                 rdoSax.Checked = true;
@@ -52,6 +57,7 @@ namespace Office_File_Explorer.Forms
             Properties.Settings.Default.FixGroupedShapes = ckGroupShapeFix.Checked;
             Properties.Settings.Default.ResetNotesMaster = ckResetNotesMaster.Checked;
             Properties.Settings.Default.DeleteCopiesOnExit = ckDeleteCopies.Checked;
+            Properties.Settings.Default.RemoveCorruptAtMentions = ckRemoveCorruptAtMentions.Checked;
             
             if (rdoSax.Checked == true)
             {

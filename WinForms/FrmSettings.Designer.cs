@@ -42,6 +42,7 @@
             this.rdoSax = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ckDeleteCopies = new System.Windows.Forms.CheckBox();
+            this.ckRemoveCorruptAtMentions = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,12 +71,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ckRemoveCorruptAtMentions);
             this.groupBox1.Controls.Add(this.ckGroupShapeFix);
             this.groupBox1.Controls.Add(this.ckRemoveFallback);
             this.groupBox1.Controls.Add(this.ckOpenInWord);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(175, 101);
+            this.groupBox1.Size = new System.Drawing.Size(175, 117);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Corrupt Document";
@@ -117,7 +119,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(218, 101);
+            this.groupBox2.Size = new System.Drawing.Size(218, 117);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PowerPoint Options";
@@ -137,9 +139,9 @@
             // 
             this.groupBox3.Controls.Add(this.rdoDom);
             this.groupBox3.Controls.Add(this.rdoSax);
-            this.groupBox3.Location = new System.Drawing.Point(250, 119);
+            this.groupBox3.Location = new System.Drawing.Point(250, 135);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(160, 100);
+            this.groupBox3.Size = new System.Drawing.Size(160, 84);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Excel List Cell Value Options";
@@ -169,9 +171,9 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.ckDeleteCopies);
-            this.groupBox4.Location = new System.Drawing.Point(12, 119);
+            this.groupBox4.Location = new System.Drawing.Point(12, 135);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(232, 100);
+            this.groupBox4.Size = new System.Drawing.Size(232, 84);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Settings";
@@ -185,6 +187,16 @@
             this.ckDeleteCopies.TabIndex = 0;
             this.ckDeleteCopies.Text = "Delete Copied Files On Exit";
             this.ckDeleteCopies.UseVisualStyleBackColor = true;
+            // 
+            // ckRemoveCorruptAtMentions
+            // 
+            this.ckRemoveCorruptAtMentions.AutoSize = true;
+            this.ckRemoveCorruptAtMentions.Location = new System.Drawing.Point(6, 88);
+            this.ckRemoveCorruptAtMentions.Name = "ckRemoveCorruptAtMentions";
+            this.ckRemoveCorruptAtMentions.Size = new System.Drawing.Size(160, 17);
+            this.ckRemoveCorruptAtMentions.TabIndex = 3;
+            this.ckRemoveCorruptAtMentions.Text = "Remove Corrupt @Mentions";
+            this.ckRemoveCorruptAtMentions.UseVisualStyleBackColor = true;
             // 
             // FrmSettings
             // 
@@ -231,5 +243,6 @@
         private System.Windows.Forms.RadioButton rdoSax;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox ckDeleteCopies;
+        private System.Windows.Forms.CheckBox ckRemoveCorruptAtMentions;
     }
 }
