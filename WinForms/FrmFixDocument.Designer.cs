@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFixDocument));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RdoFixCoAuthHyperlinks = new System.Windows.Forms.RadioButton();
             this.RdoFixHyperlinks = new System.Windows.Forms.RadioButton();
             this.RdoFixComments = new System.Windows.Forms.RadioButton();
             this.RdoTblGrid = new System.Windows.Forms.RadioButton();
@@ -42,7 +43,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.RdoFixNotesPageWithFile = new System.Windows.Forms.RadioButton();
             this.RdoNotes = new System.Windows.Forms.RadioButton();
-            this.RdoFixCoAuthHyperlinks = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +63,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Document Fixes";
+            // 
+            // RdoFixCoAuthHyperlinks
+            // 
+            this.RdoFixCoAuthHyperlinks.AutoSize = true;
+            this.RdoFixCoAuthHyperlinks.Location = new System.Drawing.Point(6, 179);
+            this.RdoFixCoAuthHyperlinks.Name = "RdoFixCoAuthHyperlinks";
+            this.RdoFixCoAuthHyperlinks.Size = new System.Drawing.Size(181, 17);
+            this.RdoFixCoAuthHyperlinks.TabIndex = 6;
+            this.RdoFixCoAuthHyperlinks.TabStop = true;
+            this.RdoFixCoAuthHyperlinks.Text = "Fix Comment Hyperlinks (CoAuth)";
+            this.RdoFixCoAuthHyperlinks.UseVisualStyleBackColor = true;
             // 
             // RdoFixHyperlinks
             // 
@@ -195,17 +206,6 @@
             this.RdoNotes.TabIndex = 0;
             this.RdoNotes.Text = "Fix Notes Page Size";
             this.RdoNotes.UseVisualStyleBackColor = true;
-            // 
-            // RdoFixCoAuthHyperlinks
-            // 
-            this.RdoFixCoAuthHyperlinks.AutoSize = true;
-            this.RdoFixCoAuthHyperlinks.Location = new System.Drawing.Point(6, 179);
-            this.RdoFixCoAuthHyperlinks.Name = "RdoFixCoAuthHyperlinks";
-            this.RdoFixCoAuthHyperlinks.Size = new System.Drawing.Size(137, 17);
-            this.RdoFixCoAuthHyperlinks.TabIndex = 6;
-            this.RdoFixCoAuthHyperlinks.TabStop = true;
-            this.RdoFixCoAuthHyperlinks.Text = "Fix Comment Hyperlinks";
-            this.RdoFixCoAuthHyperlinks.UseVisualStyleBackColor = true;
             // 
             // FrmFixDocument
             // 
