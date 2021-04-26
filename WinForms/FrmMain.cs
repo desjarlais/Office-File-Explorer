@@ -4529,11 +4529,8 @@ namespace Office_File_Explorer
                                         if (r.InnerXml.Contains(StringResources.txtAtMentionStyle) && separateFound == false)
                                         {
                                             // first, remove all children since we are in the area we need to change
-                                            // add the new separate run
-                                            // add the new text run with the mailto
-                                            // add the new end run back
+                                            // add separate to the existing run
                                             r.RemoveAllChildren();
-
                                             O.Wordprocessing.RunProperties rPr = new O.Wordprocessing.RunProperties();
                                             RunStyle rs = new RunStyle();
                                             rs.Val = "Mention";
@@ -4543,17 +4540,19 @@ namespace Office_File_Explorer
                                             fcs.FieldCharType = FieldCharValues.Separate;
                                             r.Append(fcs);
 
-                                            Run rNewText = new Run();
-                                            O.Wordprocessing.Text t = new O.Wordprocessing.Text();
-                                            t.Text = emailAlias;
-                                            rNewText.Append(t);
-                                            r.Append(rNewText);
-
+                                            // add a new text run with the mailto alias
+                                            // add a new end run back to close it out
                                             Run rNewEnd = new Run();
                                             FieldChar fce = new FieldChar();
                                             fce.FieldCharType = FieldCharValues.End;
                                             rNewEnd.Append(fce);
-                                            r.Append(rNewEnd);
+                                            r.InsertAfterSelf(rNewEnd);
+
+                                            Run rNewText = new Run();
+                                            O.Wordprocessing.Text t = new O.Wordprocessing.Text();
+                                            t.Text = emailAlias;
+                                            rNewText.Append(t);
+                                            r.InsertAfterSelf(rNewText);
 
                                             isFileChanged = true;
                                         }
