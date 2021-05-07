@@ -72,6 +72,7 @@ namespace Office_File_Explorer
         public static string StrDestFileName = string.Empty;
         private string fileType;
         public static string StrCopiedFileName = string.Empty;
+        public static int gActiveListCount;
 
         // global numid lists
         private ArrayList oNumIdList = new ArrayList();
@@ -881,6 +882,7 @@ namespace Office_File_Explorer
                 // Word is limited to 2047 total active lists in a document
                 if (count == 2047)
                 {
+                    gActiveListCount = 2047;
                     LogInformation(LogType.LogException, "## You have too many lists in this file. Word will only display up to 2047 lists. ##", "Active List Limit Reached");
                 }
             }
@@ -2080,6 +2082,7 @@ namespace Office_File_Explorer
                             // if the file does start with PK, check if it fails in the SDK
                             OpenWithSdk(TxtFileName.Text, true);
                             PopulatePackageParts();
+                            gActiveListCount = 0;
                         }
                     }
                 }
@@ -4814,8 +4817,9 @@ namespace Office_File_Explorer
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
 
-                    // if the count of styles is less than 2047, nothing to check
-                    if (absNumsInUseList.Count() < 2047)
+                    // if the count of active list styles is less than 2047, nothing to check
+                    BtnListTemplates.PerformClick();
+                    if (gActiveListCount < 2047)
                     {
                         LstDisplay.Items.Add("** No List Template Issues Found **");
                         return;
