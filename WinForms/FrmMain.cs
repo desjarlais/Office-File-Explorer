@@ -3484,7 +3484,6 @@ namespace Office_File_Explorer
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppExitWork();
-            Application.Exit();
         }
 
         private void BtnListFieldCodes_Click(object sender, EventArgs e)
@@ -4804,6 +4803,7 @@ namespace Office_File_Explorer
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
+                    // if the numbering part does not exist, nothing to check
                     if (document.MainDocumentPart.NumberingDefinitionsPart == null)
                     {
                         LstDisplay.Items.Add("** No List Templates Found **");
@@ -4813,6 +4813,13 @@ namespace Office_File_Explorer
                     // get the list of numId's and AbstractNum's in numbering.xml
                     var absNumsInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                     var numInstancesInUseList = document.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
+
+                    // if the count of styles is less than 2047, nothing to check
+                    if (absNumsInUseList.Count() < 2047)
+                    {
+                        LstDisplay.Items.Add("** No List Template Issues Found **");
+                        return;
+                    }
 
                     bool bulletSingleLevelFound = false;
                     bool bulletMultiLevelFound = false;
