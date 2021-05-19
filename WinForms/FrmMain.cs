@@ -5786,23 +5786,47 @@ namespace Office_File_Explorer
             {
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
+                    // adding a goto since changing the relationship during enumeration causes an error
+                    // here, after making the change, I restart the loops again to look for more corrupt links
                 HLinkStart:
                     foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
                     {
                         IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
+                        // loop each hyperlink to get the rid
                         foreach (O.Spreadsheet.Hyperlink h in hLinks)
                         {
-                            // then check for hyperlinks relationships
+                            // then check for hyperlinks relationships for the rid
                             if (wsp.HyperlinkRelationships.Count() > 0)
                             {
                                 foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
                                 {
+                                    // if the rid's match, we have the same hyperlink
                                     if (h.Id == hRel.Id)
                                     {
+                                        // there is a scenario where files from OpenText appear to be damaged and the url is some temp file path
+                                        // not the url path it should be
+                                        string badUrl = string.Empty;
+                                        string[] separatingStrings = { "livelink" };
+
+                                        // check if the uri contains any of the known bad paths
                                         if (hRel.Uri.ToString().StartsWith("../../../"))
                                         {
-                                            string badUrl = hRel.Uri.ToString().Replace("../../../", "/");
+                                            badUrl = hRel.Uri.ToString().Replace("../../../", StringResources.wBackslash);
+                                        }
+                                        else if (hRel.Uri.ToString().Contains("/AppData/Local/Microsoft/Windows/livelink/llsapi.dll/open/"))
+                                        {
+                                            string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                            badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                        }
+                                        else if (hRel.Uri.ToString().Contains("/AppData/Roaming/OpenText/"))
+                                        {
+                                            string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                            badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                        }
 
+                                        // if a bad path was found, start the work to replace it with the correct path
+                                        if (badUrl != string.Empty)
+                                        {
                                             // loop the sharedstrings to get the correct replace value
                                             if (excelDoc.WorkbookPart.SharedStringTablePart != null)
                                             {
@@ -5827,10 +5851,6 @@ namespace Office_File_Explorer
                                         }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                LogInformation(LogType.EmptyCount, "hyperlinks", string.Empty);
                             }
                         }
                     }

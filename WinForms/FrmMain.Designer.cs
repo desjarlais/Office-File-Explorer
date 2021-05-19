@@ -523,7 +523,7 @@
             // 
             // BtnFixExcelHyperlinks
             // 
-            this.BtnFixExcelHyperlinks.Location = new System.Drawing.Point(6, 101);
+            this.BtnFixExcelHyperlinks.Location = new System.Drawing.Point(6, 268);
             this.BtnFixExcelHyperlinks.Name = "BtnFixExcelHyperlinks";
             this.BtnFixExcelHyperlinks.Size = new System.Drawing.Size(130, 23);
             this.BtnFixExcelHyperlinks.TabIndex = 11;
@@ -533,7 +533,7 @@
             // 
             // BtnDeleteEmbeddedLinks
             // 
-            this.BtnDeleteEmbeddedLinks.Location = new System.Drawing.Point(6, 268);
+            this.BtnDeleteEmbeddedLinks.Location = new System.Drawing.Point(6, 239);
             this.BtnDeleteEmbeddedLinks.Name = "BtnDeleteEmbeddedLinks";
             this.BtnDeleteEmbeddedLinks.Size = new System.Drawing.Size(130, 23);
             this.BtnDeleteEmbeddedLinks.TabIndex = 30;
@@ -574,7 +574,7 @@
             // 
             // BtnListConnections
             // 
-            this.BtnListConnections.Location = new System.Drawing.Point(6, 235);
+            this.BtnListConnections.Location = new System.Drawing.Point(6, 206);
             this.BtnListConnections.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListConnections.Name = "BtnListConnections";
             this.BtnListConnections.Size = new System.Drawing.Size(130, 23);
@@ -596,7 +596,7 @@
             // 
             // BtnListCellValuesSAX
             // 
-            this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 182);
+            this.BtnListCellValuesSAX.Location = new System.Drawing.Point(6, 153);
             this.BtnListCellValuesSAX.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListCellValuesSAX.Name = "BtnListCellValuesSAX";
             this.BtnListCellValuesSAX.Size = new System.Drawing.Size(130, 23);
@@ -629,7 +629,7 @@
             // 
             // BtnListSharedStrings
             // 
-            this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 157);
+            this.BtnListSharedStrings.Location = new System.Drawing.Point(6, 128);
             this.BtnListSharedStrings.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListSharedStrings.Name = "BtnListSharedStrings";
             this.BtnListSharedStrings.Size = new System.Drawing.Size(130, 23);
@@ -640,7 +640,7 @@
             // 
             // BtnListHiddenRowsColumns
             // 
-            this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 129);
+            this.BtnListHiddenRowsColumns.Location = new System.Drawing.Point(6, 100);
             this.BtnListHiddenRowsColumns.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListHiddenRowsColumns.Name = "BtnListHiddenRowsColumns";
             this.BtnListHiddenRowsColumns.Size = new System.Drawing.Size(130, 23);
@@ -651,7 +651,7 @@
             // 
             // BtnListDefinedNames
             // 
-            this.BtnListDefinedNames.Location = new System.Drawing.Point(6, 209);
+            this.BtnListDefinedNames.Location = new System.Drawing.Point(6, 180);
             this.BtnListDefinedNames.Margin = new System.Windows.Forms.Padding(2);
             this.BtnListDefinedNames.Name = "BtnListDefinedNames";
             this.BtnListDefinedNames.Size = new System.Drawing.Size(130, 21);
