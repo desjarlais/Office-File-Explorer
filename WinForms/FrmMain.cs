@@ -85,6 +85,9 @@ namespace Office_File_Explorer
         // global lists
         private static List<string> pParts = new List<string>();
 
+        // hyperlinkrel list
+        private static Dictionary<string, string> hLinkRels = new Dictionary<string, string>();
+
         // corrupt doc buffer
         private static StringBuilder sbNodeBuffer = new StringBuilder();
 
@@ -200,6 +203,7 @@ namespace Office_File_Explorer
             BtnDeleteEmbeddedLinks.Enabled = false;
             BtnListExcelHyperlinks.Enabled = false;
             BtnListMIPLabels.Enabled = false;
+            BtnFixExcelHyperlinks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -314,6 +318,7 @@ namespace Office_File_Explorer
                 BtnConvertToNonStrictFormat.Enabled = true;
                 BtnDeleteEmbeddedLinks.Enabled = true;
                 BtnListExcelHyperlinks.Enabled = true;
+                BtnFixExcelHyperlinks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Xlsm)
                 {
@@ -2935,11 +2940,7 @@ namespace Office_File_Explorer
                                                 switch (m.Value)
                                                 {
                                                     case ValidXmlTags.StrValidMcChoice1:
-                                                        break;
-
                                                     case ValidXmlTags.StrValidMcChoice2:
-                                                        break;
-
                                                     case ValidXmlTags.StrValidMcChoice3:
                                                         break;
 
@@ -5767,6 +5768,87 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnListMIPLabels Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixExcelHyperlinks_Click(object sender, EventArgs e)
+        {
+            PreButtonClickWork();
+            Cursor = Cursors.WaitCursor;
+            bool isFileChanged = false;
+            LstDisplay.Items.Clear();
+
+            try
+            {
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                HLinkStart:
+                    foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
+                    {
+                        IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
+                        foreach (O.Spreadsheet.Hyperlink h in hLinks)
+                        {
+                            // then check for hyperlinks relationships
+                            if (wsp.HyperlinkRelationships.Count() > 0)
+                            {
+                                foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
+                                {
+                                    if (h.Id == hRel.Id)
+                                    {
+                                        if (hRel.Uri.ToString().StartsWith("../../../"))
+                                        {
+                                            string badUrl = hRel.Uri.ToString().Replace("../../../", "/");
+
+                                            // loop the sharedstrings to get the correct replace value
+                                            if (excelDoc.WorkbookPart.SharedStringTablePart != null)
+                                            {
+                                                SharedStringTable sst = excelDoc.WorkbookPart.SharedStringTablePart.SharedStringTable;
+                                                foreach (SharedStringItem ssi in sst)
+                                                {
+                                                    if (ssi.Text != null)
+                                                    {
+                                                        if (ssi.InnerText.ToString().EndsWith(badUrl))
+                                                        {
+                                                            // now delete the relationship
+                                                            wsp.DeleteReferenceRelationship(h.Id);
+
+                                                            // now add a new relationship with the right address
+                                                            wsp.AddHyperlinkRelationship(new Uri(ssi.InnerText, UriKind.Absolute), true, h.Id);
+                                                            isFileChanged = true;
+                                                            goto HLinkStart;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                LogInformation(LogType.EmptyCount, "hyperlinks", string.Empty);
+                            }
+                        }
+                    }
+
+                    if (isFileChanged == true)
+                    {
+                        excelDoc.WorkbookPart.Workbook.Save();
+                        LstDisplay.Items.Add("** Hyperlinks Fixed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Hyperlinks Found **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnFixExcelHyperlinks", ex.Message);
             }
             finally
             {
