@@ -53,6 +53,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO.Compression;
+using Office_File_Explorer.WinForms;
 
 namespace Office_File_Explorer
 {
@@ -60,6 +61,7 @@ namespace Office_File_Explorer
     {
         // globals
         private string fromAuthor;
+        private string fromChangeTemplate;
         private string findText;
         private string replaceText;
         public static char PrevChar = '<';
@@ -128,6 +130,11 @@ namespace Office_File_Explorer
         public string ReplaceTextProperty
         {
             set => replaceText = value;
+        }
+
+        public string DefaultTemplate
+        {
+            set => fromChangeTemplate = value;
         }
 
         #endregion Class Properties
@@ -204,6 +211,7 @@ namespace Office_File_Explorer
             BtnListExcelHyperlinks.Enabled = false;
             BtnListMIPLabels.Enabled = false;
             BtnFixExcelHyperlinks.Enabled = false;
+            BtnChangeDefaultTemplate.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -294,6 +302,7 @@ namespace Office_File_Explorer
                 BtnListCC.Enabled = true;
                 BtnFixDocument.Enabled = true;
                 BtnDeleteUnusedStyles.Enabled = true;
+                BtnChangeDefaultTemplate.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Docm)
                 {
@@ -5787,7 +5796,7 @@ namespace Office_File_Explorer
                 using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
                 {
                     // adding a goto since changing the relationship during enumeration causes an error
-                    // here, after making the change, I restart the loops again to look for more corrupt links
+                    // after making the change, I restart the loops again to look for more corrupt links
                 HLinkStart:
                     foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
                     {
@@ -5869,6 +5878,98 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LogInformation(LogType.LogException, "BtnFixExcelHyperlinks", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnChangeDefaultTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LstDisplay.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+                bool isFileChanged = false;
+                string attachedTemplateId = "";
+                string filePath = "";
+
+                using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
+                {
+                    DocumentSettingsPart dsp = document.MainDocumentPart.DocumentSettingsPart;
+
+                    // if the external rel exists, we need to pull the rid and old uri
+                    // we will be deleting this part and re-adding with the new uri
+                    if (dsp.ExternalRelationships.Count() > 0)
+                    {
+                        // just change the attached template
+                        foreach (ExternalRelationship er in dsp.ExternalRelationships)
+                        {
+                            if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
+                            {
+                                // keep track of the existing rId for the template
+                                attachedTemplateId = er.Id;
+                                filePath = er.Uri.ToString();
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // if the part does not exist, this is a Normal.dotm situation
+                        // path out to where it should be based on default install settings
+                        string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                        filePath = userProfile + "\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm";
+
+                        if (!File.Exists(filePath))
+                        {
+                            // Normal.dotm path is not correct?
+                            LogInformation(LogType.InvalidFile, "BtnChangeDefaultTemplate", "Invalid Attached Template Path");
+                            throw new Exception();
+                        }
+                    }
+
+                    // get the new template path from the user
+                    FrmChangeTemplate ctFrm = new FrmChangeTemplate(FileUtilities.ConvertUriToFilePath(filePath))
+                    {
+                        Owner = this
+                    };
+                    ctFrm.ShowDialog();
+
+                    if (fromChangeTemplate == filePath || fromChangeTemplate == null)
+                    {
+                        // file path is the same or user closed without wanting changes, do nothing
+                        return;
+                    }
+                    else
+                    {
+                        filePath = fromChangeTemplate;
+                        isFileChanged = true;
+
+                        Uri newFilePath = new Uri(filePath);
+
+                        // delete the old part
+                        dsp.DeleteExternalRelationship(attachedTemplateId);
+
+                        // add the new part back in
+                        dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                    }
+
+                    if (isFileChanged)
+                    {
+                        LstDisplay.Items.Add("** Attached Template Path Changed **");
+                        document.MainDocumentPart.Document.Save();
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Changed Made To Attached Template **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, "BtnChangeDefaultTemplate", ex.Message);
             }
             finally
             {

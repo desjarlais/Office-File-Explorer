@@ -23,7 +23,8 @@
     <UpdatePeriodically>true</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>55</ApplicationRevision>
+    <PublisherName>BrandeSoft</PublisherName>
+    <ApplicationRevision>58</ApplicationRevision>
     <ApplicationVersion>1.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -74,6 +75,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Office_File_Explorer.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -121,6 +125,12 @@
     </Compile>
     <Compile Include="WinForms\FrmBatchDeleteCustomProps.Designer.cs">
       <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinForms\FrmChangeTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForms\FrmChangeTemplate.Designer.cs">
+      <DependentUpon>FrmChangeTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="WinForms\FrmClipboardViewer.cs">
       <SubType>Form</SubType>
@@ -244,6 +254,9 @@
     <EmbeddedResource Include="WinForms\FrmBatchDeleteCustomProps.resx">
       <DependentUpon>FrmBatchDeleteCustomProps.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\FrmChangeTemplate.resx">
+      <DependentUpon>FrmChangeTemplate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\FrmClipboardViewer.resx">
       <DependentUpon>FrmClipboardViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -358,9 +371,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

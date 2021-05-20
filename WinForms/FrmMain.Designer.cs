@@ -120,6 +120,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnChangeDefaultTemplate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -131,6 +132,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.BtnChangeDefaultTemplate);
             this.groupBox1.Controls.Add(this.BtnDeleteUnusedStyles);
             this.groupBox1.Controls.Add(this.BtnFixDocument);
             this.groupBox1.Controls.Add(this.BtnListCC);
@@ -193,7 +195,7 @@
             // 
             this.BtnListCC.Location = new System.Drawing.Point(6, 20);
             this.BtnListCC.Name = "BtnListCC";
-            this.BtnListCC.Size = new System.Drawing.Size(133, 21);
+            this.BtnListCC.Size = new System.Drawing.Size(120, 21);
             this.BtnListCC.TabIndex = 9;
             this.BtnListCC.Text = "List Content Controls";
             this.BtnListCC.UseVisualStyleBackColor = true;
@@ -203,7 +205,7 @@
             // 
             this.BtnListBookmarks.Location = new System.Drawing.Point(5, 268);
             this.BtnListBookmarks.Name = "BtnListBookmarks";
-            this.BtnListBookmarks.Size = new System.Drawing.Size(133, 21);
+            this.BtnListBookmarks.Size = new System.Drawing.Size(121, 21);
             this.BtnListBookmarks.TabIndex = 9;
             this.BtnListBookmarks.Text = "List Bookmarks";
             this.BtnListBookmarks.UseVisualStyleBackColor = true;
@@ -211,9 +213,9 @@
             // 
             // BtnListFieldCodes
             // 
-            this.BtnListFieldCodes.Location = new System.Drawing.Point(144, 129);
+            this.BtnListFieldCodes.Location = new System.Drawing.Point(131, 129);
             this.BtnListFieldCodes.Name = "BtnListFieldCodes";
-            this.BtnListFieldCodes.Size = new System.Drawing.Size(133, 21);
+            this.BtnListFieldCodes.Size = new System.Drawing.Size(146, 21);
             this.BtnListFieldCodes.TabIndex = 22;
             this.BtnListFieldCodes.Text = "List Field Codes";
             this.BtnListFieldCodes.UseVisualStyleBackColor = true;
@@ -224,7 +226,7 @@
             this.BtnViewParagraphs.Location = new System.Drawing.Point(5, 241);
             this.BtnViewParagraphs.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnViewParagraphs.Name = "BtnViewParagraphs";
-            this.BtnViewParagraphs.Size = new System.Drawing.Size(133, 21);
+            this.BtnViewParagraphs.Size = new System.Drawing.Size(121, 21);
             this.BtnViewParagraphs.TabIndex = 8;
             this.BtnViewParagraphs.Text = "View Paragraphs";
             this.BtnViewParagraphs.UseVisualStyleBackColor = true;
@@ -232,10 +234,10 @@
             // 
             // BtnSetPrintOrientation
             // 
-            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(142, 241);
+            this.BtnSetPrintOrientation.Location = new System.Drawing.Point(132, 241);
             this.BtnSetPrintOrientation.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSetPrintOrientation.Name = "BtnSetPrintOrientation";
-            this.BtnSetPrintOrientation.Size = new System.Drawing.Size(133, 21);
+            this.BtnSetPrintOrientation.Size = new System.Drawing.Size(143, 21);
             this.BtnSetPrintOrientation.TabIndex = 21;
             this.BtnSetPrintOrientation.Text = "Set Print Orientation";
             this.BtnSetPrintOrientation.UseVisualStyleBackColor = true;
@@ -255,10 +257,10 @@
             // BtnRemovePII
             // 
             this.BtnRemovePII.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRemovePII.Location = new System.Drawing.Point(143, 184);
+            this.BtnRemovePII.Location = new System.Drawing.Point(132, 184);
             this.BtnRemovePII.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnRemovePII.Name = "BtnRemovePII";
-            this.BtnRemovePII.Size = new System.Drawing.Size(133, 21);
+            this.BtnRemovePII.Size = new System.Drawing.Size(144, 21);
             this.BtnRemovePII.TabIndex = 15;
             this.BtnRemovePII.Text = "Remove PII";
             this.BtnRemovePII.UseVisualStyleBackColor = true;
@@ -266,10 +268,10 @@
             // 
             // BtnConvertDocmToDocx
             // 
-            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(142, 214);
+            this.BtnConvertDocmToDocx.Location = new System.Drawing.Point(132, 214);
             this.BtnConvertDocmToDocx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertDocmToDocx.Name = "BtnConvertDocmToDocx";
-            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(133, 21);
+            this.BtnConvertDocmToDocx.Size = new System.Drawing.Size(143, 21);
             this.BtnConvertDocmToDocx.TabIndex = 17;
             this.BtnConvertDocmToDocx.Text = "Convert Docm->Docx";
             this.BtnConvertDocmToDocx.UseVisualStyleBackColor = true;
@@ -280,7 +282,7 @@
             this.BtnViewCustomDocProps.Location = new System.Drawing.Point(6, 214);
             this.BtnViewCustomDocProps.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnViewCustomDocProps.Name = "BtnViewCustomDocProps";
-            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(133, 21);
+            this.BtnViewCustomDocProps.Size = new System.Drawing.Size(120, 21);
             this.BtnViewCustomDocProps.TabIndex = 5;
             this.BtnViewCustomDocProps.Text = "List Doc Properties";
             this.BtnViewCustomDocProps.UseVisualStyleBackColor = true;
@@ -288,10 +290,10 @@
             // 
             // BtnSearchAndReplace
             // 
-            this.BtnSearchAndReplace.Location = new System.Drawing.Point(144, 156);
+            this.BtnSearchAndReplace.Location = new System.Drawing.Point(131, 156);
             this.BtnSearchAndReplace.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnSearchAndReplace.Name = "BtnSearchAndReplace";
-            this.BtnSearchAndReplace.Size = new System.Drawing.Size(133, 21);
+            this.BtnSearchAndReplace.Size = new System.Drawing.Size(146, 21);
             this.BtnSearchAndReplace.TabIndex = 6;
             this.BtnSearchAndReplace.Text = "Search and Replace";
             this.BtnSearchAndReplace.UseVisualStyleBackColor = true;
@@ -299,10 +301,10 @@
             // 
             // BtnListAuthors
             // 
-            this.BtnListAuthors.Location = new System.Drawing.Point(144, 20);
+            this.BtnListAuthors.Location = new System.Drawing.Point(131, 20);
             this.BtnListAuthors.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListAuthors.Name = "BtnListAuthors";
-            this.BtnListAuthors.Size = new System.Drawing.Size(133, 21);
+            this.BtnListAuthors.Size = new System.Drawing.Size(146, 21);
             this.BtnListAuthors.TabIndex = 20;
             this.BtnListAuthors.Text = "List Authors";
             this.BtnListAuthors.UseVisualStyleBackColor = true;
@@ -310,10 +312,10 @@
             // 
             // BtnListRevisions
             // 
-            this.BtnListRevisions.Location = new System.Drawing.Point(144, 46);
+            this.BtnListRevisions.Location = new System.Drawing.Point(131, 46);
             this.BtnListRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListRevisions.Name = "BtnListRevisions";
-            this.BtnListRevisions.Size = new System.Drawing.Size(133, 21);
+            this.BtnListRevisions.Size = new System.Drawing.Size(146, 21);
             this.BtnListRevisions.TabIndex = 5;
             this.BtnListRevisions.Text = "List Revisions";
             this.BtnListRevisions.UseVisualStyleBackColor = true;
@@ -346,7 +348,7 @@
             this.BtnListEndnotes.Location = new System.Drawing.Point(6, 185);
             this.BtnListEndnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListEndnotes.Name = "BtnListEndnotes";
-            this.BtnListEndnotes.Size = new System.Drawing.Size(133, 21);
+            this.BtnListEndnotes.Size = new System.Drawing.Size(120, 21);
             this.BtnListEndnotes.TabIndex = 5;
             this.BtnListEndnotes.Text = "List Endnotes";
             this.BtnListEndnotes.UseVisualStyleBackColor = true;
@@ -357,7 +359,7 @@
             this.BtnListFootnotes.Location = new System.Drawing.Point(6, 157);
             this.BtnListFootnotes.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListFootnotes.Name = "BtnListFootnotes";
-            this.BtnListFootnotes.Size = new System.Drawing.Size(133, 21);
+            this.BtnListFootnotes.Size = new System.Drawing.Size(120, 21);
             this.BtnListFootnotes.TabIndex = 18;
             this.BtnListFootnotes.Text = "List Footnotes";
             this.BtnListFootnotes.UseVisualStyleBackColor = true;
@@ -368,7 +370,7 @@
             this.BtnListFonts.Location = new System.Drawing.Point(6, 129);
             this.BtnListFonts.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListFonts.Name = "BtnListFonts";
-            this.BtnListFonts.Size = new System.Drawing.Size(133, 21);
+            this.BtnListFonts.Size = new System.Drawing.Size(120, 21);
             this.BtnListFonts.TabIndex = 17;
             this.BtnListFonts.Text = "List Fonts";
             this.BtnListFonts.UseVisualStyleBackColor = true;
@@ -431,10 +433,10 @@
             // 
             // BtnAcceptRevisions
             // 
-            this.BtnAcceptRevisions.Location = new System.Drawing.Point(144, 73);
+            this.BtnAcceptRevisions.Location = new System.Drawing.Point(131, 73);
             this.BtnAcceptRevisions.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnAcceptRevisions.Name = "BtnAcceptRevisions";
-            this.BtnAcceptRevisions.Size = new System.Drawing.Size(133, 21);
+            this.BtnAcceptRevisions.Size = new System.Drawing.Size(146, 21);
             this.BtnAcceptRevisions.TabIndex = 9;
             this.BtnAcceptRevisions.Text = "Accept Revisions";
             this.BtnAcceptRevisions.UseVisualStyleBackColor = true;
@@ -445,7 +447,7 @@
             this.BtnListTemplates.Location = new System.Drawing.Point(6, 101);
             this.BtnListTemplates.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListTemplates.Name = "BtnListTemplates";
-            this.BtnListTemplates.Size = new System.Drawing.Size(133, 21);
+            this.BtnListTemplates.Size = new System.Drawing.Size(120, 21);
             this.BtnListTemplates.TabIndex = 7;
             this.BtnListTemplates.Text = "View ListTemplates";
             this.BtnListTemplates.UseVisualStyleBackColor = true;
@@ -456,7 +458,7 @@
             this.BtnListHyperlinks.Location = new System.Drawing.Point(6, 73);
             this.BtnListHyperlinks.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListHyperlinks.Name = "BtnListHyperlinks";
-            this.BtnListHyperlinks.Size = new System.Drawing.Size(133, 21);
+            this.BtnListHyperlinks.Size = new System.Drawing.Size(120, 21);
             this.BtnListHyperlinks.TabIndex = 6;
             this.BtnListHyperlinks.Text = "List Hyperlinks";
             this.BtnListHyperlinks.UseVisualStyleBackColor = true;
@@ -467,7 +469,7 @@
             this.BtnListStyles.Location = new System.Drawing.Point(6, 46);
             this.BtnListStyles.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListStyles.Name = "BtnListStyles";
-            this.BtnListStyles.Size = new System.Drawing.Size(133, 21);
+            this.BtnListStyles.Size = new System.Drawing.Size(120, 21);
             this.BtnListStyles.TabIndex = 5;
             this.BtnListStyles.Text = "List Styles";
             this.BtnListStyles.UseVisualStyleBackColor = true;
@@ -475,10 +477,10 @@
             // 
             // BtnListComments
             // 
-            this.BtnListComments.Location = new System.Drawing.Point(144, 100);
+            this.BtnListComments.Location = new System.Drawing.Point(131, 100);
             this.BtnListComments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListComments.Name = "BtnListComments";
-            this.BtnListComments.Size = new System.Drawing.Size(133, 21);
+            this.BtnListComments.Size = new System.Drawing.Size(146, 21);
             this.BtnListComments.TabIndex = 4;
             this.BtnListComments.Text = "List Comments";
             this.BtnListComments.UseVisualStyleBackColor = true;
@@ -1073,7 +1075,7 @@
             // 
             this.aboutToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Dialog_16x;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -1081,7 +1083,7 @@
             // 
             this.feedbackToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FeedbackBubble_16x;
             this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
-            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
             this.feedbackToolStripMenuItem.Text = "&Feedback / Suggestions";
             this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.FeedbackToolStripMenuItem_Click);
             // 
@@ -1089,7 +1091,7 @@
             // 
             this.errorLogToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ErrorSummary_16x;
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.ErrorLogToolStripMenuItem_Click);
             // 
@@ -1136,6 +1138,16 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
+            // 
+            // BtnChangeDefaultTemplate
+            // 
+            this.BtnChangeDefaultTemplate.Location = new System.Drawing.Point(132, 267);
+            this.BtnChangeDefaultTemplate.Name = "BtnChangeDefaultTemplate";
+            this.BtnChangeDefaultTemplate.Size = new System.Drawing.Size(142, 23);
+            this.BtnChangeDefaultTemplate.TabIndex = 11;
+            this.BtnChangeDefaultTemplate.Text = "Change Default Template";
+            this.BtnChangeDefaultTemplate.UseVisualStyleBackColor = true;
+            this.BtnChangeDefaultTemplate.Click += new System.EventHandler(this.BtnChangeDefaultTemplate_Click);
             // 
             // FrmMain
             // 
@@ -1267,6 +1279,7 @@
         private System.Windows.Forms.Button BtnDeleteEmbeddedLinks;
         private System.Windows.Forms.Button BtnListMIPLabels;
         private System.Windows.Forms.Button BtnFixExcelHyperlinks;
+        private System.Windows.Forms.Button BtnChangeDefaultTemplate;
     }
 }
 

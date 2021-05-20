@@ -68,5 +68,18 @@ namespace Office_File_Explorer.App_Helpers
             int rNum = r.Next(1, 1000);
             return rNum;
         }
+
+        public static string ConvertUriToFilePath(string path)
+        {
+            var filePath = new Uri(path).LocalPath;
+            return filePath;
+        }
+
+        public static string ConvertFilePathToUri(string path)
+        {
+            var uri = new Uri(path);
+            var convertedUri = uri.AbsoluteUri;
+            return convertedUri;
+        }
     }
 }
