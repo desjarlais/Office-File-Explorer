@@ -54,6 +54,8 @@
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
+            this.BtnFixExcelHyperlinks = new System.Windows.Forms.Button();
+            this.BtnChangeAttachedTemplate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -92,7 +94,7 @@
             this.lstOutput.FormattingEnabled = true;
             this.lstOutput.Location = new System.Drawing.Point(7, 19);
             this.lstOutput.Name = "lstOutput";
-            this.lstOutput.Size = new System.Drawing.Size(829, 342);
+            this.lstOutput.Size = new System.Drawing.Size(829, 316);
             this.lstOutput.TabIndex = 3;
             // 
             // BtnChangeCustomProps
@@ -166,6 +168,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnChangeAttachedTemplate);
+            this.groupBox3.Controls.Add(this.BtnFixExcelHyperlinks);
             this.groupBox3.Controls.Add(this.BtnDeleteOpenByDefault);
             this.groupBox3.Controls.Add(this.BtnDeleteRequestStatus);
             this.groupBox3.Controls.Add(this.BtnFixTableProps);
@@ -178,16 +182,16 @@
             this.groupBox3.Controls.Add(this.BtnFixNotesPageSize);
             this.groupBox3.Controls.Add(this.BtnChangeTheme);
             this.groupBox3.Controls.Add(this.BtnChangeCustomProps);
-            this.groupBox3.Location = new System.Drawing.Point(15, 469);
+            this.groupBox3.Location = new System.Drawing.Point(15, 440);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(842, 79);
+            this.groupBox3.Size = new System.Drawing.Size(842, 108);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
             // 
             // BtnDeleteOpenByDefault
             // 
-            this.BtnDeleteOpenByDefault.Location = new System.Drawing.Point(665, 51);
+            this.BtnDeleteOpenByDefault.Location = new System.Drawing.Point(291, 79);
             this.BtnDeleteOpenByDefault.Name = "BtnDeleteOpenByDefault";
             this.BtnDeleteOpenByDefault.Size = new System.Drawing.Size(161, 23);
             this.BtnDeleteOpenByDefault.TabIndex = 14;
@@ -303,7 +307,7 @@
             this.groupBox4.Controls.Add(this.lstOutput);
             this.groupBox4.Location = new System.Drawing.Point(15, 66);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(842, 397);
+            this.groupBox4.Size = new System.Drawing.Size(842, 368);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
@@ -311,13 +315,33 @@
             // ckSearchSubfolders
             // 
             this.ckSearchSubfolders.AutoSize = true;
-            this.ckSearchSubfolders.Location = new System.Drawing.Point(7, 367);
+            this.ckSearchSubfolders.Location = new System.Drawing.Point(6, 341);
             this.ckSearchSubfolders.Name = "ckSearchSubfolders";
             this.ckSearchSubfolders.Size = new System.Drawing.Size(113, 17);
             this.ckSearchSubfolders.TabIndex = 4;
             this.ckSearchSubfolders.Text = "Search Subfolders";
             this.ckSearchSubfolders.UseVisualStyleBackColor = true;
             this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
+            // 
+            // BtnFixExcelHyperlinks
+            // 
+            this.BtnFixExcelHyperlinks.Location = new System.Drawing.Point(7, 79);
+            this.BtnFixExcelHyperlinks.Name = "BtnFixExcelHyperlinks";
+            this.BtnFixExcelHyperlinks.Size = new System.Drawing.Size(120, 23);
+            this.BtnFixExcelHyperlinks.TabIndex = 15;
+            this.BtnFixExcelHyperlinks.Text = "Fix Corrupt Hyperlinks";
+            this.BtnFixExcelHyperlinks.UseVisualStyleBackColor = true;
+            this.BtnFixExcelHyperlinks.Click += new System.EventHandler(this.BtnFixExcelHyperlinks_Click);
+            // 
+            // BtnChangeAttachedTemplate
+            // 
+            this.BtnChangeAttachedTemplate.Location = new System.Drawing.Point(133, 79);
+            this.BtnChangeAttachedTemplate.Name = "BtnChangeAttachedTemplate";
+            this.BtnChangeAttachedTemplate.Size = new System.Drawing.Size(152, 23);
+            this.BtnChangeAttachedTemplate.TabIndex = 16;
+            this.BtnChangeAttachedTemplate.Text = "Change Attached Template";
+            this.BtnChangeAttachedTemplate.UseVisualStyleBackColor = true;
+            this.BtnChangeAttachedTemplate.Click += new System.EventHandler(this.BtnChangeAttachedTemplate_Click);
             // 
             // FrmBatch
             // 
@@ -372,5 +396,7 @@
         private System.Windows.Forms.Button BtnDeleteRequestStatus;
         private System.Windows.Forms.CheckBox ckSearchSubfolders;
         private System.Windows.Forms.Button BtnDeleteOpenByDefault;
+        private System.Windows.Forms.Button BtnChangeAttachedTemplate;
+        private System.Windows.Forms.Button BtnFixExcelHyperlinks;
     }
 }

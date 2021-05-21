@@ -2,10 +2,12 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 // app refs
 using Office_File_Explorer.App_Helpers;
+using Office_File_Explorer.WinForms;
 using Office_File_Explorer.Word_Helpers;
 
 //.NET refs
@@ -31,6 +33,7 @@ namespace Office_File_Explorer.Forms
         public string fType = string.Empty;
         public bool nodeDeleted = false;
         public bool nodeChanged = false;
+        public string fromChangeTemplate;
 
         public FrmBatch()
         {
@@ -59,6 +62,11 @@ namespace Office_File_Explorer.Forms
             return fileType;
         }
 
+        public string DefaultTemplate
+        {
+            set => fromChangeTemplate = value;
+        }
+
         public void DisableUI()
         {
             // disable all buttons
@@ -74,6 +82,8 @@ namespace Office_File_Explorer.Forms
             BtnFixTableProps.Enabled = false;
             BtnDeleteRequestStatus.Enabled = false;
             BtnDeleteOpenByDefault.Enabled = false;
+            BtnChangeAttachedTemplate.Enabled = false;
+            BtnFixExcelHyperlinks.Enabled = false;
 
             // disable all radio buttons
             rdoExcel.Enabled = false;
@@ -111,6 +121,7 @@ namespace Office_File_Explorer.Forms
                 BtnFixTableProps.Enabled = true;
                 BtnRemovePII.Enabled = true;
                 BtnDeleteOpenByDefault.Enabled = true;
+                BtnChangeAttachedTemplate.Enabled = true;
 
                 BtnFixNotesPageSize.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
@@ -128,11 +139,14 @@ namespace Office_File_Explorer.Forms
                 BtnFixTableProps.Enabled = false;
                 BtnConvertStrict.Enabled = false;
                 BtnDeleteOpenByDefault.Enabled = false;
+                BtnChangeAttachedTemplate.Enabled = false;
+                BtnFixExcelHyperlinks.Enabled = false;
             }
 
             if (rdoExcel.Checked == true)
             {
                 BtnConvertStrict.Enabled = true;
+                BtnFixExcelHyperlinks.Enabled = true;
 
                 BtnFixNotesPageSize.Enabled = false;
                 BtnFixCorruptBookmarks.Enabled = false;
@@ -141,6 +155,7 @@ namespace Office_File_Explorer.Forms
                 BtnRemovePII.Enabled = false;
                 BtnPPTResetPII.Enabled = false;
                 BtnDeleteOpenByDefault.Enabled = false;
+                BtnChangeAttachedTemplate.Enabled = false;
             }
         }
 
@@ -449,7 +464,7 @@ namespace Office_File_Explorer.Forms
                                     // if we have a Run, we need to look for Text tags
                                     if (oxedr.GetType().ToString() == StringResources.dfowRun)
                                     {
-                                        Run r = (Run)oxedr;
+                                        O.Wordprocessing.Run r = (O.Wordprocessing.Run)oxedr;
                                         foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                         {
                                             // you can't have a Text tag inside a DeletedRun
@@ -818,9 +833,9 @@ namespace Office_File_Explorer.Forms
                         // get the list of tables in the document
                         if (WordOpenXml.IsPartNull(document, "Table") == false)
                         {
-                            List<Table> tbls = document.MainDocumentPart.Document.Descendants<Table>().ToList();
+                            List<O.Wordprocessing.Table> tbls = document.MainDocumentPart.Document.Descendants<O.Wordprocessing.Table>().ToList();
 
-                            foreach (Table tbl in tbls)
+                            foreach (O.Wordprocessing.Table tbl in tbls)
                             {
                                 // you can have only one tblGrid per table, including nested tables
                                 // it needs to be before any row elements so sequence is
@@ -1176,6 +1191,208 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnDeleteOpenByDefault Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixExcelHyperlinks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lstOutput.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                foreach (string f in files)
+                {
+                    bool isFileChanged = false;
+
+                    using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(f, true))
+                    {
+                    // adding a goto since changing the relationship during enumeration causes an error
+                    // after making the change, I restart the loops again to look for more corrupt links
+                    HLinkStart:
+                        foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
+                        {
+                            IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
+                            // loop each hyperlink to get the rid
+                            foreach (O.Spreadsheet.Hyperlink h in hLinks)
+                            {
+                                // then check for hyperlinks relationships for the rid
+                                if (wsp.HyperlinkRelationships.Count() > 0)
+                                {
+                                    foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
+                                    {
+                                        // if the rid's match, we have the same hyperlink
+                                        if (h.Id == hRel.Id)
+                                        {
+                                            // there is a scenario where files from OpenText appear to be damaged and the url is some temp file path
+                                            // not the url path it should be
+                                            string badUrl = string.Empty;
+                                            string[] separatingStrings = { "livelink" };
+
+                                            // check if the uri contains any of the known bad paths
+                                            if (hRel.Uri.ToString().StartsWith("../../../"))
+                                            {
+                                                badUrl = hRel.Uri.ToString().Replace("../../../", StringResources.wBackslash);
+                                            }
+                                            else if (hRel.Uri.ToString().Contains("/AppData/Local/Microsoft/Windows/livelink/llsapi.dll/open/"))
+                                            {
+                                                string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                                badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                            }
+                                            else if (hRel.Uri.ToString().Contains("/AppData/Roaming/OpenText/"))
+                                            {
+                                                string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                                badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                            }
+
+                                            // if a bad path was found, start the work to replace it with the correct path
+                                            if (badUrl != string.Empty)
+                                            {
+                                                // loop the sharedstrings to get the correct replace value
+                                                if (excelDoc.WorkbookPart.SharedStringTablePart != null)
+                                                {
+                                                    SharedStringTable sst = excelDoc.WorkbookPart.SharedStringTablePart.SharedStringTable;
+                                                    foreach (SharedStringItem ssi in sst)
+                                                    {
+                                                        if (ssi.Text != null)
+                                                        {
+                                                            if (ssi.InnerText.ToString().EndsWith(badUrl))
+                                                            {
+                                                                // now delete the relationship
+                                                                wsp.DeleteReferenceRelationship(h.Id);
+
+                                                                // now add a new relationship with the right address
+                                                                wsp.AddHyperlinkRelationship(new Uri(ssi.InnerText, UriKind.Absolute), true, h.Id);
+                                                                isFileChanged = true;
+                                                                goto HLinkStart;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (isFileChanged == true)
+                        {
+                            excelDoc.WorkbookPart.Workbook.Save();
+                            lstOutput.Items.Add(f + "** Hyperlinks Fixed **");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + "** No Corrupt Hyperlinks Found **");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnFixExcelHyperlinks Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnChangeAttachedTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lstOutput.Items.Clear();
+                Cursor = Cursors.WaitCursor;
+
+                // get the new template path from the user
+                FrmChangeTemplate ctFrm = new FrmChangeTemplate()
+                {
+                    Owner = this
+                };
+                ctFrm.ShowDialog();
+
+                foreach (string f in files)
+                {
+                    bool isFileChanged = false;
+                    string attachedTemplateId = "";
+                    string filePath = "";
+
+                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    {
+                        DocumentSettingsPart dsp = document.MainDocumentPart.DocumentSettingsPart;
+
+                        // if the external rel exists, we need to pull the rid and old uri
+                        // we will be deleting this part and re-adding with the new uri
+                        if (dsp.ExternalRelationships.Count() > 0)
+                        {
+                            // just change the attached template
+                            foreach (ExternalRelationship er in dsp.ExternalRelationships)
+                            {
+                                if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
+                                {
+                                    // keep track of the existing rId for the template
+                                    attachedTemplateId = er.Id;
+                                    filePath = er.Uri.ToString();
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // if the part does not exist, this is a Normal.dotm situation
+                            // path out to where it should be based on default install settings
+                            string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            filePath = userProfile + "\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm";
+
+                            if (!File.Exists(filePath))
+                            {
+                                // Normal.dotm path is not correct?
+                                LoggingHelper.Log("BtnChangeDefaultTemplate Error: " + "Invalid Attached Template Path");
+                                throw new Exception();
+                            }
+                        }
+
+                        if (fromChangeTemplate == filePath || fromChangeTemplate == null)
+                        {
+                            // file path is the same or user closed without wanting changes, do nothing
+                            return;
+                        }
+                        else
+                        {
+                            filePath = fromChangeTemplate;
+                            isFileChanged = true;
+
+                            Uri newFilePath = new Uri(filePath);
+
+                            // delete the old part
+                            dsp.DeleteExternalRelationship(attachedTemplateId);
+
+                            // add the new part back in
+                            dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                        }
+
+                        if (isFileChanged)
+                        {
+                            lstOutput.Items.Add(f + "** Attached Template Changed **");
+                            document.MainDocumentPart.Document.Save();
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + "** No Changed Made To Attached Template **");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnChangeAttachedTemplate Error: " + ex.Message);
                 lstOutput.Items.Add("Error - " + ex.Message);
             }
             finally

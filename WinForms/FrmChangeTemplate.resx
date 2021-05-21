@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAA
+        AAD///8A////APHv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv
+        8P////8A////AP///wDx7/D/QkJC/0JCQv9CQkL/QkJC/0JCQv9CQkL/TExM/83Gwv+xejv/4dLD//Hv
+        8P/x7/D/////AP///wD///8A8e/w/0JCQv/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/vI1Z/6Fc
+        Dv/h0sP/8e/w/////wD///8A////APHv8P9CQkL/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv
+        8P/Bl2j/oVwO/+HSw//x7/Cg////AP///wDx7/D/QkJC//Hv8P/x7/D/8e/w//Hv8P+cUwD/nFMA/5xT
+        AP+cUwD/nFMA/5xTAP+hXA7/8e/w/////wD///8A8e/w/0JCQv/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv
+        8P/x7/D/8e/w/7yNWf+cUwD/0bSW//Hv8KD///8A////APHv8P9CQkL/8e/w//Hv8P/x7/D/8e/w//Hv
+        8P/x7/D/8e/w/7yNWf+cUwD/yq2P//Hv8P////8A////AP///wDx7/D/QkJC//Hv8P/x7/D/8e/w//Hv
+        8P/x7/D/8e/w/+bb0v+hXA7/0bSW/2JiYv/x7/D/////AP///wD///8A8e/w/0JCQv/x7/D/8e/w//Hv
+        8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P9CQkL/8e/w/////wD///8A////APHv8P9CQkL/8e/w//Hv
+        8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/QkJC//Hv8P////8A////AP///wDx7/D/QkJC//Hv
+        8P/x7/D/8e/w//Hv8P/x7/D/QkJC/0JCQv9CQkL/QkJC/0JCQv/x7/D/////AP///wD///8A8e/w/0JC
+        Qv/x7/D/8e/w//Hv8P/x7/D/8e/w/0JCQv/x7/D/8e/w/7Cvr/9iYmL/8e/w/////wD///8A////APHv
+        8P9CQkL/8e/w//Hv8P/x7/D/8e/w//Hv8P9CQkL/8e/w/7Cvr/9iYmL/5uTl//Hv8GD///8A////AP//
+        /wDx7/D/QkJC//Hv8P/x7/D/8e/w//Hv8P/x7/D/QkJC/7Cvr/9iYmL/5uTl//Hv8GD///8A////AP//
+        /wD///8A8e/w/0JCQv9CQkL/QkJC/0JCQv9CQkL/QkJC/0JCQv9iYmL/5uTl//Hv8GD///8A////AP//
+        /wD///8A////APHv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8P/x7/D/8e/w//Hv8GD///8A////AP//
+        /wD///8AwAEAAMABAADAAQAAwAAAAMAAAADAAAAAwAEAAMABAADAAQAAwAEAAMABAADAAQAAwAEAAMAD
+        AADABwAAwA8AAA==
+</value>
+  </data>
 </root>
