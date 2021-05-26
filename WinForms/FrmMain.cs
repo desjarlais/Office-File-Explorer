@@ -5943,16 +5943,20 @@ namespace Office_File_Explorer
                     else
                     {
                         filePath = fromChangeTemplate;
-                        isFileChanged = true;
 
-                        // delete the old part
-                        dsp.DeleteExternalRelationship(attachedTemplateId);
+                        // delete the old part if it exists
+                        if (dsp.ExternalRelationships.Count() > 0)
+                        {
+                            dsp.DeleteExternalRelationship(attachedTemplateId);
+                            isFileChanged = true;
+                        }
 
+                        // if we aren't Normal, add a new part back in with the new path
                         if (fromChangeTemplate != "Normal")
                         {
-                            // add back the new path
                             Uri newFilePath = new Uri(filePath);
                             dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                            isFileChanged = true;
                         }
                         else
                         {
@@ -5962,6 +5966,7 @@ namespace Office_File_Explorer
                                 if (oe.ToString() == "DocumentFormat.OpenXml.Wordprocessing.AttachedTemplate")
                                 {
                                     oe.Remove();
+                                    isFileChanged = true;
                                 }
                             }
                         }

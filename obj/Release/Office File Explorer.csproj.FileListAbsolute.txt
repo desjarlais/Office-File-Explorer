@@ -73,7 +73,6 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.application
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.CopyComplete
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.exe
 E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.pdb
-E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csprojAssemblyReference.cache
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFixDocument.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmClipboardViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmFontDetails.resources
@@ -85,3 +84,4 @@ E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmMoveSli
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmCustomXmlViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.Forms.FrmViewImages.resources
 E:\GitHub\Office-File-Explorer\obj\Release\Office_File_Explorer.WinForms.FrmChangeTemplate.resources
+E:\GitHub\Office-File-Explorer\obj\Release\Office File Explorer.csproj.AssemblyReference.cache
