@@ -120,7 +120,6 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatch.res
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatch.resources
 C:\Users\Brandon\Source\Repos\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.CoreCompileInputs.cache
-E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csprojAssemblyReference.cache
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFixDocument.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmClipboardViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmFontDetails.resources
@@ -132,3 +131,4 @@ E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmBatchDele
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmCustomXmlViewer.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.Forms.FrmViewImages.resources
 E:\GitHub\Office-File-Explorer\obj\Debug\Office_File_Explorer.WinForms.FrmChangeTemplate.resources
+E:\GitHub\Office-File-Explorer\obj\Debug\Office File Explorer.csproj.AssemblyReference.cache

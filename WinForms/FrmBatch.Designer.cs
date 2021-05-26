@@ -41,6 +41,8 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnChangeAttachedTemplate = new System.Windows.Forms.Button();
+            this.BtnFixExcelHyperlinks = new System.Windows.Forms.Button();
             this.BtnDeleteOpenByDefault = new System.Windows.Forms.Button();
             this.BtnDeleteRequestStatus = new System.Windows.Forms.Button();
             this.BtnFixTableProps = new System.Windows.Forms.Button();
@@ -54,8 +56,7 @@
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
-            this.BtnFixExcelHyperlinks = new System.Windows.Forms.Button();
-            this.BtnChangeAttachedTemplate = new System.Windows.Forms.Button();
+            this.BtnCopyOutput = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -75,13 +76,13 @@
             // 
             this.TxbDirectoryPath.Location = new System.Drawing.Point(89, 18);
             this.TxbDirectoryPath.Name = "TxbDirectoryPath";
-            this.TxbDirectoryPath.Size = new System.Drawing.Size(350, 20);
+            this.TxbDirectoryPath.Size = new System.Drawing.Size(422, 20);
             this.TxbDirectoryPath.TabIndex = 1;
             this.TxbDirectoryPath.TextChanged += new System.EventHandler(this.TxbDirectoryPath_TextChanged);
             // 
             // BtnBrowseDirectory
             // 
-            this.BtnBrowseDirectory.Location = new System.Drawing.Point(445, 17);
+            this.BtnBrowseDirectory.Location = new System.Drawing.Point(517, 17);
             this.BtnBrowseDirectory.Name = "BtnBrowseDirectory";
             this.BtnBrowseDirectory.Size = new System.Drawing.Size(106, 23);
             this.BtnBrowseDirectory.TabIndex = 2;
@@ -161,7 +162,7 @@
             this.groupBox2.Controls.Add(this.BtnBrowseDirectory);
             this.groupBox2.Location = new System.Drawing.Point(228, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(560, 48);
+            this.groupBox2.Size = new System.Drawing.Size(629, 48);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "File Location:";
@@ -188,6 +189,26 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnChangeAttachedTemplate
+            // 
+            this.BtnChangeAttachedTemplate.Location = new System.Drawing.Point(133, 79);
+            this.BtnChangeAttachedTemplate.Name = "BtnChangeAttachedTemplate";
+            this.BtnChangeAttachedTemplate.Size = new System.Drawing.Size(152, 23);
+            this.BtnChangeAttachedTemplate.TabIndex = 16;
+            this.BtnChangeAttachedTemplate.Text = "Change Attached Template";
+            this.BtnChangeAttachedTemplate.UseVisualStyleBackColor = true;
+            this.BtnChangeAttachedTemplate.Click += new System.EventHandler(this.BtnChangeAttachedTemplate_Click);
+            // 
+            // BtnFixExcelHyperlinks
+            // 
+            this.BtnFixExcelHyperlinks.Location = new System.Drawing.Point(7, 79);
+            this.BtnFixExcelHyperlinks.Name = "BtnFixExcelHyperlinks";
+            this.BtnFixExcelHyperlinks.Size = new System.Drawing.Size(120, 23);
+            this.BtnFixExcelHyperlinks.TabIndex = 15;
+            this.BtnFixExcelHyperlinks.Text = "Fix Corrupt Hyperlinks";
+            this.BtnFixExcelHyperlinks.UseVisualStyleBackColor = true;
+            this.BtnFixExcelHyperlinks.Click += new System.EventHandler(this.BtnFixExcelHyperlinks_Click);
             // 
             // BtnDeleteOpenByDefault
             // 
@@ -303,6 +324,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnCopyOutput);
             this.groupBox4.Controls.Add(this.ckSearchSubfolders);
             this.groupBox4.Controls.Add(this.lstOutput);
             this.groupBox4.Location = new System.Drawing.Point(15, 66);
@@ -323,25 +345,15 @@
             this.ckSearchSubfolders.UseVisualStyleBackColor = true;
             this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
             // 
-            // BtnFixExcelHyperlinks
+            // BtnCopyOutput
             // 
-            this.BtnFixExcelHyperlinks.Location = new System.Drawing.Point(7, 79);
-            this.BtnFixExcelHyperlinks.Name = "BtnFixExcelHyperlinks";
-            this.BtnFixExcelHyperlinks.Size = new System.Drawing.Size(120, 23);
-            this.BtnFixExcelHyperlinks.TabIndex = 15;
-            this.BtnFixExcelHyperlinks.Text = "Fix Corrupt Hyperlinks";
-            this.BtnFixExcelHyperlinks.UseVisualStyleBackColor = true;
-            this.BtnFixExcelHyperlinks.Click += new System.EventHandler(this.BtnFixExcelHyperlinks_Click);
-            // 
-            // BtnChangeAttachedTemplate
-            // 
-            this.BtnChangeAttachedTemplate.Location = new System.Drawing.Point(133, 79);
-            this.BtnChangeAttachedTemplate.Name = "BtnChangeAttachedTemplate";
-            this.BtnChangeAttachedTemplate.Size = new System.Drawing.Size(152, 23);
-            this.BtnChangeAttachedTemplate.TabIndex = 16;
-            this.BtnChangeAttachedTemplate.Text = "Change Attached Template";
-            this.BtnChangeAttachedTemplate.UseVisualStyleBackColor = true;
-            this.BtnChangeAttachedTemplate.Click += new System.EventHandler(this.BtnChangeAttachedTemplate_Click);
+            this.BtnCopyOutput.Location = new System.Drawing.Point(753, 337);
+            this.BtnCopyOutput.Name = "BtnCopyOutput";
+            this.BtnCopyOutput.Size = new System.Drawing.Size(83, 23);
+            this.BtnCopyOutput.TabIndex = 3;
+            this.BtnCopyOutput.Text = "Copy Output";
+            this.BtnCopyOutput.UseVisualStyleBackColor = true;
+            this.BtnCopyOutput.Click += new System.EventHandler(this.BtnCopyOutput_Click);
             // 
             // FrmBatch
             // 
@@ -398,5 +410,6 @@
         private System.Windows.Forms.Button BtnDeleteOpenByDefault;
         private System.Windows.Forms.Button BtnChangeAttachedTemplate;
         private System.Windows.Forms.Button BtnFixExcelHyperlinks;
+        private System.Windows.Forms.Button BtnCopyOutput;
     }
 }

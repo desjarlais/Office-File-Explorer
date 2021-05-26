@@ -17,9 +17,11 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
+using static Office_File_Explorer.FrmMain;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
@@ -1321,8 +1323,8 @@ namespace Office_File_Explorer.Forms
                 foreach (string f in files)
                 {
                     bool isFileChanged = false;
-                    string attachedTemplateId = "";
-                    string filePath = "";
+                    string attachedTemplateId = "rId1";
+                    string filePath = string.Empty;
 
                     using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                     {
@@ -1338,7 +1340,6 @@ namespace Office_File_Explorer.Forms
                                 if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
                                 {
                                     // keep track of the existing rId for the template
-                                    attachedTemplateId = er.Id;
                                     filePath = er.Uri.ToString();
                                     break;
                                 }
@@ -1359,7 +1360,7 @@ namespace Office_File_Explorer.Forms
                             }
                         }
 
-                        if (fromChangeTemplate == filePath || fromChangeTemplate == null)
+                        if (fromChangeTemplate == filePath || fromChangeTemplate == null || fromChangeTemplate == "Cancel")
                         {
                             // file path is the same or user closed without wanting changes, do nothing
                             return;
@@ -1369,13 +1370,27 @@ namespace Office_File_Explorer.Forms
                             filePath = fromChangeTemplate;
                             isFileChanged = true;
 
-                            Uri newFilePath = new Uri(filePath);
-
                             // delete the old part
                             dsp.DeleteExternalRelationship(attachedTemplateId);
 
-                            // add the new part back in
-                            dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                            // if the template is not "Normal", add the new rel back
+                            if (fromChangeTemplate != "Normal")
+                            {
+                                // add back the new path
+                                Uri newFilePath = new Uri(filePath);
+                                dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                            }
+                            else
+                            {
+                                // if we are changing to Normal, delete the attachtemplate id ref
+                                foreach (OpenXmlElement oe in dsp.Settings)
+                                {
+                                    if (oe.ToString() == "DocumentFormat.OpenXml.Wordprocessing.AttachedTemplate")
+                                    {
+                                        oe.Remove();
+                                    }
+                                }
+                            }
                         }
 
                         if (isFileChanged)
@@ -1398,6 +1413,30 @@ namespace Office_File_Explorer.Forms
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnCopyOutput_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstOutput.Items.Count <= 0)
+                {
+                    return;
+                }
+
+                StringBuilder buffer = new StringBuilder();
+                foreach (object t in lstOutput.Items)
+                {
+                    buffer.Append(t);
+                    buffer.Append('\n');
+                }
+
+                Clipboard.SetText(buffer.ToString());
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log(ex.Message);
             }
         }
     }

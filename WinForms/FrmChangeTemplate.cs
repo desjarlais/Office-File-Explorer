@@ -10,20 +10,41 @@ namespace Office_File_Explorer.WinForms
         public FrmChangeTemplate(string templatePath)
         {
             InitializeComponent();
-            lblCurrentPath.Text = templatePath;
+            tbOldPath.Text = templatePath;
         }
 
         public FrmChangeTemplate()
         {
             InitializeComponent();
-            lblCurrentPath.Text = string.Empty;
+            tbOldPath.Text = string.Empty;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            if (Owner is FrmBatch f && tbNewPath.Text.Length > 0)
+            if (tbNewPath.Text.Length > 0)
             {
-                f.DefaultTemplate = FileUtilities.ConvertFilePathToUri(tbNewPath.Text); ;
+                if (Owner is FrmBatch f)
+                {
+                    if (tbNewPath.Text != "Normal")
+                    {
+                        f.DefaultTemplate = FileUtilities.ConvertFilePathToUri(tbNewPath.Text);
+                    }
+                    else
+                    {
+                        f.DefaultTemplate = "Normal";
+                    }
+                }
+                else if (Owner is FrmMain fm)
+                {
+                    if (tbNewPath.Text != "Normal")
+                    {
+                        fm.DefaultTemplate = FileUtilities.ConvertFilePathToUri(tbNewPath.Text);
+                    }
+                    else
+                    {
+                        fm.DefaultTemplate = "Normal";
+                    }
+                }
             }
 
             Close();
@@ -31,6 +52,14 @@ namespace Office_File_Explorer.WinForms
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
+            if (Owner is FrmBatch f)
+            {
+                f.DefaultTemplate = "Cancel";
+            }
+            else if (Owner is FrmMain fm)
+            {
+                fm.DefaultTemplate = "Cancel";
+            }
             Close();
         }
     }

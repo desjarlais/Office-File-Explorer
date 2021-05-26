@@ -403,6 +403,16 @@ namespace Office_File_Explorer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap UpdateDatabase_16x {
+            get {
+                object obj = ResourceManager.GetObject("UpdateDatabase_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap UseCaseDiagramFile_usecasediagram_13447_16x_32 {
             get {
                 object obj = ResourceManager.GetObject("UseCaseDiagramFile_usecasediagram_13447_16x_32", resourceCulture);

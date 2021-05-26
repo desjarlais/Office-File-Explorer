@@ -4,7 +4,7 @@
     <PublishUrlHistory>\\thecloud\share\public\ofc\|publish\|ftp://thecloud/share/public/ofc/</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
-    <UpdateUrlHistory />
+    <UpdateUrlHistory>\\thecloud\share\public\ofc\updates\</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>

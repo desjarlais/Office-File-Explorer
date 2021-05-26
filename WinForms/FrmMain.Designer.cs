@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnChangeDefaultTemplate = new System.Windows.Forms.Button();
             this.BtnDeleteUnusedStyles = new System.Windows.Forms.Button();
             this.BtnFixDocument = new System.Windows.Forms.Button();
             this.BtnListCC = new System.Windows.Forms.Button();
@@ -120,7 +121,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
-            this.BtnChangeDefaultTemplate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -170,6 +170,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word";
+            // 
+            // BtnChangeDefaultTemplate
+            // 
+            this.BtnChangeDefaultTemplate.Location = new System.Drawing.Point(132, 267);
+            this.BtnChangeDefaultTemplate.Name = "BtnChangeDefaultTemplate";
+            this.BtnChangeDefaultTemplate.Size = new System.Drawing.Size(142, 23);
+            this.BtnChangeDefaultTemplate.TabIndex = 11;
+            this.BtnChangeDefaultTemplate.Text = "Change Default Template";
+            this.BtnChangeDefaultTemplate.UseVisualStyleBackColor = true;
+            this.BtnChangeDefaultTemplate.Click += new System.EventHandler(this.BtnChangeDefaultTemplate_Click);
             // 
             // BtnDeleteUnusedStyles
             // 
@@ -1138,16 +1148,6 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
-            // 
-            // BtnChangeDefaultTemplate
-            // 
-            this.BtnChangeDefaultTemplate.Location = new System.Drawing.Point(132, 267);
-            this.BtnChangeDefaultTemplate.Name = "BtnChangeDefaultTemplate";
-            this.BtnChangeDefaultTemplate.Size = new System.Drawing.Size(142, 23);
-            this.BtnChangeDefaultTemplate.TabIndex = 11;
-            this.BtnChangeDefaultTemplate.Text = "Change Default Template";
-            this.BtnChangeDefaultTemplate.UseVisualStyleBackColor = true;
-            this.BtnChangeDefaultTemplate.Click += new System.EventHandler(this.BtnChangeDefaultTemplate_Click);
             // 
             // FrmMain
             // 

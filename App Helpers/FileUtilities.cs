@@ -71,6 +71,11 @@ namespace Office_File_Explorer.App_Helpers
 
         public static string ConvertUriToFilePath(string path)
         {
+            if (path.StartsWith("http"))
+            {
+                return path;
+            }
+
             var filePath = new Uri(path).LocalPath;
             return filePath;
         }

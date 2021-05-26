@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>BrandeSoft</PublisherName>
-    <ApplicationRevision>58</ApplicationRevision>
+    <ApplicationRevision>62</ApplicationRevision>
     <ApplicationVersion>1.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -77,6 +77,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Office_File_Explorer.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -442,6 +446,7 @@
     <Content Include="Resources\CopyToClipboard_16x.png" />
     <Content Include="Resources\Dialog_16x.png" />
     <Content Include="Resources\ErrorSummary_16x.png" />
+    <None Include="Resources\UpdateDatabase_16x.png" />
     <None Include="Resources\Exit_16x1.png" />
     <Content Include="Resources\FeedbackBubble_16x.png" />
     <None Include="Resources\FontDialogControl_16x.png" />

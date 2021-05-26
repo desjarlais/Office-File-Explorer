@@ -5892,8 +5892,8 @@ namespace Office_File_Explorer
                 LstDisplay.Items.Clear();
                 Cursor = Cursors.WaitCursor;
                 bool isFileChanged = false;
-                string attachedTemplateId = "";
-                string filePath = "";
+                string attachedTemplateId = "rId1";
+                string filePath = string.Empty;
 
                 using (WordprocessingDocument document = WordprocessingDocument.Open(TxtFileName.Text, true))
                 {
@@ -5903,13 +5903,11 @@ namespace Office_File_Explorer
                     // we will be deleting this part and re-adding with the new uri
                     if (dsp.ExternalRelationships.Count() > 0)
                     {
-                        // just change the attached template
                         foreach (ExternalRelationship er in dsp.ExternalRelationships)
                         {
                             if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
                             {
                                 // keep track of the existing rId for the template
-                                attachedTemplateId = er.Id;
                                 filePath = er.Uri.ToString();
                                 break;
                             }
@@ -5937,7 +5935,7 @@ namespace Office_File_Explorer
                     };
                     ctFrm.ShowDialog();
 
-                    if (fromChangeTemplate == filePath || fromChangeTemplate == null)
+                    if (fromChangeTemplate == filePath || fromChangeTemplate == null || fromChangeTemplate == "Cancel")
                     {
                         // file path is the same or user closed without wanting changes, do nothing
                         return;
@@ -5947,13 +5945,26 @@ namespace Office_File_Explorer
                         filePath = fromChangeTemplate;
                         isFileChanged = true;
 
-                        Uri newFilePath = new Uri(filePath);
-
                         // delete the old part
                         dsp.DeleteExternalRelationship(attachedTemplateId);
 
-                        // add the new part back in
-                        dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                        if (fromChangeTemplate != "Normal")
+                        {
+                            // add back the new path
+                            Uri newFilePath = new Uri(filePath);
+                            dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                        }
+                        else
+                        {
+                            // if we are changing to Normal, delete the attachtemplate id ref
+                            foreach (OpenXmlElement oe in dsp.Settings)
+                            {
+                                if (oe.ToString() == "DocumentFormat.OpenXml.Wordprocessing.AttachedTemplate")
+                                {
+                                    oe.Remove();
+                                }
+                            }
+                        }
                     }
 
                     if (isFileChanged)
