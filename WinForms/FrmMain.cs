@@ -5784,6 +5784,12 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Customer specific fix where opentext was changing the hyperlinks to local paths
+        /// this will look for all links with those bad sequences and change them
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnFixExcelHyperlinks_Click(object sender, EventArgs e)
         {
             PreButtonClickWork();
@@ -5923,7 +5929,7 @@ namespace Office_File_Explorer
                         if (!File.Exists(filePath))
                         {
                             // Normal.dotm path is not correct?
-                            LogInformation(LogType.InvalidFile, "BtnChangeDefaultTemplate", "Invalid Attached Template Path");
+                            LogInformation(LogType.InvalidFile, "BtnChangeDefaultTemplate", "Invalid Attached Template Path - " + filePath);
                             throw new Exception();
                         }
                     }

@@ -381,19 +381,26 @@ namespace Office_File_Explorer.Forms
 
                 foreach (string f in files)
                 {
-                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    try
                     {
-                        if (WordExtensionClass.HasPersonalInfo(document) == true)
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
-                            WordExtensionClass.RemovePersonalInfo(document);
-                            lstOutput.Items.Add(f + " : PII removed from file.");
-                            LoggingHelper.Log(f + " : PII removed from file.");
+                            if (WordExtensionClass.HasPersonalInfo(document) == true)
+                            {
+                                WordExtensionClass.RemovePersonalInfo(document);
+                                lstOutput.Items.Add(f + " : PII removed from file.");
+                                LoggingHelper.Log(f + " : PII removed from file.");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : does not contain PII.");
+                                LoggingHelper.Log(f + " : does not contain PII.");
+                            }
                         }
-                        else
-                        {
-                            lstOutput.Items.Add(f + " : does not contain PII.");
-                            LoggingHelper.Log(f + " : does not contain PII.");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnRemovePII Error: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -415,14 +422,22 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    if (WordOpenXml.RemoveMissingBookmarkTags(f) == true || WordOpenXml.RemovePlainTextCcFromBookmark(f) == true)
+                    try
                     {
-                        lstOutput.Items.Add(f + " : Fixed Corrupt Bookmarks");
+                        if (WordOpenXml.RemoveMissingBookmarkTags(f) == true || WordOpenXml.RemovePlainTextCcFromBookmark(f) == true)
+                        {
+                            lstOutput.Items.Add(f + " : Fixed Corrupt Bookmarks");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + " : No Corrupt Bookmarks Found");
+                        }
                     }
-                    else
+                    catch (Exception innerEx)
                     {
-                        lstOutput.Items.Add(f + " : No Corrupt Bookmarks Found");
+                        LoggingHelper.Log("BtnFixCorruptBookmarks: " + f + " : " + innerEx.Message);
                     }
+                    
                 }
             }
             catch (Exception ex)
@@ -444,69 +459,76 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    bool isFixed = false;
-                    
-                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    try
                     {
-                        lstOutput.Items.Add(f + " : Not A Valid Office File");
-                        return;
-                    }
+                        bool isFixed = false;
 
-                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
-                    {
-                        if (WordOpenXml.IsPartNull(document, "DeletedRun") == false)
+                        if (FileUtilities.IsZipArchiveFile(f) == false)
                         {
-                            var deleted = document.MainDocumentPart.Document.Descendants<DeletedRun>().ToList();
+                            lstOutput.Items.Add(f + " : Not A Valid Office File");
+                            return;
+                        }
 
-                            // loop each DeletedRun
-                            foreach (DeletedRun dr in deleted)
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            if (WordOpenXml.IsPartNull(document, "DeletedRun") == false)
                             {
-                                foreach (OpenXmlElement oxedr in dr)
+                                var deleted = document.MainDocumentPart.Document.Descendants<DeletedRun>().ToList();
+
+                                // loop each DeletedRun
+                                foreach (DeletedRun dr in deleted)
                                 {
-                                    // if we have a Run, we need to look for Text tags
-                                    if (oxedr.GetType().ToString() == StringResources.dfowRun)
+                                    foreach (OpenXmlElement oxedr in dr)
                                     {
-                                        O.Wordprocessing.Run r = (O.Wordprocessing.Run)oxedr;
-                                        foreach (OpenXmlElement oxe in oxedr.ChildElements)
+                                        // if we have a Run, we need to look for Text tags
+                                        if (oxedr.GetType().ToString() == StringResources.dfowRun)
                                         {
-                                            // you can't have a Text tag inside a DeletedRun
-                                            if (oxe.GetType().ToString() == StringResources.dfowText)
+                                            O.Wordprocessing.Run r = (O.Wordprocessing.Run)oxedr;
+                                            foreach (OpenXmlElement oxe in oxedr.ChildElements)
                                             {
-                                                // create a DeletedText object so we can replace it with the Text tag
-                                                DeletedText dt = new DeletedText();
-
-                                                // check for attributes
-                                                if (oxe.HasAttributes)
+                                                // you can't have a Text tag inside a DeletedRun
+                                                if (oxe.GetType().ToString() == StringResources.dfowText)
                                                 {
-                                                    if (oxe.GetAttributes().Count > 0)
+                                                    // create a DeletedText object so we can replace it with the Text tag
+                                                    DeletedText dt = new DeletedText();
+
+                                                    // check for attributes
+                                                    if (oxe.HasAttributes)
                                                     {
-                                                        dt.SetAttributes(oxe.GetAttributes());
+                                                        if (oxe.GetAttributes().Count > 0)
+                                                        {
+                                                            dt.SetAttributes(oxe.GetAttributes());
+                                                        }
                                                     }
+
+                                                    // set the text value
+                                                    dt.Text = oxe.InnerText;
+
+                                                    // replace the Text with new DeletedText
+                                                    r.ReplaceChild(dt, oxe);
+                                                    isFixed = true;
                                                 }
-
-                                                // set the text value
-                                                dt.Text = oxe.InnerText;
-
-                                                // replace the Text with new DeletedText
-                                                r.ReplaceChild(dt, oxe);
-                                                isFixed = true;
                                             }
                                         }
                                     }
                                 }
                             }
+
+                            // now save the file if we have changes
+                            if (isFixed == true)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                                lstOutput.Items.Add(f + ": Fixed Corrupt Revisions");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + ": No Corrupt Revisions Found");
+                            }
                         }
-                        
-                        // now save the file if we have changes
-                        if (isFixed == true)
-                        {
-                            document.MainDocumentPart.Document.Save();
-                            lstOutput.Items.Add(f + ": Fixed Corrupt Revisions");
-                        }
-                        else
-                        {
-                            lstOutput.Items.Add(f + ": No Corrupt Revisions Found");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnFixCorruptRevisions: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -529,21 +551,28 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    bool isFixed = false;
-                    Cursor = Cursors.WaitCursor;
-                    using (PresentationDocument document = PresentationDocument.Open(f, true))
+                    try
                     {
-                        document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
-                        document.PresentationPart.Presentation.Save();
-                    }
+                        bool isFixed = false;
+                        Cursor = Cursors.WaitCursor;
+                        using (PresentationDocument document = PresentationDocument.Open(f, true))
+                        {
+                            document.PresentationPart.Presentation.RemovePersonalInfoOnSave = false;
+                            document.PresentationPart.Presentation.Save();
+                        }
 
-                    if (isFixed)
-                    {
-                        lstOutput.Items.Add(f + ": PII Reset");
+                        if (isFixed)
+                        {
+                            lstOutput.Items.Add(f + ": PII Reset");
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + ": PII Not Reset");
+                        }
                     }
-                    else
+                    catch (Exception innerEx)
                     {
-                        lstOutput.Items.Add(f + ": PII Not Reset");
+                        LoggingHelper.Log("BtnPPTResetPII: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -566,85 +595,92 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    // check if the excelcnv.exe exists
-                    string excelcnvPath;
+                    try
+                    {
+                        // check if the excelcnv.exe exists
+                        string excelcnvPath;
 
-                    if (File.Exists(StringResources.sameBitnessO365))
-                    {
-                        excelcnvPath = StringResources.sameBitnessO365;
-                    }
-                    else if (File.Exists(StringResources.x86OfficeO365))
-                    {
-                        excelcnvPath = StringResources.x86OfficeO365;
-                    }
-                    else if (File.Exists(StringResources.sameBitnessMSI2016))
-                    {
-                        excelcnvPath = StringResources.sameBitnessMSI2016;
-                    }
-                    else if (File.Exists(StringResources.x86OfficeMSI2016))
-                    {
-                        excelcnvPath = StringResources.x86OfficeMSI2016;
-                    }
-                    else if (File.Exists(StringResources.sameBitnessMSI2013))
-                    {
-                        excelcnvPath = StringResources.sameBitnessMSI2013;
-                    }
-                    else if (File.Exists(StringResources.x86OfficeMSI2013))
-                    {
-                        excelcnvPath = StringResources.x86OfficeMSI2013;
-                    }
-                    else
-                    {
-                        excelcnvPath = string.Empty;
-                    }
-
-                    // check if the file is strict
-                    bool isStrict = false;
-
-                    using (Package package = Package.Open(f, FileMode.Open, FileAccess.Read))
-                    {
-                        foreach (PackagePart part in package.GetParts())
+                        if (File.Exists(StringResources.sameBitnessO365))
                         {
-                            if (part.Uri.ToString() == "/xl/workbook.xml")
+                            excelcnvPath = StringResources.sameBitnessO365;
+                        }
+                        else if (File.Exists(StringResources.x86OfficeO365))
+                        {
+                            excelcnvPath = StringResources.x86OfficeO365;
+                        }
+                        else if (File.Exists(StringResources.sameBitnessMSI2016))
+                        {
+                            excelcnvPath = StringResources.sameBitnessMSI2016;
+                        }
+                        else if (File.Exists(StringResources.x86OfficeMSI2016))
+                        {
+                            excelcnvPath = StringResources.x86OfficeMSI2016;
+                        }
+                        else if (File.Exists(StringResources.sameBitnessMSI2013))
+                        {
+                            excelcnvPath = StringResources.sameBitnessMSI2013;
+                        }
+                        else if (File.Exists(StringResources.x86OfficeMSI2013))
+                        {
+                            excelcnvPath = StringResources.x86OfficeMSI2013;
+                        }
+                        else
+                        {
+                            excelcnvPath = string.Empty;
+                        }
+
+                        // check if the file is strict
+                        bool isStrict = false;
+
+                        using (Package package = Package.Open(f, FileMode.Open, FileAccess.Read))
+                        {
+                            foreach (PackagePart part in package.GetParts())
                             {
-                                try
+                                if (part.Uri.ToString() == "/xl/workbook.xml")
                                 {
-                                    string docText = null;
-                                    using (StreamReader sr = new StreamReader(part.GetStream()))
+                                    try
                                     {
-                                        docText = sr.ReadToEnd();
-                                        if (docText.Contains(@"conformance=""strict"""))
+                                        string docText = null;
+                                        using (StreamReader sr = new StreamReader(part.GetStream()))
                                         {
-                                            isStrict = true;
+                                            docText = sr.ReadToEnd();
+                                            if (docText.Contains(@"conformance=""strict"""))
+                                            {
+                                                isStrict = true;
+                                            }
                                         }
                                     }
-                                }
-                                catch (Exception ex)
-                                {
-                                    LoggingHelper.Log(ex.Message);
+                                    catch (Exception ex)
+                                    {
+                                        LoggingHelper.Log(ex.Message);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if (isStrict == true && excelcnvPath != string.Empty)
-                    {
-                        // setup destination file path
-                        string strOriginalFile = f;
-                        string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
-                        string strFileExtension = Path.GetExtension(strOriginalFile);
-                        string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.wFixedFileParentheses + strFileExtension;
+                        if (isStrict == true && excelcnvPath != string.Empty)
+                        {
+                            // setup destination file path
+                            string strOriginalFile = f;
+                            string strOutputPath = Path.GetDirectoryName(strOriginalFile) + "\\";
+                            string strFileExtension = Path.GetExtension(strOriginalFile);
+                            string strOutputFileName = strOutputPath + Path.GetFileNameWithoutExtension(strOriginalFile) + StringResources.wFixedFileParentheses + strFileExtension;
 
-                        // run the command to convert the file "excelcnv.exe -nme -oice "file-path" "converted-file-path""
-                        string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
-                        var proc = Process.Start(excelcnvPath, cParams);
-                        proc.Close();
-                        lstOutput.Items.Add(f + " : Converted Successfully");
-                        lstOutput.Items.Add("   File Location: " + strOutputFileName);
+                            // run the command to convert the file "excelcnv.exe -nme -oice "file-path" "converted-file-path""
+                            string cParams = " -nme -oice " + '"' + f + '"' + " " + '"' + strOutputFileName + '"';
+                            var proc = Process.Start(excelcnvPath, cParams);
+                            proc.Close();
+                            lstOutput.Items.Add(f + " : Converted Successfully");
+                            lstOutput.Items.Add("   File Location: " + strOutputFileName);
+                        }
+                        else
+                        {
+                            lstOutput.Items.Add(f + " : Is Not Strict Open Xml Format");
+                        }
                     }
-                    else
+                    catch (Exception innerEx)
                     {
-                        lstOutput.Items.Add(f + " : Is Not Strict Open Xml Format");
+                        LoggingHelper.Log("BtnConvertStrict: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -676,38 +712,45 @@ namespace Office_File_Explorer.Forms
                     
                     foreach (string f in files)
                     {
-                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        try
                         {
-                            if (propNameToDelete == "Cancel")
+                            using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                             {
-                                return;
-                            }
-                            else
-                            {
-                                if (document.CustomFilePropertiesPart != null)
+                                if (propNameToDelete == "Cancel")
                                 {
-                                    bool customPropFound = false;
-
-                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                    return;
+                                }
+                                else
+                                {
+                                    if (document.CustomFilePropertiesPart != null)
                                     {
-                                        if (propNameToDelete == cdp.Name)
+                                        bool customPropFound = false;
+
+                                        foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
                                         {
-                                            cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
-                                            customPropFound = true;
+                                            if (propNameToDelete == cdp.Name)
+                                            {
+                                                cdp.Remove();
+                                                lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
+                                                customPropFound = true;
+                                            }
+                                        }
+
+                                        if (customPropFound == false)
+                                        {
+                                            lstOutput.Items.Add(f + StringResources.noProp);
                                         }
                                     }
-
-                                    if (customPropFound == false)
+                                    else
                                     {
                                         lstOutput.Items.Add(f + StringResources.noProp);
                                     }
                                 }
-                                else
-                                {
-                                    lstOutput.Items.Add(f + StringResources.noProp);
-                                }
                             }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnListCustomProps Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -721,34 +764,41 @@ namespace Office_File_Explorer.Forms
 
                     foreach (string f in files)
                     {
-                        using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
+                        try
                         {
-                            if (propNameToDelete == "Cancel")
+                            using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
                             {
-                                return;
-                            }
-                            else
-                            {
-                                if (document.CustomFilePropertiesPart != null)
+                                if (propNameToDelete == "Cancel")
                                 {
-                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
-                                    {
-                                        if (propNameToDelete == cdp.Name)
-                                        {
-                                            cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
-                                        }
-                                        else
-                                        {
-                                            lstOutput.Items.Add(f + StringResources.noProp);
-                                        }
-                                    }
+                                    return;
                                 }
                                 else
                                 {
-                                    lstOutput.Items.Add(f + StringResources.noProp);
+                                    if (document.CustomFilePropertiesPart != null)
+                                    {
+                                        foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                        {
+                                            if (propNameToDelete == cdp.Name)
+                                            {
+                                                cdp.Remove();
+                                                lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
+                                            }
+                                            else
+                                            {
+                                                lstOutput.Items.Add(f + StringResources.noProp);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        lstOutput.Items.Add(f + StringResources.noProp);
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnListCustomProps Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -762,34 +812,41 @@ namespace Office_File_Explorer.Forms
 
                     foreach (string f in files)
                     {
-                        using (PresentationDocument document = PresentationDocument.Open(f, true))
+                        try
                         {
-                            if (propNameToDelete == "Cancel")
+                            using (PresentationDocument document = PresentationDocument.Open(f, true))
                             {
-                                return;
-                            }
-                            else
-                            {
-                                if (document.CustomFilePropertiesPart != null)
+                                if (propNameToDelete == "Cancel")
                                 {
-                                    foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
-                                    {
-                                        if (propNameToDelete == cdp.Name)
-                                        {
-                                            cdp.Remove();
-                                            lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
-                                        }
-                                        else
-                                        {
-                                            lstOutput.Items.Add(f + StringResources.noProp);
-                                        }
-                                    }
+                                    return;
                                 }
                                 else
                                 {
-                                    lstOutput.Items.Add(f + StringResources.noProp);
+                                    if (document.CustomFilePropertiesPart != null)
+                                    {
+                                        foreach (CustomDocumentProperty cdp in document.CustomFilePropertiesPart.RootElement)
+                                        {
+                                            if (propNameToDelete == cdp.Name)
+                                            {
+                                                cdp.Remove();
+                                                lstOutput.Items.Add(f + StringResources.wColonBuffer + propNameToDelete + " deleted");
+                                            }
+                                            else
+                                            {
+                                                lstOutput.Items.Add(f + StringResources.noProp);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        lstOutput.Items.Add(f + StringResources.noProp);
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnListCustomProps Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -820,85 +877,92 @@ namespace Office_File_Explorer.Forms
                 lstOutput.Items.Clear();
                 foreach (string f in files)
                 {
-                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    try
                     {
-                        lstOutput.Items.Add(f + " : Not A Valid Office File");
-                        return;
-                    }
-
-                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
-                    {
-                        // "global" document variables
-                        bool tblModified = false;
-                        OpenXmlElement tgClone = null;
-
-                        // get the list of tables in the document
-                        if (WordOpenXml.IsPartNull(document, "Table") == false)
+                        if (FileUtilities.IsZipArchiveFile(f) == false)
                         {
-                            List<O.Wordprocessing.Table> tbls = document.MainDocumentPart.Document.Descendants<O.Wordprocessing.Table>().ToList();
+                            lstOutput.Items.Add(f + " : Not A Valid Office File");
+                            return;
+                        }
 
-                            foreach (O.Wordprocessing.Table tbl in tbls)
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            // "global" document variables
+                            bool tblModified = false;
+                            OpenXmlElement tgClone = null;
+
+                            // get the list of tables in the document
+                            if (WordOpenXml.IsPartNull(document, "Table") == false)
                             {
-                                // you can have only one tblGrid per table, including nested tables
-                                // it needs to be before any row elements so sequence is
-                                // 1. check if the tblGrid element is before any trow
-                                // 2. check for multiple tblGrid elements
-                                bool tRowFound = false;
-                                bool tGridBeforeRowFound = false;
-                                int tGridCount = 0;
+                                List<O.Wordprocessing.Table> tbls = document.MainDocumentPart.Document.Descendants<O.Wordprocessing.Table>().ToList();
 
-                                foreach (OpenXmlElement oxe in tbl.Elements())
+                                foreach (O.Wordprocessing.Table tbl in tbls)
                                 {
-                                    // flag if we found a table row, once we find 1, the rest do not matter
-                                    if (oxe.GetType().Name == "TableRow")
-                                    {
-                                        tRowFound = true;
-                                    }
+                                    // you can have only one tblGrid per table, including nested tables
+                                    // it needs to be before any row elements so sequence is
+                                    // 1. check if the tblGrid element is before any trow
+                                    // 2. check for multiple tblGrid elements
+                                    bool tRowFound = false;
+                                    bool tGridBeforeRowFound = false;
+                                    int tGridCount = 0;
 
-                                    // when we get to a tablegrid, we have a few things to check
-                                    // 1. have we found a table row
-                                    // 2. only one table grid can exist in the table, if there are multiple, delete the extras
-                                    if (oxe.GetType().Name == "TableGrid")
+                                    foreach (OpenXmlElement oxe in tbl.Elements())
                                     {
-                                        // increment the tg counter
-                                        tGridCount++;
-
-                                        // if we have a table row and no table grid has been found yet, we need to save out this table grid
-                                        // then move it in front of the table row later
-                                        if (tRowFound == true && tGridCount == 1)
+                                        // flag if we found a table row, once we find 1, the rest do not matter
+                                        if (oxe.GetType().Name == "TableRow")
                                         {
-                                            tGridBeforeRowFound = true;
-                                            tgClone = oxe.CloneNode(true);
-                                            oxe.Remove();
+                                            tRowFound = true;
                                         }
 
-                                        // if we have multiple table grids, delete the extras
-                                        if (tGridCount > 1)
+                                        // when we get to a tablegrid, we have a few things to check
+                                        // 1. have we found a table row
+                                        // 2. only one table grid can exist in the table, if there are multiple, delete the extras
+                                        if (oxe.GetType().Name == "TableGrid")
                                         {
-                                            oxe.Remove();
-                                            tblModified = true;
+                                            // increment the tg counter
+                                            tGridCount++;
+
+                                            // if we have a table row and no table grid has been found yet, we need to save out this table grid
+                                            // then move it in front of the table row later
+                                            if (tRowFound == true && tGridCount == 1)
+                                            {
+                                                tGridBeforeRowFound = true;
+                                                tgClone = oxe.CloneNode(true);
+                                                oxe.Remove();
+                                            }
+
+                                            // if we have multiple table grids, delete the extras
+                                            if (tGridCount > 1)
+                                            {
+                                                oxe.Remove();
+                                                tblModified = true;
+                                            }
                                         }
                                     }
-                                }
 
-                                // if we had a table grid before a row, move it before the first row
-                                if (tGridBeforeRowFound == true)
-                                {
-                                    tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
-                                    tblModified = true;
+                                    // if we had a table grid before a row, move it before the first row
+                                    if (tGridBeforeRowFound == true)
+                                    {
+                                        tbl.InsertBefore(tgClone, tbl.GetFirstChild<TableRow>());
+                                        tblModified = true;
+                                    }
                                 }
                             }
-                        }
 
-                        if (tblModified == true)
-                        {
-                            document.MainDocumentPart.Document.Save();
-                            lstOutput.Items.Add(f + " : Table Fix Completed");
+                            if (tblModified == true)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                                lstOutput.Items.Add(f + " : Table Fix Completed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : No Corrupt Table Found");
+                            }
                         }
-                        else
-                        {
-                            lstOutput.Items.Add(f + " : No Corrupt Table Found");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnFixTableProps: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -930,63 +994,70 @@ namespace Office_File_Explorer.Forms
                 {
                     foreach (string f in files)
                     {
-                        nodeDeleted = false;
-
-                        if (FileUtilities.IsZipArchiveFile(f) == false)
+                        try
                         {
-                            lstOutput.Items.Add(f + " : Not A Valid Office File");
-                            return;
-                        }
+                            nodeDeleted = false;
 
-                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
-                        {
-                            cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
-
-                            foreach (CustomXmlPart cxp in cxpList)
+                            if (FileUtilities.IsZipArchiveFile(f) == false)
                             {
-                                XmlDocument xDoc = new XmlDocument();
-                                xDoc.Load(cxp.GetStream());
+                                lstOutput.Items.Add(f + " : Not A Valid Office File");
+                                return;
+                            }
 
-                                XPathNavigator navigator = xDoc.CreateNavigator();
+                            using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                            {
+                                cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
 
-                                // we only check the metadata custom xml file for requeststatus xml
-                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                foreach (CustomXmlPart cxp in cxpList)
                                 {
-                                    // move to the node and delete it
-                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
+                                    XmlDocument xDoc = new XmlDocument();
+                                    xDoc.Load(cxp.GetStream());
 
-                                    // check if we actually moved to the RequestStatus node
-                                    // if we didn't move there, no changes should happen, it doesn't exist
-                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
+                                    XPathNavigator navigator = xDoc.CreateNavigator();
+
+                                    // we only check the metadata custom xml file for requeststatus xml
+                                    if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                     {
-                                        // delete the node
-                                        navigator.DeleteSelf();
+                                        // move to the node and delete it
+                                        navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                        navigator.MoveToChild("documentManagement", string.Empty);
+                                        navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
 
-                                        // re-write the part
-                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        // check if we actually moved to the RequestStatus node
+                                        // if we didn't move there, no changes should happen, it doesn't exist
+                                        if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                         {
-                                            xDoc.Save(xmlMS);
-                                            xmlMS.Position = 0;
-                                            cxp.FeedData(xmlMS);
-                                        }
+                                            // delete the node
+                                            navigator.DeleteSelf();
 
-                                        // flag the part so we can save the file
-                                        nodeDeleted = true;
+                                            // re-write the part
+                                            using (MemoryStream xmlMS = new MemoryStream())
+                                            {
+                                                xDoc.Save(xmlMS);
+                                                xmlMS.Position = 0;
+                                                cxp.FeedData(xmlMS);
+                                            }
+
+                                            // flag the part so we can save the file
+                                            nodeDeleted = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (nodeDeleted == true)
-                            {
-                                document.MainDocumentPart.Document.Save();
-                                lstOutput.Items.Add(f + " : Request Status Removed");
+                                if (nodeDeleted == true)
+                                {
+                                    document.MainDocumentPart.Document.Save();
+                                    lstOutput.Items.Add(f + " : Request Status Removed");
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Request Status Not Found");
+                                }
                             }
-                            else
-                            {
-                                lstOutput.Items.Add(f + " : Request Status Not Found");
-                            }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnDeleteRequestStatus Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -994,49 +1065,56 @@ namespace Office_File_Explorer.Forms
                 {
                     foreach (string f in files)
                     {
-                        nodeDeleted = false;
-                        using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
+                        try
                         {
-                            cxpList = document.WorkbookPart.CustomXmlParts.ToList();
-
-                            foreach (CustomXmlPart cxp in cxpList)
+                            nodeDeleted = false;
+                            using (SpreadsheetDocument document = SpreadsheetDocument.Open(f, true))
                             {
-                                XmlDocument xDoc = new XmlDocument();
-                                xDoc.Load(cxp.GetStream());
+                                cxpList = document.WorkbookPart.CustomXmlParts.ToList();
 
-                                XPathNavigator navigator = xDoc.CreateNavigator();
-
-                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                foreach (CustomXmlPart cxp in cxpList)
                                 {
-                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
-                                    
-                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
+                                    XmlDocument xDoc = new XmlDocument();
+                                    xDoc.Load(cxp.GetStream());
+
+                                    XPathNavigator navigator = xDoc.CreateNavigator();
+
+                                    if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                     {
-                                        navigator.DeleteSelf();
+                                        navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                        navigator.MoveToChild("documentManagement", string.Empty);
+                                        navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
 
-                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                         {
-                                            xDoc.Save(xmlMS);
-                                            xmlMS.Position = 0;
-                                            cxp.FeedData(xmlMS);
-                                        }
+                                            navigator.DeleteSelf();
 
-                                        nodeDeleted = true;
+                                            using (MemoryStream xmlMS = new MemoryStream())
+                                            {
+                                                xDoc.Save(xmlMS);
+                                                xmlMS.Position = 0;
+                                                cxp.FeedData(xmlMS);
+                                            }
+
+                                            nodeDeleted = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (nodeDeleted == true)
-                            {
-                                document.WorkbookPart.Workbook.Save();
-                                lstOutput.Items.Add(f + " : Request Status Removed");
+                                if (nodeDeleted == true)
+                                {
+                                    document.WorkbookPart.Workbook.Save();
+                                    lstOutput.Items.Add(f + " : Request Status Removed");
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Request Status Not Found");
+                                }
                             }
-                            else
-                            {
-                                lstOutput.Items.Add(f + " : Request Status Not Found");
-                            }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnDeleteRequestStatus Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -1044,49 +1122,56 @@ namespace Office_File_Explorer.Forms
                 {
                     foreach (string f in files)
                     {
-                        nodeDeleted = false;
-                        using (PresentationDocument document = PresentationDocument.Open(f, true))
+                        try
                         {
-                            cxpList = document.PresentationPart.CustomXmlParts.ToList();
-                            
-                            foreach (CustomXmlPart cxp in cxpList)
+                            nodeDeleted = false;
+                            using (PresentationDocument document = PresentationDocument.Open(f, true))
                             {
-                                XmlDocument xDoc = new XmlDocument();
-                                xDoc.Load(cxp.GetStream());
-                                
-                                XPathNavigator navigator = xDoc.CreateNavigator();
+                                cxpList = document.PresentationPart.CustomXmlParts.ToList();
 
-                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                foreach (CustomXmlPart cxp in cxpList)
                                 {
-                                    navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
-                                    navigator.MoveToChild("documentManagement", string.Empty);
-                                    navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
+                                    XmlDocument xDoc = new XmlDocument();
+                                    xDoc.Load(cxp.GetStream());
 
-                                    if (navigator.Name == StringResources.wCustomXmlRequestStatus)
+                                    XPathNavigator navigator = xDoc.CreateNavigator();
+
+                                    if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                     {
-                                        navigator.DeleteSelf();
+                                        navigator.MoveToChild("properties", StringResources.schemaMetadataProperties);
+                                        navigator.MoveToChild("documentManagement", string.Empty);
+                                        navigator.MoveToChild(StringResources.wCustomXmlRequestStatus, StringResources.wRequestStatusNS);
 
-                                        using (MemoryStream xmlMS = new MemoryStream())
+                                        if (navigator.Name == StringResources.wCustomXmlRequestStatus)
                                         {
-                                            xDoc.Save(xmlMS);
-                                            xmlMS.Position = 0;
-                                            cxp.FeedData(xmlMS);
-                                        }
+                                            navigator.DeleteSelf();
 
-                                        nodeDeleted = true;
+                                            using (MemoryStream xmlMS = new MemoryStream())
+                                            {
+                                                xDoc.Save(xmlMS);
+                                                xmlMS.Position = 0;
+                                                cxp.FeedData(xmlMS);
+                                            }
+
+                                            nodeDeleted = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            if (nodeDeleted == true)
-                            {
-                                document.PresentationPart.Presentation.Save();
-                                lstOutput.Items.Add(f + " : Request Status Removed");
+                                if (nodeDeleted == true)
+                                {
+                                    document.PresentationPart.Presentation.Save();
+                                    lstOutput.Items.Add(f + " : Request Status Removed");
+                                }
+                                else
+                                {
+                                    lstOutput.Items.Add(f + " : Request Status Not Found");
+                                }
                             }
-                            else
-                            {
-                                lstOutput.Items.Add(f + " : Request Status Not Found");
-                            }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            LoggingHelper.Log("BtnDeleteRequestStatus Error: " + f + " : " + innerEx.Message);
                         }
                     }
                 }
@@ -1131,57 +1216,64 @@ namespace Office_File_Explorer.Forms
 
                 foreach (string f in files)
                 {
-                    nodeChanged = false;
-
-                    if (FileUtilities.IsZipArchiveFile(f) == false)
+                    try
                     {
-                        lstOutput.Items.Add(f + " : Not A Valid Office File");
-                        return;
-                    }
+                        nodeChanged = false;
 
-                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
-                    {
-                        cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
-
-                        foreach (CustomXmlPart cxp in cxpList)
+                        if (FileUtilities.IsZipArchiveFile(f) == false)
                         {
-                            XmlDocument xDoc = new XmlDocument();
-                            xDoc.Load(cxp.GetStream());
+                            lstOutput.Items.Add(f + " : Not A Valid Office File");
+                            return;
+                        }
 
-                            if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaCustomXsn)
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            cxpList = document.MainDocumentPart.CustomXmlParts.ToList();
+
+                            foreach (CustomXmlPart cxp in cxpList)
                             {
-                                foreach (XmlNode xNode in xDoc.ChildNodes)
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.Load(cxp.GetStream());
+
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaCustomXsn)
                                 {
-                                    if (xNode.Name == "customXsn")
+                                    foreach (XmlNode xNode in xDoc.ChildNodes)
                                     {
-                                        foreach (XmlNode x in xNode)
+                                        if (xNode.Name == "customXsn")
                                         {
-                                            if (x.Name == "openByDefault")
+                                            foreach (XmlNode x in xNode)
                                             {
-                                                x.FirstChild.Value = "False";
-                                                using (MemoryStream xmlMS = new MemoryStream())
+                                                if (x.Name == "openByDefault")
                                                 {
-                                                    xDoc.Save(xmlMS);
-                                                    xmlMS.Position = 0;
-                                                    cxp.FeedData(xmlMS);
+                                                    x.FirstChild.Value = "False";
+                                                    using (MemoryStream xmlMS = new MemoryStream())
+                                                    {
+                                                        xDoc.Save(xmlMS);
+                                                        xmlMS.Position = 0;
+                                                        cxp.FeedData(xmlMS);
+                                                    }
+                                                    nodeChanged = true;
                                                 }
-                                                nodeChanged = true;
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        if (nodeChanged == true)
-                        {
-                            document.MainDocumentPart.Document.Save();
-                            lstOutput.Items.Add(f + " : openByDefault Changed");
+                            if (nodeChanged == true)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                                lstOutput.Items.Add(f + " : openByDefault Changed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + " : openByDefault Not Found");
+                            }
                         }
-                        else
-                        {
-                            lstOutput.Items.Add(f + " : openByDefault Not Found");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnDeleteOpenByDefault Error: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -1210,68 +1302,71 @@ namespace Office_File_Explorer.Forms
 
                 foreach (string f in files)
                 {
-                    bool isFileChanged = false;
-
-                    using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(f, true))
+                    try
                     {
-                    // adding a goto since changing the relationship during enumeration causes an error
-                    // after making the change, I restart the loops again to look for more corrupt links
-                    HLinkStart:
-                        foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
+                        bool isFileChanged = false;
+
+                        using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(f, true))
                         {
-                            IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
-                            // loop each hyperlink to get the rid
-                            foreach (O.Spreadsheet.Hyperlink h in hLinks)
+                        // adding a goto since changing the relationship during enumeration causes an error
+                        // after making the change, I restart the loops again to look for more corrupt links
+                        HLinkStart:
+                            foreach (WorksheetPart wsp in excelDoc.WorkbookPart.WorksheetParts)
                             {
-                                // then check for hyperlinks relationships for the rid
-                                if (wsp.HyperlinkRelationships.Count() > 0)
+                                IEnumerable<O.Spreadsheet.Hyperlink> hLinks = wsp.Worksheet.Descendants<O.Spreadsheet.Hyperlink>();
+                                // loop each hyperlink to get the rid
+                                foreach (O.Spreadsheet.Hyperlink h in hLinks)
                                 {
-                                    foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
+                                    // then check for hyperlinks relationships for the rid
+                                    if (wsp.HyperlinkRelationships.Count() > 0)
                                     {
-                                        // if the rid's match, we have the same hyperlink
-                                        if (h.Id == hRel.Id)
+                                        foreach (HyperlinkRelationship hRel in wsp.HyperlinkRelationships)
                                         {
-                                            // there is a scenario where files from OpenText appear to be damaged and the url is some temp file path
-                                            // not the url path it should be
-                                            string badUrl = string.Empty;
-                                            string[] separatingStrings = { "livelink" };
+                                            // if the rid's match, we have the same hyperlink
+                                            if (h.Id == hRel.Id)
+                                            {
+                                                // there is a scenario where files from OpenText appear to be damaged and the url is some temp file path
+                                                // not the url path it should be
+                                                string badUrl = string.Empty;
+                                                string[] separatingStrings = { "livelink" };
 
-                                            // check if the uri contains any of the known bad paths
-                                            if (hRel.Uri.ToString().StartsWith("../../../"))
-                                            {
-                                                badUrl = hRel.Uri.ToString().Replace("../../../", StringResources.wBackslash);
-                                            }
-                                            else if (hRel.Uri.ToString().Contains("/AppData/Local/Microsoft/Windows/livelink/llsapi.dll/open/"))
-                                            {
-                                                string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
-                                                badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
-                                            }
-                                            else if (hRel.Uri.ToString().Contains("/AppData/Roaming/OpenText/"))
-                                            {
-                                                string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
-                                                badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
-                                            }
-
-                                            // if a bad path was found, start the work to replace it with the correct path
-                                            if (badUrl != string.Empty)
-                                            {
-                                                // loop the sharedstrings to get the correct replace value
-                                                if (excelDoc.WorkbookPart.SharedStringTablePart != null)
+                                                // check if the uri contains any of the known bad paths
+                                                if (hRel.Uri.ToString().StartsWith("../../../"))
                                                 {
-                                                    SharedStringTable sst = excelDoc.WorkbookPart.SharedStringTablePart.SharedStringTable;
-                                                    foreach (SharedStringItem ssi in sst)
-                                                    {
-                                                        if (ssi.Text != null)
-                                                        {
-                                                            if (ssi.InnerText.ToString().EndsWith(badUrl))
-                                                            {
-                                                                // now delete the relationship
-                                                                wsp.DeleteReferenceRelationship(h.Id);
+                                                    badUrl = hRel.Uri.ToString().Replace("../../../", StringResources.wBackslash);
+                                                }
+                                                else if (hRel.Uri.ToString().Contains("/AppData/Local/Microsoft/Windows/livelink/llsapi.dll/open/"))
+                                                {
+                                                    string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                                    badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                                }
+                                                else if (hRel.Uri.ToString().Contains("/AppData/Roaming/OpenText/"))
+                                                {
+                                                    string[] urlParts = hRel.Uri.ToString().Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+                                                    badUrl = hRel.Uri.ToString().Replace(urlParts[0], StringResources.wBackslash);
+                                                }
 
-                                                                // now add a new relationship with the right address
-                                                                wsp.AddHyperlinkRelationship(new Uri(ssi.InnerText, UriKind.Absolute), true, h.Id);
-                                                                isFileChanged = true;
-                                                                goto HLinkStart;
+                                                // if a bad path was found, start the work to replace it with the correct path
+                                                if (badUrl != string.Empty)
+                                                {
+                                                    // loop the sharedstrings to get the correct replace value
+                                                    if (excelDoc.WorkbookPart.SharedStringTablePart != null)
+                                                    {
+                                                        SharedStringTable sst = excelDoc.WorkbookPart.SharedStringTablePart.SharedStringTable;
+                                                        foreach (SharedStringItem ssi in sst)
+                                                        {
+                                                            if (ssi.Text != null)
+                                                            {
+                                                                if (ssi.InnerText.ToString().EndsWith(badUrl))
+                                                                {
+                                                                    // now delete the relationship
+                                                                    wsp.DeleteReferenceRelationship(h.Id);
+
+                                                                    // now add a new relationship with the right address
+                                                                    wsp.AddHyperlinkRelationship(new Uri(ssi.InnerText, UriKind.Absolute), true, h.Id);
+                                                                    isFileChanged = true;
+                                                                    goto HLinkStart;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -1281,17 +1376,21 @@ namespace Office_File_Explorer.Forms
                                     }
                                 }
                             }
-                        }
 
-                        if (isFileChanged == true)
-                        {
-                            excelDoc.WorkbookPart.Workbook.Save();
-                            lstOutput.Items.Add(f + "** Hyperlinks Fixed **");
+                            if (isFileChanged == true)
+                            {
+                                excelDoc.WorkbookPart.Workbook.Save();
+                                lstOutput.Items.Add(f + "** Hyperlinks Fixed **");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + "** No Corrupt Hyperlinks Found **");
+                            }
                         }
-                        else
-                        {
-                            lstOutput.Items.Add(f + "** No Corrupt Hyperlinks Found **");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnFixExcelHyperlinks Error: " + f + " : " + innerEx.Message);
                     }
                 }
             }
@@ -1322,91 +1421,99 @@ namespace Office_File_Explorer.Forms
 
                 foreach (string f in files)
                 {
-                    bool isFileChanged = false;
-                    string attachedTemplateId = "rId1";
-                    string filePath = string.Empty;
-
-                    using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                    try
                     {
-                        DocumentSettingsPart dsp = document.MainDocumentPart.DocumentSettingsPart;
+                        bool isFileChanged = false;
+                        string attachedTemplateId = "rId1";
+                        string filePath = string.Empty;
 
-                        // if the external rel exists, we need to pull the rid and old uri
-                        // we will be deleting this part and re-adding with the new uri
-                        if (dsp.ExternalRelationships.Count() > 0)
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
-                            // just change the attached template
-                            foreach (ExternalRelationship er in dsp.ExternalRelationships)
-                            {
-                                if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
-                                {
-                                    // keep track of the existing rId for the template
-                                    filePath = er.Uri.ToString();
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // if the part does not exist, this is a Normal.dotm situation
-                            // path out to where it should be based on default install settings
-                            string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                            filePath = userProfile + "\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm";
+                            DocumentSettingsPart dsp = document.MainDocumentPart.DocumentSettingsPart;
 
-                            if (!File.Exists(filePath))
-                            {
-                                // Normal.dotm path is not correct?
-                                LoggingHelper.Log("BtnChangeDefaultTemplate Error: " + "Invalid Attached Template Path");
-                                throw new Exception();
-                            }
-                        }
-
-                        if (fromChangeTemplate == filePath || fromChangeTemplate == null || fromChangeTemplate == "Cancel")
-                        {
-                            // file path is the same or user closed without wanting changes, do nothing
-                            return;
-                        }
-                        else
-                        {
-                            filePath = fromChangeTemplate;
-
-                            // delete the old part if it exists
+                            // if the external rel exists, we need to pull the rid and old uri
+                            // we will be deleting this part and re-adding with the new uri
                             if (dsp.ExternalRelationships.Count() > 0)
                             {
-                                dsp.DeleteExternalRelationship(attachedTemplateId);
-                                isFileChanged = true;
-                            }
-
-                            // if the template is not "Normal", add the new rel back
-                            if (fromChangeTemplate != "Normal")
-                            {
-                                // add back the new path
-                                Uri newFilePath = new Uri(filePath);
-                                dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
-                                isFileChanged = true;
-                            }
-                            else
-                            {
-                                // if we are changing to Normal, delete the attachtemplate id ref
-                                foreach (OpenXmlElement oe in dsp.Settings)
+                                // just change the attached template
+                                foreach (ExternalRelationship er in dsp.ExternalRelationships)
                                 {
-                                    if (oe.ToString() == "DocumentFormat.OpenXml.Wordprocessing.AttachedTemplate")
+                                    if (er.RelationshipType != null && er.RelationshipType == StringResources.DocumentTemplatePartType)
                                     {
-                                        oe.Remove();
-                                        isFileChanged = true;
+                                        // keep track of the existing rId for the template
+                                        filePath = er.Uri.ToString();
+                                        break;
                                     }
                                 }
                             }
-                        }
+                            else
+                            {
+                                // if the part does not exist, this is a Normal.dotm situation
+                                // path out to where it should be based on default install settings
+                                string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                                filePath = userProfile + "\\AppData\\Roaming\\Microsoft\\Templates\\Normal.dotm";
 
-                        if (isFileChanged)
-                        {
-                            lstOutput.Items.Add(f + "** Attached Template Changed **");
-                            document.MainDocumentPart.Document.Save();
+                                if (!File.Exists(filePath))
+                                {
+                                    // Normal.dotm path is not correct?
+                                    LoggingHelper.Log("BtnChangeDefaultTemplate Error: " + "Invalid Attached Template Path - " + filePath);
+                                    throw new Exception();
+                                }
+                            }
+
+                            if (fromChangeTemplate == filePath || fromChangeTemplate == null || fromChangeTemplate == "Cancel")
+                            {
+                                // file path is the same or user closed without wanting changes, do nothing
+                                return;
+                            }
+                            else
+                            {
+                                filePath = fromChangeTemplate;
+
+                                // delete the old part if it exists
+                                if (dsp.ExternalRelationships.Count() > 0)
+                                {
+                                    dsp.DeleteExternalRelationship(attachedTemplateId);
+                                    isFileChanged = true;
+                                }
+
+                                // if the template is not "Normal", add the new rel back
+                                if (fromChangeTemplate != "Normal")
+                                {
+                                    // add back the new path
+                                    Uri newFilePath = new Uri(filePath);
+                                    dsp.AddExternalRelationship(StringResources.DocumentTemplatePartType, newFilePath, attachedTemplateId);
+                                    isFileChanged = true;
+                                }
+                                else
+                                {
+                                    // if we are changing to Normal, delete the attachtemplate id ref
+                                    foreach (OpenXmlElement oe in dsp.Settings)
+                                    {
+                                        if (oe.ToString() == "DocumentFormat.OpenXml.Wordprocessing.AttachedTemplate")
+                                        {
+                                            oe.Remove();
+                                            isFileChanged = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (isFileChanged)
+                            {
+                                lstOutput.Items.Add(f + "** Attached Template Changed **");
+                                document.MainDocumentPart.Document.Save();
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + "** No Changed Made To Attached Template **");
+                            }
                         }
-                        else
-                        {
-                            lstOutput.Items.Add(f + "** No Changed Made To Attached Template **");
-                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnChangeAttachedTemplate Error: " + innerEx.Message);
+                        lstOutput.Items.Add("Error - " + innerEx.Message);
                     }
                 }
             }
