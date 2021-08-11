@@ -55,8 +55,9 @@
             this.BtnFixNotesPageSize = new System.Windows.Forms.Button();
             this.BtnChangeTheme = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
             this.BtnCopyOutput = new System.Windows.Forms.Button();
+            this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
+            this.BtnUpdateQuickPartNamespaces = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -169,6 +170,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnUpdateQuickPartNamespaces);
             this.groupBox3.Controls.Add(this.BtnChangeAttachedTemplate);
             this.groupBox3.Controls.Add(this.BtnFixExcelHyperlinks);
             this.groupBox3.Controls.Add(this.BtnDeleteOpenByDefault);
@@ -334,6 +336,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Files";
             // 
+            // BtnCopyOutput
+            // 
+            this.BtnCopyOutput.Location = new System.Drawing.Point(753, 337);
+            this.BtnCopyOutput.Name = "BtnCopyOutput";
+            this.BtnCopyOutput.Size = new System.Drawing.Size(83, 23);
+            this.BtnCopyOutput.TabIndex = 3;
+            this.BtnCopyOutput.Text = "Copy Output";
+            this.BtnCopyOutput.UseVisualStyleBackColor = true;
+            this.BtnCopyOutput.Click += new System.EventHandler(this.BtnCopyOutput_Click);
+            // 
             // ckSearchSubfolders
             // 
             this.ckSearchSubfolders.AutoSize = true;
@@ -345,15 +357,15 @@
             this.ckSearchSubfolders.UseVisualStyleBackColor = true;
             this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
             // 
-            // BtnCopyOutput
+            // BtnUpdateQuickPartNamespaces
             // 
-            this.BtnCopyOutput.Location = new System.Drawing.Point(753, 337);
-            this.BtnCopyOutput.Name = "BtnCopyOutput";
-            this.BtnCopyOutput.Size = new System.Drawing.Size(83, 23);
-            this.BtnCopyOutput.TabIndex = 3;
-            this.BtnCopyOutput.Text = "Copy Output";
-            this.BtnCopyOutput.UseVisualStyleBackColor = true;
-            this.BtnCopyOutput.Click += new System.EventHandler(this.BtnCopyOutput_Click);
+            this.BtnUpdateQuickPartNamespaces.Location = new System.Drawing.Point(458, 79);
+            this.BtnUpdateQuickPartNamespaces.Name = "BtnUpdateQuickPartNamespaces";
+            this.BtnUpdateQuickPartNamespaces.Size = new System.Drawing.Size(188, 23);
+            this.BtnUpdateQuickPartNamespaces.TabIndex = 9;
+            this.BtnUpdateQuickPartNamespaces.Text = "Update Quick Part Namespaces";
+            this.BtnUpdateQuickPartNamespaces.UseVisualStyleBackColor = true;
+            this.BtnUpdateQuickPartNamespaces.Click += new System.EventHandler(this.BtnUpdateQuickPartNamespaces_Click);
             // 
             // FrmBatch
             // 
@@ -411,5 +423,6 @@
         private System.Windows.Forms.Button BtnChangeAttachedTemplate;
         private System.Windows.Forms.Button BtnFixExcelHyperlinks;
         private System.Windows.Forms.Button BtnCopyOutput;
+        private System.Windows.Forms.Button BtnUpdateQuickPartNamespaces;
     }
 }

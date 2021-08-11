@@ -21,7 +21,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
-using static Office_File_Explorer.FrmMain;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
@@ -72,6 +71,25 @@ namespace Office_File_Explorer.Forms
         public void DisableUI()
         {
             // disable all buttons
+            DisableButtons();
+
+            // disable all radio buttons
+            rdoExcel.Enabled = false;
+            rdoPowerPoint.Enabled = false;
+            rdoWord.Enabled = false;
+
+            // disable checkbox
+            ckSearchSubfolders.Enabled = false;
+
+            lstOutput.Items.Clear();
+        }
+
+        /// <summary>
+        /// Disable all buttons, needed for toggle of radio buttons
+        /// </summary>
+        public void DisableButtons()
+        {
+            // disable all buttons
             BtnFixNotesPageSize.Enabled = false;
             BtnChangeTheme.Enabled = false;
             BtnChangeCustomProps.Enabled = false;
@@ -86,20 +104,14 @@ namespace Office_File_Explorer.Forms
             BtnDeleteOpenByDefault.Enabled = false;
             BtnChangeAttachedTemplate.Enabled = false;
             BtnFixExcelHyperlinks.Enabled = false;
-
-            // disable all radio buttons
-            rdoExcel.Enabled = false;
-            rdoPowerPoint.Enabled = false;
-            rdoWord.Enabled = false;
-
-            // disable checkbox
-            ckSearchSubfolders.Enabled = false;
-
-            lstOutput.Items.Clear();
+            BtnUpdateQuickPartNamespaces.Enabled = false;
         }
 
         public void EnableUI()
         {
+            // disable all buttons first
+            DisableButtons();
+
             // enable buttons that work for each app
             BtnChangeTheme.Enabled = true;
             BtnChangeCustomProps.Enabled = true;
@@ -124,10 +136,7 @@ namespace Office_File_Explorer.Forms
                 BtnRemovePII.Enabled = true;
                 BtnDeleteOpenByDefault.Enabled = true;
                 BtnChangeAttachedTemplate.Enabled = true;
-
-                BtnFixNotesPageSize.Enabled = false;
-                BtnPPTResetPII.Enabled = false;
-                BtnConvertStrict.Enabled = false;
+                BtnUpdateQuickPartNamespaces.Enabled = true;
             }
 
             if (rdoPowerPoint.Checked == true)
@@ -135,29 +144,12 @@ namespace Office_File_Explorer.Forms
                 BtnRemovePII.Enabled = true;
                 BtnPPTResetPII.Enabled = true;
                 BtnFixNotesPageSize.Enabled = true;
-
-                BtnFixCorruptBookmarks.Enabled = false;
-                BtnFixCorruptRevisions.Enabled = false;
-                BtnFixTableProps.Enabled = false;
-                BtnConvertStrict.Enabled = false;
-                BtnDeleteOpenByDefault.Enabled = false;
-                BtnChangeAttachedTemplate.Enabled = false;
-                BtnFixExcelHyperlinks.Enabled = false;
             }
 
             if (rdoExcel.Checked == true)
             {
                 BtnConvertStrict.Enabled = true;
                 BtnFixExcelHyperlinks.Enabled = true;
-
-                BtnFixNotesPageSize.Enabled = false;
-                BtnFixCorruptBookmarks.Enabled = false;
-                BtnFixCorruptRevisions.Enabled = false;
-                BtnFixTableProps.Enabled = false;
-                BtnRemovePII.Enabled = false;
-                BtnPPTResetPII.Enabled = false;
-                BtnDeleteOpenByDefault.Enabled = false;
-                BtnChangeAttachedTemplate.Enabled = false;
             }
         }
 
@@ -1549,6 +1541,35 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 LoggingHelper.Log(ex.Message);
+            }
+        }
+
+        private void BtnUpdateQuickPartNamespaces_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lstOutput.Items.Clear();
+
+                foreach (string f in files)
+                {
+                    try
+                    {
+                        
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnUpdateQuickPartNamespaces Error: " + f + " : " + innerEx.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnUpdateQuickPartNamespaces Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
     }

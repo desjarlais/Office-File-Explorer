@@ -212,6 +212,7 @@ namespace Office_File_Explorer
             BtnListMIPLabels.Enabled = false;
             BtnFixExcelHyperlinks.Enabled = false;
             BtnChangeDefaultTemplate.Enabled = false;
+            BtnDeleteExcelLinks.Enabled = false;
         }
 
         public enum OxmlFileFormat { Xlsx, Xlsm, Xlst, Dotx, Docx, Docm, Potx, Pptx, Pptm, Invalid };
@@ -328,6 +329,7 @@ namespace Office_File_Explorer
                 BtnDeleteEmbeddedLinks.Enabled = true;
                 BtnListExcelHyperlinks.Enabled = true;
                 BtnFixExcelHyperlinks.Enabled = true;
+                BtnDeleteExcelLinks.Enabled = true;
 
                 if (ffmt == OxmlFileFormat.Xlsm)
                 {
@@ -5992,6 +5994,63 @@ namespace Office_File_Explorer
             catch (Exception ex)
             {
                 LogInformation(LogType.LogException, "BtnChangeDefaultTemplate", ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnDeleteExcelLinks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                PreButtonClickWork();
+                bool isFileChanged = false;
+                
+                using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(TxtFileName.Text, true))
+                {
+                    WorkbookPart wbPart = excelDoc.WorkbookPart;
+                    LstDisplay.Items.Clear();
+
+                    if (wbPart.ExternalWorkbookParts.Count() == 0)
+                    {
+                        LstDisplay.Items.Add("** No Links Found **");
+                        return;
+                    }
+
+                    DeleteLinkStart:
+                    foreach (ExternalWorkbookPart extWbPart in wbPart.ExternalWorkbookParts)
+                    {
+                        foreach (ExternalRelationship er in extWbPart.ExternalRelationships)
+                        {
+                            extWbPart.DeleteExternalRelationship(er);
+                            
+                            if (extWbPart.ExternalLink.Parent != null)
+                            {
+                                extWbPart.ExternalLink.Remove();
+                            }
+                            
+                            isFileChanged = true;
+                            goto DeleteLinkStart;
+                        }
+                    }
+
+                    if (isFileChanged)
+                    {
+                        LstDisplay.Items.Add("** Links Deleted **");
+                        excelDoc.WorkbookPart.Workbook.Save();
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Links Deleted **");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInformation(LogType.LogException, StringResources.wErrorText, ex.Message);
             }
             finally
             {

@@ -576,8 +576,8 @@ namespace Office_File_Explorer.Word_Helpers
 
                                 pgMar.Top = new Int32Value((int)left);
                                 pgMar.Bottom = new Int32Value((int)right);
-                                pgMar.Left = new UInt32Value((uint)System.Math.Max(0, bottom));
-                                pgMar.Right = new UInt32Value((uint)System.Math.Max(0, top));
+                                pgMar.Left = new UInt32Value((uint)Math.Max(0, bottom));
+                                pgMar.Right = new UInt32Value((uint)Math.Max(0, top));
                             }
                         }
                     }

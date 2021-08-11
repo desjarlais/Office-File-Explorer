@@ -121,6 +121,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.BtnCopyLine = new System.Windows.Forms.Button();
             this.BtnCopyAll = new System.Windows.Forms.Button();
+            this.BtnDeleteExcelLinks = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -509,6 +510,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.BtnDeleteExcelLinks);
             this.groupBox2.Controls.Add(this.BtnFixExcelHyperlinks);
             this.groupBox2.Controls.Add(this.BtnDeleteEmbeddedLinks);
             this.groupBox2.Controls.Add(this.BtnListExcelHyperlinks);
@@ -555,7 +557,7 @@
             // 
             // BtnListExcelHyperlinks
             // 
-            this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(138, 101);
+            this.BtnListExcelHyperlinks.Location = new System.Drawing.Point(140, 127);
             this.BtnListExcelHyperlinks.Name = "BtnListExcelHyperlinks";
             this.BtnListExcelHyperlinks.Size = new System.Drawing.Size(107, 23);
             this.BtnListExcelHyperlinks.TabIndex = 11;
@@ -565,7 +567,7 @@
             // 
             // BtnConvertToNonStrictFormat
             // 
-            this.BtnConvertToNonStrictFormat.Location = new System.Drawing.Point(138, 75);
+            this.BtnConvertToNonStrictFormat.Location = new System.Drawing.Point(140, 101);
             this.BtnConvertToNonStrictFormat.Name = "BtnConvertToNonStrictFormat";
             this.BtnConvertToNonStrictFormat.Size = new System.Drawing.Size(107, 23);
             this.BtnConvertToNonStrictFormat.TabIndex = 29;
@@ -575,7 +577,7 @@
             // 
             // BtnConvertXlsmToXlsx
             // 
-            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(138, 46);
+            this.BtnConvertXlsmToXlsx.Location = new System.Drawing.Point(140, 72);
             this.BtnConvertXlsmToXlsx.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConvertXlsmToXlsx.Name = "BtnConvertXlsmToXlsx";
             this.BtnConvertXlsmToXlsx.Size = new System.Drawing.Size(109, 24);
@@ -619,7 +621,7 @@
             // 
             // BtnDeleteComment
             // 
-            this.BtnDeleteComment.Location = new System.Drawing.Point(138, 20);
+            this.BtnDeleteComment.Location = new System.Drawing.Point(140, 46);
             this.BtnDeleteComment.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtnDeleteComment.Name = "BtnDeleteComment";
             this.BtnDeleteComment.Size = new System.Drawing.Size(109, 24);
@@ -686,7 +688,7 @@
             // BtnListFormulas
             // 
             this.BtnListFormulas.Enabled = false;
-            this.BtnListFormulas.Location = new System.Drawing.Point(138, 129);
+            this.BtnListFormulas.Location = new System.Drawing.Point(140, 155);
             this.BtnListFormulas.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.BtnListFormulas.Name = "BtnListFormulas";
             this.BtnListFormulas.Size = new System.Drawing.Size(107, 23);
@@ -1085,7 +1087,7 @@
             // 
             this.aboutToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.Dialog_16x;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -1093,7 +1095,7 @@
             // 
             this.feedbackToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.FeedbackBubble_16x;
             this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
-            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.feedbackToolStripMenuItem.Text = "&Feedback / Suggestions";
             this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.FeedbackToolStripMenuItem_Click);
             // 
@@ -1101,7 +1103,7 @@
             // 
             this.errorLogToolStripMenuItem.Image = global::Office_File_Explorer.Properties.Resources.ErrorSummary_16x;
             this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.errorLogToolStripMenuItem.Text = "&Error Log";
             this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.ErrorLogToolStripMenuItem_Click);
             // 
@@ -1148,6 +1150,16 @@
             this.BtnCopyAll.Text = "Copy All Output";
             this.BtnCopyAll.UseVisualStyleBackColor = true;
             this.BtnCopyAll.Click += new System.EventHandler(this.BtnCopyAll_Click);
+            // 
+            // BtnDeleteExcelLinks
+            // 
+            this.BtnDeleteExcelLinks.Location = new System.Drawing.Point(140, 20);
+            this.BtnDeleteExcelLinks.Name = "BtnDeleteExcelLinks";
+            this.BtnDeleteExcelLinks.Size = new System.Drawing.Size(109, 23);
+            this.BtnDeleteExcelLinks.TabIndex = 31;
+            this.BtnDeleteExcelLinks.Text = "Delete Links";
+            this.BtnDeleteExcelLinks.UseVisualStyleBackColor = true;
+            this.BtnDeleteExcelLinks.Click += new System.EventHandler(this.BtnDeleteExcelLinks_Click);
             // 
             // FrmMain
             // 
@@ -1280,6 +1292,7 @@
         private System.Windows.Forms.Button BtnListMIPLabels;
         private System.Windows.Forms.Button BtnFixExcelHyperlinks;
         private System.Windows.Forms.Button BtnChangeDefaultTemplate;
+        private System.Windows.Forms.Button BtnDeleteExcelLinks;
     }
 }
 

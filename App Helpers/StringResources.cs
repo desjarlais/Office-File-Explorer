@@ -59,11 +59,11 @@
         public const string wNone = " -- none ";
         public const string wBackslash = "/";
 
-        // dll refs
+        // win32 dll refs
         public const string gdi32 = "gdi32.dll";
         public const string user32 = "user32.dll";
 
-        // global xml tag strings
+        // xml tag strings
         public const string txtFallbackStart = "<mc:Fallback>";
         public const string txtFallbackEnd = "</mc:Fallback>";
         public const string txtMcChoiceTagEnd = "</mc:Choice>";
@@ -73,7 +73,7 @@
         public const string txtFieldCodeEnd = "<w:fldChar w:fldCharType=\"end\"";
         public const string txtRsid = "<w:rsidR=";
 
-        // global app messages
+        // app messages
         public const string doNotDeleteStyle = "DO NOT DELETE + ";
         public const string deleteStyle = "DELETE + ";
         public const string nonEmptyId = "Target Id cannot be empty.";
@@ -131,7 +131,7 @@
         public const string dfopShape = "DocumentFormat.OpenXml.Presentation.Shape";
         public const string dfopPresentationPicture = "DocumentFormat.OpenXml.Presentation.Picture";
 
-        // excelcnv paths
+        // excelcnv.exe paths
         public const string sameBitnessO365 = @"C:\Program Files\Microsoft Office\root\Office16\excelcnv.exe";
         public const string x86OfficeO365 = @"C:\Program Files (x86)\Microsoft Office\root\Office16\excelcnv.exe";
         public const string sameBitnessMSI2016 = @"C:\Program Files\Microsoft Office\Office16\excelcnv.exe";
@@ -146,7 +146,7 @@
         public const string schemaMetadataProperties = "http://schemas.microsoft.com/office/2006/metadata/properties";
         public const string schemaCustomXsn = "http://schemas.microsoft.com/office/2006/metadata/customXsn";
         
-        // urls
+        // misc urls
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
 
         // Office package relationship ids
