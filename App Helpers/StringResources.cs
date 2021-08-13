@@ -9,8 +9,8 @@
         public const string wErrorText = "Error: ";
         public const string wFixedFileParentheses = "(Fixed)";
         public const string wCopyFileParentheses = "(Copy)";
-        public const string sEnd = "end";
-        public const string sBegin = "begin";
+        public const string wEnd = "end";
+        public const string wBegin = "begin";
         public const string wColon = ": ";
         public const string wColonBuffer = " : ";
         public const string wNumId = ". numId = ";

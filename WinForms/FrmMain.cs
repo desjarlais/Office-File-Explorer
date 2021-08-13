@@ -3523,13 +3523,13 @@ namespace Office_File_Explorer
                             {
                                 FieldChar fc = new FieldChar();
                                 fc = (FieldChar)oxe;
-                                if (fc.FieldCharType == StringResources.sBegin)
+                                if (fc.FieldCharType == StringResources.wBegin)
                                 {
-                                    fieldCharList.Add(StringResources.sBegin);
+                                    fieldCharList.Add(StringResources.wBegin);
                                 }
-                                else if (fc.FieldCharType == StringResources.sEnd)
+                                else if (fc.FieldCharType == StringResources.wEnd)
                                 {
-                                    fieldCharList.Add(StringResources.sEnd);
+                                    fieldCharList.Add(StringResources.wEnd);
                                 }
                             }
                             else if (oxe.LocalName == "instrText")
@@ -3564,11 +3564,11 @@ namespace Office_File_Explorer
 
                         foreach (string s in fieldCharList)
                         {
-                            if (s == StringResources.sBegin)
+                            if (s == StringResources.wBegin)
                             {
                                 continue;
                             }
-                            else if (s == StringResources.sEnd)
+                            else if (s == StringResources.wEnd)
                             {
                                 // display the field code values
                                 fCount++;

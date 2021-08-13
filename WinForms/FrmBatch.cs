@@ -1558,6 +1558,7 @@ namespace Office_File_Explorer.Forms
                     try
                     {
                         bool fileChanged = false;
+                        nsList.Clear();
 
                         using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
@@ -1612,22 +1613,19 @@ namespace Office_File_Explorer.Forms
                                         string mappingName = xPathName.Substring(4, xPathName.Length - 7);
 
                                         // parse out the namespace mapping
-                                        string dbPrefix = db.PrefixMappings.Value.TrimEnd();
-                                        string[] prefixMappingNamespaces = dbPrefix.Split(' ');
+                                        string[] prefixMappingNamespaces = db.PrefixMappings.Value.Split(' ');
 
                                         // go through each namespace to compare with the content controls namespace value
                                         foreach (var s in prefixMappingNamespaces)
                                         {
                                             // get the ns val first
                                             string xPathNsValue = s.Substring(6, 3);
-                                            string xPathUri;
 
                                             // if the ns value is the same, move on to the next step in checking for the bad uri
                                             if (xPathNsValue == nsValue)
                                             {
                                                 // now pull out the uri from "xmlns:ns2='http://schemas.microsoft.com/office/infopath/2007/PartnerControls'"
-                                                xPathUri = s.Substring(10);
-                                                xPathUri = xPathUri.Replace("'", string.Empty);
+                                                string xPathUri = s.Substring(10).Replace("'", string.Empty);
 
                                                 // loop the nslist from custom xml to compare with the document xml
                                                 foreach (var xp in nsList)
