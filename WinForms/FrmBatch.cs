@@ -1,6 +1,7 @@
 ﻿// Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
+using DocumentFormat.OpenXml.CustomXmlDataProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -21,6 +22,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
+using DataBinding = DocumentFormat.OpenXml.Wordprocessing.DataBinding;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
@@ -1548,13 +1550,111 @@ namespace Office_File_Explorer.Forms
         {
             try
             {
+                Dictionary<string, string> nsList = new Dictionary<string, string>();
                 lstOutput.Items.Clear();
 
                 foreach (string f in files)
                 {
                     try
                     {
-                        
+                        bool fileChanged = false;
+
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            // first get the schemareferences
+                            foreach (CustomXmlPart cxp in document.MainDocumentPart.CustomXmlParts)
+                            {
+                                XmlDocument xDoc = new XmlDocument();
+                                xDoc.Load(cxp.GetStream());
+
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
+                                {
+                                    foreach (XmlNode xNode in xDoc.ChildNodes)
+                                    {
+                                        if (xNode.Name == "p:properties")
+                                        {
+                                            foreach (XmlNode xNode2 in xNode.ChildNodes)
+                                            {
+                                                if (xNode2.Name == "documentManagement")
+                                                {
+                                                    foreach (XmlNode xNode3 in xNode2.ChildNodes)
+                                                    {
+                                                        // add the node name and uri to a global list for comparing later
+                                                        nsList.Add(xNode3.Name, xNode3.NamespaceURI);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // now that we know the namespaces, loop the controls and update their data binding prefix mappings
+                            foreach (var cc in document.ContentControls())
+                            {
+                                string ccType = string.Empty;
+                                SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+
+                                // get the data binding element
+                                foreach (OpenXmlElement oxe in props.ChildElements)
+                                {
+                                    if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.DataBinding")
+                                    {
+                                        // create the DataBinding object
+                                        DataBinding db = (DataBinding)oxe;
+
+                                        // parse out the element name from /ns0:properties[1]/documentManagement[1]/ns4:TestDate[1]
+                                        string[] elemName = db.XPath.ToString().Split('/');
+
+                                        // parse out the xpath name and ns value to compare in the prefix mappings
+                                        string xPathName = elemName[elemName.Count() - 1];
+                                        string nsValue = xPathName.Substring(0, 3);
+                                        string mappingName = xPathName.Substring(4, xPathName.Length - 7);
+
+                                        // parse out the namespace mapping
+                                        string dbPrefix = db.PrefixMappings.Value.TrimEnd();
+                                        string[] prefixMappingNamespaces = dbPrefix.Split(' ');
+
+                                        // go through each namespace to compare with the content controls namespace value
+                                        foreach (var s in prefixMappingNamespaces)
+                                        {
+                                            // get the ns val first
+                                            string xPathNsValue = s.Substring(6, 3);
+                                            string xPathUri;
+
+                                            // if the ns value is the same, move on to the next step in checking for the bad uri
+                                            if (xPathNsValue == nsValue)
+                                            {
+                                                // now pull out the uri from "xmlns:ns2='http://schemas.microsoft.com/office/infopath/2007/PartnerControls'"
+                                                xPathUri = s.Substring(10);
+                                                xPathUri = xPathUri.Replace("'", string.Empty);
+
+                                                // loop the nslist from custom xml to compare with the document xml
+                                                foreach (var xp in nsList)
+                                                {
+                                                    if (xp.Key == mappingName && xp.Value != xPathUri)
+                                                    {
+                                                        // replace the old value from document.xml with this one from custom xml
+                                                        db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(xPathUri, xp.Value);
+                                                        fileChanged = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (fileChanged)
+                            {
+                                lstOutput.Items.Add(f + "** Namespace Guid Updated **");
+                                document.MainDocumentPart.Document.Save();
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + "** No Namespace Needed To Be Updated **");
+                            }
+                        }
                     }
                     catch (Exception innerEx)
                     {
