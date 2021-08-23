@@ -1546,11 +1546,19 @@ namespace Office_File_Explorer.Forms
             }
         }
 
+        /// <summary>
+        /// when an SP On-Prem doclib is migrated to SPO, content controls don't get the new doc lib guid changed in files
+        /// this fix is to update the guid in the control since the custom xml file does have the updated id
+        /// its just the document.xml that doesn't get updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnUpdateQuickPartNamespaces_Click(object sender, EventArgs e)
         {
             try
             {
-                Dictionary<string, string> nsList = new Dictionary<string, string>();
+                List<string> nsList = new List<string>();
+                List<string> nList = new List<string>();
                 lstOutput.Items.Clear();
 
                 foreach (string f in files)
@@ -1558,13 +1566,17 @@ namespace Office_File_Explorer.Forms
                     try
                     {
                         bool fileChanged = false;
+                        string dsiNumber = "";
                         nsList.Clear();
+                        nList.Clear();
 
                         using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
                             // first get the schemareferences
                             foreach (CustomXmlPart cxp in document.MainDocumentPart.CustomXmlParts)
                             {
+                                dsiNumber = cxp.CustomXmlPropertiesPart.DataStoreItem.ItemId;
+                                
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
 
@@ -1574,17 +1586,27 @@ namespace Office_File_Explorer.Forms
                                     {
                                         if (xNode.Name == "p:properties")
                                         {
+                                            foreach (XmlAttribute a in xNode.Attributes)
+                                            {
+                                                nsList.Add(a.Value);
+                                            }
+
                                             foreach (XmlNode xNode2 in xNode.ChildNodes)
                                             {
                                                 if (xNode2.Name == "documentManagement")
                                                 {
+
                                                     foreach (XmlNode xNode3 in xNode2.ChildNodes)
                                                     {
                                                         // add the node name and uri to a global list for comparing later
-                                                        nsList.Add(xNode3.Name, xNode3.NamespaceURI);
+                                                        nsList.Add(xNode3.NamespaceURI);
+                                                        nList.Add(xNode3.Name);
                                                     }
                                                 }
                                             }
+
+                                            // remove any duplicates
+                                            nsList = nsList.Distinct().ToList();
                                         }
                                     }
                                 }
@@ -1603,39 +1625,48 @@ namespace Office_File_Explorer.Forms
                                     {
                                         // create the DataBinding object
                                         DataBinding db = (DataBinding)oxe;
-
-                                        // parse out the element name from /ns0:properties[1]/documentManagement[1]/ns4:TestDate[1]
+                                        
+                                        // parse out the element name
                                         string[] elemName = db.XPath.ToString().Split('/');
 
                                         // parse out the xpath name and ns value to compare in the prefix mappings
                                         string xPathName = elemName[elemName.Count() - 1];
-                                        string nsValue = xPathName.Substring(0, 3);
+                                        //string nsValue = xPathName.Substring(0, 3);
                                         string mappingName = xPathName.Substring(4, xPathName.Length - 7);
 
-                                        // parse out the namespace mapping
-                                        string[] prefixMappingNamespaces = db.PrefixMappings.Value.Split(' ');
-
-                                        // go through each namespace to compare with the content controls namespace value
-                                        foreach (var s in prefixMappingNamespaces)
+                                        // check of the name is one of the managed metadata props
+                                        foreach (string sName in nList)
                                         {
-                                            // get the ns val first
-                                            string xPathNsValue = s.Substring(6, 3);
-
-                                            // if the ns value is the same, move on to the next step in checking for the bad uri
-                                            if (xPathNsValue == nsValue)
+                                            if (sName == mappingName)
                                             {
-                                                // now pull out the uri from "xmlns:ns2='http://schemas.microsoft.com/office/infopath/2007/PartnerControls'"
-                                                string xPathUri = s.Substring(10).Replace("'", string.Empty);
+                                                // parse out the namespace mapping but remove the space at the end first
+                                                string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
 
-                                                // loop the nslist from custom xml to compare with the document xml
-                                                foreach (var xp in nsList)
+                                                int nsIndex = 0;
+
+                                                // go through each namespace to compare with the content controls namespace value
+                                                foreach (var s in prefixMappingNamespaces)
                                                 {
-                                                    if (xp.Key == mappingName && xp.Value != xPathUri)
+                                                    string xSubstring = "";
+
+                                                    if (s.StartsWith("xmlns:"))
                                                     {
-                                                        // replace the old value from document.xml with this one from custom xml
-                                                        db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(xPathUri, xp.Value);
+                                                        xSubstring = s.Substring(11, s.Length - 11);
+                                                        xSubstring = xSubstring.Substring(0, xSubstring.Length - 1);
+                                                    }
+                                                    else
+                                                    {
+                                                        xSubstring = s.Substring(0, s.Length);
+                                                    }
+                                                    
+                                                    if (xSubstring != nsList[nsIndex])
+                                                    {
+                                                        string valToReplace = "xmlns:ns" + nsIndex + "='" + nsList[nsIndex] + "'";
+                                                        db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(s, valToReplace);
                                                         fileChanged = true;
                                                     }
+
+                                                    nsIndex++;
                                                 }
                                             }
                                         }
