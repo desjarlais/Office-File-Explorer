@@ -1582,6 +1582,7 @@ namespace Office_File_Explorer.Forms
 
                                 if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaMetadataProperties)
                                 {
+                                    // loop through the metadata and get the uri's
                                     foreach (XmlNode xNode in xDoc.ChildNodes)
                                     {
                                         if (xNode.Name == "p:properties")
@@ -1595,7 +1596,6 @@ namespace Office_File_Explorer.Forms
                                             {
                                                 if (xNode2.Name == "documentManagement")
                                                 {
-
                                                     foreach (XmlNode xNode3 in xNode2.ChildNodes)
                                                     {
                                                         // add the node name and uri to a global list for comparing later
@@ -1615,29 +1615,38 @@ namespace Office_File_Explorer.Forms
                             // now that we know the namespaces, loop the controls and update their data binding prefix mappings
                             foreach (var cc in document.ContentControls())
                             {
-                                string ccType = string.Empty;
+                                string ccName = string.Empty;
                                 SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
 
-                                // get the data binding element
                                 foreach (OpenXmlElement oxe in props.ChildElements)
                                 {
+                                    // get the cc name from the tag
+                                    if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Tag")
+                                    {
+                                        foreach (OpenXmlAttribute oxa in oxe.GetAttributes())
+                                        {
+                                            ccName = oxa.Value;
+                                        }
+                                    }
+                                    
+                                    // now use databinding to check the prefix mappings
                                     if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.DataBinding")
                                     {
                                         // create the DataBinding object
                                         DataBinding db = (DataBinding)oxe;
+
+                                        if (ccName == string.Empty)
+                                        {
+                                            // parse out the element name
+                                            string[] elemName = db.XPath.ToString().Split('/');
+                                            string xPathName = elemName[elemName.Count() - 1];
+                                            string mappingName = xPathName.Substring(4, xPathName.Length - 7);
+                                        }
                                         
-                                        // parse out the element name
-                                        string[] elemName = db.XPath.ToString().Split('/');
-
-                                        // parse out the xpath name and ns value to compare in the prefix mappings
-                                        string xPathName = elemName[elemName.Count() - 1];
-                                        //string nsValue = xPathName.Substring(0, 3);
-                                        string mappingName = xPathName.Substring(4, xPathName.Length - 7);
-
-                                        // check of the name is one of the managed metadata props
+                                        // check if the content control prefix map name matches the metadata xml
                                         foreach (string sName in nList)
                                         {
-                                            if (sName == mappingName)
+                                            if (sName == ccName)
                                             {
                                                 // parse out the namespace mapping but remove the space at the end first
                                                 string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
@@ -1649,6 +1658,7 @@ namespace Office_File_Explorer.Forms
                                                 {
                                                     string xSubstring = "";
 
+                                                    // the first mapping usually doesn't have xmlns at the beginning
                                                     if (s.StartsWith("xmlns:"))
                                                     {
                                                         xSubstring = s.Substring(11, s.Length - 11);
@@ -1661,6 +1671,7 @@ namespace Office_File_Explorer.Forms
                                                     
                                                     if (xSubstring != nsList[nsIndex])
                                                     {
+                                                        // add the xmlns to the guid
                                                         string valToReplace = "xmlns:ns" + nsIndex + "='" + nsList[nsIndex] + "'";
                                                         db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(s, valToReplace);
                                                         fileChanged = true;
