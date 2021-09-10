@@ -1566,7 +1566,6 @@ namespace Office_File_Explorer.Forms
                     try
                     {
                         bool fileChanged = false;
-                        string dsiNumber = "";
                         nsList.Clear();
                         nList.Clear();
 
@@ -1575,8 +1574,6 @@ namespace Office_File_Explorer.Forms
                             // first get the schemareferences
                             foreach (CustomXmlPart cxp in document.MainDocumentPart.CustomXmlParts)
                             {
-                                dsiNumber = cxp.CustomXmlPropertiesPart.DataStoreItem.ItemId;
-                                
                                 XmlDocument xDoc = new XmlDocument();
                                 xDoc.Load(cxp.GetStream());
 
@@ -1652,11 +1649,11 @@ namespace Office_File_Explorer.Forms
                                                 string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
 
                                                 int nsIndex = 0;
-
+                                                
                                                 // go through each namespace to compare with the content controls namespace value
                                                 foreach (var s in prefixMappingNamespaces)
                                                 {
-                                                    string xSubstring = "";
+                                                    string xSubstring = string.Empty;
 
                                                     // the first mapping usually doesn't have xmlns at the beginning
                                                     if (s.StartsWith("xmlns:"))

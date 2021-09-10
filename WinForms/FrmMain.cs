@@ -4482,7 +4482,7 @@ namespace Office_File_Explorer
 
         /// <summary>
         /// This is a known scenario that affects Word Co-Auth scenarios
-        /// if the field code sequence is missing the separate, it causes problems
+        /// if the field code sequence is missing the separate element, it causes problems
         /// </summary>
         public void FixCommentFieldCodeTags()
         {
@@ -4618,19 +4618,26 @@ namespace Office_File_Explorer
                 {
                     WordprocessingCommentsPart commentsPart = document.MainDocumentPart.WordprocessingCommentsPart;
                     IEnumerable<OpenXmlUnknownElement> unknownList = document.MainDocumentPart.Document.Descendants<OpenXmlUnknownElement>();
+                    IEnumerable<CommentReference> commentRefs = document.MainDocumentPart.Document.Descendants<CommentReference>();
+
                     bool saveFile = false;
                     bool cRefIdExists = false;
 
-                    if (commentsPart == null)
+                    if (commentsPart == null && commentRefs.Count() > 0)
                     {
-                        LogInformation(LogType.EmptyCount, StringResources.wComments, string.Empty);
+                        // if there are comment refs but no comments.xml, remove refs
+                        foreach (CommentReference cr in commentRefs)
+                        {
+                            cr.Remove();
+                            saveFile = true;
+                        }
                     }
-                    else
+                    else if (commentsPart == null && commentRefs.Count() == 0)
                     {
+                        // for some reason these dangling refs are considered unknown types, not commentrefs
+                        // convert to an openxmlelement then type it to a commentref to get the id
                         foreach (OpenXmlUnknownElement uk in unknownList)
                         {
-                            // for some reason these dangling refs are considered unknown types, not commentrefs
-                            // convert to an openxmlelement then type it to a commentref to get the id
                             if (uk.LocalName == "commentReference")
                             {
                                 // so far I only see the id in the outerxml
@@ -4654,7 +4661,7 @@ namespace Office_File_Explorer
                                                     {
                                                         int cId = Convert.ToInt32(cm.Id);
                                                         int cRefId = Convert.ToInt32(xa.Value);
-                                                        
+
                                                         if (cId == cRefId)
                                                         {
                                                             cRefIdExists = true;
@@ -4677,16 +4684,17 @@ namespace Office_File_Explorer
                                 }
                             }
                         }
+                    }
 
-                        if (saveFile)
-                        {
-                            document.MainDocumentPart.Document.Save();
-                            LstDisplay.Items.Add("** Corrupt Comment Fixed **");
-                        }
-                        else
-                        {
-                            LstDisplay.Items.Add("** No Corrupt Comment Found **");
-                        }
+                    
+                    if (saveFile)
+                    {
+                        document.MainDocumentPart.Document.Save();
+                        LstDisplay.Items.Add("** Corrupt Comment Fixed **");
+                    }
+                    else
+                    {
+                        LstDisplay.Items.Add("** No Corrupt Comments Found **");
                     }
                 }
             }
