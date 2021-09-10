@@ -41,6 +41,7 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnUpdateQuickPartNamespaces = new System.Windows.Forms.Button();
             this.BtnChangeAttachedTemplate = new System.Windows.Forms.Button();
             this.BtnFixExcelHyperlinks = new System.Windows.Forms.Button();
             this.BtnDeleteOpenByDefault = new System.Windows.Forms.Button();
@@ -57,7 +58,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.BtnCopyOutput = new System.Windows.Forms.Button();
             this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
-            this.BtnUpdateQuickPartNamespaces = new System.Windows.Forms.Button();
+            this.BtnFixCorruptComments = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -170,6 +171,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.BtnFixCorruptComments);
             this.groupBox3.Controls.Add(this.BtnUpdateQuickPartNamespaces);
             this.groupBox3.Controls.Add(this.BtnChangeAttachedTemplate);
             this.groupBox3.Controls.Add(this.BtnFixExcelHyperlinks);
@@ -191,6 +193,16 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnUpdateQuickPartNamespaces
+            // 
+            this.BtnUpdateQuickPartNamespaces.Location = new System.Drawing.Point(458, 79);
+            this.BtnUpdateQuickPartNamespaces.Name = "BtnUpdateQuickPartNamespaces";
+            this.BtnUpdateQuickPartNamespaces.Size = new System.Drawing.Size(188, 23);
+            this.BtnUpdateQuickPartNamespaces.TabIndex = 9;
+            this.BtnUpdateQuickPartNamespaces.Text = "Update Quick Part Namespaces";
+            this.BtnUpdateQuickPartNamespaces.UseVisualStyleBackColor = true;
+            this.BtnUpdateQuickPartNamespaces.Click += new System.EventHandler(this.BtnUpdateQuickPartNamespaces_Click);
             // 
             // BtnChangeAttachedTemplate
             // 
@@ -357,15 +369,15 @@
             this.ckSearchSubfolders.UseVisualStyleBackColor = true;
             this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
             // 
-            // BtnUpdateQuickPartNamespaces
+            // BtnFixCorruptComments
             // 
-            this.BtnUpdateQuickPartNamespaces.Location = new System.Drawing.Point(458, 79);
-            this.BtnUpdateQuickPartNamespaces.Name = "BtnUpdateQuickPartNamespaces";
-            this.BtnUpdateQuickPartNamespaces.Size = new System.Drawing.Size(188, 23);
-            this.BtnUpdateQuickPartNamespaces.TabIndex = 9;
-            this.BtnUpdateQuickPartNamespaces.Text = "Update Quick Part Namespaces";
-            this.BtnUpdateQuickPartNamespaces.UseVisualStyleBackColor = true;
-            this.BtnUpdateQuickPartNamespaces.Click += new System.EventHandler(this.BtnUpdateQuickPartNamespaces_Click);
+            this.BtnFixCorruptComments.Location = new System.Drawing.Point(665, 51);
+            this.BtnFixCorruptComments.Name = "BtnFixCorruptComments";
+            this.BtnFixCorruptComments.Size = new System.Drawing.Size(138, 23);
+            this.BtnFixCorruptComments.TabIndex = 9;
+            this.BtnFixCorruptComments.Text = "Fix Corrupt Comments";
+            this.BtnFixCorruptComments.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptComments.Click += new System.EventHandler(this.BtnFixCorruptComments_Click);
             // 
             // FrmBatch
             // 
@@ -424,5 +436,6 @@
         private System.Windows.Forms.Button BtnFixExcelHyperlinks;
         private System.Windows.Forms.Button BtnCopyOutput;
         private System.Windows.Forms.Button BtnUpdateQuickPartNamespaces;
+        private System.Windows.Forms.Button BtnFixCorruptComments;
     }
 }

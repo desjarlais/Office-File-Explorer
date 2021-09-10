@@ -1,7 +1,6 @@
 ﻿// Open Xml SDK refs
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.CustomProperties;
-using DocumentFormat.OpenXml.CustomXmlDataProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -107,6 +106,7 @@ namespace Office_File_Explorer.Forms
             BtnChangeAttachedTemplate.Enabled = false;
             BtnFixExcelHyperlinks.Enabled = false;
             BtnUpdateQuickPartNamespaces.Enabled = false;
+            BtnFixCorruptComments.Enabled = false;
         }
 
         public void EnableUI()
@@ -139,6 +139,7 @@ namespace Office_File_Explorer.Forms
                 BtnDeleteOpenByDefault.Enabled = true;
                 BtnChangeAttachedTemplate.Enabled = true;
                 BtnUpdateQuickPartNamespaces.Enabled = true;
+                BtnFixCorruptComments.Enabled = true;
             }
 
             if (rdoPowerPoint.Checked == true)
@@ -1684,12 +1685,12 @@ namespace Office_File_Explorer.Forms
 
                             if (fileChanged)
                             {
-                                lstOutput.Items.Add(f + "** Namespace Guid Updated **");
+                                lstOutput.Items.Add(f + ": Namespace Guid Updated");
                                 document.MainDocumentPart.Document.Save();
                             }
                             else
                             {
-                                lstOutput.Items.Add(f + "** No Namespace Needed To Be Updated **");
+                                lstOutput.Items.Add(f + ": No Namespace Needed To Be Updated");
                             }
                         }
                     }
@@ -1702,6 +1703,119 @@ namespace Office_File_Explorer.Forms
             catch (Exception ex)
             {
                 LoggingHelper.Log("BtnUpdateQuickPartNamespaces Error: " + ex.Message);
+                lstOutput.Items.Add("Error - " + ex.Message);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void BtnFixCorruptComments_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<string> nsList = new List<string>();
+                List<string> nList = new List<string>();
+                lstOutput.Items.Clear();
+
+                foreach (string f in files)
+                {
+                    try
+                    {
+                        using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
+                        {
+                            WordprocessingCommentsPart commentsPart = document.MainDocumentPart.WordprocessingCommentsPart;
+                            IEnumerable<OpenXmlUnknownElement> unknownList = document.MainDocumentPart.Document.Descendants<OpenXmlUnknownElement>();
+                            IEnumerable<CommentReference> commentRefs = document.MainDocumentPart.Document.Descendants<CommentReference>();
+
+                            bool saveFile = false;
+                            bool cRefIdExists = false;
+
+                            if (commentsPart == null && commentRefs.Count() > 0)
+                            {
+                                // if there are comment refs but no comments.xml, remove refs
+                                foreach (CommentReference cr in commentRefs)
+                                {
+                                    cr.Remove();
+                                    saveFile = true;
+                                }
+                            }
+                            else if (commentsPart == null && commentRefs.Count() == 0)
+                            {
+                                // for some reason these dangling refs are considered unknown types, not commentrefs
+                                // convert to an openxmlelement then type it to a commentref to get the id
+                                foreach (OpenXmlUnknownElement uk in unknownList)
+                                {
+                                    if (uk.LocalName == "commentReference")
+                                    {
+                                        // so far I only see the id in the outerxml
+                                        XmlDocument xDoc = new XmlDocument();
+                                        xDoc.LoadXml(uk.OuterXml);
+
+                                        // traverse the outerxml until we get to the id
+                                        if (xDoc.ChildNodes.Count > 0)
+                                        {
+                                            foreach (XmlNode xNode in xDoc.ChildNodes)
+                                            {
+                                                if (xNode.Attributes.Count > 0)
+                                                {
+                                                    foreach (XmlAttribute xa in xNode.Attributes)
+                                                    {
+                                                        if (xa.LocalName == "id")
+                                                        {
+                                                            // now that we have the id number, we can use it to compare with the comment part
+                                                            // if the id exists in commentref but not the commentpart, it can be deleted
+                                                            foreach (O.Wordprocessing.Comment cm in commentsPart.Comments)
+                                                            {
+                                                                int cId = Convert.ToInt32(cm.Id);
+                                                                int cRefId = Convert.ToInt32(xa.Value);
+
+                                                                if (cId == cRefId)
+                                                                {
+                                                                    cRefIdExists = true;
+                                                                }
+                                                            }
+
+                                                            if (cRefIdExists == false)
+                                                            {
+                                                                uk.Remove();
+                                                                saveFile = true;
+                                                            }
+                                                            else
+                                                            {
+                                                                cRefIdExists = false;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            if (saveFile)
+                            {
+                                document.MainDocumentPart.Document.Save();
+                                lstOutput.Items.Add(f + ": Corrupt Comment Fixed");
+                            }
+                            else
+                            {
+                                lstOutput.Items.Add(f + ": No Corrupt Comments Found");
+                            }
+                        }
+                    }
+                    catch (Exception innerEx)
+                    {
+                        LoggingHelper.Log("BtnFixCorruptComments Error: " + f + " : " + innerEx.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingHelper.Log("BtnFixCorruptComments Error: " + ex.Message);
                 lstOutput.Items.Add("Error - " + ex.Message);
             }
             finally
