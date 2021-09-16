@@ -124,6 +124,10 @@
         public const string dfowLevel = "DocumentFormat.OpenXml.Wordprocessing.Level";
         public const string dfowText = "DocumentFormat.OpenXml.Wordprocessing.Text";
         public const string dfowRun = "DocumentFormat.OpenXml.Wordprocessing.Run";
+        public const string dfowStdAlias = "DocumentFormat.OpenXml.Wordprocessing.SdtAlias";
+        public const string dfowTag = "DocumentFormat.OpenXml.Wordprocessing.Tag";
+        public const string dfowDataBinding = "DocumentFormat.OpenXml.Wordprocessing.DataBinding";
+
 
         // powerpoint sdk refs (DocumentFormat.OpenXml.Presentation = dfop)
         public const string dfopNVSP = "DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties";
@@ -145,7 +149,14 @@
         public const string schemaMsft2006 = "http://schemas.microsoft.com/office/2006/relationships/";
         public const string schemaMetadataProperties = "http://schemas.microsoft.com/office/2006/metadata/properties";
         public const string schemaCustomXsn = "http://schemas.microsoft.com/office/2006/metadata/customXsn";
-        
+        public const string schemaContentType = "http://schemas.microsoft.com/office/2006/metadata/contentType";
+        public const string schemaTypes = "http://schemas.microsoft.com/office/2006/documentManagement/types";
+        public const string OfficeExtendedProps = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
+        public const string OfficeCoreProps = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
+        public const string DcElements = "http://purl.org/dc/elements/1.1/";
+        public const string MipSchema = "http://schemas.microsoft.com/office/2020/mipLabelMetadata";
+        public const string ClpRelationship = "http://schemas.microsoft.com/office/2020/02/relationships/classificationlabels";
+
         // misc urls
         public const string helpLocation = "https://github.com/desjarlais/Office-File-Explorer/issues";
 
@@ -239,12 +250,5 @@
         public const string ThumbnailPartType = schemaOxml2006 + "thumbnail";
         public const string VideoPartType = schemaOxml2006 + "video";
         public const string HyperlinkPartType = schemaOxml2006 + "hyperlink";
-
-        // Office Document relationship ids 
-        public const string OfficeExtendedProps = "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties";
-        public const string OfficeCoreProps = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
-        public const string DcElements = "http://purl.org/dc/elements/1.1/";
-        public const string MipSchema = "http://schemas.microsoft.com/office/2020/mipLabelMetadata";
-        public const string ClpRelationship = "http://schemas.microsoft.com/office/2020/02/relationships/classificationlabels";
     }
 }

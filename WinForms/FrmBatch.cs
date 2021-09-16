@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.CustomProperties;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.CustomXmlDataProperties;
 
 // app refs
 using Office_File_Explorer.App_Helpers;
@@ -21,10 +22,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
-using DataBinding = DocumentFormat.OpenXml.Wordprocessing.DataBinding;
 
 // namespace refs
 using O = DocumentFormat.OpenXml;
+using DataBinding = DocumentFormat.OpenXml.Wordprocessing.DataBinding;
 
 namespace Office_File_Explorer.Forms
 {
@@ -1558,9 +1559,12 @@ namespace Office_File_Explorer.Forms
         {
             try
             {
+                lstOutput.Items.Clear();
                 List<string> nsList = new List<string>();
                 List<string> nList = new List<string>();
-                lstOutput.Items.Clear();
+                List<string> tList = new List<string>();
+                List<string> ntList = new List<string>();
+                string targetNS = string.Empty;
 
                 foreach (string f in files)
                 {
@@ -1569,10 +1573,32 @@ namespace Office_File_Explorer.Forms
                         bool fileChanged = false;
                         nsList.Clear();
                         nList.Clear();
+                        tList.Clear();
+                        ntList.Clear();
 
                         using (WordprocessingDocument document = WordprocessingDocument.Open(f, true))
                         {
-                            // first get the schemareferences
+                            // now that we know the namespaces, loop the controls and update their data binding prefix mappings
+                            foreach (var cc in document.ContentControls())
+                            {
+                                string ccValue = string.Empty;
+                                SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+
+                                foreach (OpenXmlElement oxe in props.ChildElements)
+                                {
+                                    // get the alias and update ccValue
+                                    if (oxe.GetType().ToString() == StringResources.dfowStdAlias)
+                                    {
+                                        foreach (OpenXmlAttribute oxa in oxe.GetAttributes())
+                                        {
+                                            ccValue = oxa.Value;
+                                            tList.Add(ccValue);
+                                        }
+                                    }
+                                }
+                            }
+
+                            // get the schemareferences
                             foreach (CustomXmlPart cxp in document.MainDocumentPart.CustomXmlParts)
                             {
                                 XmlDocument xDoc = new XmlDocument();
@@ -1608,27 +1634,76 @@ namespace Office_File_Explorer.Forms
                                         }
                                     }
                                 }
+
+                                if (xDoc.DocumentElement.NamespaceURI == StringResources.schemaContentType)
+                                {
+                                    // get metadata field name map
+                                    foreach (XmlNode xNode in xDoc.ChildNodes)
+                                    {
+                                        if (xNode.Name == "ct:contentTypeSchema")
+                                        {
+                                            foreach (XmlNode xNode2 in xNode.ChildNodes)
+                                            {
+                                                if (xNode2.InnerXml.Contains(StringResources.schemaTypes))
+                                                {
+                                                    foreach (XmlNode xNode3 in xNode2.ChildNodes)
+                                                    {
+                                                        if (xNode3.InnerXml.Contains("complexType"))
+                                                        {
+                                                            foreach (string t in tList)
+                                                            {
+                                                                if (xNode3.OuterXml.Contains(string.Concat("\"", t, "\"")))
+                                                                {
+                                                                    string xNodeElement1 = string.Empty;
+                                                                    int iNodeElement1 = xNode3.OuterXml.IndexOf(" name=") + 7;
+                                                                    xNodeElement1 = xNode3.OuterXml.Substring(iNodeElement1, 32);
+
+                                                                    int iNodeElement2 = xNode2.OuterXml.IndexOf(" targetNamespace=") + 18;
+                                                                    if (targetNS == string.Empty)
+                                                                    {
+                                                                        targetNS = xNode2.OuterXml.Substring(iNodeElement2, 36);
+                                                                    }
+
+                                                                    ntList.Add(string.Concat(t, xNodeElement1));
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             // now that we know the namespaces, loop the controls and update their data binding prefix mappings
                             foreach (var cc in document.ContentControls())
                             {
+                                string ccValue = string.Empty;
                                 string ccName = string.Empty;
                                 SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
 
                                 foreach (OpenXmlElement oxe in props.ChildElements)
                                 {
+                                    // get the cc Value from the alias
+                                    if (oxe.GetType().ToString() == StringResources.dfowStdAlias)
+                                    {
+                                        foreach (OpenXmlAttribute oxa in oxe.GetAttributes())
+                                        {
+                                            ccValue = oxa.Value;
+                                        }
+                                    }
                                     // get the cc name from the tag
-                                    if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.Tag")
+                                    if (oxe.GetType().ToString() == StringResources.dfowTag)
                                     {
                                         foreach (OpenXmlAttribute oxa in oxe.GetAttributes())
                                         {
                                             ccName = oxa.Value;
                                         }
                                     }
-                                    
+
                                     // now use databinding to check the prefix mappings
-                                    if (oxe.GetType().ToString() == "DocumentFormat.OpenXml.Wordprocessing.DataBinding")
+                                    if (oxe.GetType().ToString() == StringResources.dfowDataBinding)
                                     {
                                         // create the DataBinding object
                                         DataBinding db = (DataBinding)oxe;
@@ -1640,44 +1715,78 @@ namespace Office_File_Explorer.Forms
                                             string xPathName = elemName[elemName.Count() - 1];
                                             string mappingName = xPathName.Substring(4, xPathName.Length - 7);
                                         }
-                                        
+
+                                        bool findName = false;
                                         // check if the content control prefix map name matches the metadata xml
                                         foreach (string sName in nList)
                                         {
                                             if (sName == ccName)
                                             {
-                                                // parse out the namespace mapping but remove the space at the end first
-                                                string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
-
-                                                int nsIndex = 0;
-                                                
-                                                // go through each namespace to compare with the content controls namespace value
-                                                foreach (var s in prefixMappingNamespaces)
+                                                findName = true;
+                                                break;
+                                            }
+                                        }
+                                        if (findName == false)
+                                        {
+                                            foreach (string tName in ntList)
+                                            {
+                                                if (tName.Contains(ccValue))
                                                 {
-                                                    string xSubstring = string.Empty;
-
-                                                    // the first mapping usually doesn't have xmlns at the beginning
-                                                    if (s.StartsWith("xmlns:"))
+                                                    if ((tName.Substring(tName.IndexOf(ccValue) + ccValue.Length)).Length == 32)
                                                     {
-                                                        xSubstring = s.Substring(11, s.Length - 11);
-                                                        xSubstring = xSubstring.Substring(0, xSubstring.Length - 1);
+                                                        db.XPath.Value = db.XPath.Value.Replace(ccName, tName.Substring(tName.IndexOf(ccValue) + ccValue.Length));
+                                                        findName = true;
                                                     }
-                                                    else
-                                                    {
-                                                        xSubstring = s.Substring(0, s.Length);
-                                                    }
-                                                    
-                                                    if (xSubstring != nsList[nsIndex])
-                                                    {
-                                                        // add the xmlns to the guid
-                                                        string valToReplace = "xmlns:ns" + nsIndex + "='" + nsList[nsIndex] + "'";
-                                                        db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(s, valToReplace);
-                                                        fileChanged = true;
-                                                    }
-
-                                                    nsIndex++;
                                                 }
                                             }
+
+                                        }
+                                        if (findName == true)
+                                        {
+                                            // parse out the namespace mapping but remove the space at the end first
+                                            string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
+
+                                            string dValue = db.XPath.Value.Substring(db.XPath.Value.IndexOf("documentManagement[1]/ns") + "documentManagement[1]/ns".Length, 1);
+
+                                            int nsIndex = 0;
+
+                                            // go through each namespace to compare with the content controls namespace value
+                                            foreach (var s in prefixMappingNamespaces)
+                                            {
+                                                bool sMatch = false;
+                                                string xSubstring = string.Empty;
+
+                                                // the first mapping usually doesn't have xmlns at the beginning
+                                                if (s.StartsWith("xmlns:"))
+                                                {
+                                                    xSubstring = s.Substring(11, s.Length - 11);
+                                                    xSubstring = xSubstring.Substring(0, xSubstring.Length - 1);
+                                                }
+                                                else
+                                                {
+                                                    xSubstring = s.Substring(0, s.Length);
+                                                }
+
+                                                foreach (string ns in nsList)
+                                                {
+                                                    if (xSubstring == ns)
+                                                    {
+                                                        sMatch = true;
+                                                        break;
+                                                    }
+
+                                                }
+                                                if (sMatch == false && nsIndex == short.Parse(dValue))
+                                                {
+                                                    // add the xmlns to the guid
+                                                    string valToReplace = "xmlns:ns" + nsIndex + "='" + targetNS + "'";
+                                                    db.PrefixMappings.Value = db.PrefixMappings.Value.Replace(s, valToReplace);
+                                                    fileChanged = true;
+                                                }
+
+                                                nsIndex++;
+                                            }
+
                                         }
                                     }
                                 }
@@ -1685,12 +1794,12 @@ namespace Office_File_Explorer.Forms
 
                             if (fileChanged)
                             {
-                                lstOutput.Items.Add(f + ": Namespace Guid Updated");
+                                lstOutput.Items.Add(f + "** Namespace Guid Updated **");
                                 document.MainDocumentPart.Document.Save();
                             }
                             else
                             {
-                                lstOutput.Items.Add(f + ": No Namespace Needed To Be Updated");
+                                lstOutput.Items.Add(f + "** No Namespace Needed To Be Updated **");
                             }
                         }
                     }
