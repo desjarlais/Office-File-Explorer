@@ -1560,6 +1560,7 @@ namespace Office_File_Explorer.Forms
             try
             {
                 lstOutput.Items.Clear();
+
                 List<string> nsList = new List<string>();
                 List<string> nList = new List<string>();
                 List<string> tList = new List<string>();
@@ -1673,6 +1674,9 @@ namespace Office_File_Explorer.Forms
                                             }
                                         }
                                     }
+
+                                    // remove any duplicates
+                                    ntList = ntList.Distinct().ToList();
                                 }
                             }
 
@@ -1716,17 +1720,17 @@ namespace Office_File_Explorer.Forms
                                             string mappingName = xPathName.Substring(4, xPathName.Length - 7);
                                         }
 
-                                        bool findName = false;
+                                        bool foundName = false;
                                         // check if the content control prefix map name matches the metadata xml
                                         foreach (string sName in nList)
                                         {
                                             if (sName == ccName)
                                             {
-                                                findName = true;
+                                                foundName = true;
                                                 break;
                                             }
                                         }
-                                        if (findName == false)
+                                        if (foundName == false)
                                         {
                                             foreach (string tName in ntList)
                                             {
@@ -1735,19 +1739,17 @@ namespace Office_File_Explorer.Forms
                                                     if ((tName.Substring(tName.IndexOf(ccValue) + ccValue.Length)).Length == 32)
                                                     {
                                                         db.XPath.Value = db.XPath.Value.Replace(ccName, tName.Substring(tName.IndexOf(ccValue) + ccValue.Length));
-                                                        findName = true;
+                                                        foundName = true;
                                                     }
                                                 }
                                             }
 
                                         }
-                                        if (findName == true)
+                                        if (foundName == true)
                                         {
                                             // parse out the namespace mapping but remove the space at the end first
                                             string[] prefixMappingNamespaces = db.PrefixMappings.Value.TrimEnd().Split(' ');
-
                                             string dValue = db.XPath.Value.Substring(db.XPath.Value.IndexOf("documentManagement[1]/ns") + "documentManagement[1]/ns".Length, 1);
-
                                             int nsIndex = 0;
 
                                             // go through each namespace to compare with the content controls namespace value
