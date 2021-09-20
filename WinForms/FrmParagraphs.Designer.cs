@@ -58,7 +58,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(748, 251);
             this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = string.Empty;
             // 
             // label2
             // 

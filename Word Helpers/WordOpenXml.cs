@@ -72,7 +72,7 @@ namespace Office_File_Explorer.Word_Helpers
         {
             using (WordprocessingDocument myDoc = WordprocessingDocument.Open(filename, true))
             {
-                string absNumIdToRemove = "";
+                string absNumIdToRemove = string.Empty;
 
                 var absNumsInUseList = myDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<AbstractNum>().ToList();
                 var numInstancesInUseList = myDoc.MainDocumentPart.NumberingDefinitionsPart.Numbering.Descendants<NumberingInstance>().ToList();
@@ -647,6 +647,7 @@ namespace Office_File_Explorer.Word_Helpers
                     }
 
                     // now that we know all the id's that match, we can loop again and remove id's that are not in the lists
+                    // first check orphaned start tags
                     bool startTagFound = false;
 
                     foreach (BookmarkStart bks in bkStartList)
@@ -673,6 +674,7 @@ namespace Office_File_Explorer.Word_Helpers
                         }
                     }
 
+                    // do the same check for end tags
                     bool endTagFound = false;
 
                     foreach (BookmarkEnd bke in bkEndList)
@@ -711,6 +713,12 @@ namespace Office_File_Explorer.Word_Helpers
             return isFixed;
         }
 
+        /// <summary>
+        /// look for bookmark tags in a plain cc
+        /// this is not allowed and those need to be removed
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static bool RemovePlainTextCcFromBookmark(string filename)
         {
             bool isFixed = false;
@@ -861,8 +869,10 @@ namespace Office_File_Explorer.Word_Helpers
             endnotes1.AddNamespaceDeclaration("wps", "http://schemas.microsoft.com/office/word/2010/wordprocessingShape");
 
             Endnote endnote1 = new Endnote() { Type = FootnoteEndnoteValues.Separator, Id = -1 };
+            string rsidAdditionGuid = OfficeHelpers.CreateNewRsid();
+            string rsidPropsGuid = OfficeHelpers.CreateNewRsid();
 
-            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = "00822C7D", RsidParagraphProperties = "00A30061", RsidRunAdditionDefault = "00822C7D", ParagraphId = "34CB4C4C", TextId = "77777777" };
+            Paragraph paragraph1 = new Paragraph() { RsidParagraphAddition = rsidAdditionGuid, RsidParagraphProperties = rsidPropsGuid, RsidRunAdditionDefault = rsidAdditionGuid, ParagraphId = OfficeHelpers.CreateNewRsid(), TextId = "77777777" };
 
             ParagraphProperties paragraphProperties1 = new ParagraphProperties();
             SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };
@@ -881,7 +891,7 @@ namespace Office_File_Explorer.Word_Helpers
 
             Endnote endnote2 = new Endnote() { Type = FootnoteEndnoteValues.ContinuationSeparator, Id = 0 };
 
-            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = "00822C7D", RsidParagraphProperties = "00A30061", RsidRunAdditionDefault = "00822C7D", ParagraphId = "4BBA76AE", TextId = "77777777" };
+            Paragraph paragraph2 = new Paragraph() { RsidParagraphAddition = rsidAdditionGuid, RsidParagraphProperties = rsidPropsGuid, RsidRunAdditionDefault = rsidAdditionGuid, ParagraphId = OfficeHelpers.CreateNewRsid(), TextId = "77777777" };
 
             ParagraphProperties paragraphProperties2 = new ParagraphProperties();
             SpacingBetweenLines spacingBetweenLines2 = new SpacingBetweenLines() { After = "0", Line = "240", LineRule = LineSpacingRuleValues.Auto };

@@ -41,6 +41,7 @@
             this.rdoWord = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.BtnFixCorruptComments = new System.Windows.Forms.Button();
             this.BtnUpdateQuickPartNamespaces = new System.Windows.Forms.Button();
             this.BtnChangeAttachedTemplate = new System.Windows.Forms.Button();
             this.BtnFixExcelHyperlinks = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.BtnCopyOutput = new System.Windows.Forms.Button();
             this.ckSearchSubfolders = new System.Windows.Forms.CheckBox();
-            this.BtnFixCorruptComments = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,6 +109,10 @@
             this.BtnChangeCustomProps.Text = "Add Custom Props";
             this.BtnChangeCustomProps.UseVisualStyleBackColor = true;
             this.BtnChangeCustomProps.Click += new System.EventHandler(this.BtnChangeCustomProps_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // groupBox1
             // 
@@ -193,6 +197,16 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Batch Commands";
+            // 
+            // BtnFixCorruptComments
+            // 
+            this.BtnFixCorruptComments.Location = new System.Drawing.Point(665, 51);
+            this.BtnFixCorruptComments.Name = "BtnFixCorruptComments";
+            this.BtnFixCorruptComments.Size = new System.Drawing.Size(138, 23);
+            this.BtnFixCorruptComments.TabIndex = 9;
+            this.BtnFixCorruptComments.Text = "Fix Corrupt Comments";
+            this.BtnFixCorruptComments.UseVisualStyleBackColor = true;
+            this.BtnFixCorruptComments.Click += new System.EventHandler(this.BtnFixCorruptComments_Click);
             // 
             // BtnUpdateQuickPartNamespaces
             // 
@@ -368,16 +382,6 @@
             this.ckSearchSubfolders.Text = "Search Subfolders";
             this.ckSearchSubfolders.UseVisualStyleBackColor = true;
             this.ckSearchSubfolders.CheckedChanged += new System.EventHandler(this.CkSearchSubfolders_CheckedChanged);
-            // 
-            // BtnFixCorruptComments
-            // 
-            this.BtnFixCorruptComments.Location = new System.Drawing.Point(665, 51);
-            this.BtnFixCorruptComments.Name = "BtnFixCorruptComments";
-            this.BtnFixCorruptComments.Size = new System.Drawing.Size(138, 23);
-            this.BtnFixCorruptComments.TabIndex = 9;
-            this.BtnFixCorruptComments.Text = "Fix Corrupt Comments";
-            this.BtnFixCorruptComments.UseVisualStyleBackColor = true;
-            this.BtnFixCorruptComments.Click += new System.EventHandler(this.BtnFixCorruptComments_Click);
             // 
             // FrmBatch
             // 

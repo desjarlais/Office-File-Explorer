@@ -170,7 +170,7 @@
             this.rtbClipData.Name = "rtbClipData";
             this.rtbClipData.Size = new System.Drawing.Size(6, 426);
             this.rtbClipData.TabIndex = 3;
-            this.rtbClipData.Text = "";
+            this.rtbClipData.Text = string.Empty;
             // 
             // FrmClipboardViewer
             // 

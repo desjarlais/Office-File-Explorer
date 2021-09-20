@@ -4215,6 +4215,9 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void FixRevisions()
         {
             try
@@ -4288,6 +4291,9 @@ namespace Office_File_Explorer
             }
         }
 
+        /// <summary>
+        /// Run through both known bookmark corrupt doc fixes
+        /// </summary>
         public void FixBookmarks()
         {
             LstDisplay.Items.Clear();
@@ -4509,7 +4515,7 @@ namespace Office_File_Explorer
                             {
                                 bool beginFound = false;
                                 bool separateFound = false;
-                                string emailAlias = "";
+                                string emailAlias = string.Empty;
 
                                 // now we need to loop each run and check the separate is missing
                                 foreach (Run r in p.Descendants<Run>())
@@ -4574,7 +4580,7 @@ namespace Office_File_Explorer
                                         // reset logic criteria
                                         beginFound = false;
                                         separateFound = false;
-                                        emailAlias = "";
+                                        emailAlias = string.Empty;
                                     }
                                 }
                             }

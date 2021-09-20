@@ -360,14 +360,23 @@ namespace Office_File_Explorer.App_Helpers
         }
 
         /// <summary>
+        /// create a random guid for rsid values
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateNewRsid()
+        {
+            Guid g = Guid.NewGuid();
+            return g.ToString();
+        }
+
+        /// <summary>
         /// add a new part that needs a relationship id
         /// </summary>
         /// <param name="document"></param>
         public static void AddNewPart(string document)
         {
             // Create a new word processing document.
-            WordprocessingDocument wordDoc =
-               WordprocessingDocument.Create(document, WordprocessingDocumentType.Document);
+            WordprocessingDocument wordDoc = WordprocessingDocument.Create(document, WordprocessingDocumentType.Document);
 
             // Add the MainDocumentPart part in the new word processing document.
             var mainDocPart = wordDoc.AddNewPart<MainDocumentPart>("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", "rId1");

@@ -38,7 +38,7 @@ namespace Office_File_Explorer.Forms
             LstFontInfo.Items.Add("GdiCharSet: " + GdiCharacterSet(font.GdiCharSet));
             LstFontInfo.Items.Add("Is System Font: " + font.IsSystemFont);
             LstFontInfo.Items.Add("GdiVerticalFont: " + font.GdiVerticalFont);
-            LstFontInfo.Items.Add("");
+            LstFontInfo.Items.Add(string.Empty);
 
             // Display the ascent in design units and pixels.
             ascent = fontFamily.GetCellAscent(FontStyle.Regular);
@@ -126,7 +126,7 @@ namespace Office_File_Explorer.Forms
                     output = "OEM";
                     break;
                 default:
-                    output = "";
+                    output = string.Empty;
                     break;
             }
             return output;
