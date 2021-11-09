@@ -4,11 +4,11 @@ The purpose of this tool is to provide potential file specific troubleshooting o
 
 I've also added a couple of known document fixes where the xml tags in the underlying file format need to be tweaked to make the file openable again.  
 
+## Warning
+I've stopped actively developing this version of the tool, it was built on the .NET Framework and going forward, I wanted to change this to .NET Core.  For the current version of the tool, click here [Office File Explorer v2](https://github.com/desjarlais/Office-File-Explorer-v2)
+
 ## Note
 Keep in mind if you use this on a production document and choose to use something that changes or removes data, you should be working on a copy of the file, not the original.  
-
-## Help
-If you need assistance (find a bug, have a question or any suggestions or feedback), please report them using the [Issues tab](https://github.com/desjarlais/Office-File-Explorer/issues)
 
 ## Main Window
 ![image](https://github.com/desjarlais/desjarlais.github.io/blob/master/img/ofcmain.png?raw=true)
