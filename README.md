@@ -1,5 +1,9 @@
 # Office-File-Explorer
 
+## NOTE: This tool is not actively being worked on, see the following for active development of the tool
+
+https://github.com/desjarlais/Office-File-Explorer-v2
+
 The purpose of this tool is to provide potential file specific troubleshooting of Office Open Xml formatted documents for Word, Excel and PowerPoint (.docx, .dotx, .docm, .xlsx, .xlst, .xlsm, .pptx, .pptm).
 
 I've also added a couple of known document fixes where the xml tags in the underlying file format need to be tweaked to make the file openable again.  
