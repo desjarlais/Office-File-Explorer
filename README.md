@@ -1,6 +1,6 @@
 # Office-File-Explorer
 
-## NOTE: This tool is not actively being worked on, see the following for active development of the tool
+NOTE: This tool is not actively being worked on, see the following for active development of the tool
 
 https://github.com/desjarlais/Office-File-Explorer-v2
 
